@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="slides-format" content="viewport">
+<title>Snoopy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+@theme {
+  --color-bg: #0c0b14;
+  --color-bg-deep: #07060f;
+  --color-surface: #14122a;
+  --color-text: #f0ecff;
+  --color-text-secondary: #c4b8e8;
+  --color-text-muted: #7a6fa8;
+  --color-accent-1: #f7c948;
+  --color-accent-2: #e05c2a;
+  --color-accent-3: #a78bfa;
+  --color-glass-bg: rgba(255,255,255,0.05);
+  --color-glass-border: rgba(255,255,255,0.08);
+  --color-vignette: rgba(0,0,0,0.5);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+</style>
+<style>
+:root {
+  --color-bg: #0c0b14;
+  --color-text: #f0ecff;
+  --glow-color-rgb: 247,201,72;
+}
+*,*::before,*::after{box-sizing:border-box;}
+html,body{background:var(--color-bg);margin:0;overflow:hidden;height:100vh;width:100vw;}
+body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
+.deck{width:100vw;height:100vh;position:relative;}
+.slide{position:absolute;top:0;left:0;width:100%;height:100%;background:var(--color-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transform:scale(0.96);transition:opacity 0.65s ease,transform 0.65s ease;pointer-events:none;overflow:hidden;}
+.slide.active{opacity:1;transform:scale(1);pointer-events:all;}
+.slide>.content{position:relative;z-index:2;width:100%;max-width:1100px;padding:clamp(1.5rem,4vw,3.5rem);}
+.nav-controls{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;z-index:100;background:rgba(255,255,255,0.05);backdrop-filter:blur(12px);padding:8px 22px;border-radius:40px;border:1px solid rgba(255,255,255,0.08);}
+.nav-btn{width:36px;height:36px;border:none;background:rgba(255,255,255,0.06);color:#f7c948;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
+.nav-btn:hover{background:rgba(255,255,255,0.12);}
+.slide-dots{display:flex;gap:7px;flex-wrap:wrap;max-width:280px;justify-content:center;}
+.dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);cursor:pointer;transition:background 0.3s,transform 0.3s;}
+.dot.active{background:#f7c948;transform:scale(1.35);}
+.slide-counter{font-size:.75rem;color:#7a6fa8;min-width:38px;text-align:center;}
+.reveal{opacity:0;transform:translateY(18px);}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+@keyframes float-slow{0%{transform:translate(0,0) scale(1);}25%{transform:translate(55px,-45px) scale(1.1);}50%{transform:translate(-35px,35px) scale(0.92);}75%{transform:translate(45px,18px) scale(1.07);}100%{transform:translate(0,0) scale(1);}}
+@keyframes float-drift{0%{transform:translate(0,0) scale(1) rotate(0deg);}33%{transform:translate(-45px,-55px) scale(1.13) rotate(3deg);}66%{transform:translate(38px,28px) scale(0.9) rotate(-2deg);}100%{transform:translate(0,0) scale(1) rotate(0deg);}}
+.gradient-mesh{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
+.blob{position:absolute;border-radius:50%;filter:blur(80px);animation:float-slow 11s ease-in-out infinite;}
+.blob:nth-child(2){animation:float-drift 15s ease-in-out infinite;}
+.blob:nth-child(3){animation:float-slow 19s ease-in-out infinite reverse;}
+.slide::before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px;opacity:.03;mix-blend-mode:overlay;}
+.slide::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.45) 100%);}
+.gc{background:rgba(255,255,255,.04);border-radius:10px;padding:.75rem .9rem;}
+.tag{display:inline-block;font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.25rem .75rem;border-radius:20px;background:rgba(247,201,72,.1);border:1px solid rgba(247,201,72,.25);color:#f7c948;}
+.mouse-spotlight{position:fixed;inset:0;z-index:99;pointer-events:none;}
+</style>
+</head>
+<body>
+<div class="mouse-spotlight"></div>
+<div class="deck">
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide active" data-slide="1">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:520px;height:520px;top:-110px;right:-90px;background:#f7c948;opacity:.14;"></div>
+    <div class="blob" style="width:360px;height:360px;bottom:-80px;left:-60px;background:#e05c2a;opacity:.12;"></div>
+    <div class="blob" style="width:240px;height:240px;top:40%;left:10%;background:#a78bfa;opacity:.09;"></div>
+  </div>
+  <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
+  <div class="content" style="text-align:center;">
+    <div class="reveal" style="font-size:100px;line-height:1;margin-bottom:.4rem;display:inline-block;animation:float 3.5s ease-in-out infinite;">🐾</div>
+    <h1 class="font-display font-black tracking-tight reveal" style="font-size:clamp(3rem,7.5vw,6rem);background:linear-gradient(135deg,#f7c948 0%,#e05c2a 50%,#f7c948 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.7rem;">Snoopy</h1>
+    <p class="reveal" style="font-size:clamp(.85rem,1.5vw,1.25rem);letter-spacing:6px;text-transform:uppercase;color:#7a6fa8;">The World's Most Famous Beagle</p>
+    <p class="reveal" style="color:rgba(167,139,250,.5);font-size:.78rem;letter-spacing:2px;margin-top:.6rem;">From a Doghouse Roof to the Moon &amp; Back</p>
+  </div>
+  <!-- SPEAKER NOTES: Welcome everyone! Today we're diving deep into Snoopy — the philosophical, imaginative, perpetually unbothered beagle from Peanuts. Born from the pen of Charles M. Schulz on October 4, 1950, Snoopy evolved from a side-character into a global icon. By the end of this, you'll appreciate why he wasn't just a cartoon dog — he was a cultural force. -->
+</div>
+
+<!-- SLIDE 2: WHO IS SNOOPY -->
+<div class="slide" data-slide="2">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:380px;height:380px;top:-80px;right:-70px;background:#f7c948;opacity:.08;"></div>
+    <div class="blob" style="width:260px;height:260px;bottom:-60px;left:-40px;background:#a78bfa;opacity:.07;"></div>
+  </div>
+  <div class="content">
+    <div class="tag reveal">Meet Snoopy</div>
+    <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 1rem;">Who Is Snoopy?</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;">
+      <div>
+        <div class="gc reveal" style="margin-bottom:.75rem;border-left:3px solid #f7c948;">
+          <strong style="color:#f7c948;font-size:.88rem;">Born</strong>
+          <p style="font-size:.82rem;color:#c4b8e8;margin:.2rem 0 0;">October 4, 1950 — first strip. Charlie Brown's pet beagle, purchased from the Daisy Hill Puppy Farm.</p>
+        </div>
+        <div class="gc reveal" style="margin-bottom:.75rem;border-left:3px solid #e05c2a;">
+          <strong style="color:#e05c2a;font-size:.88rem;">Personality</strong>
+          <p style="font-size:.82rem;color:#c4b8e8;margin:.2rem 0 0;">Vain, imaginative, philosophical, and deeply unbothered. Lives entirely in his own head — which is almost always more interesting than reality.</p>
+        </div>
+        <div class="gc reveal" style="border-left:3px solid #a78bfa;">
+          <strong style="color:#a78bfa;font-size:.88rem;">Home base</strong>
+          <p style="font-size:.82rem;color:#c4b8e8;margin:.2rem 0 0;">His iconic red doghouse — which inexplicably has a pool table, a Van Gogh, and a guest room inside. He also sleeps on top of it.</p>
+        </div>
+      </div>
+      <div>
+        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/43abf27e57f1a36301ffcbcf14aeb5717240bfdc.jpg" alt="Snoopy on his doghouse" class="reveal" style="width:100%;max-height:280px;object-fit:cover;border-radius:16px;filter:drop-shadow(0 0 28px rgba(247,201,72,.25));">
+      </div>
+    </div>
+  </div>
+  <!-- SPEAKER NOTES: Snoopy debuted on October 4, 1950 — the very second strip of Peanuts. He started as a typical dog on four legs, but Schulz gradually elevated him into something much more. He walks upright. He types novels. He has an inner monologue. He has a vast fantasy life. He literally doesn't acknowledge humans with words in the strip — he communicates only in thought bubbles. His relationship with Charlie Brown is also unique: Charlie genuinely loves him, but Snoopy is pretty indifferent and self-absorbed. Classic cat energy in a dog's body. -->
+</div>
+
+<!-- SLIDE 3: CHARLES SCHULZ -->
+<div class="slide" data-slide="3">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:400px;height:400px;top:-80px;left:-70px;background:#e05c2a;opacity:.10;"></div>
+    <div class="blob" style="width:280px;height:280px;bottom:-70px;right:-50px;background:#f7c948;opacity:.08;"></div>
+  </div>
+  <div class="content">
+    <div class="tag reveal" style="background:rgba(224,92,42,.1);border-color:rgba(224,92,42,.3);color:#e05c2a;">The Creator</div>
+    <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 1rem;">Charles M. Schulz — "Sparky"</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;">
+      <div>
+        <div class="gc reveal" style="margin-bottom:.7rem;border-left:3px solid #f7c948;">
+          <strong style="color:#f7c948;font-size:.87rem;">Born November 26, 1922 — Minneapolis, MN</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">Nickname "Sparky" came from a comic strip horse. Grew up shy, introverted, and obsessed with drawing.</p>
+        </div>
+        <div class="gc reveal" style="margin-bottom:.7rem;border-left:3px solid #e05c2a;">
+          <strong style="color:#e05c2a;font-size:.87rem;">Real dog: Spike</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">Schulz's childhood dog — a black-and-white mixed breed with a wild imagination. Directly inspired Snoopy.</p>
+        </div>
+        <div class="gc reveal" style="border-left:3px solid #a78bfa;">
+          <strong style="color:#a78bfa;font-size:.87rem;">First paycheck: $90</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">Sold his first cartoon to the Saturday Evening Post in 1948. Peanuts launched Oct 2, 1950 in 7 papers. By peak: 2,600 papers, 75 countries, 355 million readers.</p>
+        </div>
+      </div>
+      <div>
+        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/0820b005ae223508804c30b0beeb60c21574c8ba.jpg" alt="Charles Schulz at drawing desk" class="reveal" style="width:100%;height:220px;object-fit:cover;object-position:top;border-radius:16px;filter:drop-shadow(0 4px 22px rgba(224,92,42,.3));">
+        <p class="reveal" style="font-size:.7rem;color:#7a6fa8;text-align:center;margin-top:.5rem;letter-spacing:.05em;">Schulz at his drawing board — he drew every single strip by hand until his death.</p>
+      </div>
+    </div>
+  </div>
+  <!-- SPEAKER NOTES: "Sparky" Schulz is one of the most important artists of the 20th century — full stop. He drew 17,897 Peanuts strips over 50 years, entirely solo. No assistants. No art team. Every line was his. He famously said: "All you need to do is draw one funny picture, and people will like you forever." He died on February 12, 2000 — the night before his final Sunday strip was published. The timing was poetic enough that even the most hardened skeptic had to pause. His real dog Spike's name even appeared in a strip in 1952, referenced as Snoopy's brother. -->
+</div>
+
+<!-- SLIDE 4: 17,897 STRIPS -->
+<div class="slide" data-slide="4">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:440px;height:440px;top:-90px;right:-80px;background:#f7c948;opacity:.10;"></div>
+    <div class="blob" style="width:280px;height:280px;bottom:-60px;left:-50px;background:#e05c2a;opacity:.08;"></div>
+  </div>
+  <div class="content" style="text-align:center;">
+    <div class="tag reveal">By the numbers</div>
+    <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.8rem);color:#f7c948;margin:.5rem 0 1.2rem;">17,897 Strips. Every One. By Hand.</h2>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-bottom:1.2rem;">
+      <div class="gc reveal" style="text-align:center;padding:1.2rem .8rem;">
+        <div style="font-size:2rem;font-weight:900;color:#f7c948;line-height:1;" data-count="17897">0</div>
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#7a6fa8;margin-top:.4rem;">Total strips</div>
+      </div>
+      <div class="gc reveal" style="text-align:center;padding:1.2rem .8rem;">
+        <div style="font-size:2rem;font-weight:900;color:#e05c2a;line-height:1;" data-count="2600">0</div>
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#7a6fa8;margin-top:.4rem;">Newspapers at peak</div>
+      </div>
+      <div class="gc reveal" style="text-align:center;padding:1.2rem .8rem;">
+        <div style="font-size:2rem;font-weight:900;color:#a78bfa;line-height:1;" data-count="75">0</div>
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#7a6fa8;margin-top:.4rem;">Countries</div>
+      </div>
+      <div class="gc reveal" style="text-align:center;padding:1.2rem .8rem;">
+        <div style="font-size:2rem;font-weight:900;color:#f7c948;line-height:1;">50</div>
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#7a6fa8;margin-top:.4rem;">Years of strips</div>
+      </div>
+    </div>
+    <div class="gc reveal" style="max-width:560px;margin:0 auto;border-left:3px solid #f7c948;">
+      <p style="font-size:.85rem;color:#c4b8e8;font-style:italic;">"I drew it because I love doing it. I don't know how to do anything else."</p>
+      <p style="font-size:.72rem;color:#7a6fa8;margin-top:.3rem;">— Charles M. Schulz</p>
+    </div>
+  </div>
+  <!-- SPEAKER NOTES: Schulz never used assistants. For 50 years — from 1950 until literally the day before he died — he produced every strip himself. That's around 365 strips a year with no vacations, no sick days, no delegation. His strips ran in 21 languages. The Guinness Book of World Records named Peanuts the most widely distributed comic strip in history. He even turned down an offer to have others continue it after his death — Peanuts ended the day he did. -->
+</div>
+
+<!-- SLIDE 5: EVOLUTION OF SNOOPY -->
+<div class="slide" data-slide="5">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:380px;height:380px;top:-80px;right:-70px;background:#a78bfa;opacity:.10;"></div>
+    <div class="blob" style="width:260px;height:260px;bottom:-60px;left:-40px;background:#f7c948;opacity:.08;"></div>
+  </div>
+  <div class="content">
+    <div class="tag reveal">50 Years of Change</div>
+    <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 .4rem;">How Snoopy Evolved</h2>
+    <p class="reveal" style="color:#7a6fa8;font-size:.82rem;margin-bottom:1rem;">From dog-on-all-fours to walking philosopher</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;">
+      <div class="gc reveal" style="border-top:2px solid #f7c948;">
+        <div style="font-size:.72rem;font-weight:700;color:#f7c948;letter-spacing:.08em;text-transform:uppercase;">1950–1955</div>
+        <p style="font-size:.78rem;color:#c4b8e8;margin:.35rem 0 0;">Walks on all fours. Round head, simple features. More dog, less philosopher.</p>
+      </div>
+      <div class="gc reveal" style="border-top:2px solid #e05c2a;">
+        <div style="font-size:.72rem;font-weight:700;color:#e05c2a;letter-spacing:.08em;text-transform:uppercase;">1956–1965</div>
+        <p style="font-size:.78rem;color:#c4b8e8;margin:.35rem 0 0;">Starts standing upright. Thought bubbles appear. Personality explodes outward.</p>
+      </div>
+      <div class="gc reveal" style="border-top:2px solid #a78bfa;">
+        <div style="font-size:.72rem;font-weight:700;color:#a78bfa;letter-spacing:.08em;text-transform:uppercase;">1966–1980</div>
+        <p style="font-size:.78rem;color:#c4b8e8;margin:.35rem 0 0;">Full alter ego era. WWI Flying Ace, Joe Cool, beagle scouts — all debut. Snoopy is now the star.</p>
+      </div>
+      <div class="gc reveal" style="border-top:2px solid #f7c948;">
+        <div style="font-size:.72rem;font-weight:700;color:#f7c948;letter-spacing:.08em;text-transform:uppercase;">1980–2000</div>
+        <p style="font-size:.78rem;color:#c4b8e8;margin:.35rem 0 0;">Settled icon. Style refined. Woodstock relationship deepens. Legacy locks in.</p>
+      </div>
+    </div>
+    <div class="gc reveal" style="margin-top:1rem;border-left:3px solid #a78bfa;">
+      <p style="font-size:.82rem;color:#c4b8e8;">The evolution wasn't just visual — Schulz gave Snoopy an increasingly rich inner life as <em>he himself</em> grew more introspective. Snoopy is widely considered Schulz's self-portrait.</p>
+    </div>
+  </div>
+  <!-- SPEAKER NOTES: The transformation of Snoopy across 50 years is remarkable. Early Snoopy is charming but conventional — a dog. But by the mid-1960s, Schulz started giving him the full protagonist treatment. He stands upright, he dances, he types his novel, he lives in a fantasy world on his doghouse. Many Schulz scholars argue Snoopy is Schulz's id — the part of himself that wanted to be confident, creative, and completely unbothered by the world's judgment. -->
+</div>
+
+<!-- SLIDE 6: MANY FACES / ALTER EGOS OVERVIEW -->
+<div class="slide" data-slide="6">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:400px;height:400px;top:-85px;right:-75px;background:#f7c948;opacity:.09;"></div>
+    <div class="blob" style="width:280px;height:280px;bottom:-65px;left:-45px;background:#a78bfa;opacity:.08;"></div>
+  </div>
+  <div class="content">
+    <div class="tag reveal">Alter Egos</div>
+    <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 .3rem;">The Many Faces of Snoopy</h2>
+    <p class="reveal" style="color:#7a6fa8;font-size:.82rem;margin-bottom:.9rem;">One beagle. Infinite imagination.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+      <div class="gc reveal" style="display:flex;gap:.75rem;align-items:center;">
+        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/7335d4d0858f811326352a50435981d97b0486d2.jpg" alt="WWI Flying Ace" style="width:56px;height:56px;object-fit:cover;border-radius:9px;flex-shrink:0;">
+        <div><div style="font-size:.85rem;font-weight:700;color:#f7c948;">WWI Flying Ace</div><div style="font-size:.75rem;color:#c4b8e8;">Since 1965 — atop his doghouse "Sopwith Camel"</div></div>
+      </div>
+      <div class="gc reveal" style="display:flex;gap:.75rem;align-items:center;">
+        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/241effb5b27fba380f8a87767a090cf2647068cd.jpg" alt="Joe Cool" style="width:56px;height:56px;object-fit:cover;border-radius:9px;flex-shrink:0;">
+        <div><div style="font-size:.85rem;font-weight:700;color:#a78bfa;">Joe Cool 😎</div><div style="font-size:.75rem;color:#c4b8e8;">Since 1971 — sunglasses, "Snoopy" sweatshirt, wall</div></div>
+      </div>
+      <div class="gc reveal" style="display:flex;gap:.75rem;align-items:center;">
+        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/719b12093a3a8cde10a62d9c057a57be4a9ea88e.jpg" alt="World-Famous Author" style="width:56px;height:56px;object-fit:cover;border-radius:9px;flex-shrink:0;">
+        <div><div style="font-size:.85rem;font-weight:700;color:#e05c2a;">World-Famous Author</div><div style="font-size:.75rem;color:#c4b8e8;">"It was a dark and stormy night…" on repeat</div></div>
+      </div>
+      <div class="gc reveal" style="display:flex;gap:.75rem;align-items:center;">
+        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/ec4296cd1687804e586b72771a42ef70c27e63d0.jpg" alt="Astronaut Snoopy" style="width:56px;height:56px;object-fit:cover;border-radius:9px;flex-shrink:0;">
+        <div><div style="font-size:.85rem;font-weight:700;color:#f7c948;">Astronaut Snoopy</div><div style="font-size:.75rem;color:#c4b8e8;">NASA mascot since 1968 — flown on Apollo 10</div></div>
+      </div>
+      <div class="gc reveal" style="display:flex;gap:.75rem;align-items:center;">
+        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/204aa551b0dc58ba4df8d8293a1ba6ac40e36be6.jpg" alt="Beagle Scout" style="width:56px;height:56px;object-fit:cover;border-radius:9px;flex-shrink:0;">
+        <div><div style="font-size:.85rem;font-weight:700;color:#a78bfa;">Beagle Scout</div><div style="font-size:.75rem;color:#c4b8e8;">Leads Woodstock + friends on nature hikes</div></div>
+      </div>
+      <div class="gc reveal" style="display:flex;gap:.75rem;align-items:center;">
+        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/160e819985fd06e37e927591699524166cb3c6ea.jpg" alt="Happy Dance Snoopy" style="width:56px;height:56px;object-fit:cover;border-radius:9px;flex-shrink:0;">
+        <div><div style="font-size:.85rem;font-weight:700;color:#e05c2a;">The Happy Dance</div><div style="font-size:.75rem;color:#c4b8e8;">Pure joy — became one of pop culture's most copied moves</div></div>
+      </div>
+    </div>
+  </div>
+  <!-- SPEAKER NOTES: What makes Snoopy truly special is his range of alter egos — each a fully realized fantasy persona he drops into without warning or explanation. The other characters just accept it. The Flying Ace is probably the most famous: he sits on his doghouse imagining himself battling the Red Baron over WWI France. Joe Cool lets him live out the campus-cool fantasy. The World-Famous Author is a dig at writer's block — he's been stuck on "It was a dark and stormy night…" for decades. Each persona is a different flavor of wish fulfillment. -->
+</div>
+
+<!-- SLIDE 7: WWI FLYING ACE -->
+<div class="slide" data-slide="7">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:420px;height:420px;top:-90px;left:-70px;background:#e05c2a;opacity:.12;"></div>
+    <div class="blob" style="width:280px;height:280px;bottom:-60px;right:-50px;background:#f7c948;opacity:.09;"></div>
+  </div>
+  <div class="content">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;">
+      <div>
+        <div class="tag reveal" style="background:rgba(224,92,42,.1);border-color:rgba(224,92,42,.3);color:#e05c2a;">Alter Ego #1</div>
+        <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 .9rem;">The WWI Flying Ace ✈️</h2>
+        <div class="gc reveal" style="margin-bottom:.7rem;border-left:3px solid #e05c2a;">
+          <strong style="color:#e05c2a;font-size:.87rem;">Debuted October 10, 1965</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">Snoopy dons his leather helmet and goggles, climbs atop his doghouse "Sopwith Camel," and battles the Red Baron over the skies of France.</p>
+        </div>
+        <div class="gc reveal" style="margin-bottom:.7rem;border-left:3px solid #f7c948;">
+          <strong style="color:#f7c948;font-size:.87rem;">It became a hit song</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">"Snoopy vs. the Red Baron" by The Royal Guardsmen reached #2 on the Billboard Hot 100 in 1966. Sold over 2 million copies.</p>
+        </div>
+        <div class="gc reveal" style="border-left:3px solid #a78bfa;">
+          <strong style="color:#a78bfa;font-size:.87rem;">Why it resonated in 1965</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">Vietnam War was escalating. Millions of Americans had fathers, brothers, and husbands overseas. Snoopy's safe fantasy-battle was cathartic.</p>
+        </div>
+      </div>
+      <div style="text-align:center;">
+        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/7335d4d0858f811326352a50435981d97b0486d2.jpg" alt="Snoopy WWI Flying Ace" class="reveal" style="max-height:270px;width:100%;object-fit:contain;filter:drop-shadow(0 0 28px rgba(224,92,42,.4));border-radius:14px;">
+      </div>
+    </div>
+  </div>
+  <!-- SPEAKER NOTES: The Flying Ace persona is a masterpiece of Schulz's layered storytelling. On the surface it's a dog playing pretend. But the strips are genuinely melancholy — Snoopy/the Ace trudges through France, sits alone in a bistro, broods about the Red Baron always escaping. There's real loneliness in it. In the context of 1965 Vietnam, many readers saw deeper meaning. The Royal Guardsmen's song was a novelty hit but it shows how completely this character broke out of the comics page into mainstream culture. -->
+</div>
+
+<!-- SLIDE 8: JOE COOL -->
+<div class="slide" data-slide="8">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:400px;height:400px;top:-85px;right:-75px;background:#a78bfa;opacity:.12;"></div>
+    <div class="blob" style="width:260px;height:260px;bottom:-60px;left:-45px;background:#f7c948;opacity:.09;"></div>
+  </div>
+  <div class="content">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;">
+      <div>
+        <div class="tag reveal" style="background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.3);color:#a78bfa;">Alter Ego #2</div>
+        <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 .9rem;">Joe Cool 😎</h2>
+        <div class="gc reveal" style="margin-bottom:.7rem;border-left:3px solid #a78bfa;">
+          <strong style="color:#a78bfa;font-size:.87rem;">First appeared: May 27, 1971</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">Snoopy puts on sunglasses, leans against a wall, and becomes the ultimate college cool guy — effortless, unbothered, completely above it all.</p>
+        </div>
+        <div class="gc reveal" style="margin-bottom:.7rem;border-left:3px solid #f7c948;">
+          <strong style="color:#f7c948;font-size:.87rem;">The formula</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">Joe Cool never does anything. He just leans. He's "too cool" to attend class, join clubs, or explain himself. Every strip ends with him back at the wall.</p>
+        </div>
+        <div class="gc reveal" style="border-left:3px solid #e05c2a;">
+          <strong style="color:#e05c2a;font-size:.87rem;">Legacy</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">Joe Cool is arguably Snoopy's most merchandised persona. The sunglasses silhouette became a standalone brand. T-shirts, phone cases, Funko Pops — all today.</p>
+        </div>
+      </div>
+      <div style="text-align:center;">
+        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/241effb5b27fba380f8a87767a090cf2647068cd.jpg" alt="Joe Cool Snoopy" class="reveal" style="max-height:270px;width:100%;object-fit:contain;filter:drop-shadow(0 0 28px rgba(167,139,250,.4));border-radius:14px;">
+      </div>
+    </div>
+  </div>
+  <!-- SPEAKER NOTES: Joe Cool debuted May 27, 1971. Schulz was lampooning the late 60s/early 70s campus culture — the guy who shows up to college, puts on shades, leans against a building, and basically does nothing. It's also deeply relatable: who hasn't wanted to just be effortlessly cool without trying? The genius is in the simplicity. Sunglasses + wall + attitude = instant character. Today Joe Cool is the dominant Snoopy image on merch worldwide — he transcended the comic to become a standalone aesthetic. -->
+</div>
+
+<!-- SLIDE 9: JOE COOL ANNIVERSARY (HUMOROUS) -->
+<div class="slide" data-slide="9">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:460px;height:460px;top:-100px;right:-80px;background:#a78bfa;opacity:.14;"></div>
+    <div class="blob" style="width:300px;height:300px;bottom:-70px;left:-50px;background:#f7c948;opacity:.11;"></div>
+    <div class="blob" style="width:180px;height:180px;top:30%;left:5%;background:#e05c2a;opacity:.08;"></div>
+  </div>
+  <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
+  <div class="content" style="text-align:center;">
+    <div class="tag reveal" style="background:rgba(167,139,250,.15);border-color:rgba(167,139,250,.4);color:#a78bfa;">🎂 Anniversary</div>
+    <h2 class="font-display font-black reveal" style="font-size:clamp(2rem,5vw,3.8rem);background:linear-gradient(135deg,#a78bfa,#f7c948);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:.6rem 0 .8rem;">Happy Anniversary,<br>Joe Cool!</h2>
+    <div class="gc reveal" style="max-width:600px;margin:0 auto 1rem;padding:1.2rem 2rem;">
+      <p style="font-size:1.1rem;color:#c4b8e8;font-style:italic;">"It's been a few years since Joe Cool first appeared…"</p>
+      <p style="font-size:.82rem;color:#7a6fa8;margin-top:.5rem;">…like, approximately three days ago. Or 54 years and three days. <br>Joe Cool is too cool to count.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:700px;margin:0 auto;">
+      <div class="gc reveal" style="text-align:center;padding:1rem;">
+        <div style="font-size:1.8rem;font-weight:900;color:#a78bfa;">May 27</div>
+        <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:#7a6fa8;margin-top:.3rem;">Original debut, 1971</div>
+      </div>
+      <div class="gc reveal" style="text-align:center;padding:1rem;">
+        <div style="font-size:1.8rem;font-weight:900;color:#f7c948;">54</div>
+        <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:#7a6fa8;margin-top:.3rem;">Years of being unbothered</div>
+      </div>
+      <div class="gc reveal" style="text-align:center;padding:1rem;">
+        <div style="font-size:1.8rem;font-weight:900;color:#e05c2a;">0</div>
+        <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:#7a6fa8;margin-top:.3rem;">Classes Joe Cool attended</div>
+      </div>
+    </div>
+  </div>
+  <!-- SPEAKER NOTES: And yes — we are celebrating this anniversary today. Joe Cool debuted May 27, 1971, which means as of a few days ago, he just turned 54. In Joe Cool years, that's still eternally cool. The man — er, dog — has not aged. Still leaning. Still in the same sweatshirt. Still absolutely thriving by doing nothing. That is aspirational energy. -->
+</div>
+
+<!-- SLIDE 10: SNOOPY IN SPACE / NASA -->
+<div class="slide" data-slide="10">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:420px;height:420px;top:-90px;right:-80px;background:#a78bfa;opacity:.11;"></div>
+    <div class="blob" style="width:280px;height:280px;bottom:-65px;left:-50px;background:#f7c948;opacity:.09;"></div>
+  </div>
+  <div class="content">
+    <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/27fc8f7ad8088b5797e1fd9983d935a399b63201.jpg" 
+         alt="Astronaut Snoopy" class="reveal"
+         style="position:absolute;top:1.5rem;right:2rem;height:190px;width:auto;object-fit:contain;border-radius:12px;opacity:.85;filter:drop-shadow(0 0 18px rgba(167,139,250,.35));z-index:3;">
+    <div class="tag reveal" style="background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.3);color:#a78bfa;">🚀 Space</div>
+    <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 .9rem;">Snoopy Goes to Space</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+      <div>
+        <div class="gc reveal" style="margin-bottom:.7rem;border-left:3px solid #a78bfa;">
+          <strong style="color:#a78bfa;font-size:.87rem;">NASA Partnership, 1968</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">NASA adopted Snoopy as their safety mascot in 1968 — the year of Apollo 1's fatal fire. The beagle became a symbol of rigorous safety culture.</p>
+        </div>
+        <div class="gc reveal" style="margin-bottom:.7rem;border-left:3px solid #f7c948;">
+          <strong style="color:#f7c948;font-size:.87rem;">Apollo 10 Lunar Module (1969)</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">The lunar module was actually named "Snoopy." It flew to within 8.4 miles of the moon — the dress rehearsal for Apollo 11's landing.</p>
+        </div>
+        <div class="gc reveal" style="border-left:3px solid #e05c2a;">
+          <strong style="color:#e05c2a;font-size:.87rem;">Silver Snoopy Award</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">NASA's highest employee honor for safety and mission success. Given by astronauts personally. An actual sterling silver Snoopy pin that flew in space.</p>
+        </div>
+      </div>
+      <div>
+        <div class="gc reveal" style="margin-bottom:.7rem;border-left:3px solid #a78bfa;">
+          <strong style="color:#a78bfa;font-size:.87rem;">Artemis 1 (2022)</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">A Snoopy plush flew on Artemis 1 as the zero-gravity indicator — officially floating through the cabin on camera, 268,000 miles from Earth.</p>
+        </div>
+        <div class="gc reveal" style="border-left:3px solid #f7c948;">
+          <strong style="color:#f7c948;font-size:.87rem;">Why a beagle?</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">Astronauts loved Peanuts. The strip ran in every major newspaper — they read it during training. Snoopy just made sense.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- SPEAKER NOTES: The NASA-Snoopy partnership is one of the most wholesome corporate/cultural crossovers in American history. After the Apollo 1 fire in January 1967 killed three astronauts, NASA went on a safety overhaul and needed a mascot to humanize it. Schulz was approached and enthusiastically said yes. The fact that Apollo 10's lunar module — the mission that literally paved the way for the moon landing — was called "Snoopy" is extraordinary. The Silver Snoopy Award is still given today. About 1% of the NASA workforce receives it each year, making it genuinely prestigious. -->
+</div>
+
+<!-- SLIDE 11: WOODSTOCK -->
+<div class="slide" data-slide="11">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:400px;height:400px;top:-80px;right:-70px;background:#f7c948;opacity:.11;"></div>
+    <div class="blob" style="width:260px;height:260px;bottom:-60px;left:-40px;background:#e05c2a;opacity:.09;"></div>
+  </div>
+  <div class="content">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;">
+      <div>
+        <div class="tag reveal" style="background:rgba(247,201,72,.1);border-color:rgba(247,201,72,.3);color:#f7c948;">Snoopy's Best Friend</div>
+        <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 .9rem;">Woodstock 🐦</h2>
+        <div class="gc reveal" style="margin-bottom:.7rem;border-left:3px solid #f7c948;">
+          <strong style="color:#f7c948;font-size:.87rem;">First appeared: April 4, 1967</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">An unnamed baby bird who kept nesting on Snoopy's stomach. Named "Woodstock" in June 1970 — after the festival — by Schulz.</p>
+        </div>
+        <div class="gc reveal" style="margin-bottom:.7rem;border-left:3px solid #e05c2a;">
+          <strong style="color:#e05c2a;font-size:.87rem;">Speaks only in lines</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">Woodstock's speech is rendered as vertical hash marks: "///// |||". Only Snoopy can understand him. Even the reader is locked out.</p>
+        </div>
+        <div class="gc reveal" style="border-left:3px solid #a78bfa;">
+          <strong style="color:#a78bfa;font-size:.87rem;">The dynamic</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">Woodstock is Snoopy's secretary, confidant, and adventure partner. He's tiny, clumsy, and chronically unlucky — but fiercely loyal.</p>
+        </div>
+      </div>
+      <div style="text-align:center;">
+        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/ed83617ac5e6db1d62bf9909c199d2b9716a30a6.jpg" alt="Woodstock character" class="reveal" style="max-height:240px;width:100%;object-fit:contain;filter:drop-shadow(0 0 24px rgba(247,201,72,.4));" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </div>
+  <!-- SPEAKER NOTES: Woodstock is a masterpiece of minimalist character design — four lines of yellow feathers, two dots for eyes, and a zig-zag beak. He communicates only in chirp-marks that readers can't decipher, which creates an intimacy: only Snoopy gets him. Named after the 1969 Woodstock festival, which Schulz thought was funny given how small and fragile this little bird was compared to a massive counterculture event. Woodstock regularly tries to be a secretary, a ski instructor, a beagle scout, and consistently fails spectacularly at all of them. That makes him extremely relatable. -->
+</div>
+
+<!-- SLIDE 12: SNOOPY WAS DOING IT FIRST -->
+<div class="slide" data-slide="12">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:380px;height:380px;top:-80px;right:-70px;background:#f7c948;opacity:.09;"></div>
+    <div class="blob" style="width:260px;height:260px;bottom:-55px;left:-45px;background:#a78bfa;opacity:.08;"></div>
+  </div>
+  <div class="content">
+    <div class="tag reveal">Before It Was Cool</div>
+    <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 .3rem;">Snoopy Was Doing It First 👆</h2>
+    <p class="reveal" style="color:#7a6fa8;font-size:.8rem;margin-bottom:.9rem;">The strip was quietly decades ahead of its time</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div class="gc reveal" style="border-left:3px solid #f7c948;">
+        <strong style="color:#f7c948;font-size:.85rem;">Therapy culture (1950s)</strong>
+        <p style="font-size:.78rem;color:#c4b8e8;margin:.2rem 0 0;">Lucy's psychiatry booth — "The doctor is IN, 5¢" — was satirizing therapy culture before it was mainstream. Charlie Brown was openly anxious decades before that was a normal thing to discuss.</p>
+      </div>
+      <div class="gc reveal" style="border-left:3px solid #e05c2a;">
+        <strong style="color:#e05c2a;font-size:.85rem;">First cartoon in space (1969)</strong>
+        <p style="font-size:.78rem;color:#c4b8e8;margin:.2rem 0 0;">Apollo 10's lunar module "Snoopy" orbited the moon. A fictional dog character was literally in space before any human walked on it.</p>
+      </div>
+      <div class="gc reveal" style="border-left:3px solid #a78bfa;">
+        <strong style="color:#a78bfa;font-size:.85rem;">Guinness record (1990)</strong>
+        <p style="font-size:.78rem;color:#c4b8e8;margin:.2rem 0 0;">Certified as the most widely distributed comic strip in history — 2,600 papers, 75 countries, 355M weekly readers. No strip has matched it.</p>
+      </div>
+      <div class="gc reveal" style="border-left:3px solid #f7c948;">
+        <strong style="color:#f7c948;font-size:.85rem;">Representation (1968)</strong>
+        <p style="font-size:.78rem;color:#c4b8e8;margin:.2rem 0 0;">Franklin Armstrong — first Black character in a mainstream white-authored strip. Integrated Peanuts the same year as the Fair Housing Act.</p>
+      </div>
+      <div class="gc reveal" style="border-left:3px solid #e05c2a;">
+        <strong style="color:#e05c2a;font-size:.85rem;">Women in sports (1966)</strong>
+        <p style="font-size:.78rem;color:#c4b8e8;margin:.2rem 0 0;">Peppermint Patty — a girl who dominated athletics, wore what she wanted, came from a single-parent home — debuted 6 years before Title IX.</p>
+      </div>
+      <div class="gc reveal" style="border-left:3px solid #a78bfa;">
+        <strong style="color:#a78bfa;font-size:.85rem;">Children's grief (1988)</strong>
+        <p style="font-size:.78rem;color:#c4b8e8;margin:.2rem 0 0;">"Why, Charlie Brown, Why?" tackled childhood leukemia — a TV special about a child with cancer that aired before pediatric oncology was commonly discussed in media.</p>
+      </div>
+    </div>
+  </div>
+  <!-- SPEAKER NOTES: Peanuts consistently punched above its weight culturally. It wasn't just a funny comic — Schulz used the strip to address anxiety, grief, failure, existentialism, civil rights, and gender equality, all filtered through children in a way that made it palatable across generations and political lines. That's why it still resonates. -->
+</div>
+
+<!-- SLIDE 13: FRANKLIN ARMSTRONG -->
+<div class="slide" data-slide="13">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:440px;height:440px;top:-95px;right:-75px;background:#f7c948;opacity:.09;"></div>
+    <div class="blob" style="width:300px;height:300px;bottom:-70px;left:-55px;background:#e05c2a;opacity:.09;"></div>
+  </div>
+  <div class="content">
+    <div class="tag reveal">Representation</div>
+    <h2 class="font-display font-bold reveal" style="font-size:clamp(1.7rem,3.8vw,2.7rem);color:#f7c948;margin:.5rem 0 .8rem;">Franklin Armstrong — A Real First ✊🏾</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.8rem;align-items:start;">
+      <div>
+        <div class="gc reveal" style="margin-bottom:.7rem;border-left:3px solid #f7c948;">
+          <strong style="color:#f7c948;font-size:.87rem;">July 31, 1968 — First Appearance</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">Franklin met Charlie Brown on a beach, returning his runaway ball. He was immediately treated as an equal — no lesson, no big moment. Just a kid.</p>
+        </div>
+        <div class="gc reveal" style="margin-bottom:.7rem;border-left:3px solid #e05c2a;">
+          <strong style="color:#e05c2a;font-size:.87rem;">One of the first Black characters in a mainstream white-authored strip</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">After MLK Jr.'s assassination, teacher Harriet Glickman wrote Schulz urging him to add Black characters. He acted — and faced real pushback from Southern newspaper editors who threatened to drop the strip.</p>
+        </div>
+        <div class="gc reveal" style="border-left:3px solid #a78bfa;">
+          <strong style="color:#a78bfa;font-size:.87rem;">Schulz held firm</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">One editor threatened to pull Peanuts. Schulz reportedly said: run it as-is, or I pull the strip entirely. Franklin stayed. His dad was in Vietnam. He sat with Peppermint Patty. He just was.</p>
+        </div>
+      </div>
+      <div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.7rem;">
+          <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/ed9385851aaf38d6bc308101d10d6c3982b2056c.jpg" alt="Glickman letter to Schulz" class="reveal" style="width:100%;height:120px;object-fit:cover;border-radius:10px;">
+          <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/9631acec1664e834096bdd8094a5d700f8f89685.jpg" alt="Schulz reply letter" class="reveal" style="width:100%;height:120px;object-fit:cover;border-radius:10px;">
+        </div>
+        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/26607d70ee554e058fd0703d309dc8711b8c452c.jpg" alt="Franklin meets Charlie Brown first strip" class="reveal" style="width:100%;border-radius:14px;object-fit:cover;max-height:150px;filter:drop-shadow(0 0 18px rgba(247,201,72,.25));">
+        <p class="reveal" style="font-size:.65rem;color:#7a6fa8;text-align:center;margin-top:.4rem;letter-spacing:.05em;">Top: The letters. Bottom: The debut.</p>
+      </div>
+    </div>
+  </div>
+  <!-- SPEAKER NOTES: This is a genuinely important moment in American cultural history. Franklin's introduction in 1968 came just 3 months after MLK's assassination. Harriet Glickman wrote to multiple cartoonists — only Schulz responded. He told her he'd been thinking about it but was afraid of being condescending. She kept writing, connected him with a Black colleague who gave permission, and finally Schulz committed. July 31, 1968: Franklin first appears. The beach setting was intentional — many public beaches were still segregated in parts of America. A Black child and white child together, equals, building a sandcastle. The 1973 Thanksgiving special controversy (Franklin sitting alone) became a viral moment in 2020 — another example of how the strip keeps getting re-examined. -->
+</div>
+
+<!-- SLIDE 14: QUIET DIVERSITY — LGBTQ+ & MORE -->
+<div class="slide" data-slide="14">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:420px;height:420px;top:-90px;left:-70px;background:#a78bfa;opacity:.10;"></div>
+    <div class="blob" style="width:300px;height:300px;bottom:-65px;right:-55px;background:#f7c948;opacity:.08;"></div>
+  </div>
+  <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
+  <div class="content">
+    <div class="tag reveal" style="background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.35);color:#a78bfa;">Hidden Depths</div>
+    <h2 class="font-display font-bold reveal" style="font-size:clamp(1.6rem,3.6vw,2.5rem);color:#f7c948;margin:.5rem 0 .3rem;">Quiet Diversity in Peanuts</h2>
+    <p class="reveal" style="color:#7a6fa8;font-size:.78rem;margin-bottom:.8rem;">Characters that were quietly miles ahead of mainstream America</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.3rem;">
+      <div>
+        <div class="gc reveal" style="border-left:3px solid #a78bfa;margin-bottom:.75rem;">
+          <div style="display:flex;gap:.75rem;align-items:center;margin-bottom:.5rem;">
+            <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/7417c0359cb9e26232794a82a4bedb232a475ae4.jpg" alt="Peppermint Patty" style="width:50px;height:50px;object-fit:contain;border-radius:8px;background:rgba(255,255,255,.05);flex-shrink:0;">
+            <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/397071452649809e402e111b44dbf4ddcaa0be9d.jpg" alt="Marcie" style="width:50px;height:50px;object-fit:contain;border-radius:8px;background:rgba(255,255,255,.05);flex-shrink:0;">
+            <strong style="color:#a78bfa;font-size:.88rem;">Peppermint Patty &amp; Marcie</strong>
+          </div>
+          <ul style="color:#c4b8e8;font-size:.78rem;line-height:1.5;padding-left:1rem;margin:0;">
+            <li>Widely embraced by LGBTQ+ readers as coded representation</li>
+            <li>Marcie calls Patty "Sir" — Schulz said he just thought it was funny, Marcie was "a very strange little girl"</li>
+            <li>Marcie was partly inspired by Schulz's friend, tennis legend <strong>Billie Jean King</strong></li>
+            <li>2022 Apple TV+ special confirmed the franchise's modern pro-LGBTQ+ stance explicitly</li>
+          </ul>
+        </div>
+        <div class="gc reveal" style="border-left:3px solid #f7c948;">
+          <div style="display:flex;gap:.75rem;align-items:center;margin-bottom:.4rem;">
+            <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/43f36a91535453d5c38437cac26c39c332fb2ab9.jpg" alt="Peppermint Patty sports" style="width:50px;height:50px;object-fit:cover;border-radius:8px;flex-shrink:0;">
+            <strong style="color:#f7c948;font-size:.88rem;">Pre-Title IX Feminism</strong>
+          </div>
+          <p style="color:#c4b8e8;font-size:.78rem;line-height:1.4;margin:0;">Peppermint Patty (1966) was an athletic girl who dominated every sport — 6 years before Title IX. Schulz advocated explicitly for gender equity in athletics through her character.</p>
+        </div>
+      </div>
+      <div>
+        <div class="gc reveal" style="border-left:3px solid #e05c2a;margin-bottom:.75rem;">
+          <strong style="color:#e05c2a;font-size:.88rem;">José Peterson (1967) — Mixed Race</strong>
+          <p style="color:#c4b8e8;font-size:.78rem;line-height:1.4;margin:.3rem 0 0;">Mixed Swedish &amp; Mexican heritage. Introduced on Charlie Brown's baseball team <em>before</em> Franklin, though almost entirely forgotten today. Schulz was quietly diversifying the strip from multiple angles simultaneously.</p>
+        </div>
+        <div class="gc reveal" style="border-left:3px solid #a78bfa;">
+          <strong style="color:#a78bfa;font-size:.88rem;">Janice Emmons (1990) — Disability</strong>
+          <p style="color:#c4b8e8;font-size:.78rem;line-height:1.4;margin:.3rem 0 0;">The TV special <em>"Why, Charlie Brown, Why?"</em> featured Janice, a classmate with leukemia. It was a groundbreaking, unflinching look at childhood cancer and chemotherapy — rare for any children's media in 1990.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- SPEAKER NOTES: The thing to emphasize here is that none of this was activist posturing — it was Schulz quietly embedding these values into a strip read by 355 million people weekly. On Peppermint Patty and Marcie: Schulz explicitly denied they were lesbians, and it would be wrong to claim otherwise. But the characters resonated deeply with LGBTQ+ readers for decades, which says something about representation by accident — representation that feels real, even if unintentional. The 2022 Apple TV+ special "To Mom (and Dad), With Love" is where the franchise officially and intentionally embraced LGBTQ+ families. On José Peterson: this is the buried history — he predates Franklin and is essentially unknown today. Schulz was trying from multiple directions. -->
+</div>
+
+<!-- SLIDE 15: PEANUTS IN AMERICAN CULTURE -->
+<div class="slide" data-slide="15">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:480px;height:480px;top:-100px;right:-85px;background:#e05c2a;opacity:.10;"></div>
+    <div class="blob" style="width:320px;height:320px;bottom:-75px;left:-55px;background:#f7c948;opacity:.09;"></div>
+  </div>
+  <div class="content">
+    <div class="tag reveal">American Institution</div>
+    <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 .9rem;">Peanuts &amp; American Culture 🇺🇸</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+      <div>
+        <div class="gc reveal" style="margin-bottom:.75rem;border-left:3px solid #f7c948;">
+          <strong style="color:#f7c948;font-size:.87rem;">Macy's Thanksgiving Parade — since 1968</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">Snoopy has appeared every single year. He holds the record for most Macy's Parade balloon appearances of any character — over 10 different balloon versions.</p>
+        </div>
+        <div class="gc reveal" style="margin-bottom:.75rem;border-left:3px solid #e05c2a;">
+          <strong style="color:#e05c2a;font-size:.87rem;">A Charlie Brown Christmas (1965)</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">CBS almost didn't air it — too slow, too quiet, too religious. Became one of the highest-rated TV specials in history. Still airs 60+ years later. The jazz soundtrack sold 5 million copies.</p>
+        </div>
+        <div class="gc reveal" style="border-left:3px solid #a78bfa;">
+          <strong style="color:#a78bfa;font-size:.87rem;">50+ TV specials, 4 feature films</strong>
+          <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">From 1965 to today. <em>The Peanuts Movie</em> (2015) grossed $246M worldwide. Apple TV+ now produces new Peanuts content.</p>
+        </div>
+      </div>
+      <div>
+        <div class="gc reveal" style="margin-bottom:.75rem;border-left:3px solid #f7c948;text-align:center;padding:1.2rem;">
+          <div style="font-size:2.2rem;font-weight:900;color:#f7c948;line-height:1;" data-count="355">0</div>
+          <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:#7a6fa8;margin-top:.3rem;">Million weekly readers at peak</div>
+        </div>
+        <div class="gc reveal" style="margin-bottom:.75rem;border-left:3px solid #e05c2a;text-align:center;padding:1.2rem;">
+          <div style="font-size:2.2rem;font-weight:900;color:#e05c2a;line-height:1;">$1B+</div>
+          <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:#7a6fa8;margin-top:.3rem;">Annual Peanuts merchandise revenue</div>
+        </div>
+        <div class="gc reveal" style="border-left:3px solid #a78bfa;text-align:center;padding:1.2rem;">
+          <div style="font-size:2.2rem;font-weight:900;color:#a78bfa;line-height:1;" data-count="20000">0</div>
+          <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:#7a6fa8;margin-top:.3rem;">Licensed Peanuts products worldwide</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- SPEAKER NOTES: Peanuts is one of a handful of American cultural properties that has genuinely penetrated every demographic and generation. The Christmas special nearly didn't happen — CBS executives hated it and almost pulled it. The Vince Guaraldi jazz score was considered too adult for children's TV. It aired anyway and got 45% of the American TV audience. It's been airing continuously since 1965. That's not nostalgia — that's cultural bedrock. The merchandise empire is enormous: Hallmark alone has produced thousands of Peanuts items. Snoopy is one of the world's most recognizable fictional characters, consistently ranking in global studies alongside Mickey Mouse and Bugs Bunny. -->
+</div>
+
+<!-- SLIDE 16: WHY SNOOPY RESONATES WITH GEN Z -->
+<div class="slide" data-slide="16">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:440px;height:440px;top:-95px;right:-80px;background:#a78bfa;opacity:.12;"></div>
+    <div class="blob" style="width:280px;height:280px;bottom:-65px;left:-50px;background:#f7c948;opacity:.09;"></div>
+  </div>
+  <div class="content">
+    <div class="tag reveal" style="background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.3);color:#a78bfa;">Gen Z Connection</div>
+    <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 .3rem;">Why Gen Z Is Obsessed</h2>
+    <p class="reveal" style="color:#7a6fa8;font-size:.8rem;margin-bottom:.9rem;">A 75-year-old beagle is having a full-on cultural moment — again</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;">
+      <div class="gc reveal" style="border-left:3px solid #a78bfa;">
+        <strong style="color:#a78bfa;font-size:.87rem;">TikTok &amp; Meme Culture</strong>
+        <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">Snoopy meme searches spiked 223.8% on TikTok in 2022-23. The "Snoopy and Charlie Brown silent stare" format went massively viral. He became the de facto mascot of "unbothered" energy.</p>
+      </div>
+      <div class="gc reveal" style="border-left:3px solid #f7c948;">
+        <strong style="color:#f7c948;font-size:.87rem;">Mental Health Alignment</strong>
+        <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">Charlie Brown's anxiety, Snoopy's detachment, Lucy's therapist booth — the strip normalized emotional complexity 70 years before therapy became mainstream for Gen Z.</p>
+      </div>
+      <div class="gc reveal" style="border-left:3px solid #e05c2a;">
+        <strong style="color:#e05c2a;font-size:.87rem;">Streetwear &amp; Collabs</strong>
+        <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">Peanuts x Kith, Peanuts x Lacoste, Peanuts x UNIQLO. Snoopy plushies resell for $100+ on StockX. Joe Cool silhouette is everywhere on Y2K fashion revival pieces.</p>
+      </div>
+      <div class="gc reveal" style="border-left:3px solid #a78bfa;">
+        <strong style="color:#a78bfa;font-size:.87rem;">The "Joe Cool" Identity</strong>
+        <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">Gen Z deeply relates to the Joe Cool energy: doing the bare minimum, appearing effortlessly fine, absolutely refusing to explain yourself. It's digital-age detachment with 1971 roots.</p>
+      </div>
+      <div class="gc reveal" style="border-left:3px solid #f7c948;">
+        <strong style="color:#f7c948;font-size:.87rem;">Apple TV+ Revival</strong>
+        <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">New Peanuts specials, <em>The Snoopy Show</em>, and the Franklin origin special in 2024 brought fresh eyes. Apple's demographic skews younger — new fans discovering old strips.</p>
+      </div>
+      <div class="gc reveal" style="border-left:3px solid #e05c2a;">
+        <strong style="color:#e05c2a;font-size:.87rem;">Authenticity Over Perfection</strong>
+        <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">Peanuts characters fail constantly and keep going. Charlie Brown never kicks the football. That resonates with a generation raised in economic anxiety and told to "just work harder."</p>
+      </div>
+    </div>
+  </div>
+  <!-- SPEAKER NOTES: The Snoopy renaissance is real and documented. The Joe Cool persona in particular has become a Gen Z archetype — it perfectly captures the "I'm thriving (I'm not)" energy that defines so much online discourse. The Peanuts strip's core theme — small humans failing against an indifferent world and continuing anyway — maps perfectly onto Gen Z's experience of climate anxiety, economic precarity, and social media pressure. Snoopy in particular survives it all by simply refusing to engage. That's aspirational. Also the fashion collaborations have been enormous: the UNIQLO UT line sells out globally. -->
+</div>
+
+<!-- SLIDE 17: CLOSING -->
+<div class="slide" data-slide="17">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:500px;height:500px;top:-110px;right:-90px;background:#f7c948;opacity:.14;"></div>
+    <div class="blob" style="width:360px;height:360px;bottom:-80px;left:-65px;background:#a78bfa;opacity:.12;"></div>
+    <div class="blob" style="width:220px;height:220px;top:35%;left:10%;background:#e05c2a;opacity:.09;"></div>
+  </div>
+  <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
+  <div class="content" style="text-align:center;">
+    <div class="reveal" style="font-size:90px;line-height:1;margin-bottom:.5rem;animation:float 3.5s ease-in-out infinite;">🐾</div>
+    <h2 class="font-display font-black reveal" style="font-size:clamp(2rem,5vw,4rem);background:linear-gradient(135deg,#f7c948 0%,#e05c2a 50%,#a78bfa 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.8rem;">Snoopy's World,<br>We're Just Living in It</h2>
+    <p class="reveal" style="font-size:clamp(.85rem,1.4vw,1.1rem);color:#7a6fa8;letter-spacing:3px;text-transform:uppercase;margin-bottom:1.5rem;">Good grief. And good night.</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:700px;margin:0 auto;">
+      <div class="gc reveal" style="text-align:center;padding:.9rem .5rem;">
+        <div style="font-size:1.6rem;font-weight:900;color:#f7c948;">1950</div>
+        <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:#7a6fa8;">Born</div>
+      </div>
+      <div class="gc reveal" style="text-align:center;padding:.9rem .5rem;">
+        <div style="font-size:1.6rem;font-weight:900;color:#e05c2a;">75</div>
+        <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:#7a6fa8;">Years old</div>
+      </div>
+      <div class="gc reveal" style="text-align:center;padding:.9rem .5rem;">
+        <div style="font-size:1.6rem;font-weight:900;color:#a78bfa;">∞</div>
+        <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:#7a6fa8;">Good nights</div>
+      </div>
+      <div class="gc reveal" style="text-align:center;padding:.9rem .5rem;">
+        <div style="font-size:1.6rem;font-weight:900;color:#f7c948;">1</div>
+        <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:#7a6fa8;">Wall. Always.</div>
+      </div>
+    </div>
+  </div>
+  <!-- SPEAKER NOTES: The reason Snoopy endures is simple: he represents something universal. The gap between who we are and who we imagine ourselves to be. He's a dog who thinks he's a WWI pilot, a novelist, an astronaut, a cool guy at a wall. He never fully becomes those things — but he never stops trying. That's the human condition, rendered in black and white in 4 panels, 17,897 times. Good grief, indeed. Thank you. -->
+</div>
+
+</div><!-- end .deck -->
+
+<div class="nav-controls">
+  <button class="nav-btn" onclick="changeSlide(-1)">&#8249;</button>
+  <div class="slide-dots" id="dots"></div>
+  <button class="nav-btn" onclick="changeSlide(1)">&#8250;</button>
+  <span class="slide-counter" id="counter">1 / 17</span>
+</div>
+
+<script>
+(function(){
+  var current = 1;
+  var slides = document.querySelectorAll('.slide');
+  var total = slides.length;
+  var dotsContainer = document.getElementById('dots');
+  var counter = document.getElementById('counter');
+
+  for (var i = 1; i <= total; i++) {
+    var dot = document.createElement('div');
+    dot.className = 'dot' + (i === 1 ? ' active' : '');
+    dot.setAttribute('data-n', i);
+    dot.addEventListener('click', (function(n){ return function(){ goToSlide(n); }; })(i));
+    dotsContainer.appendChild(dot);
+  }
+
+  function goToSlide(n) {
+    var prev = document.querySelector('.slide.active');
+    var next = document.querySelector('.slide[data-slide="' + n + '"]');
+    if (!next || next === prev) return;
+    if (prev) prev.classList.remove('active');
+    next.classList.add('active');
+    animateSlide(next);
+    current = n;
+    updateNav();
+  }
+
+  function changeSlide(dir) {
+    var next = current + dir;
+    if (next < 1) next = total;
+    if (next > total) next = 1;
+    goToSlide(next);
+  }
+  window.changeSlide = changeSlide;
+
+  function updateNav() {
+    document.querySelectorAll('.dot').forEach(function(d) {
+      d.classList.toggle('active', parseInt(d.getAttribute('data-n')) === current);
+    });
+    counter.textContent = current + ' / ' + total;
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); }
+  });
+
+  var touchStartX = 0;
+  document.addEventListener('touchstart', function(e){ touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', function(e){
+    var diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1);
+  });
+
+  function animateSlide(slide) {
+    var els = slide.querySelectorAll('.reveal');
+    els.forEach(function(el, i) {
+      el.style.transition = 'none';
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(18px)';
+      el.offsetHeight; // force reflow
+      var delay = i * 0.075;
+      el.style.transition = 'opacity 0.35s ease ' + delay + 's, transform 0.35s ease ' + delay + 's';
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+    });
+    animateEffects(slide);
+  }
+
+  function animateEffects(slide) {
+    slide.querySelectorAll('[data-count]:not(.counted)').forEach(function(el) {
+      el.classList.add('counted');
+      var target = parseInt(el.getAttribute('data-count'));
+      var cur = 0, step = Math.max(1, target / 45);
+      var timer = setInterval(function() {
+        cur += step;
+        if (cur >= target) { cur = target; clearInterval(timer); }
+        el.textContent = Math.round(cur).toLocaleString();
+      }, 28);
+    });
+  }
+
+  document.addEventListener('mousemove', function(e) {
+    var sp = document.querySelector('.mouse-spotlight');
+    if (sp) sp.style.background = 'radial-gradient(600px circle at ' + e.clientX + 'px ' + e.clientY + 'px, rgba(247,201,72,0.05), transparent 40%)';
+  });
+
+  function initParticles(canvas, interactive, count) {
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    function resize() { canvas.width = canvas.offsetWidth || canvas.parentElement.offsetWidth; canvas.height = canvas.offsetHeight || canvas.parentElement.offsetHeight; }
+    resize();
+    window.addEventListener('resize', resize);
+    var mx = -1000, my = -1000;
+    var pts = Array.from({length: count}, function() {
+      return { x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - .5) * .3, vy: (Math.random() - .5) * .3, size: Math.random() * 2 + .8, alpha: Math.random() * .28 + .08 };
+    });
+    if (interactive) {
+      canvas.addEventListener('mousemove', function(e) { var r = canvas.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; });
+      canvas.addEventListener('mouseleave', function() { mx = -1000; my = -1000; });
+    }
+    (function tick() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      pts.forEach(function(p) {
+        if (interactive) { var dx = p.x - mx, dy = p.y - my, d = Math.sqrt(dx*dx+dy*dy); if (d < 120 && d > 0) { var f = (120-d)/120*2; p.vx += (dx/d)*f*.1; p.vy += (dy/d)*f*.1; } }
+        p.vx *= .98; p.vy *= .98; p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(247,201,72,' + p.alpha + ')'; ctx.fill();
+      });
+      requestAnimationFrame(tick);
+    })();
+  }
+
+  document.querySelectorAll('.particle-canvas').forEach(function(c) { initParticles(c, true, 55); });
+  document.querySelectorAll('.particle-canvas-ambient').forEach(function(c) { initParticles(c, false, 18); });
+
+  // ROBUST INIT: Poll until slide 1 has real dimensions (Tailwind CDN finished),
+  // then fire the entrance animation. Uses rAF so it never blocks the main thread.
+  (function waitForLayout() {
+    var firstSlide = document.querySelector('.slide[data-slide="1"]');
+    if (!firstSlide) { requestAnimationFrame(waitForLayout); return; }
+
+    // Tailwind CDN is done when the element has non-zero offsetHeight
+    if (firstSlide.offsetHeight === 0) { requestAnimationFrame(waitForLayout); return; }
+
+    // Hard-reset every .reveal to hidden, then animate
+    firstSlide.querySelectorAll('.reveal').forEach(function(el) {
+      el.style.transition = 'none';
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(18px)';
+    });
+
+    // One rAF to flush the reset, then animate
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        animateSlide(firstSlide);
+      });
+    });
+  })();
+})();
+</script>
+</body>
+</html>
