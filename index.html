@@ -30,6 +30,9 @@ layout: default
       {% endif %}
       {% endif %}
     {% endfor %}
+    {% if tag[0] == 'Misc' %}
+      <li><a href="{{ site.baseurl }}/presentations/">Presentations</a></li>
+    {% endif %}
     {% assign pages_list = nil %}
     {% assign group = nil %}
   </ul>
