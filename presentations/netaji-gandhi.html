@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="slides-format" content="viewport">
+<title>Netaji vs Gandhi — The Great Divide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+@theme {
+  --color-bg: #1a0a05;
+  --color-bg-deep: #0d0502;
+  --color-surface: #2a120a;
+  --color-text: #f5ede6;
+  --color-text-secondary: #d4b8a8;
+  --color-text-muted: #9e7a66;
+  --color-accent-1: #e8622a;
+  --color-accent-2: #f5c842;
+  --color-accent-3: #c94040;
+  --color-glass-bg: rgba(255,255,255,0.055);
+  --color-glass-border: rgba(255,255,255,0.09);
+  --color-vignette: rgba(0,0,0,0.55);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+}
+</style>
+<style>
+:root{--color-bg:#1a0a05;--color-text:#f5ede6;--glow-color-rgb:232,98,42;}
+*,*::before,*::after{box-sizing:border-box;}
+html,body{background:var(--color-bg);margin:0;}
+body{font-family:'DM Sans',system-ui,sans-serif;color:var(--color-text);overflow:hidden;height:100vh;width:100vw;}
+.deck{width:100vw;height:100vh;position:relative;}
+.slide{position:absolute;top:0;left:0;width:100%;height:100%;background:var(--color-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transform:scale(0.95);transition:opacity 0.7s ease,transform 0.7s ease;pointer-events:none;overflow:hidden;}
+.slide.active{opacity:1;transform:scale(1);pointer-events:all;}
+.slide>.content{position:relative;z-index:2;width:100%;max-width:1100px;padding:clamp(1.2rem,3vw,3rem);}
+
+        
+        /* === Grouped Navigation Styles === */
+
+        .nav-controls {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            z-index: 100;
+            background: rgba(36, 18, 10, 0.78);
+            backdrop-filter: blur(14px);
+            padding: 10px 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.28);
+            max-width: min(94vw, 1200px);
+        }
+/* Breadcrumb Group Navigation */
+        .slide-dots {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            overflow: hidden;
+            max-width: 90vw;
+        }
+        .nav-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+        }
+        .nav-group:not(:last-child)::after {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            margin-left: 6px;
+        }
+        .group-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 99px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .nav-group.active-group .group-label {
+            color: var(--color-bg);
+            background: var(--color-accent-1);
+        }
+        .group-label:hover {
+            color: var(--color-text);
+        }
+        /* Hide non-active subdots by default */
+        .sub-dots {
+            display: none;
+            gap: 4px;
+        }
+        /* Only show dots for the active group */
+        .nav-group.active-group .sub-dots {
+            display: flex;
+        }
+        .sub-dots .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .sub-dots .dot.active {
+            background: var(--color-accent-1);
+            transform: scale(1.5);
+        }
+        .sub-dots .dot:hover {
+            background: rgba(255,255,255,0.8);
+        }
+
+        @media (max-width: 800px) {
+            .nav-group:not(.active-group) .group-label {
+                display: none;
+            }
+        }
+                .slide-counter {
+            font-size: 0.82rem;
+            color: var(--color-text-muted);
+            min-width: 48px;
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+            flex: 0 0 auto;
+        }
+        
+        @media (max-width: 720px) {
+    /* Breadcrumb Group Navigation */
+        .slide-dots {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            overflow: hidden;
+            max-width: 90vw;
+        }
+        .nav-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+        }
+        .nav-group:not(:last-child)::after {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            margin-left: 6px;
+        }
+        .group-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 99px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .nav-group.active-group .group-label {
+            color: var(--color-bg);
+            background: var(--color-accent-1);
+        }
+        .group-label:hover {
+            color: var(--color-text);
+        }
+        /* Hide non-active subdots by default */
+        .sub-dots {
+            display: none;
+            gap: 4px;
+        }
+        /* Only show dots for the active group */
+        .nav-group.active-group .sub-dots {
+            display: flex;
+        }
+        .sub-dots .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .sub-dots .dot.active {
+            background: var(--color-accent-1);
+            transform: scale(1.5);
+        }
+        .sub-dots .dot:hover {
+            background: rgba(255,255,255,0.8);
+        }
+
+        @media (max-width: 800px) {
+            .nav-group:not(.active-group) .group-label {
+                display: none;
+            }
+        }
+                .slide-counter { min-width: 42px; font-size: 0.78rem; }
+        }
+
+        
+
+
+.reveal{opacity:0;transform:translateY(18px);}
+
+/* glow */
+.text-glow{text-shadow:0 0 20px rgba(232,98,42,0.55),0 0 40px rgba(232,98,42,0.2);}
+.stat-glow{text-shadow:0 0 30px rgba(232,98,42,0.7),0 0 60px rgba(232,98,42,0.3);}
+@keyframes glow-pulse{0%,100%{text-shadow:0 0 20px rgba(232,98,42,0.5),0 0 40px rgba(232,98,42,0.2);}50%{text-shadow:0 0 35px rgba(232,98,42,0.9),0 0 70px rgba(232,98,42,0.4);}}
+.glow-pulse{animation:glow-pulse 3s ease-in-out infinite;}
+
+/* gradient mesh */
+@keyframes float-slow{0%{transform:translate(0,0) scale(1);}25%{transform:translate(55px,-45px) scale(1.1);}50%{transform:translate(-35px,38px) scale(0.91);}75%{transform:translate(45px,18px) scale(1.07);}100%{transform:translate(0,0) scale(1);}}
+@keyframes float-drift{0%{transform:translate(0,0) scale(1) rotate(0deg);}33%{transform:translate(-48px,-55px) scale(1.14) rotate(3deg);}66%{transform:translate(38px,28px) scale(0.88) rotate(-2deg);}100%{transform:translate(0,0) scale(1) rotate(0deg);}}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+.gradient-mesh{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
+.blob{position:absolute;border-radius:50%;filter:blur(80px);animation:float-slow 11s ease-in-out infinite;}
+.blob:nth-child(2){animation:float-drift 15s ease-in-out infinite;}
+.blob:nth-child(3){animation:float-slow 19s ease-in-out infinite reverse;}
+.blob:nth-child(4){animation:float-drift 13s ease-in-out infinite reverse;}
+
+/* depth */
+.slide::before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px;opacity:0.03;mix-blend-mode:overlay;}
+.slide::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 50%,var(--color-vignette) 100%);}
+
+/* bar chart */
+.bar-chart{display:flex;align-items:flex-end;gap:clamp(0.4rem,1vw,0.65rem);height:clamp(100px,18vh,180px);}
+.bar-col{display:flex;flex-direction:column;align-items:center;gap:0.3rem;flex:1;}
+.bar{border-radius:5px 5px 0 0;width:100%;}
+.bar-fill{border-radius:5px;height:18px;}
+.donut-ring{stroke-dasharray:251.3;stroke-dashoffset:251.3;stroke-linecap:round;}
+
+/* timeline */
+.timeline-line{position:absolute;left:20px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,#e8622a,#f5c842);}
+.timeline-dot{width:14px;height:14px;border-radius:50%;background:#e8622a;box-shadow:0 0 12px rgba(232,98,42,0.8);flex-shrink:0;}
+
+/* quote */
+.pull-quote{border-left:3px solid #e8622a;padding-left:1.2rem;font-style:italic;}
+
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms !important;transition-duration:0.2s !important;}}
+</style>
+</head>
+<body>
+<div class="mouse-spotlight" style="position:fixed;inset:0;z-index:99;pointer-events:none;"></div>
+
+<div class="deck">
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide slide-1 active" data-slide="1">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:520px;height:520px;top:-120px;right:-100px;background:#e8622a;opacity:0.16;"></div>
+    <div class="blob" style="width:350px;height:350px;bottom:-80px;left:-60px;background:#f5c842;opacity:0.12;"></div>
+    <div class="blob" style="width:220px;height:220px;top:40%;left:12%;background:#c94040;opacity:0.1;"></div>
+  </div>
+  <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1;"></canvas>
+  <div class="content text-center">
+    <div style="font-size:90px;margin-bottom:1rem;animation:float 3s ease-in-out infinite;" class="reveal">🇮🇳</div>
+    <h1 class="font-display text-[clamp(2.4rem,5.5vw,4.8rem)] font-black bg-linear-to-br from-accent-1 via-accent-2 to-accent-1 bg-clip-text text-transparent tracking-tight mb-3 reveal" style="line-height:1.1;">Netaji &amp; Gandhi</h1>
+    <p class="text-[clamp(1rem,1.8vw,1.5rem)] font-light text-text-muted tracking-[5px] uppercase mb-2 reveal">Two Visions. One Nation.</p>
+    <p class="text-[clamp(0.8rem,1.2vw,1.1rem)] text-text-muted reveal" style="max-width:580px;margin:0 auto;">The ideological chasm, the mutual reverence, the wartime gamble, and why Netaji remains India's most contested icon</p>
+  </div>
+</div>
+
+<!-- SLIDE 2: AGENDA -->
+<div class="slide slide-2" data-slide="2">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:380px;height:380px;top:-90px;right:-80px;background:#e8622a;opacity:0.08;"></div>
+    <div class="blob" style="width:250px;height:250px;bottom:-60px;left:-40px;background:#f5c842;opacity:0.06;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-1 uppercase tracking-[4px] text-xs font-semibold mb-2 reveal">Roadmap</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.8rem)] font-bold mb-5 reveal">What This Deck Covers</h2>
+    <div class="grid grid-cols-2 gap-3 reveal">
+      <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:10px;padding:0.8rem 1rem;border-left:3px solid #e8622a;">
+        <p class="text-xs text-text-muted uppercase tracking-widest mb-1">Part I</p>
+        <p class="font-semibold text-sm">Origins &amp; Formation</p>
+        <p class="text-text-muted text-xs mt-0.5">Who shaped Gandhi &amp; Bose — their intellectual DNA</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:10px;padding:0.8rem 1rem;border-left:3px solid #f5c842;">
+        <p class="text-xs text-text-muted uppercase tracking-widest mb-1">Part II</p>
+        <p class="font-semibold text-sm">Ideology &amp; Vision</p>
+        <p class="text-text-muted text-xs mt-0.5">Satyagraha vs realpolitik — 6 domain analysis</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:10px;padding:0.8rem 1rem;border-left:3px solid #c94040;">
+        <p class="text-xs text-text-muted uppercase tracking-widest mb-1">Part III</p>
+        <p class="font-semibold text-sm">The Schism &amp; Tripuri Crisis</p>
+        <p class="text-text-muted text-xs mt-0.5">The 1939 election, the Pant Resolution, expulsion</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:10px;padding:0.8rem 1rem;border-left:3px solid #e8622a;">
+        <p class="text-xs text-text-muted uppercase tracking-widest mb-1">Part IV</p>
+        <p class="font-semibold text-sm">The Wartime Gamble</p>
+        <p class="text-text-muted text-xs mt-0.5">Escape, Axis alliance, INA, Rani of Jhansi Regiment</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:10px;padding:0.8rem 1rem;border-left:3px solid #f5c842;">
+        <p class="text-xs text-text-muted uppercase tracking-widest mb-1">Part V</p>
+        <p class="font-semibold text-sm">Mutual Reverence</p>
+        <p class="text-text-muted text-xs mt-0.5">"Father of the Nation" &amp; "Prince Among Patriots"</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:10px;padding:0.8rem 1rem;border-left:3px solid #c94040;">
+        <p class="text-xs text-text-muted uppercase tracking-widest mb-1">Part VI</p>
+        <p class="font-semibold text-sm">Mixed Legacy &amp; Mystery</p>
+        <p class="text-text-muted text-xs mt-0.5">Why Bose remains contested, no Bharat Ratna, death mystery</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3: GANDHI — EARLY LIFE -->
+<div class="slide slide-3" data-slide="3">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:360px;height:360px;top:-80px;right:-70px;background:#f5c842;opacity:0.09;"></div>
+    <div class="blob" style="width:240px;height:240px;bottom:-50px;left:-40px;background:#e8622a;opacity:0.07;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-2 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">Profile I</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.8rem)] font-bold mb-1 reveal">Mohandas K. Gandhi</h2>
+    <p class="text-text-muted text-sm mb-4 reveal">Born 1869, Porbandar, Gujarat — Died 1948, New Delhi</p>
+    <div class="grid grid-cols-2 gap-4 reveal">
+      <div>
+        <h3 class="text-accent-2 font-semibold text-sm uppercase tracking-wider mb-2">Intellectual Foundations</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span><strong>Vaishnavism &amp; Jainism:</strong> Ahimsa (non-violence) &amp; Satya (truth) absorbed from childhood; his mother's devout Vaishnavism and Jain neighbor Raychandbhai shaped moral bedrock</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span><strong>Bhagavad Gita:</strong> Translated into Gujarati as <em>Anasaktiyoga</em> — selfless action without attachment to outcome</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span><strong>Leo Tolstoy:</strong> <em>The Kingdom of God is Within You</em> — inspired passive resistance; founded Tolstoy Farm (1910) in South Africa</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span><strong>John Ruskin:</strong> <em>Unto This Last</em> — dignity of labor, economic equality, founded Phoenix Settlement (1904)</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-accent-2 font-semibold text-sm uppercase tracking-wider mb-2">The South Africa Crucible</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span>Arrived Natal as a barrister in 1893; ejected from first-class train at Pietermaritzburg despite valid ticket — crystallizing moment</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span>Developed <strong>Satyagraha</strong> ("truth-force") 1906–1914 against the Transvaal Registration Act — first non-violent mass campaign in modern history</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span>21 years in South Africa; returned to India 1915 already a global figure. Gokhale asked him to observe India for a year before speaking</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span>Core insight: <em>"Non-violence is the greatest force at the disposal of mankind — mightier than any weapon of destruction."</em></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: GANDHI — HIND SWARAJ & PHILOSOPHY -->
+<div class="slide slide-4" data-slide="4">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:340px;height:340px;top:-70px;right:-60px;background:#f5c842;opacity:0.08;"></div>
+    <div class="blob" style="width:220px;height:220px;bottom:-45px;left:-35px;background:#e8622a;opacity:0.06;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-2 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">Gandhi's Vision</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.7rem)] font-bold mb-4 reveal">Hind Swaraj &amp; the Village Republic</h2>
+    <div class="grid grid-cols-3 gap-4 reveal">
+      <div style="background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.15);border-radius:10px;padding:1rem;">
+        <p class="text-accent-2 text-2xl mb-1">📜</p>
+        <h3 class="font-bold text-sm mb-1">Hind Swaraj (1909)</h3>
+        <p class="text-text-muted text-xs">Written aboard a ship in 10 days as a dialogue. Gandhi attacked railways, lawyers, hospitals, and industrialism as inherently violent. True swaraj = <em>self-rule &amp; moral restraint</em>, not parliamentary seats.</p>
+      </div>
+      <div style="background:rgba(232,98,42,0.07);border:1px solid rgba(232,98,42,0.15);border-radius:10px;padding:1rem;">
+        <p class="text-accent-1 text-2xl mb-1">🧵</p>
+        <h3 class="font-bold text-sm mb-1">Charkha &amp; Khadi</h3>
+        <p class="text-text-muted text-xs">The spinning wheel was not just economics — it was moral philosophy. Every thread spun = act of resistance against Manchester textile mills that drained ₹200 million/year from India.</p>
+      </div>
+      <div style="background:rgba(201,64,64,0.07);border:1px solid rgba(201,64,64,0.15);border-radius:10px;padding:1rem;">
+        <p class="text-accent-3 text-2xl mb-1">🏘️</p>
+        <h3 class="font-bold text-sm mb-1">Oceanic Circles</h3>
+        <p class="text-text-muted text-xs">Gandhi's vision: self-sufficient village republics in concentric rings. No central industrial state. Panchayati Raj as the spine of governance. Population 700,000 villages = the real India.</p>
+      </div>
+    </div>
+    <div class="mt-4 reveal">
+      <div class="pull-quote" style="border-left-color:#f5c842;">
+        <p class="text-text-secondary text-sm italic">"It is swaraj when we learn to rule ourselves. The moment you realize this truth, I am sure you will not want the so-called British rule to continue. The swaraj I want is not the kind that the English Parliament has."</p>
+        <p class="text-text-muted text-xs mt-1 not-italic">— Gandhi, Hind Swaraj (1909)</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-3 gap-3 mt-4 reveal">
+      <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:0.6rem 0.8rem;text-align:center;">
+        <p class="text-accent-2 text-xl font-black">100</p><p class="text-text-muted text-xs">volumes in Collected Works</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:0.6rem 0.8rem;text-align:center;">
+        <p class="text-accent-2 text-xl font-black">17</p><p class="text-text-muted text-xs">fasts unto death</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:0.6rem 0.8rem;text-align:center;">
+        <p class="text-accent-2 text-xl font-black">249</p><p class="text-text-muted text-xs">miles — the Salt March (1930)</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- SLIDE 5: NETAJI — ORIGINS & THE OATEN INCIDENT -->
+<div class="slide slide-5" data-slide="5">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:380px;height:380px;top:-90px;right:-75px;background:#e8622a;opacity:0.11;"></div>
+    <div class="blob" style="width:250px;height:250px;bottom:-55px;left:-40px;background:#c94040;opacity:0.09;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-1 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">Profile II: The Making of a Radical</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.8rem)] font-bold mb-1 reveal">Subhas Chandra Bose: Origins</h2>
+    <p class="text-text-muted text-sm mb-4 reveal">Born Jan 23, 1897, Cuttack, Odisha — The 9th child of a privileged, elite Bengali family</p>
+    <div class="grid grid-cols-2 gap-4 reveal">
+      <div>
+        <h3 class="text-accent-1 font-semibold text-sm uppercase tracking-wider mb-2">Early Intellectual Crisis</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span><strong>The Aristocratic Background:</strong> Father Janakinath Bose was a wealthy, prominent lawyer and awarded the title "Rai Bahadur" by the British.</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span><strong>Vivekananda's Awakening:</strong> At age 15, experienced a profound spiritual crisis, resolved by reading Swami Vivekananda. Embraced "muscular Hinduism" — the idea that spiritual salvation lay in serving humanity and the nation.</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span><strong>Rejection of Mysticism:</strong> While respecting Sri Aurobindo, Bose actively rejected solitary spiritual retreat, arguing it caused "one-sided development" while India bled.</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-accent-1 font-semibold text-sm uppercase tracking-wider mb-2">The Oaten Incident (1916)</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span><strong>Presidency College Rebellion:</strong> As a student, Bose organized a strike against Prof. E.F. Oaten, who had allegedly manhandled Indian students and made racist remarks.</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span><strong>Assault and Expulsion:</strong> Oaten was beaten by a group of students. Bose took responsibility as the student leader and was expelled from the prestigious college.</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span><strong>The Lesson:</strong> This was Bose's first taste of direct action. He realized that confronting British arrogance physically brought immediate psychological liberation.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: NETAJI — THE SCHOLAR & THE BUREAUCRAT -->
+<div class="slide slide-6" data-slide="6">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:360px;height:360px;top:-80px;right:-70px;background:#c94040;opacity:0.1;"></div>
+    <div class="blob" style="width:240px;height:240px;bottom:-50px;left:-35px;background:#e8622a;opacity:0.08;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-3 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">1919–1921</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.8rem)] font-bold mb-1 reveal">Cambridge &amp; The ICS Renunciation</h2>
+    <div class="grid grid-cols-2 gap-4 mt-4 reveal">
+      <div>
+        <h3 class="text-accent-3 font-semibold text-sm mb-2">The Reluctant Scholar</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>After finishing his B.A. at Scottish Church College, his father sent him to <strong>Cambridge University (Fitzwilliam College)</strong> in 1919 to prepare for the Indian Civil Service (ICS) exam.</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Passed the notoriously difficult open exam in 1920, securing the <strong>4th rank</strong> globally.</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Faced an agonizing moral dilemma: serve the colonial machinery for immense personal wealth and prestige, or join the burgeoning national movement.</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-accent-1 font-semibold text-sm mb-2">The Resignation (April 1921)</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Wrote to his brother Sarat: <em>"Only on the soil of sacrifice and suffering can we raise our national edifice."</em></span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Resigned from the ICS — an act that sent shockwaves through the Indian elite, making him an instant youth icon before he even returned to India.</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Sailed for Bombay and immediately sought out Gandhi, demanding a logical blueprint for the revolution (The July 16 Encounter).</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7: NETAJI — YOUTH LEADER & EXILE -->
+<div class="slide slide-7" data-slide="7">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:370px;height:370px;top:-70px;right:-65px;background:#e8622a;opacity:0.09;"></div>
+    <div class="blob" style="width:230px;height:230px;bottom:-50px;left:-35px;background:#f5c842;opacity:0.07;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-1 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">1920s–1930s</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.7rem)] font-bold mb-4 reveal">Prisons, Mayors, and European Exile</h2>
+    <div class="grid grid-cols-3 gap-4 reveal">
+      <div style="background:rgba(232,98,42,0.07);border:1px solid rgba(232,98,42,0.15);border-radius:10px;padding:1rem;">
+        <p class="text-accent-1 text-2xl mb-1">🏛️</p>
+        <h3 class="font-bold text-sm mb-1">Mentorship under C.R. Das</h3>
+        <p class="text-text-muted text-xs">Became the protégé of Deshbandhu C.R. Das in Bengal. At just 27, Bose became the CEO of the Calcutta Municipal Corporation (1924), gaining crucial administrative experience running a major city.</p>
+      </div>
+      <div style="background:rgba(201,64,64,0.07);border:1px solid rgba(201,64,64,0.15);border-radius:10px;padding:1rem;">
+        <p class="text-accent-3 text-2xl mb-1">⛓️</p>
+        <h3 class="font-bold text-sm mb-1">Mandalay Prison</h3>
+        <p class="text-text-muted text-xs">Arrested under Regulation III without trial, spent years in the brutal Mandalay prison in Burma (where Tilak was also held). Contracted tuberculosis, severely damaging his health for the rest of his life.</p>
+      </div>
+      <div style="background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.15);border-radius:10px;padding:1rem;">
+        <p class="text-accent-2 text-2xl mb-1">🌍</p>
+        <h3 class="font-bold text-sm mb-1">Unofficial Ambassador</h3>
+        <p class="text-text-muted text-xs">Exiled to Europe in the 1930s for medical treatment. Wrote his seminal book, <em>The Indian Struggle</em>. Met Mussolini, De Valera (Ireland), and Romain Rolland, studying modern state-building and diplomacy firsthand.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- SLIDE 8: NETAJI — THE MODERNIST VISION -->
+<div class="slide slide-8" data-slide="8">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:350px;height:350px;top:-70px;right:-65px;background:#e8622a;opacity:0.09;"></div>
+    <div class="blob" style="width:230px;height:230px;bottom:-50px;left:-35px;background:#f5c842;opacity:0.07;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-1 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">Netaji's Vision</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.7rem)] font-bold mb-4 reveal">The Modernist &amp; Militant Blueprint</h2>
+    <div class="grid grid-cols-3 gap-4 reveal">
+      <div style="background:rgba(232,98,42,0.07);border:1px solid rgba(232,98,42,0.15);border-radius:10px;padding:1rem;">
+        <p class="text-accent-1 text-2xl mb-1">🏭</p>
+        <h3 class="font-bold text-sm mb-1">State-Led Industrialization</h3>
+        <p class="text-text-muted text-xs">1938 Haripura Congress presidential address: <em>"We cannot go back to the pre-industrial era even if we desire."</em> Created the National Planning Committee with Nehru as chairman to blueprint industrial India.</p>
+      </div>
+      <div style="background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.15);border-radius:10px;padding:1rem;">
+        <p class="text-accent-2 text-2xl mb-1">⚔️</p>
+        <h3 class="font-bold text-sm mb-1">Realpolitik &amp; Ends</h3>
+        <p class="text-text-muted text-xs"><em>"Britain's enemy is India's friend."</em> Armed struggle was not just acceptable — it was necessary. Bose viewed non-violence as strategically inadequate against an armed empire backed by 200 years of institutional violence.</p>
+      </div>
+      <div style="background:rgba(201,64,64,0.07);border:1px solid rgba(201,64,64,0.15);border-radius:10px;padding:1rem;">
+        <p class="text-accent-3 text-2xl mb-1">🌐</p>
+        <h3 class="font-bold text-sm mb-1">Samyavada — Synthesis</h3>
+        <p class="text-text-muted text-xs">Bose coined <em>Samyavada</em>: a synthesis of communism &amp; fascism adapted for India. Centralized planned economy + strict social equality + secular nationalism. Closer to Kemalism than Gandhism.</p>
+      </div>
+    </div>
+    <div class="mt-4 reveal">
+      <div class="pull-quote">
+        <p class="text-text-secondary text-sm italic">"Give me blood, and I shall give you freedom! It is blood alone that can pay the price of freedom. Give me blood and I promise you freedom."</p>
+        <p class="text-text-muted text-xs mt-1 not-italic">— Subhas Chandra Bose, INA address, Burma, 1944</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-4 gap-3 mt-4 reveal">
+      <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:0.5rem;text-align:center;"><p class="text-accent-1 text-lg font-black">1938</p><p class="text-text-muted text-xs">National Planning Committee founded</p></div>
+      <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:0.5rem;text-align:center;"><p class="text-accent-1 text-lg font-black">9</p><p class="text-text-muted text-xs">Cabinet ministers in Azad Hind govt</p></div>
+      <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:0.5rem;text-align:center;"><p class="text-accent-1 text-lg font-black">11</p><p class="text-text-muted text-xs">nations recognized Azad Hind</p></div>
+      <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:0.5rem;text-align:center;"><p class="text-accent-1 text-lg font-black">₹</p><p class="text-text-muted text-xs">INA funded by Indian diaspora donations</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 9: SECTION DIVIDER — THE MEETING -->
+<div class="slide slide-9" data-slide="9">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:500px;height:500px;top:-100px;right:-90px;background:#e8622a;opacity:0.14;"></div>
+    <div class="blob" style="width:320px;height:320px;bottom:-70px;left:-50px;background:#f5c842;opacity:0.11;"></div>
+    <div class="blob" style="width:180px;height:180px;top:35%;left:10%;background:#c94040;opacity:0.09;"></div>
+  </div>
+  <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;"></canvas>
+  <div class="content text-center">
+    <p class="text-accent-1 uppercase tracking-[5px] text-xs font-semibold mb-3 reveal">Bombay, July 16, 1921</p>
+    <h2 class="font-display text-[clamp(2.2rem,5vw,4rem)] font-black bg-linear-to-br from-accent-1 via-accent-2 to-accent-1 bg-clip-text text-transparent mb-4 reveal">The First Encounter</h2>
+    <p class="text-text-secondary text-base max-w-xl mx-auto reveal">A 24-year-old Bose, fresh from resigning the ICS, met Gandhi seeking a logical blueprint for revolution. What he found disappointed him — and set the stage for 18 years of brilliant, painful collaboration and conflict.</p>
+  </div>
+</div>
+
+<!-- SLIDE 10: THE 1921 MEETING — DETAILS -->
+<div class="slide slide-10" data-slide="10">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:340px;height:340px;top:-70px;right:-60px;background:#e8622a;opacity:0.08;"></div>
+    <div class="blob" style="width:220px;height:220px;bottom:-45px;left:-35px;background:#f5c842;opacity:0.06;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-1 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">Bombay, July 16, 1921</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.7rem)] font-bold mb-3 reveal">Three Questions Gandhi Couldn't Answer</h2>
+    <p class="text-text-muted text-sm mb-4 reveal">Bose arrived wanting operational clarity. He posed three direct questions — and Gandhi's evasiveness shattered his initial optimism:</p>
+    <div class="space-y-3 reveal">
+      <div style="background:rgba(232,98,42,0.08);border:1px solid rgba(232,98,42,0.2);border-radius:10px;padding:0.9rem 1.1rem;display:flex;gap:1rem;align-items:flex-start;">
+        <span class="text-accent-1 font-black text-lg" style="min-width:28px;">Q1</span>
+        <div><p class="text-sm text-text-secondary"><strong>How would the various activities culminate in the final stage — the non-payment of taxes?</strong></p><p class="text-xs text-text-muted mt-1">Gandhi's answer: satisfactory — a logical campaign sequence existed.</p></div>
+      </div>
+      <div style="background:rgba(201,64,64,0.08);border:1px solid rgba(201,64,64,0.2);border-radius:10px;padding:0.9rem 1.1rem;display:flex;gap:1rem;align-items:flex-start;">
+        <span class="text-accent-3 font-black text-lg" style="min-width:28px;">Q2</span>
+        <div><p class="text-sm text-text-secondary"><strong>How could mere non-payment of taxes force a heavily armed imperial government to retire?</strong></p><p class="text-xs text-text-muted mt-1">Gandhi's answer: evasive — relied on moral force without military logic. Bose found this "deplorable lack of clarity."</p></div>
+      </div>
+      <div style="background:rgba(201,64,64,0.08);border:1px solid rgba(201,64,64,0.2);border-radius:10px;padding:0.9rem 1.1rem;display:flex;gap:1rem;align-items:flex-start;">
+        <span class="text-accent-3 font-black text-lg" style="min-width:28px;">Q3</span>
+        <div><p class="text-sm text-text-secondary"><strong>How could Gandhi promise Swaraj within "one year" — announced at Nagpur Congress?</strong></p><p class="text-xs text-text-muted mt-1">Gandhi's answer: contingent on mass moral purification — not a logistical timeline. Bose concluded Gandhi <em>"lacked a clear conception of the successive stages."</em></p></div>
+      </div>
+    </div>
+    <p class="text-text-muted text-xs mt-3 reveal">Despite this, Bose joined Gandhi's movement under C.R. Das's mentorship — becoming Calcutta's Chief Executive Officer in 1924 before his arrest under Regulation III.</p>
+  </div>
+</div>
+
+<!-- SLIDE 11: IDEOLOGY COMPARISON TABLE -->
+<div class="slide slide-11" data-slide="11">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:330px;height:330px;top:-65px;right:-55px;background:#f5c842;opacity:0.07;"></div>
+    <div class="blob" style="width:210px;height:210px;bottom:-40px;left:-30px;background:#e8622a;opacity:0.06;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-2 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">Comparative Analysis</p>
+    <h2 class="font-display text-[clamp(1.6rem,3.5vw,2.4rem)] font-bold mb-3 reveal">Ideology: Six Domains of Divergence</h2>
+    <div class="reveal" style="overflow:hidden;border-radius:10px;border:1px solid rgba(255,255,255,0.09);">
+      <table style="width:100%;border-collapse:collapse;font-size:0.78rem;">
+        <thead>
+          <tr style="background:rgba(255,255,255,0.06);">
+            <th style="padding:0.55rem 0.8rem;text-align:left;color:#9e7a66;font-weight:600;text-transform:uppercase;letter-spacing:1px;width:18%;">Domain</th>
+            <th style="padding:0.55rem 0.8rem;text-align:left;color:#f5c842;font-weight:600;width:41%;">Gandhi</th>
+            <th style="padding:0.55rem 0.8rem;text-align:left;color:#e8622a;font-weight:600;width:41%;">Bose (Netaji)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-top:1px solid rgba(255,255,255,0.06);">
+            <td style="padding:0.5rem 0.8rem;color:#9e7a66;font-weight:600;">Resistance</td>
+            <td style="padding:0.5rem 0.8rem;color:#d4b8a8;">Ahimsa, Satyagraha — moral coercion. Purity of means defines the end. Violence yields only violence.</td>
+            <td style="padding:0.5rem 0.8rem;color:#d4b8a8;">Pragmatism + armed struggle. International alliances. Ends — liberation — justify the means.</td>
+          </tr>
+          <tr style="border-top:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);">
+            <td style="padding:0.5rem 0.8rem;color:#9e7a66;font-weight:600;">Economy</td>
+            <td style="padding:0.5rem 0.8rem;color:#d4b8a8;">Decentralized agrarian villages. Charkha, Khadi, Swadeshi. Anti-industrialism as moral stance.</td>
+            <td style="padding:0.5rem 0.8rem;color:#d4b8a8;">Centralized state-led rapid industrialization. National Planning Committee (1938). Heavy industry &amp; abolition of landlordism.</td>
+          </tr>
+          <tr style="border-top:1px solid rgba(255,255,255,0.06);">
+            <td style="padding:0.5rem 0.8rem;color:#9e7a66;font-weight:600;">Caste</td>
+            <td style="padding:0.5rem 0.8rem;color:#d4b8a8;">Reformed Varnashrama: reject untouchability but defend ideal hereditary Varna as "natural law." Reform from within.</td>
+            <td style="padding:0.5rem 0.8rem;color:#d4b8a8;">Complete abolition of caste &amp; class. Marxist-socialist egalitarianism. Enforced communal dining in the INA.</td>
+          </tr>
+          <tr style="border-top:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);">
+            <td style="padding:0.5rem 0.8rem;color:#9e7a66;font-weight:600;">Women</td>
+            <td style="padding:0.5rem 0.8rem;color:#d4b8a8;">Moral mobilization via Khadi, non-violent protests. Millions in public sphere — within traditional non-violent roles.</td>
+            <td style="padding:0.5rem 0.8rem;color:#d4b8a8;">Radical integration into frontline combat via Rani of Jhansi Regiment (1,200+ women, Oct 1943). Full military parity.</td>
+          </tr>
+          <tr style="border-top:1px solid rgba(255,255,255,0.06);">
+            <td style="padding:0.5rem 0.8rem;color:#9e7a66;font-weight:600;">Governance</td>
+            <td style="padding:0.5rem 0.8rem;color:#d4b8a8;">Village republics (Panchayati Raj). Decentralized democracy. Suspicious of modern state apparatus.</td>
+            <td style="padding:0.5rem 0.8rem;color:#d4b8a8;">Strong centralized party-state. Planning authority. Military discipline. Influenced by Soviet &amp; Kemalist models.</td>
+          </tr>
+          <tr style="border-top:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);">
+            <td style="padding:0.5rem 0.8rem;color:#9e7a66;font-weight:600;">Religion</td>
+            <td style="padding:0.5rem 0.8rem;color:#d4b8a8;">Syncretic Hindu moralism. Ram Rajya. Politics suffused with religious metaphor &amp; ritual.</td>
+            <td style="padding:0.5rem 0.8rem;color:#d4b8a8;">Strictly secular in politics. Vehemently opposed Hindu Mahasabha. Told Shyama Prasad he'd crush communal politics "by force if need be."</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 12: THE TRIPURI CRISIS — SETUP -->
+<div class="slide slide-12" data-slide="12">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:380px;height:380px;top:-85px;right:-70px;background:#c94040;opacity:0.1;"></div>
+    <div class="blob" style="width:240px;height:240px;bottom:-50px;left:-35px;background:#e8622a;opacity:0.08;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-3 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">The Institutional Rupture</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.7rem)] font-bold mb-3 reveal">Tripuri Congress Crisis, 1939</h2>
+    <div class="grid grid-cols-2 gap-4 reveal">
+      <div>
+        <h3 class="text-accent-3 font-semibold text-sm mb-2">How It Began</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Bose had been elected Congress President unanimously at <strong>Haripura (1938)</strong>, pushing industrialization and warning of imminent world war</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Fearing Congress would compromise on the federal scheme, Bose sought a second term to maintain a militant posture — unprecedented in Congress history</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Gandhi &amp; the "old guard" backed <strong>Dr. Pattabhi Sitaramayya</strong>. In January 1939, Bose won: <strong>1,580 vs. 1,377 votes</strong></span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Gandhi's response: <em>"Pattabhi's defeat is my defeat"</em> — transforming a democratic election into a loyalty referendum</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-accent-3 font-semibold text-sm mb-2">The Pant Resolution</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span><strong>March 1939, Tripuri session:</strong> G.B. Pant moved a resolution declaring absolute faith in Gandhi's leadership and requiring Bose to nominate his Working Committee <em>per Gandhi's wishes</em> — nullifying his victory</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Congress Socialist Party (Jayaprakash Narayan), which had backed Bose, stayed neutral — abandoning him at the critical moment</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Bose was gravely ill with fever during the Tripuri session — attended in a stretcher — but still fought the resolution</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>The resolution passed. Bose's electoral mandate was voided by parliamentary sleight of hand</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 13: JEALGORA LETTERS -->
+<div class="slide slide-13" data-slide="13">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:350px;height:350px;top:-70px;right:-60px;background:#e8622a;opacity:0.08;"></div>
+    <div class="blob" style="width:220px;height:220px;bottom:-45px;left:-30px;background:#c94040;opacity:0.07;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-1 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">March–April 1939</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.7rem)] font-bold mb-3 reveal">The Jealgora Correspondence</h2>
+    <div class="grid grid-cols-2 gap-4 reveal">
+      <div>
+        <h3 class="text-accent-1 font-semibold text-sm mb-2">Bose's Letters — Key Arguments</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Implored Gandhi: <em>"My dear Mahatmaji"</em> — "the international situation is ripe for a 6-month ultimatum to Britain." Swaraj achievable within <strong>18 months</strong> if Congress showed courage</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Offered complete self-erasure: <em>"If Congress fights better with another President of Gandhi's choice, I will gladly step aside."</em></span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Fiercely criticized Gandhi's Rajkot states settlement for using Sir Maurice Gwyer (a "Government man") as umpire — exposing reliance on British legal structures</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-accent-3 font-semibold text-sm mb-2">Gandhi's Reply — April 2, 1939</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Replied from New Delhi: refused to nominate a Working Committee. Their differences were <em>"diametrically opposed and entirely impossible to bridge"</em></span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Advised Bose: his school of thought should present its views "without any mixture" — effectively telling Bose to leave the Congress</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Bose resigned the presidency on <strong>April 29, 1939</strong>; Rajendra Prasad succeeded him</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>By August 1939, Bose was <strong>debarred</strong> from any elective Congress office for 3 years; removed from Bengal Provincial Congress presidency</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-3 reveal">
+      <div class="pull-quote" style="border-left-color:#c94040;">
+        <p class="text-text-secondary text-sm italic">In <em>The Indian Struggle</em>, Bose described Gandhi as a "virtual dictator" whose Working Committee was "completely submissive to his personal dictates, leaving no room for independent thought."</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 14: FORWARD BLOC & ESCAPE -->
+<div class="slide slide-14" data-slide="14">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:360px;height:360px;top:-80px;right:-65px;background:#c94040;opacity:0.1;"></div>
+    <div class="blob" style="width:230px;height:230px;bottom:-50px;left:-35px;background:#e8622a;opacity:0.08;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-3 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">1939–1941</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.7rem)] font-bold mb-3 reveal">Forward Bloc &amp; The Great Escape</h2>
+    <div class="grid grid-cols-2 gap-4 reveal">
+      <div>
+        <h3 class="text-accent-3 font-semibold text-sm mb-2">Formation of Forward Bloc</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Founded <strong>May 3, 1939</strong> to consolidate radical and left-wing nationalist forces outside the Gandhian mainstream</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Goal: mass direct action — hartals, anti-war protests, civil disobedience campaigns independent of Gandhi's approval</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>WWII erupted September 1939 — Bose's Tripuri prophecy about European instability vindicated within months</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>British placed Bose under house arrest at <strong>38/2 Elgin Road, Calcutta</strong>, January 1941 — armed sepoys posted outside</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-accent-1 font-semibold text-sm mb-2">The Disguised Escape</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Grew a heavy beard; assumed the identity of <strong>"Mohammed Ziauddin"</strong> — a Pathan insurance agent from the North-West Frontier Province</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>January 17, 1941: slipped past British intelligence in a car driven by his nephew <strong>Sisir Kumar Bose</strong>. Left for Peshawar disguised in Pathan dress</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Crossed the Afghan border on foot; reached Kabul; contacted the Italian and German legations. Traveled via Moscow to Berlin via overland route</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>British intelligence baffled for weeks — one of the most audacious escapes from colonial custody in the 20th century</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 15: THE AXIS ALLIANCE — GERMANY -->
+<div class="slide slide-15" data-slide="15">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:370px;height:370px;top:-80px;right:-68px;background:#e8622a;opacity:0.09;"></div>
+    <div class="blob" style="width:240px;height:240px;bottom:-50px;left:-35px;background:#c94040;opacity:0.08;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-1 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">Berlin, 1941–1943</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.7rem)] font-bold mb-3 reveal">The Axis Gamble: Germany &amp; the Indian Legion</h2>
+    <div class="grid grid-cols-2 gap-4 reveal">
+      <div>
+        <h3 class="text-accent-1 font-semibold text-sm mb-2">The Free India Centre</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>German Foreign Office provided Bose a residence and established the <strong>Free India Centre</strong> in Berlin — a government-in-exile apparatus</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Bose broadcast on <strong>Azad Hind Radio</strong> (Berlin) reaching Indian troops and civilians across South Asia — "Germany calling" alternative</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Recruited <strong>3,000 soldiers</strong> for the Indian Legion (<em>Indische Legion</em>) — Indian POWs captured by Rommel's Afrika Korps in North Africa</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Legion oath: sworn to Adolf Hitler as commander, but <strong>explicitly recognized Bose</strong> as leader of India — a deliberate, symbolic compromise</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-accent-3 font-semibold text-sm mb-2">Why Germany Failed Bose</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>German high command saw Bose as "less popular than Gandhi or Nehru" — strategic value was limited without Japanese military momentum</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Interpersonal friction between Bose's Austrian partner <strong>Emilie Schenkl</strong> and the Special Bureau for India (particularly Adam von Trott)</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Hitler's racial ideology — viewing Indians as an inferior race — was fundamentally irreconcilable with Bose's anti-colonial, egalitarian nationalism</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>After Japan's rapid SE Asia advances and Singapore's fall (Feb 1942), Bose shifted his strategic focus entirely to the Pacific theater</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-3 reveal" style="background:rgba(255,255,255,0.04);border-radius:8px;padding:0.7rem 1rem;border-left:3px solid #e8622a;">
+      <p class="text-text-muted text-xs">Bose's daughter <strong>Anita Bose Pfaff</strong> was born to Emilie Schenkl in Vienna in November 1942. Bose never saw his daughter grow up. He left Europe in February 1943 and never returned.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 16: THE SUBMARINE TRANSFER -->
+<div class="slide slide-16" data-slide="16">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:400px;height:400px;top:-90px;right:-75px;background:#e8622a;opacity:0.12;"></div>
+    <div class="blob" style="width:260px;height:260px;bottom:-55px;left:-40px;background:#f5c842;opacity:0.1;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-1 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">February–May 1943</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.7rem)] font-bold mb-3 reveal">The Yanagi Mission: Sub-to-Sub Transfer</h2>
+    <p class="text-text-muted text-sm mb-3 reveal">The only civilian transfer between submarines in hostile waters during all of World War II — an audacious Cold War thriller long before the Cold War.</p>
+    <div class="space-y-3 reveal">
+      <div style="background:rgba(232,98,42,0.07);border:1px solid rgba(232,98,42,0.15);border-radius:10px;padding:0.8rem 1rem;">
+        <div class="flex gap-3 items-start">
+          <span class="text-accent-1 text-lg">🇩🇪</span>
+          <div><p class="font-semibold text-sm">Step 1: German U-boat U-180 departs Kiel</p><p class="text-text-muted text-xs mt-0.5">February 8, 1943. Bose and aide Abid Hassan Safrani aboard. Crossed the full length of the Atlantic and Indian Ocean under Allied naval patrol — a 10-week journey.</p></div>
+        </div>
+      </div>
+      <div style="background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.15);border-radius:10px;padding:0.8rem 1rem;">
+        <div class="flex gap-3 items-start">
+          <span class="text-accent-2 text-lg">🌊</span>
+          <div><p class="font-semibold text-sm">Step 2: Mid-Ocean Transfer Off Madagascar</p><p class="text-text-muted text-xs mt-0.5">April 26, 1943. In hostile, Allied-patrolled waters off the coast of Madagascar. Bose and Hassan transferred in a rubber dinghy to the Japanese submarine <strong>I-29 (Matsu)</strong>, commanded by Captain Juichi Izu.</p></div>
+        </div>
+      </div>
+      <div style="background:rgba(201,64,64,0.07);border:1px solid rgba(201,64,64,0.15);border-radius:10px;padding:0.8rem 1rem;">
+        <div class="flex gap-3 items-start">
+          <span class="text-accent-3 text-lg">🇯🇵</span>
+          <div><p class="font-semibold text-sm">Step 3: I-29 Arrives in Sabang, Indonesia</p><p class="text-text-muted text-xs mt-0.5">May 6, 1943. The I-29 was simultaneously carrying <strong>2 tons of gold</strong> for the Japanese embassy in Berlin and German mechanics returning to Japan — a multi-mission Yanagi ("Willow") run. Bose arrived in Southeast Asia to take command of the INA.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-3 gap-3 mt-3 reveal">
+      <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:0.5rem;text-align:center;"><p class="text-accent-1 font-black" style="font-size:1.3rem;">90</p><p class="text-text-muted text-xs">days total journey duration</p></div>
+      <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:0.5rem;text-align:center;"><p class="text-accent-1 font-black" style="font-size:1.3rem;">2</p><p class="text-text-muted text-xs">tonnes of gold aboard I-29</p></div>
+      <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:0.5rem;text-align:center;"><p class="text-accent-1 font-black" style="font-size:1.3rem;">Only</p><p class="text-text-muted text-xs">civilian sub-to-sub transfer in WWII</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 17: THE INA -->
+<div class="slide slide-17" data-slide="17">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:380px;height:380px;top:-85px;right:-70px;background:#e8622a;opacity:0.11;"></div>
+    <div class="blob" style="width:250px;height:250px;bottom:-55px;left:-40px;background:#f5c842;opacity:0.09;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-1 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">1943–1945</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.7rem)] font-bold mb-3 reveal">The Indian National Army (Azad Hind Fauj)</h2>
+    <div class="grid grid-cols-2 gap-4 reveal">
+      <div>
+        <h3 class="text-accent-1 font-semibold text-sm mb-2">Building the Army</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Bose assumed leadership from <strong>Rash Behari Bose</strong> (no relation) in July 1943 in Singapore</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>INA doubled from <strong>30,000 to 60,000+ troops</strong> under his command — Indian POWs from Singapore's fall + civilian volunteers from Malaya, Burma, Thailand diaspora</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Established <strong>Provisional Government of Azad Hind</strong> (October 21, 1943) — recognized by Japan, Germany, Italy, Croatia, Thailand, Philippines, Manchukuo, and Burma</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Declared war on Britain and the United States. INA &amp; Japanese forces launched the <strong>Imphal and Kohima campaigns</strong> (March–July 1944) — reached Indian soil</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-accent-2 font-semibold text-sm mb-2">Social Revolution Within the Army</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span>Bose strictly abolished <strong>all caste, creed, and religious distinctions</strong> among INA troops — enforced communal dining across Hindu, Muslim, Sikh, and Christian soldiers</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span>3 brigades named <strong>Gandhi Brigade, Nehru Brigade, Azad Brigade</strong> — strategically honoring Congress icons to maintain legitimacy</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span>National slogan: <strong>"Jai Hind"</strong> — adopted from INA, later became India's official salutation at independence</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span>INA's integrated intercommunal structure was exactly what Gandhi praised as Bose's "greatest and lasting act"</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="grid grid-cols-4 gap-3 mt-3 reveal">
+      <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:0.5rem;text-align:center;"><p class="text-accent-1 font-black" style="font-size:1.3rem;">60,000+</p><p class="text-text-muted text-xs">INA troops at peak</p></div>
+      <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:0.5rem;text-align:center;"><p class="text-accent-1 font-black" style="font-size:1.3rem;">11</p><p class="text-text-muted text-xs">nations recognized Azad Hind Govt</p></div>
+      <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:0.5rem;text-align:center;"><p class="text-accent-1 font-black" style="font-size:1.3rem;">3</p><p class="text-text-muted text-xs">brigades named after Congress leaders</p></div>
+      <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:0.5rem;text-align:center;"><p class="text-accent-1 font-black" style="font-size:1.3rem;">Jai Hind</p><p class="text-text-muted text-xs">INA slogan, now India's salutation</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 18: RANI OF JHANSI REGIMENT -->
+<div class="slide slide-18" data-slide="18">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:360px;height:360px;top:-80px;right:-65px;background:#f5c842;opacity:0.09;"></div>
+    <div class="blob" style="width:230px;height:230px;bottom:-50px;left:-35px;background:#e8622a;opacity:0.08;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-2 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">October 1943 — Southeast Asia</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.7rem)] font-bold mb-3 reveal">The Rani of Jhansi Regiment</h2>
+    <p class="text-text-muted text-sm mb-3 reveal">The world's first organized all-female frontline infantry regiment — decades before most Western armies allowed women in combat roles.</p>
+    <div class="grid grid-cols-2 gap-4 reveal">
+      <div>
+        <h3 class="text-accent-2 font-semibold text-sm mb-2">Formation &amp; Composition</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span><strong>1,200+ women</strong> — recruited primarily from Indian diaspora in Malaya and Singapore; many were rubber plantation workers who had never seen India</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span>Commanded by <strong>Captain Lakshmi Sahgal</strong> — MBBS from Madras Medical College, abandoned a thriving clinical practice in Singapore to join Bose</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span>Trained in guerrilla warfare, firearms, and field combat — not relegated to nursing and logistics roles</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span>Field-commanded by figures including <strong>Lieutenant Janaki Davar</strong> during the harrowing jungle retreat through Burma</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-accent-1 font-semibold text-sm mb-2">Significance &amp; Gandhi's Reaction</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Bose's vision: complete integration of women into <strong>all spheres</strong> — not just as moral symbols but as equal combatants</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Gandhi was deeply moved and explicitly praised the RJR as proof that Bose "achieved what Congress struggled to do": unity across caste, class, religion, and gender</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Post-war, Captain Lakshmi Sahgal was tried at the Red Fort alongside male INA officers — an act of extraordinary institutional parity in 1945</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>She later ran for <strong>President of India in 2002</strong> — supported by left-wing parties — at age 87</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 19: SECTION DIVIDER — PARADOX OF REVERENCE -->
+<div class="slide slide-19" data-slide="19">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:500px;height:500px;top:-100px;right:-90px;background:#f5c842;opacity:0.12;"></div>
+    <div class="blob" style="width:310px;height:310px;bottom:-70px;left:-50px;background:#e8622a;opacity:0.1;"></div>
+    <div class="blob" style="width:180px;height:180px;top:35%;left:10%;background:#c94040;opacity:0.08;"></div>
+  </div>
+  <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;"></canvas>
+  <div class="content text-center">
+    <p class="text-accent-2 uppercase tracking-[5px] text-xs font-semibold mb-3 reveal">The Paradox</p>
+    <h2 class="font-display text-[clamp(2rem,4.5vw,3.8rem)] font-black bg-linear-to-br from-accent-2 via-accent-1 to-accent-2 bg-clip-text text-transparent mb-4 reveal">Adversaries Who Loved Each Other</h2>
+    <p class="text-text-secondary text-base max-w-xl mx-auto reveal">Despite two decades of philosophical warfare, the Bombay encounter, the Tripuri betrayal, and wartime Axis alliances — Gandhi and Bose saw in each other exactly what they could never be themselves. And they said so, publicly.</p>
+  </div>
+</div>
+
+<!-- SLIDE 20: FATHER OF THE NATION -->
+<div class="slide slide-20" data-slide="20">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:350px;height:350px;top:-70px;right:-60px;background:#f5c842;opacity:0.08;"></div>
+    <div class="blob" style="width:220px;height:220px;bottom:-45px;left:-35px;background:#e8622a;opacity:0.07;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-2 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">Rangoon, July 6, 1944</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.7rem)] font-bold mb-3 reveal">"Father of Our Nation"</h2>
+    <div class="grid grid-cols-2 gap-5 reveal">
+      <div>
+        <p class="text-text-secondary text-sm mb-3">Broadcasting from <strong>Azad Hind Radio in Rangoon</strong> as the INA prepared its push toward the Indian border, Bose delivered an extraordinary address to his greatest adversary:</p>
+        <div class="pull-quote mb-3" style="border-left-color:#f5c842;">
+          <p class="text-text-secondary text-sm italic">"Father of our Nation! In this holy war for India's liberation, we ask for your blessings and good wishes."</p>
+          <p class="text-text-muted text-xs mt-1 not-italic">— Bose, Azad Hind Radio, July 6, 1944</p>
+        </div>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span>The title "Father of the Nation" was <strong>coined by Bose</strong> — not by a Gandhi loyalist, but by his most brilliant ideological opponent</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span>On June 4, 1944, Bose had sent a heartfelt condolence message via radio to Gandhi upon the death of <strong>Kasturba Gandhi</strong> in Aga Khan Palace prison</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-accent-1 font-semibold text-sm mb-2">Gandhi's "Prince Among Patriots"</h3>
+        <p class="text-text-secondary text-sm mb-2">Following Bose's reported death (August 18, 1945) and the electrifying INA trials at Red Fort:</p>
+        <div class="pull-quote mb-3">
+          <p class="text-text-secondary text-sm italic">"Subhas Bose's patriotism is second to none. His bravery shines through all his actions. He is a patriot of patriots."</p>
+          <p class="text-text-muted text-xs mt-1 not-italic">— Gandhi, 1945</p>
+        </div>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Gandhi declared that what <strong>most impressed him</strong> was not the INA's military campaigns but Bose's sociological triumph — uniting Hindus, Muslims, Sikhs, Christians into one army with no communal division</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Gandhi visited INA prisoners. Told they used to be served "Muslim tea" and "Hindu tea" separately by British, the soldiers replied: <strong>"Under Netaji, we mixed the tea and drank it together."</strong> Gandhi was visibly moved.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 21: THE INA TRIALS & IMPACT -->
+<div class="slide slide-21" data-slide="21">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:350px;height:350px;top:-70px;right:-60px;background:#c94040;opacity:0.09;"></div>
+    <div class="blob" style="width:220px;height:220px;bottom:-45px;left:-35px;background:#e8622a;opacity:0.07;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-3 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">1945–1946</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.7rem)] font-bold mb-3 reveal">The Red Fort Trials &amp; the End of Empire</h2>
+    <div class="grid grid-cols-2 gap-4 reveal">
+      <div>
+        <h3 class="text-accent-3 font-semibold text-sm mb-2">The Trials</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>British tried three INA officers — <strong>Shah Nawaz Khan (Muslim), Prem Kumar Sahgal (Hindu), and Gurbaksh Singh Dhillon (Sikh)</strong> — at Red Fort, Delhi, for treason</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>The choice of a Hindu-Muslim-Sikh trio was <strong>deliberate messaging</strong> — the INA's communal unity was put on trial alongside military loyalty</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Defense team: <strong>Bhulabhai Desai, Jawaharlal Nehru, and Tej Bahadur Sapru</strong> — Congress lawyers defending the INA, legitimizing Bose's war in one stroke</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Public protests erupted nationwide. Bombay Mutiny of the Royal Indian Navy (February 1946) was directly inspired by pro-INA sentiment</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-accent-1 font-semibold text-sm mb-2">Why This Broke British Power</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Field Marshal Auchinleck privately wrote: <em>"The Indian Army can no longer be relied on to suppress an Indian national movement."</em> The INA had shattered its psychological loyalty</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Churchill's government was simultaneously exhausted by WWII costs — Britain owed India a wartime debt of <strong>£1.3 billion (sterling)</strong></span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Historians like Sugata Bose argue that Gandhi's mass movements + INA's military threat operated as <strong>complementary pressures</strong> — neither alone was sufficient</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span>Britain announced the <strong>Attlee Mission</strong> (March 1946) and independence timeline within months of the INA trial's public explosion</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 22: SECTION DIVIDER — WHY MIXED LEGACY -->
+<div class="slide slide-22" data-slide="22">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:490px;height:490px;top:-100px;right:-85px;background:#c94040;opacity:0.13;"></div>
+    <div class="blob" style="width:300px;height:300px;bottom:-65px;left:-50px;background:#e8622a;opacity:0.1;"></div>
+    <div class="blob" style="width:180px;height:180px;top:35%;left:10%;background:#f5c842;opacity:0.08;"></div>
+  </div>
+  <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;"></canvas>
+  <div class="content text-center">
+    <p class="text-accent-3 uppercase tracking-[5px] text-xs font-semibold mb-3 reveal">The Central Question</p>
+    <h2 class="font-display text-[clamp(2rem,4.5vw,3.8rem)] font-black bg-linear-to-br from-accent-3 via-accent-1 to-accent-2 bg-clip-text text-transparent mb-4 reveal">Why Is Netaji's Legacy So Contested?</h2>
+    <p class="text-text-secondary text-base max-w-xl mx-auto reveal">Hero or fascist collaborator? Freedom fighter or opportunist? The most patriotic Indian of the 20th century — or the one who got the most wrong? The debate has never been resolved.</p>
+  </div>
+</div>
+
+<!-- SLIDE 23: THE CASE FOR BOSE -->
+<div class="slide slide-23" data-slide="23">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:360px;height:360px;top:-75px;right:-65px;background:#e8622a;opacity:0.1;"></div>
+    <div class="blob" style="width:230px;height:230px;bottom:-50px;left:-35px;background:#f5c842;opacity:0.08;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-1 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">The Admirers</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.7rem)] font-bold mb-3 reveal">Why Bose Inspires Fierce Devotion</h2>
+    <div class="grid grid-cols-2 gap-4 reveal">
+      <div>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-1 font-bold mt-0.5">01</span><span><strong>The Ultimate Sacrifice:</strong> 4th-rank ICS officer who gave up guaranteed lifetime prosperity to fight colonialism — symbolizing patriotism over personal advancement</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 font-bold mt-0.5">02</span><span><strong>Moral Courage at Tripuri:</strong> Democratically elected but politically outmaneuvered — many see his treatment as an early template of anti-democratic manipulation in Indian politics</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 font-bold mt-0.5">03</span><span><strong>Social Revolutionary:</strong> The INA abolished caste, empowered women in combat, integrated religions — more radical and immediate than anything Gandhi achieved institutionally</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 font-bold mt-0.5">04</span><span><strong>The INA's Strategic Impact:</strong> The armed challenge + mass psyche shift was arguably <em>indispensable</em> to forcing British withdrawal in 1947</span></li>
+        </ul>
+      </div>
+      <div>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-2 font-bold mt-0.5">05</span><span><strong>Secular Nationalism:</strong> His fierce opposition to both Hindu Mahasabha and communal Muslim politics positioned him as a model for India's constitutional secularism</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 font-bold mt-0.5">06</span><span><strong>Popular Culture Icon:</strong> Massively popular in Bengal, Odisha, and Northeast India; birthday (January 23) now a national holiday — <em>Parakram Diwas</em> (Courage Day) since 2021</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 font-bold mt-0.5">07</span><span><strong>Forgotten Deliberately?</strong> Many believers argue Nehru's government suppressed Bose's legacy and surveilled his family — the 1998 Mukherjee Commission found the Nehru government kept the IB watching his relatives until 1968</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 font-bold mt-0.5">08</span><span><strong>"Emotional Fool" Argument:</strong> His willingness to sacrifice everything — ICS career, safety, family, health — is also his greatest admiration point for millions</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 24: THE CASE AGAINST BOSE -->
+<div class="slide slide-24" data-slide="24">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:360px;height:360px;top:-75px;right:-65px;background:#c94040;opacity:0.1;"></div>
+    <div class="blob" style="width:230px;height:230px;bottom:-50px;left:-35px;background:#e8622a;opacity:0.08;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-3 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">The Critics</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.7rem)] font-bold mb-3 reveal">Why Bose Attracts Sustained Criticism</h2>
+    <div class="grid grid-cols-2 gap-4 reveal">
+      <div>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-3 font-bold mt-0.5">01</span><span><strong>Axis Alliance Ethics:</strong> Allying with Hitler and Hirohito — powers responsible for the Holocaust, Nanking massacre, and forced Asian labor — is morally irreconcilable for many, regardless of anti-colonial intent</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 font-bold mt-0.5">02</span><span><strong>Samyavada &amp; Authoritarian Tendencies:</strong> His <em>Samyavada</em> synthesis explicitly admired aspects of Soviet and fascist governance models — raising questions about the India he would have built</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 font-bold mt-0.5">03</span><span><strong>The INA Actually Failed Militarily:</strong> The Imphal-Kohima campaigns ended in catastrophic defeat — 60,000 men lost, many to disease and starvation in the Burmese jungle. Many INA soldiers died for a military objective that never succeeded</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 font-bold mt-0.5">04</span><span><strong>The Hitler Meeting:</strong> Bose met Hitler in May 1942. Hitler expressed contempt for Indian independence and refused to issue the joint declaration Bose requested — the alliance yielded little strategic gain</span></li>
+        </ul>
+      </div>
+      <div>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-3 font-bold mt-0.5">05</span><span><strong>Bharat Ratna Never Awarded:</strong> India's highest civilian honor has never been awarded to Bose — withheld during Congress dominance and never retroactively given. Successive governments have either proposed it or silently dropped the idea</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 font-bold mt-0.5">06</span><span><strong>Political Appropriation:</strong> Both the BJP (nationalist hero) and left parties (socialist-secular icon) have claimed him — diluting authentic historical assessment with partisan mythology</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 font-bold mt-0.5">07</span><span><strong>Anti-Democratic Instincts?</strong> Bose's description of his ideal state — a synthesis of authority, discipline, and planning — sits uneasily with liberal-democratic values. His admiration for strongmen was documented</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 font-bold mt-0.5">08</span><span><strong>Marginalized His Own Kin:</strong> Bose never publicly acknowledged his wife Emilie Schenkl or daughter Anita — maintaining the fiction of celibacy for political image, while his family lived in wartime Austria</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 25: THE DEATH MYSTERY -->
+<div class="slide slide-25" data-slide="25">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:380px;height:380px;top:-85px;right:-70px;background:#c94040;opacity:0.11;"></div>
+    <div class="blob" style="width:250px;height:250px;bottom:-55px;left:-40px;background:#e8622a;opacity:0.09;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-3 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">August 18, 1945 — Taipei &amp; Beyond</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.7rem)] font-bold mb-3 reveal">The Mystery That Never Died</h2>
+    <div class="grid grid-cols-2 gap-4 reveal">
+      <div>
+        <h3 class="text-accent-3 font-semibold text-sm mb-2">The Official Account</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>August 17, 1945: Bose boarded a Japanese bomber at Saigon (now Ho Chi Minh City) heading toward Manchuria to seek Soviet support</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>August 18: plane crashed on takeoff at Taihoku (Taipei) airport. Bose reportedly suffered severe third-degree burns; died hours later in a local military hospital</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Ashes deposited at <strong>Renkoji Temple, Tokyo</strong> — where they remain to this day, unclaimed by the Indian government</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-accent-1 font-semibold text-sm mb-2">Three Inquiry Commissions</h3>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span><strong>Shah Nawaz Committee (1956):</strong> Accepted death-by-air-crash. Bose family members boycotted — alleged pro-government bias</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span><strong>Khosla Commission (1974):</strong> Also accepted air-crash theory; but noted Indian public remained unconvinced</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 font-bold mt-0.5">▸</span><span><strong>Mukherjee Commission (1999–2005):</strong> Concluded Bose did <em>NOT</em> die in the Taipei crash. Found DNA evidence showed the Renkoji ashes belonged to a Japanese soldier. Recommended the government officially deny the crash theory. Govt rejected the report.</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-3 reveal">
+      <h3 class="text-accent-2 font-semibold text-sm mb-2">Declassified Files &amp; Conspiracy Theories</h3>
+      <div class="grid grid-cols-3 gap-3">
+        <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:0.6rem 0.8rem;">
+          <p class="text-accent-2 font-bold text-xs mb-1">Nehru Surveillance Files</p>
+          <p class="text-text-muted text-xs">2015 declassification revealed the Nehru government kept Indian intelligence surveilling Bose's relatives until at least 1968 — 23 years after his reported death. Why watch a dead man's family?</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:0.6rem 0.8rem;">
+          <p class="text-accent-2 font-bold text-xs mb-1">Russia Theory</p>
+          <p class="text-text-muted text-xs">Some historians believe Bose was captured by Soviets in Manchuria in August 1945, as Japan surrendered; possibly imprisoned in a Siberian gulag. No Soviet records have been released.</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:0.6rem 0.8rem;">
+          <p class="text-accent-2 font-bold text-xs mb-1">The "Gumnami Baba" Legend</p>
+          <p class="text-text-muted text-xs">A Hindu ascetic who lived in Faizabad until 1985, known only as "Gumnami Baba," possessed INA documents and personal effects matching Bose. His identity has never been officially investigated.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 26: LEGACY — DUAL ANVIL -->
+<div class="slide slide-26" data-slide="26">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:370px;height:370px;top:-80px;right:-65px;background:#e8622a;opacity:0.09;"></div>
+    <div class="blob" style="width:240px;height:240px;bottom:-50px;left:-35px;background:#f5c842;opacity:0.08;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-1 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">The Historical Verdict</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.7rem)] font-bold mb-3 reveal">Two Anvils, One Chain — The Dual Legacy</h2>
+    <p class="text-text-muted text-sm mb-3 reveal">Historians increasingly argue that it was the <em>combination</em> of both methods — not either alone — that broke British rule. They worked as a system, even when at war with each other.</p>
+    <div class="grid grid-cols-2 gap-4 reveal">
+      <div style="background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.15);border-radius:10px;padding:1rem;">
+        <p class="text-accent-2 font-bold text-sm mb-2">Gandhi's Contribution</p>
+        <ul class="space-y-1.5 text-xs text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-2">→</span><span>Made the British Empire morally <strong>illegitimate</strong> in the eyes of the world — global soft power erosion</span></li>
+          <li class="flex gap-2"><span class="text-accent-2">→</span><span>Mass mobilization of 300 million people across class and religion — unprecedented civil disobedience scale</span></li>
+          <li class="flex gap-2"><span class="text-accent-2">→</span><span>Quit India 1942: made India <strong>ungovernable from within</strong> at the exact moment Japan threatened from without</span></li>
+          <li class="flex gap-2"><span class="text-accent-2">→</span><span>Created the <strong>moral architecture</strong> of independent India's constitution — secularism, non-violence as ethos</span></li>
+        </ul>
+      </div>
+      <div style="background:rgba(232,98,42,0.07);border:1px solid rgba(232,98,42,0.15);border-radius:10px;padding:1rem;">
+        <p class="text-accent-1 font-bold text-sm mb-2">Netaji's Contribution</p>
+        <ul class="space-y-1.5 text-xs text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-1">→</span><span>INA shattered the <strong>psychological loyalty</strong> of the British Indian Army — Auchinleck's private admission</span></li>
+          <li class="flex gap-2"><span class="text-accent-1">→</span><span>Red Fort trials unified Indians across religious lines behind the INA's defense — erasing communal divisions at a critical moment</span></li>
+          <li class="flex gap-2"><span class="text-accent-1">→</span><span>Bombay Naval Mutiny (1946) — directly INA-inspired; convinced Attlee that military force could no longer hold India</span></li>
+          <li class="flex gap-2"><span class="text-accent-1">→</span><span>INA's intercommunal success was <strong>Gandhi's own greatest inspiration</strong> about what was achievable</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-3 reveal" style="background:rgba(255,255,255,0.04);border-radius:10px;padding:0.8rem 1rem;border-left:3px solid #f5c842;">
+      <p class="text-text-secondary text-sm italic">"Gandhi's non-violent mass movements rendered India ungovernable from within. Bose's INA shattered military loyalty from without. Together, they forged the dual anvil upon which the chains of the British Empire were broken."</p>
+      <p class="text-text-muted text-xs mt-1">— Synthesis view, Sugata Bose &amp; Judith Brown (historians)</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 27: CLOSING -->
+<div class="slide slide-27" data-slide="27">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:520px;height:520px;top:-110px;right:-95px;background:#e8622a;opacity:0.16;"></div>
+    <div class="blob" style="width:340px;height:340px;bottom:-75px;left:-55px;background:#f5c842;opacity:0.12;"></div>
+    <div class="blob" style="width:200px;height:200px;top:40%;left:12%;background:#c94040;opacity:0.1;"></div>
+  </div>
+  <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1;"></canvas>
+  <div class="content text-center">
+    <div style="font-size:80px;margin-bottom:1rem;animation:float 3.5s ease-in-out infinite;" class="reveal">⚔️</div>
+    <h2 class="font-display text-[clamp(2rem,5vw,4rem)] font-black bg-linear-to-br from-accent-1 via-accent-2 to-accent-1 bg-clip-text text-transparent mb-3 reveal">Jai Hind</h2>
+    <p class="text-[clamp(0.9rem,1.4vw,1.2rem)] text-text-muted tracking-[4px] uppercase mb-5 reveal">INA's Salutation — Now India's Own</p>
+    <div class="grid grid-cols-2 gap-4 text-left reveal" style="max-width:700px;margin:0 auto;">
+      <div style="background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.15);border-radius:10px;padding:0.9rem 1rem;">
+        <p class="text-accent-2 font-bold text-sm mb-1">Gandhi's Enduring Truth</p>
+        <p class="text-text-muted text-xs">"The means define the end. Non-violence is the greatest force at disposal of mankind. A free India that won its freedom through violence would simply become another violent state."</p>
+      </div>
+      <div style="background:rgba(232,98,42,0.07);border:1px solid rgba(232,98,42,0.15);border-radius:10px;padding:0.9rem 1rem;">
+        <p class="text-accent-1 font-bold text-sm mb-1">Netaji's Enduring Truth</p>
+        <p class="text-text-muted text-xs">"Freedom is not given, it is seized. Britain did not leave because of our moral purity. It left because it could no longer hold India by force — and we proved that to the world."</p>
+      </div>
+    </div>
+    <p class="text-text-muted text-sm mt-4 reveal" style="max-width:600px;margin:1rem auto 0;">"He aimed high and failed. But who has not failed? Netaji will remain immortal for all time to come for his service to India." — Mahatma Gandhi</p>
+  </div>
+</div>
+
+
+<!-- SLIDE 28: APPENDIX SECTION DIVIDER — GLOBAL PARALLELS -->
+<div class="slide slide-28" data-slide="28">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:500px;height:500px;top:-100px;right:-90px;background:#e8622a;opacity:0.13;"></div>
+    <div class="blob" style="width:310px;height:310px;bottom:-65px;left:-50px;background:#f5c842;opacity:0.1;"></div>
+    <div class="blob" style="width:200px;height:200px;top:35%;left:12%;background:#c94040;opacity:0.09;"></div>
+  </div>
+  <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;"></canvas>
+  <div class="content text-center">
+    <p class="text-accent-1 uppercase tracking-[5px] text-xs font-semibold mb-3 reveal">Appendix: Global Parallels</p>
+    <h2 class="font-display text-[clamp(2rem,4.5vw,3.6rem)] font-black bg-linear-to-br from-accent-1 via-accent-2 to-accent-1 bg-clip-text text-transparent mb-4 reveal">The Same Divide, Different Stages</h2>
+    <p class="text-text-secondary text-base max-w-2xl mx-auto reveal">Every major anti-colonial and liberation struggle has produced the same essential tension — a moralist and a militant, a gradualist and a realist, a Gandhi and a Bose. Here are the closest historical parallels from two other countries.</p>
+    <div class="grid grid-cols-3 gap-4 mt-6 text-left reveal">
+      <div style="background:rgba(232,98,42,0.08);border:1px solid rgba(232,98,42,0.2);border-radius:10px;padding:0.9rem 1rem;">
+        <p class="text-accent-1 text-2xl mb-1">🇺🇸</p>
+        <p class="font-bold text-sm text-text">United States</p>
+        <p class="text-text-muted text-xs mt-0.5">MLK (Gandhi) vs. Malcolm X (Bose) — Civil Rights Movement, 1955–1965</p>
+      </div>
+      <div style="background:rgba(245,200,66,0.08);border:1px solid rgba(245,200,66,0.2);border-radius:10px;padding:0.9rem 1rem;">
+        <p class="text-accent-2 text-2xl mb-1">🇮🇪</p>
+        <p class="font-bold text-sm text-text">Ireland</p>
+        <p class="text-text-muted text-xs mt-0.5">Éamon de Valera (Gandhi) vs. Michael Collins (Bose) — War of Independence, 1919–1922</p>
+      </div>
+      <div style="background:rgba(201,64,64,0.08);border:1px solid rgba(201,64,64,0.2);border-radius:10px;padding:0.9rem 1rem;">
+        <p class="text-accent-3 text-2xl mb-1">🇩🇿</p>
+        <p class="font-bold text-sm text-text">Algeria</p>
+        <p class="text-text-muted text-xs mt-0.5">Ferhat Abbas (Gandhi archetype) vs. Frantz Fanon/FLN (Bose archetype) — Anti-French Revolution, 1954–1962</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 29: USA — MLK vs. MALCOLM X -->
+<div class="slide slide-29" data-slide="29">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:360px;height:360px;top:-75px;right:-65px;background:#e8622a;opacity:0.09;"></div>
+    <div class="blob" style="width:230px;height:230px;bottom:-50px;left:-35px;background:#f5c842;opacity:0.07;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-1 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">🇺🇸 USA — Appendix I</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.7rem)] font-bold mb-1 reveal">MLK vs. Malcolm X: The American Parallel</h2>
+    <p class="text-text-muted text-sm mb-4 reveal">Not a colonial independence struggle per se, but the most direct parallel to the Gandhi/Bose dynamic in the English-speaking world — with an eerily similar intellectual structure.</p>
+    <div class="grid grid-cols-2 gap-5 reveal">
+      <div style="background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.15);border-radius:10px;padding:1rem;">
+        <p class="text-accent-2 font-bold text-sm mb-2">Martin Luther King Jr. ≈ Gandhi</p>
+        <ul class="space-y-1.5 text-xs text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span><strong>Deeply influenced by Gandhi himself</strong> — King visited India in 1959, met Nehru, and studied Satyagraha firsthand; described Gandhi's methods as the only morally consistent strategy for American Blacks</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span><strong>Upper-middle-class background</strong> — son of a prominent Atlanta minister; Morehouse College and Boston University PhD. Like Gandhi, intellectually privileged and internationally legible.</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span><strong>Moral coercion:</strong> used nonviolent direct action (sit-ins, marches, boycotts) to expose the moral illegitimacy of segregation to white moderates and global audiences</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span><strong>Working inside institutions:</strong> lobbied Congress, built interracial coalitions, spoke at the Lincoln Memorial. Strategy: make the system honor its own stated values.</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span><strong>Mixed popularity:</strong> FBI COINTELPRO surveillance, labelled "communist," called an "Uncle Tom" by Black nationalists. A 1966 Gallup poll found his favorability had dropped to <strong>32%</strong> among Americans.</span></li>
+        </ul>
+      </div>
+      <div style="background:rgba(232,98,42,0.07);border:1px solid rgba(232,98,42,0.15);border-radius:10px;padding:1rem;">
+        <p class="text-accent-1 font-bold text-sm mb-2">Malcolm X ≈ Bose</p>
+        <ul class="space-y-1.5 text-xs text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span><strong>Traumatic origins:</strong> Father Earl Little murdered when Malcolm was 6 (attributed to white supremacists); mother institutionalized; grew up in foster care. Like Bose, experience of direct personal violence shaped his political realism.</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span><strong>Self-educated in prison</strong> — memorized the dictionary. Joined Nation of Islam 1952, became its national spokesman, electrifying urban Black audiences who felt King's message was too conciliatory.</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span><strong>"Ballot or the Bullet" (1964):</strong> Most direct parallel to Bose's realpolitik — integration via the ballot, or self-defense via the bullet. Rejected moral pacifism as impractical against systemic state violence.</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span><strong>The evolution:</strong> After the Hajj to Mecca (1964), abandoned racial separatism, embraced global Islam and pan-African unity — converging toward King's universalism before his assassination Feb 21, 1965.</span></li>
+          <li class="flex gap-2"><span class="text-accent-1 mt-0.5">▸</span><span><strong>Scholar Peniel Joseph's thesis:</strong> King and Malcolm were "alter egos" — Malcolm's radicalism made King's nonviolence palatable to white moderates, creating an unconscious good cop/bad cop dynamic that together delivered civil rights legislation.</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-3 reveal" style="background:rgba(255,255,255,0.04);border-radius:8px;padding:0.6rem 1rem;border-left:3px solid #f5c842;">
+      <p class="text-text-muted text-xs"><strong>Key Difference from Gandhi/Bose:</strong> The US struggle was for rights within an existing nation, not independence from a colonial power. The "colonial" analogy is contested but potent — particularly Malcolm X's framing of African Americans as an internally colonized people, which directly echoed Fanon and anti-colonial Third World movements.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 30: IRELAND — DE VALERA vs. MICHAEL COLLINS -->
+<div class="slide slide-30" data-slide="30">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:360px;height:360px;top:-75px;right:-65px;background:#22c55e;opacity:0.08;"></div>
+    <div class="blob" style="width:230px;height:230px;bottom:-50px;left:-35px;background:#f5c842;opacity:0.07;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-2 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">🇮🇪 Ireland — Appendix II</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,2.7rem)] font-bold mb-1 reveal">De Valera vs. Collins: The Closest Structural Mirror</h2>
+    <p class="text-text-muted text-sm mb-4 reveal">Of all global parallels, Ireland's 1919–1922 independence struggle is <em>structurally closest</em> to the Gandhi/Bose dynamic — including a betrayal, a political schism, and a leader's violent death. Notably, Bose himself urged followers to study the IRA.</p>
+    <div class="grid grid-cols-2 gap-5 reveal">
+      <div style="background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.15);border-radius:10px;padding:1rem;">
+        <p class="text-accent-2 font-bold text-sm mb-2">Éamon de Valera ≈ Gandhi</p>
+        <ul class="space-y-1.5 text-xs text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span><strong>The idealist and moralist:</strong> De Valera described himself as an Irish "republic" purist — he wanted nothing less than full independence and a 32-county republic; compromise was moral failure.</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span><strong>The institutional survivor:</strong> Avoided execution after the 1916 Easter Rising (American birth may have protected him). Built political legitimacy while Collins ran military operations in the shadows.</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span><strong>The treaty betrayal:</strong> De Valera sent Collins to negotiate in London (1921), then publicly rejected the treaty Collins signed — keeping the British monarch as head of state. This precipitated the Irish Civil War.</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span><strong>Long dominance:</strong> Dominated Irish politics for 50 years after Collins's death — became Taoiseach (1937–1948, 1951–1954, 1957–1959) and President (1959–1973). Like Gandhi, outlived his militant and shaped the post-independence state in his own image.</span></li>
+        </ul>
+      </div>
+      <div style="background:rgba(34,197,94,0.07);border:1px solid rgba(34,197,94,0.15);border-radius:10px;padding:1rem;">
+        <p style="color:#4ade80;" class="font-bold text-sm mb-2">Michael Collins ≈ Bose</p>
+        <ul class="space-y-1.5 text-xs text-text-secondary">
+          <li class="flex gap-2"><span style="color:#4ade80;" class="mt-0.5">▸</span><span><strong>The military genius:</strong> Invented modern urban guerrilla warfare — small flying columns, intelligence networks, targeted assassinations (Bloody Sunday, Nov. 1920: killed 14 British intelligence agents in one morning). Forced British to the negotiating table.</span></li>
+          <li class="flex gap-2"><span style="color:#4ade80;" class="mt-0.5">▸</span><span><strong>Studied by the world:</strong> Collins's IRA tactics were studied by Yitzhak Shamir (Stern Gang), Subhas Chandra Bose, and influenced the Special Operations Executive. Lenin praised his intelligence methods.</span></li>
+          <li class="flex gap-2"><span style="color:#4ade80;" class="mt-0.5">▸</span><span><strong>The pragmatist compromiser:</strong> Collins signed the Anglo-Irish Treaty as a "stepping stone" — accepting a 26-county Free State with the British monarch as head of state, believing it was the best achievable deal. De Valera refused to honor it.</span></li>
+          <li class="flex gap-2"><span style="color:#4ade80;" class="mt-0.5">▸</span><span><strong>Killed at 31 (Aug 22, 1922):</strong> Ambushed at Béal na Bláth in a Civil War ambush by former IRA comrades — the most direct parallel to Bose's disputed death. A brilliant militant dead before his vision could be tested.</span></li>
+          <li class="flex gap-2"><span style="color:#4ade80;" class="mt-0.5">▸</span><span><strong>Contested legacy:</strong> De Valera's supporters blamed him for civil war; Collins's supporters considered him the man who won independence only to be betrayed by Ireland's own idealists. The debate has never fully closed.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 31: ALGERIA / GLOBAL + SUMMARY TABLE -->
+<div class="slide slide-31" data-slide="31">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:360px;height:360px;top:-75px;right:-65px;background:#c94040;opacity:0.09;"></div>
+    <div class="blob" style="width:230px;height:230px;bottom:-50px;left:-35px;background:#e8622a;opacity:0.08;"></div>
+  </div>
+  <div class="content">
+    <p class="text-accent-3 uppercase tracking-[4px] text-xs font-semibold mb-1 reveal">🇩🇿 Algeria + Global Pattern — Appendix III</p>
+    <h2 class="font-display text-[clamp(1.6rem,3.5vw,2.4rem)] font-bold mb-3 reveal">Fanon &amp; The Universal Archetype</h2>
+    <div class="grid grid-cols-2 gap-4 mb-3 reveal">
+      <div>
+        <h3 class="text-accent-3 font-semibold text-xs uppercase tracking-wider mb-2">Frantz Fanon ≈ Bose (Algeria, 1954–1962)</h3>
+        <ul class="space-y-1.5 text-xs text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Born Martinique (French colony, 1925); psychiatrist who joined the FLN (Front de Libération Nationale) against 130 years of French colonialism</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span><em>The Wretched of the Earth</em> (1961): argued that colonial violence is the founding act of all colonial societies — therefore only counter-violence by the colonized can psychologically and structurally decolonize them. Jean-Paul Sartre wrote the preface.</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Like Bose, rejected the "moderate nationalist" path — argued that Ferhat Abbas's negotiated autonomy approach would deliver formal independence but preserve colonial economic and psychological structures intact</span></li>
+          <li class="flex gap-2"><span class="text-accent-3 mt-0.5">▸</span><span>Died of leukemia in 1961 at 36, months before Algerian independence (1962). His legacy was claimed by the Black Power movement, Palestinian nationalism, the ANC, and every subsequent anti-colonial struggle</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-accent-2 font-semibold text-xs uppercase tracking-wider mb-2">The Universal Pattern</h3>
+        <ul class="space-y-1.5 text-xs text-text-secondary">
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span>Every major liberation struggle produces the <strong>moralist vs. militarist tension</strong> — because the oppressed face a genuine strategic dilemma: moral persuasion is slower and uncertain; violence is faster but morally costly and risks cycles of repression</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span><strong>The moralist usually wins the long-term legacy</strong> — Gandhi, King, de Valera all dominate post-independence national mythology. The militant is often admired but eventually made uncomfortable.</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span><strong>The militant often wins the tactical argument</strong> — Collins, Bose, Malcolm X each forced real concessions that pure nonviolence had not. Their methods accelerated outcomes even when they "lost."</span></li>
+          <li class="flex gap-2"><span class="text-accent-2 mt-0.5">▸</span><span><strong>Posthumous rehabilitation is common</strong> — MLK was surveilled as a subversive and is now on US currency. Bose's birthday is a national holiday. Collins is on the Irish €10 note. Malcolm X is taught in US schools.</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="reveal" style="overflow:hidden;border-radius:9px;border:1px solid rgba(255,255,255,0.09);">
+      <table style="width:100%;border-collapse:collapse;font-size:0.72rem;">
+        <thead>
+          <tr style="background:rgba(255,255,255,0.06);">
+            <th style="padding:0.45rem 0.7rem;text-align:left;color:#9e7a66;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Country</th>
+            <th style="padding:0.45rem 0.7rem;text-align:left;color:#f5c842;font-weight:600;">The "Gandhi"</th>
+            <th style="padding:0.45rem 0.7rem;text-align:left;color:#e8622a;font-weight:600;">The "Bose"</th>
+            <th style="padding:0.45rem 0.7rem;text-align:left;color:#9e7a66;font-weight:600;">The Schism</th>
+            <th style="padding:0.45rem 0.7rem;text-align:left;color:#9e7a66;font-weight:600;">Who "Won" Legacy?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-top:1px solid rgba(255,255,255,0.06);">
+            <td style="padding:0.4rem 0.7rem;color:#f5ede6;font-weight:600;">🇮🇳 India</td>
+            <td style="padding:0.4rem 0.7rem;color:#d4b8a8;">Gandhi — Satyagraha, village republic</td>
+            <td style="padding:0.4rem 0.7rem;color:#d4b8a8;">Bose — INA, armed struggle, Axis alliance</td>
+            <td style="padding:0.4rem 0.7rem;color:#9e7a66;">Tripuri 1939; Bose expelled</td>
+            <td style="padding:0.4rem 0.7rem;color:#d4b8a8;">Gandhi (constitutionally), Bose (emotionally)</td>
+          </tr>
+          <tr style="border-top:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);">
+            <td style="padding:0.4rem 0.7rem;color:#f5ede6;font-weight:600;">🇺🇸 USA</td>
+            <td style="padding:0.4rem 0.7rem;color:#d4b8a8;">MLK — nonviolent marches, coalitions, legislation</td>
+            <td style="padding:0.4rem 0.7rem;color:#d4b8a8;">Malcolm X — separatism, self-defense, Black pride</td>
+            <td style="padding:0.4rem 0.7rem;color:#9e7a66;">Never collaborated; converged before both were killed</td>
+            <td style="padding:0.4rem 0.7rem;color:#d4b8a8;">Both — BLM reconciled their visions post-2014</td>
+          </tr>
+          <tr style="border-top:1px solid rgba(255,255,255,0.06);">
+            <td style="padding:0.4rem 0.7rem;color:#f5ede6;font-weight:600;">🇮🇪 Ireland</td>
+            <td style="padding:0.4rem 0.7rem;color:#d4b8a8;">De Valera — idealist republic purism, 32 counties</td>
+            <td style="padding:0.4rem 0.7rem;color:#d4b8a8;">Collins — guerrilla pragmatist, treaty, stepping stone</td>
+            <td style="padding:0.4rem 0.7rem;color:#9e7a66;">1921 Treaty → Civil War; Collins killed</td>
+            <td style="padding:0.4rem 0.7rem;color:#d4b8a8;">Collins (public myth); Dev (political institutions)</td>
+          </tr>
+          <tr style="border-top:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);">
+            <td style="padding:0.4rem 0.7rem;color:#f5ede6;font-weight:600;">🇩🇿 Algeria</td>
+            <td style="padding:0.4rem 0.7rem;color:#d4b8a8;">Ferhat Abbas — negotiated autonomy within France</td>
+            <td style="padding:0.4rem 0.7rem;color:#d4b8a8;">Fanon / FLN — violent decolonization as psychological necessity</td>
+            <td style="padding:0.4rem 0.7rem;color:#9e7a66;">Abbas eventually joined FLN; Fanon died pre-independence</td>
+            <td style="padding:0.4rem 0.7rem;color:#d4b8a8;">Fanon (global intellectual legacy); FLN (state)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+</div><!-- /deck -->
+
+<!-- NAVIGATION -->
+<div class="nav-controls" aria-label="Slide navigation">
+    <button class="nav-btn" onclick="changeSlide(-1)" aria-label="Previous section or slide">&#8249;</button>
+    <div id="dots" class="slide-dots"></div>
+    <button class="nav-btn" onclick="changeSlide(1)" aria-label="Next section or slide">&#8250;</button>
+    <span class="slide-counter" id="counter">1 / 31</span>
+</div>
+
+<script>
+let current=1;
+const total=document.querySelectorAll('.slide').length;
+const dotsContainer=document.getElementById('dots');
+const counter=document.getElementById('counter');
+
+function goToSlide(n){
+  const prev=document.querySelector('.slide.active');
+  const next=document.querySelector('.slide[data-slide="'+n+'"]');
+  if(prev)prev.classList.remove('active');
+  if(next){next.classList.add('active');animateSlide(next);}
+  current=n;updateNav();
+}
+function changeSlide(dir){let n=current+dir;if(n<1)n=total;if(n>total)n=1;goToSlide(n);}
+// Group definitions
+const sections = [
+  { name: "Intro", start: 1, end: 2 },
+  { name: "Profiles", start: 3, end: 8 },
+  { name: "The Schism", start: 9, end: 13 },
+  { name: "The INA", start: 14, end: 18 },
+  { name: "Legacy", start: 19, end: 27 },
+  { name: "Comparisons", start: 28, end: 31 }
+];
+
+// Build breadcrumb nav
+for(let i=0; i<sections.length; i++) {
+  const sec = sections[i];
+  const group = document.createElement('div');
+  group.className = 'nav-group';
+  group.dataset.start = sec.start;
+  group.dataset.end = sec.end;
+
+  const label = document.createElement('div');
+  label.className = 'group-label';
+  label.textContent = sec.name;
+  label.onclick = () => goToSlide(sec.start);
+  group.appendChild(label);
+
+  const dotsWrap = document.createElement('div');
+  dotsWrap.className = 'sub-dots';
+
+  for(let j=sec.start; j<=sec.end; j++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot';
+    dot.dataset.slide = j;
+    dot.onclick = (e) => { e.stopPropagation(); goToSlide(j); };
+    dotsWrap.appendChild(dot);
+  }
+
+  group.appendChild(dotsWrap);
+  dotsContainer.appendChild(group);
+}
+
+function updateNav() {
+  document.querySelectorAll('.nav-group').forEach(g => {
+    const start = parseInt(g.dataset.start);
+    const end = parseInt(g.dataset.end);
+    if(current >= start && current <= end) {
+      g.classList.add('active-group');
+      g.querySelectorAll('.dot').forEach(d => {
+        d.classList.toggle('active', parseInt(d.dataset.slide) === current);
+      });
+    } else {
+      g.classList.remove('active-group');
+      g.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+    }
+  });
+  counter.textContent = current + ' / ' + total;
+}
+document.addEventListener('keydown',(e)=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();changeSlide(1);}if(e.key==='ArrowLeft'){e.preventDefault();changeSlide(-1);}});
+let touchStartX=0;
+document.addEventListener('touchstart',(e)=>{touchStartX=e.touches[0].clientX;});
+document.addEventListener('touchend',(e)=>{const diff=touchStartX-e.changedTouches[0].clientX;if(Math.abs(diff)>50)changeSlide(diff>0?1:-1);});
+
+function animateSlide(slide){
+  slide.querySelectorAll('.reveal').forEach((el,i)=>{
+    el.style.transition='none';el.style.opacity='0';el.style.transform='translateY(18px)';
+    el.offsetHeight;
+    const delay=i*0.075;
+    el.style.transition='opacity 0.38s ease '+delay+'s, transform 0.38s ease '+delay+'s';
+    el.style.opacity='1';el.style.transform='translateY(0px)';
+  });
+  animateSlideEffects(slide);
+}
+
+function animateSlideEffects(slide){
+  slide.querySelectorAll('[data-count]:not(.counted)').forEach(el=>{
+    el.classList.add('counted');
+    const target=parseInt(el.dataset.count);
+    const suffix=el.dataset.suffix||'',prefix=el.dataset.prefix||'';
+    let cur=0;const step=target/40;
+    const timer=setInterval(()=>{cur+=step;if(cur>=target){cur=target;clearInterval(timer);}el.textContent=prefix+Math.round(cur).toLocaleString()+suffix;},30);
+  });
+  slide.querySelectorAll('.bar-fill:not(.fill-init)').forEach((bar,i)=>{
+    bar.classList.add('fill-init');
+    bar.style.width='0%';bar.style.transition='width 0.55s ease '+(i*0.09)+'s';bar.offsetHeight;bar.style.width=bar.dataset.width+'%';
+  });
+  slide.querySelectorAll('.donut-ring:not(.ring-init)').forEach(ring=>{
+    ring.classList.add('ring-init');
+    ring.style.strokeDashoffset='251.3';ring.style.transition='stroke-dashoffset 0.85s ease';ring.offsetHeight;
+    ring.style.strokeDashoffset=251.3-(parseInt(ring.dataset.percent)/100)*251.3;
+  });
+}
+
+document.addEventListener('mousemove',(e)=>{
+  const s=document.querySelector('.mouse-spotlight');
+  if(s){const rgb='232,98,42';s.style.background='radial-gradient(600px circle at '+e.clientX+'px '+e.clientY+'px, rgba('+rgb+',0.055), transparent 40%)';}
+});
+
+(function(){
+  let mx=window.innerWidth/2,my=window.innerHeight/2;
+  const cx=window.innerWidth/2,cy=window.innerHeight/2;
+  document.addEventListener('mousemove',(e)=>{mx=e.clientX;my=e.clientY;});
+  (function tick(){
+    const ox=(mx-cx)/cx,oy=(my-cy)/cy;
+    document.querySelectorAll('.deco-shape').forEach(s=>{
+      const sp=parseFloat(s.dataset.speed)||0.03;
+      s.style.transform='translate('+(ox*sp*100)+'px,'+(oy*sp*100)+'px)';
+    });
+    requestAnimationFrame(tick);
+  })();
+})();
+
+window.initParticles=function(canvas,options){
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  canvas.width=canvas.offsetWidth||window.innerWidth;
+  canvas.height=canvas.offsetHeight||window.innerHeight;
+  const interactive=options.interactive!==false;
+  const count=options.count||(interactive?55:18);
+  let mx=-1000,my=-1000;
+  const rgb='232,98,42';
+  const [r,g,b]=[232,98,42];
+  const particles=Array.from({length:count},()=>({
+    x:Math.random()*canvas.width,y:Math.random()*canvas.height,
+    vx:(Math.random()-0.5)*0.3,vy:(Math.random()-0.5)*0.3,
+    size:Math.random()*2.2+0.8,alpha:Math.random()*0.3+0.1
+  }));
+  if(interactive){
+    canvas.addEventListener('mousemove',(e)=>{const rect=canvas.getBoundingClientRect();mx=e.clientX-rect.left;my=e.clientY-rect.top;});
+    canvas.addEventListener('mouseleave',()=>{mx=-1000;my=-1000;});
+  }
+  (function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{
+      if(interactive){const dx=p.x-mx,dy=p.y-my,dist=Math.sqrt(dx*dx+dy*dy);if(dist<120){const force=(120-dist)/120*2;p.vx+=(dx/dist)*force*0.1;p.vy+=(dy/dist)*force*0.1;}}
+      p.vx*=0.98;p.vy*=0.98;p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=canvas.width;if(p.x>canvas.width)p.x=0;
+      if(p.y<0)p.y=canvas.height;if(p.y>canvas.height)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+      ctx.fillStyle='rgba('+r+','+g+','+b+','+p.alpha+')';ctx.fill();
+    });
+    requestAnimationFrame(animate);
+  })();
+};
+document.querySelectorAll('.particle-canvas').forEach(c=>window.initParticles(c,{interactive:true,count:55}));
+document.querySelectorAll('.particle-canvas-ambient').forEach(c=>window.initParticles(c,{interactive:false,count:18}));
+
+try{animateSlide(document.querySelector('.slide.active'));}catch(e){console.warn(e);}
+</script>
+</body>
+</html>
