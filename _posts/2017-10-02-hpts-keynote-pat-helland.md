@@ -1,7 +1,7 @@
 ---
 published: true
 categories:
-  - misc
+  - Misc
   - Talks
 ---
 # HTPS Keynote
