@@ -164,7 +164,7 @@ body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--tx)
 .vtab{border:1px solid var(--bd);background:var(--s2);color:var(--mu);font:700 .72rem Inter,sans-serif;padding:7px 12px;border-radius:999px;cursor:pointer;letter-spacing:.02em}
 .vtab:hover{color:var(--tx);border-color:var(--bd2)}
 .vtab.on{background:var(--gsoft);border-color:var(--gline);color:var(--gold)}
-.match-wrap{max-width:1000px;margin:0 auto;padding:22px 22px 70px}
+.match-wrap{height:calc(100vh - var(--top));overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:#333355 transparent;-webkit-overflow-scrolling:touch}
 .match-hero{margin-bottom:18px}
 .match-hero h1{font-size:clamp(1.5rem,3vw,2rem);font-weight:900;color:#fff;letter-spacing:-.03em}
 .match-hero p{color:var(--mu);font-size:.88rem;margin-top:6px;max-width:620px}
@@ -217,7 +217,7 @@ body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--tx)
 .rrow .r{color:var(--gold);font-weight:700;font-size:.68rem}
 .rrow .s{color:var(--soft)}
 .rrow .n{color:var(--mu);font-size:.74rem;margin-top:2px}
-.match-wrap{padding-bottom:96px}
+.match-inner{max-width:1000px;margin:0 auto;padding:22px 22px 100px}
 @media(max-width:900px){
   .view-tabs{order:3;margin-left:0;width:100%;justify-content:center}
   .mcard-btn{grid-template-columns:1fr}
@@ -236,7 +236,7 @@ body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--tx)
   </div>
   <div class="view-tabs">
     <button type="button" class="vtab" :class="{on: view==='teams'}" @click="view='teams'">Teams</button>
-    <button type="button" class="vtab" :class="{on: view==='matches'}" @click="view='matches'; mobile=false">Matches</button>
+    <button type="button" class="vtab" :class="{on: view==='matches'}" @click="view='matches'; mobile=false; $nextTick(() => { const el=document.querySelector('.match-wrap'); if(el) el.scrollTop=0; })">Matches</button>
   </div>
   <div class="sw" x-show="view==='teams'">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
@@ -519,7 +519,8 @@ body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--tx)
   </main>
 </div>
 
-<div class="match-wrap" x-show="view==='matches'" x-cloak>
+<div class="match-wrap" x-show="view==='matches'" x-cloak @scroll.debounce.50ms>
+  <div class="match-inner">
   <div class="match-hero">
     <h1>Matches prep desk</h1>
     <p>Live World Cup knockout desk (updated Jul 12, 2026): semis are set — France vs Spain, England vs Argentina — plus final weekend. Expand any card for the full brief.</p>
@@ -534,7 +535,7 @@ body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--tx)
 
   <template x-for="m in filteredMatches" :key="m.id">
     <div class="mcard" :class="{open: openMatch===m.id}">
-      <button type="button" class="mcard-btn" @click="openMatch = openMatch===m.id ? null : m.id">
+      <button type="button" class="mcard-btn" @click="toggleMatch(m.id, $event)">
         <div>
           <div class="mround" x-text="m.round + (m.status==='upcoming' ? ' · upcoming' : ' · full time')"></div>
           <div class="mteams">
@@ -625,6 +626,7 @@ body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--tx)
     </div>
   </div>
   <p class="credit" style="margin-top:18px">Schedule sources: FIFA World Cup 2026 knockout listings (as of Jul 12, 2026). Kickoff times in US Eastern.</p>
+  </div>
 </div>
 
 
@@ -691,6 +693,19 @@ function app(){
         g.players.push(item);
       }
       return groups;
+    },
+    toggleMatch(id, ev){
+      this.openMatch = this.openMatch===id ? null : id;
+      if (this.openMatch && ev && ev.currentTarget) {
+        const btn = ev.currentTarget;
+        this.$nextTick(() => {
+          const wrap = document.querySelector('.match-wrap');
+          if (!wrap || !btn) return;
+          // keep header of opened card visible with a little top padding
+          const top = btn.getBoundingClientRect().top - wrap.getBoundingClientRect().top + wrap.scrollTop - 12;
+          wrap.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+        });
+      }
     },
     openTeamByName(name){
       const t = this.teamLink(name);
@@ -776,5 +791,5 @@ function app(){
   }
 }
 </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a1a2accd4af08462',t:'MTc4Mzg4Njg1NQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a1a2b4364a518462',t:'MTc4Mzg4NzE1OA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
