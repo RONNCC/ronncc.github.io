@@ -205,6 +205,14 @@ body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--tx)
 .mwatch-chip .fl{font-size:.92rem;line-height:1}
 .mwatch-chip .nm{color:var(--soft)}
 .mwatch-chip:hover .nm{color:#fff}
+.form-study{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.form-study-card{background:var(--s2);border:1px solid var(--bd);border-radius:12px;padding:12px}
+.form-study-team{font-size:.78rem;font-weight:800;color:#fff}
+.form-study-results{font:700 .72rem 'JetBrains Mono',monospace;color:var(--gold);margin:5px 0 7px}
+.form-study-analysis{font-size:.8rem;line-height:1.55;color:var(--soft)}
+.form-source{margin-top:9px;font-size:.68rem;color:var(--mu)}
+.form-source a{color:var(--blue)}
+@media(max-width:700px){.form-study{grid-template-columns:1fr}}
 .jump{margin-top:4px}
 .jump button{border:1px solid var(--bd);background:var(--s3);color:var(--soft);font:600 .72rem Inter,sans-serif;padding:6px 10px;border-radius:999px;cursor:pointer;margin:0 6px 6px 0}
 .jump button:hover{border-color:var(--gline);color:var(--gold)}
@@ -592,6 +600,19 @@ body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--tx)
           <div class="msec-h" x-text="m.status==='upcoming' ? 'Prep snapshot' : 'What happened / context'"></div>
           <p class="msec-p" x-text="m.formNote"></p>
         </div>
+        <div class="msec" x-show="m.recentForm && m.recentForm.length">
+          <div class="msec-h">Last two games: study notes</div>
+          <div class="form-study">
+            <template x-for="form in m.recentForm" :key="form.team">
+              <div class="form-study-card">
+                <div class="form-study-team" x-text="form.flag + ' ' + form.team"></div>
+                <div class="form-study-results" x-text="form.results"></div>
+                <p class="form-study-analysis" x-text="form.analysis"></p>
+              </div>
+            </template>
+          </div>
+          <p class="form-source" x-show="m.resultSource"><span>Scores: </span><a :href="m.resultSource" target="_blank" rel="noreferrer" x-text="m.resultSourceLabel"></a><span> · retrieved Jul 17, 2026.</span></p>
+        </div>
         <div class="msec">
           <div class="msec-h">Tactical matchup</div>
           <p class="msec-p" x-text="m.tactical"></p>
@@ -691,6 +712,28 @@ const MATCHES = [{"id":"qf1","round":"Quarterfinal","roundOrder":1,"status":"fin
 const RECENT = [{"date":"Jul 15","round":"SF","score":"England 1–2 Argentina","note":"Messi 2A — Fernández 85′, L. Martínez 90+2′ · SF Player of Match"},{"date":"Jul 14","round":"SF","score":"France 0–2 Spain","note":"Oyarzabal pen, Porro goal · France 2 shots, 0 on target"},{"date":"Jul 11","round":"QF","score":"Argentina 3–1 Switzerland","note":"Champions into the semis (aet)"},{"date":"Jul 11","round":"QF","score":"England 2–1 Norway","note":"England end Norway's giant-killing run (aet)"},{"date":"Jul 10","round":"QF","score":"Spain 2–1 Belgium","note":"La Roja's only goal conceded this tournament"},{"date":"Jul 9","round":"QF","score":"France 2–0 Morocco","note":"Les Bleus first into the final four"},{"date":"Jul 7","round":"R16","score":"Argentina 3–2 Egypt","note":"Defending champs survive 2-goal deficit"},{"date":"Jul 7","round":"R16","score":"Belgium 4–1 USA","note":"Hosts eliminated in Seattle"},{"date":"Jul 6","round":"R16","score":"Spain 1–0 Portugal","note":"Simón 609-min scoreless streak continues"},{"date":"Jul 6","round":"R16","score":"England 3–2 Mexico","note":"Chaotic classic in Mexico City"},{"date":"Jul 5","round":"R16","score":"Norway 2–1 Brazil","note":"Haaland ends Brazil's run"},{"date":"Jul 4","round":"R16","score":"Morocco 3–0 Canada","note":"Atlas Lions roll on"}];
 const GOLDEN_BOOT = [{"rank":1,"name":"Lionel Messi","flag":"🇦🇷","team":"Argentina","goals":8,"pens":0,"assists":4,"matches":6,"note":"Leads on assists tiebreaker — still active in final"},{"rank":2,"name":"Kylian Mbappé","flag":"🇫🇷","team":"France","goals":8,"pens":1,"assists":3,"matches":7,"note":"Can still score in 3rd-place match Sat"},{"rank":3,"name":"Erling Haaland","flag":"🇳🇴","team":"Norway","goals":7,"pens":0,"assists":0,"matches":6,"note":"Eliminated QF — locked at 7"},{"rank":4,"name":"Harry Kane","flag":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","team":"England","goals":6,"pens":2,"assists":1,"matches":6,"note":"Can add in bronze match Sat"},{"rank":5,"name":"Jude Bellingham","flag":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","team":"England","goals":6,"pens":0,"assists":1,"matches":6,"note":"Can add in bronze match Sat"},{"rank":6,"name":"Mikel Oyarzabal","flag":"🇪🇸","team":"Spain","goals":5,"pens":1,"assists":1,"matches":7,"note":"SF pen + 18 goals in last 20 for Spain"},{"rank":7,"name":"Ousmane Dembélé","flag":"🇫🇷","team":"France","goals":5,"pens":0,"assists":2,"matches":7,"note":"WC top assist-maker (5) among active players"}];
 const STORYLINES = [{"icon":"🛡️","title":"Spain's defensive record","text":"6 clean sheets in 7 matches — a World Cup single-edition record. Only 1 goal conceded (vs Belgium in QF). Unai Simón: 609 consecutive scoreless minutes."},{"icon":"⚡","title":"Argentina's attack & grit","text":"Tournament-best 19 goals. 14-match win streak. Came from behind vs Egypt, Switzerland (aet), and England in the knockouts."},{"icon":"👑","title":"Generational final","text":"Messi (39) vs Yamal (19) — arguably the closest heir to his Barcelona legacy. First competitive meeting between Argentina and Spain."},{"icon":"🥾","title":"Golden Boot race","text":"Messi & Mbappé tied on 8 goals. Messi leads 4–3 on assists (first tiebreaker). Both can still score this weekend."},{"icon":"🏆","title":"History on the line","text":"Argentina aim to be first back-to-back champions since Brazil 1962. Spain seek a second title (2010) and concurrent Euro + World Cup crowns."}];
+const FINAL_PREP = {
+  watch: [
+    {"name":"Mikel Merino","flag":"🇪🇸","team":"Spain"},
+    {"name":"Lautaro Martínez","flag":"🇦🇷","team":"Argentina"}
+  ],
+  recentForm: [
+    {
+      "team":"Spain",
+      "flag":"🇪🇸",
+      "results":"SF: 2–0 France · QF: 2–1 Belgium",
+      "analysis":"Oyarzabal's penalty and Porro's goal settled the France semi-final while Rodri and Fabián Ruiz controlled the middle. Belgium was the tougher game state: Spain conceded, then Merino's late winner protected a 2–1 win. Argentina should test the space behind Spain's aggressive full-backs before their rest-defence settles; Merino is the 70th-minute box-running change to plan for."
+    },
+    {
+      "team":"Argentina",
+      "flag":"🇦🇷",
+      "results":"SF: 2–1 England · QF: 3–1 Switzerland",
+      "analysis":"Argentina have scored at least twice in both of their latest knockout matches. Messi created the late Enzo Fernández and Lautaro Martínez goals against England; the Switzerland win required extra time, with Julián Álvarez and Lautaro deciding the final phase. Spain's midfield must deny Messi and Mac Allister clean receptions between the lines while tracking Lautaro's late runs."
+    }
+  ],
+  resultSource:"https://api.fifa.com/api/v3/calendar/matches?idSeason=285023&idTeam=43969&language=en",
+  resultSourceLabel:"FIFA match calendar"
+};
 function app(){
   return {
     teams: TEAMS,
@@ -708,7 +751,7 @@ function app(){
     view: 'teams',
     matchFilter: 'upcoming',
     openMatch: null,
-    matches: MATCHES,
+    matches: MATCHES.map(m => m.id==='final' ? {...m, watch:[...m.watch, ...FINAL_PREP.watch], recentForm:FINAL_PREP.recentForm, resultSource:FINAL_PREP.resultSource, resultSourceLabel:FINAL_PREP.resultSourceLabel} : m),
     recent: RECENT,
     goldenBoot: GOLDEN_BOOT,
     storylines: STORYLINES,
