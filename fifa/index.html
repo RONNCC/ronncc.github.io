@@ -266,7 +266,7 @@ body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--tx)
   </div>
   <div class="stats">
     <div class="stat"><b>30</b><i>Teams</i></div>
-    <div class="stat"><b>150</b><i>Players</i></div>
+    <div class="stat"><b>154</b><i>Players</i></div>
     <div class="stat"><b>6</b><i>Confeds</i></div>
   </div>
 </header>
@@ -734,9 +734,36 @@ const FINAL_PREP = {
   resultSource:"https://api.fifa.com/api/v3/calendar/matches?idSeason=285023&idTeam=43969&language=en",
   resultSourceLabel:"FIFA match calendar"
 };
+const FINAL_PLAYER_PROFILES = {
+  "Spain":[
+    {"initials":"MO","av":"av-2","name":"Mikel Oyarzabal","meta":"Striker / Left Winger · Age 29 · WC'26 5G","club":"Real Sociedad (La Liga)","tags":["⚽ 5 WC goals","🎯 Penalty specialist","🧠 Intelligent movement","© Real Sociedad captain"],"style":"<strong>Crafty, selfless finisher</strong> — finds separation with curved runs, links play with his back to goal and attacks the far post. Reliable from the spot; a strong target for cut-backs when Spain's wide players reach the byline.","life":"A Basque one-club leader who came through Real Sociedad's academy. Known for a calm, understated personality and intelligent reading of attacking spaces."},
+    {"initials":"US","av":"av-2","name":"Unai Simón","meta":"Goalkeeper · Age 29 · 6 WC clean sheets","club":"Athletic Club (La Liga)","tags":["🧤 6 WC clean sheets","🎯 Elite distribution","🗣️ Defensive organiser","🏆 Euro '24 winner"],"style":"<strong>Composed modern goalkeeper</strong> — plays through pressure with short distribution, sweeps behind a high line and stays patient in one-on-ones. Argentina need to force him into rushed clearances rather than allow Spain clean build-up.","life":"An Athletic Club academy product from the Basque Country. Has developed into Spain's established tournament goalkeeper through calm decision-making and command of his area."},
+    {"initials":"MM","av":"av-2","name":"Mikel Merino","meta":"Central Midfielder · Age 30 · Late-game impact","club":"Arsenal (Premier League)","tags":["⚽ QF late winner","💥 Box crasher","🦅 Aerial threat","🔄 Impact substitute"],"style":"<strong>Late-arriving all-rounder</strong> — times runs into the box, wins aerial duels and adds bite without sacrificing technical quality. A natural 70th-minute change when Spain need an extra runner beyond the striker.","life":"A Pamplona-born midfielder who built his reputation at Osasuna, Dortmund, Newcastle and Real Sociedad before joining Arsenal. His father, Miguel Merino, was also a professional footballer."}
+  ],
+  "Argentina":[
+    {"initials":"LM","av":"av-1","name":"Lautaro Martínez","meta":"Striker · Age 28 · Late-game scorer","club":"Inter Milan (Serie A)","tags":["⚽ SF late winner","⏱️ QF extra-time goal","💪 Physical No. 9","🎯 Clinical finisher"],"style":"<strong>Explosive penalty-box striker</strong> — attacks crosses, presses centre-backs and finishes quickly with either foot. His combination of physical play and sharp movement makes him Argentina's key late-game goal threat.","life":"From Bahía Blanca, he rose through Racing Club before becoming Inter Milan's captain and one of Serie A's most reliable scorers. Nicknamed 'El Toro' for his aggressive style."}
+  ]
+};
+const TEAM_PROFILES = TEAMS.map(team => ({...team, players:[...team.players,...(FINAL_PLAYER_PROFILES[team.name]||[])]}));
+function playerProfile(name){
+  if(!name) return null;
+  const n=String(name).toLowerCase();
+  for(const team of TEAM_PROFILES){
+    const index=team.players.findIndex(player=>player.name.toLowerCase()===n);
+    if(index>=0) return {team,player:team.players[index],index};
+  }
+  for(const team of TEAM_PROFILES){
+    const index=team.players.findIndex(player=>{
+      const playerName=player.name.toLowerCase();
+      return playerName.includes(n)||n.includes(playerName);
+    });
+    if(index>=0) return {team,player:team.players[index],index};
+  }
+  return null;
+}
 function app(){
   return {
-    teams: TEAMS,
+    teams: TEAM_PROFILES,
     confs: ['All','UEFA','CONMEBOL','CAF','CONCACAF','AFC'],
     conf: 'All',
     q: '',
@@ -816,23 +843,10 @@ function app(){
       this.select(t);
     },
     playerLink(name){
-      if(!name) return null;
-      const n = String(name).toLowerCase();
-      for (const t of this.teams) {
-        const idx = t.players.findIndex(pl => pl.name.toLowerCase() === n);
-        if (idx >= 0) return {team:t, player:t.players[idx], index:idx};
-      }
-      for (const t of this.teams) {
-        const idx = t.players.findIndex(pl => {
-          const pn = pl.name.toLowerCase();
-          return pn.includes(n) || n.includes(pn);
-        });
-        if (idx >= 0) return {team:t, player:t.players[idx], index:idx};
-      }
-      return null;
+      return playerProfile(name);
     },
     openPlayerByName(name){
-      const hit = this.playerLink(name);
+      const hit = playerProfile(name);
       if(!hit) return;
       this.view = 'teams';
       this.mobile = false;
