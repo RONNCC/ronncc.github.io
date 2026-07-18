@@ -254,7 +254,7 @@ body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--tx)
   <button class="mbtn" @click="mobile=!mobile" aria-label="Teams">☰</button>
   <div class="brand">
     <div class="logo">⚽</div>
-    <div class="bt">FIFA Top 30<span>World Cup 2026 · Live tournament rankings</span></div>
+    <div class="bt">FIFA Top 30<span>World Cup 2026 · Tournament snapshot · Jul 17</span></div>
   </div>
   <div class="view-tabs">
     <button type="button" class="vtab" :class="{on: view==='teams'}" @click="view='teams'">Teams</button>
@@ -320,7 +320,7 @@ body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--tx)
             <div>
               <div class="pill"><span x-text="'#'+team.r"></span> · <span x-text="team.pts+' pts'"></span></div>
               <h2 x-text="team.name"></h2>
-              <div class="sub" x-text="team.conf + ' · live tournament rankings'"></div>
+              <div class="sub" x-text="team.conf + ' · tournament snapshot as of Jul 17, 2026'"></div>
               <div class="tag" x-text="team.tag"></div>
             </div>
           </div>
