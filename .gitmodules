@@ -1,0 +1,3 @@
+[submodule "apps/photoaging-visualizer"]
+	path = apps/photoaging-visualizer
+	url = https://github.com/RONNCC/photoaging-visualizer.git
