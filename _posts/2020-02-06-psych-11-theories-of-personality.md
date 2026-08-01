@@ -220,9 +220,9 @@ Theoretical Perspectives on Personality:
 - Learning-(Social) Cognitive Theories
 	- All behaviors are learned through association and/or its consequences (whether it is reinforced or punished). To shape desired behavior we have to understand and then establish the conditions that bring about those particular behaviors.
 
-![Screen Shot 2020-02-06 at 11.31.50 PM.png]({{site.baseurl}}/_posts/Screen Shot 2020-02-06 at 11.31.50 PM.png)
+![Screen Shot 2020-02-06 at 11.31.50 PM.png]({{site.baseurl}}/images/posts/Screen Shot 2020-02-06 at 11.31.50 PM.png)
 
-![KnOYG1B.png]({{site.baseurl}}/_posts/KnOYG1B.png)
+![KnOYG1B.png]({{site.baseurl}}/images/posts/KnOYG1B.png)
 
 
 **psychology of science** :look at personal traits of scientists. The psychology of science studies both science and the behavior of scientists; 
