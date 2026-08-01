@@ -48,8 +48,9 @@ jobs:
 
       - name: Add photoaging visualizer
         run: |
-          mkdir -p _site/photoaging-visualizer
-          cp -R apps/photoaging-visualizer/dist/. _site/photoaging-visualizer/
+          sudo mkdir -p _site/photoaging-visualizer
+          sudo cp -R apps/photoaging-visualizer/dist/. _site/photoaging-visualizer/
+          sudo chown -R "$USER:$USER" _site
 
       - uses: actions/upload-pages-artifact@v3
         with:
