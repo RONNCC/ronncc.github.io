@@ -32,29 +32,35 @@ jobs:
           cache-dependency-path: apps/photoaging-visualizer/package-lock.json
 
       - name: Build photoaging visualizer
+        working-directory: apps/photoaging-visualizer
         run: |
-          npm ci --prefix apps/photoaging-visualizer
-          VITE_BASE_PATH=/photoaging-visualizer/ npm run build --prefix apps/photoaging-visualizer
-          cp -R apps/photoaging-visualizer/dist photoaging-visualizer
+          npm ci
+          VITE_BASE_PATH=/photoaging-visualizer/ npm run build
+
+      - uses: actions/configure-pages@v5
 
       - name: Build Jekyll site
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./
           destination: ./_site
+          future: true
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Add photoaging visualizer
+        run: |
+          mkdir -p _site/photoaging-visualizer
+          cp -R apps/photoaging-visualizer/dist/. _site/photoaging-visualizer/
+
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: ./_site
 
   deploy:
+    needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    needs: build
-    runs-on: ubuntu-latest
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - id: deployment
         uses: actions/deploy-pages@v4
