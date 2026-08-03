@@ -113,8 +113,8 @@ permalink: /hot-chocolate/
     <div class="hc-chips">
       <button class="hc-chip on" data-filter="all">All<span class="hc-ct">11</span></button>
       <button class="hc-chip" data-filter="visited">Visited<span class="hc-ct">1</span></button>
-      <button class="hc-chip" data-filter="notyet">Not yet<span class="hc-ct">8</span></button>
-      <button class="hc-chip" data-filter="unknown">Unconfirmed<span class="hc-ct">2</span></button>
+      <button class="hc-chip" data-filter="notyet">Not yet<span class="hc-ct">10</span></button>
+      <button class="hc-chip" data-filter="unknown">Unconfirmed<span class="hc-ct">0</span></button>
     </div>
   </div>
   <div class="hc-list" id="hcList"></div>
@@ -204,11 +204,11 @@ permalink: /hot-chocolate/
      addr:'(location within SF unconfirmed)',
      links:[{t:'Eater',u:'https://sf.eater.com/venue/74859/christopher-elbow-chocolates'}]},
 
-    {key:'keikos', name:'Keiko\'s Coffee Shop', nb:'Location unconfirmed', lat:null, lng:null,
-     status:'unknown', drink:'House hot chocolate',
-     note:'Featured on the Eater map — findable via Instagram; the exact address isn\'t confirmed.',
-     addr:'(address unconfirmed)',
-     links:[{t:'Eater',u:'https://sf.eater.com/venue/908880/keikos-coffee-shop'}]}
+    {key:'keikos', name:'Keiko\'s Coffee Shop', nb:'Mission', lat:37.7346, lng:-122.4258,
+      status:'notyet', drink:'House hot chocolate',
+      note:'Laid-back coffee shop serving bagels and pastries, as well as breakfast sandwiches. Opens 5 AM.',
+      addr:'3926 Mission St, San Francisco, CA 94112 · (415) 988-7951',
+      links:[{t:'Eater',u:'https://sf.eater.com/venue/908880/keikos-coffee-shop'}]}
   ];
 
   var filter = 'all';
