@@ -10,12 +10,14 @@ permalink: /hot-chocolate/
 @media(max-width:800px){.hc-app{margin:-20px -16px 0}}
 
 /* ── 2-pane grid ── */
-.hc-panes{display:grid;grid-template-columns:380px 1fr;height:calc(100vh - 80px);overflow:hidden}
-@media(max-width:800px){.hc-panes{grid-template-columns:1fr;height:auto;overflow:auto}}
+.hc-panes{display:grid;grid-template-columns:clamp(320px,30vw,520px) 1fr;height:calc(100vh - 80px);overflow:hidden;transition:grid-template-columns .25s ease}
+.hc-panes.left-collapsed{grid-template-columns:52px 1fr}
+@media(max-width:800px){.hc-panes{grid-template-columns:1fr;height:auto;overflow:auto}.hc-panes.left-collapsed{grid-template-columns:1fr}}
 
 /* ── left pane ── */
-.hc-left{border-right:1px solid #e0e0e0;background:#fafafa;display:flex;flex-direction:column;min-height:0;overflow:hidden}
-@media(max-width:800px){.hc-left{border-right:none;border-bottom:1px solid #e0e0e0;height:auto;overflow:auto}}
+.hc-left{border-right:1px solid #e0e0e0;background:#fafafa;display:flex;flex-direction:column;min-height:0;overflow:hidden;position:relative;transition:all .25s ease}
+.hc-panes.left-collapsed .hc-left{overflow:visible}
+@media(max-width:800px){.hc-left{border-right:none;border-bottom:1px solid #e0e0e0;height:auto;overflow:auto}.hc-panes.left-collapsed .hc-left{height:auto}}
 .hc-left-head{padding:16px 18px 12px;border-bottom:1px solid #e5e5e5;flex-shrink:0}
 .hc-left-head h2{margin:0 0 4px;font-size:18px;font-weight:800;color:#1a1a1a}
 .hc-left-head .hc-sub{font-size:13px;color:#777;margin:0 0 10px}
@@ -47,13 +49,14 @@ permalink: /hot-chocolate/
 
 /* ── right pane ── */
 .hc-right{display:flex;flex-direction:column;min-height:0;position:relative;overflow:hidden}
-@media(max-width:800px){.hc-right{height:55vh}}
+@media(max-width:800px){.hc-right{height:60vh}.hc-panes.left-collapsed .hc-right{height:calc(100vh - 60px)}}
 .hc-map{flex:1;min-height:0}
 .hc-map .leaflet-container{height:100%;width:100%}
 
 /* ── detail panel (slides up from bottom of map) ── */
 .hc-detail{position:absolute;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e0e0e0;box-shadow:0 -4px 20px rgba(0,0,0,.12);border-radius:14px 14px 0 0;transform:translateY(100%);transition:transform .25s ease;z-index:1000;max-height:55%;overflow-y:auto}
 .hc-detail.open{transform:translateY(0)}
+@media(max-width:800px){.hc-detail{max-height:70%;border-radius:16px 16px 0 0}}
 .hc-detail-handle{width:36px;height:4px;background:#ddd;border-radius:2px;margin:10px auto 0;cursor:pointer}
 .hc-detail-inner{padding:14px 20px 20px}
 .hc-detail h3{margin:0 0 2px;font-size:17px;font-weight:800;color:#1a1a1a}
@@ -83,6 +86,17 @@ permalink: /hot-chocolate/
 .hc-map .leaflet-popup-content strong{display:block;font-size:14px;margin-bottom:2px}
 .hc-map .leaflet-popup-content a{color:#6a1b9a;font-weight:600;text-decoration:none;cursor:pointer}
 .hc-map .leaflet-popup-content a:hover{text-decoration:underline}
+
+/* ── collapse toggle ── */
+.hc-collapse-btn{position:absolute;top:10px;right:10px;z-index:20;width:30px;height:30px;border:none;background:#fff;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.12);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;color:#666;transition:background .12s}
+.hc-collapse-btn:hover{background:#f0f0f0}
+.hc-collapse-btn svg{width:16px;height:16px;transition:transform .25s ease}
+.hc-panes.left-collapsed .hc-collapse-btn svg{transform:rotate(180deg)}
+@media(max-width:800px){.hc-collapse-btn{display:none}}
+
+/* ── collapsed left pane content ── */
+.hc-panes.left-collapsed .hc-left-head{height:0;padding:0;overflow:hidden;border:none;margin:0}
+.hc-panes.left-collapsed .hc-list{height:0;padding:0;overflow:hidden}
 </style>
 
 <div class="hc-app">
@@ -90,6 +104,9 @@ permalink: /hot-chocolate/
 
 <!-- LEFT PANE -->
 <div class="hc-left">
+  <button class="hc-collapse-btn" id="hcCollapseBtn" title="Collapse/expand list">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
   <div class="hc-left-head">
     <h2>Hot Chocolate Spots</h2>
     <p class="hc-sub">Best hot chocolate in San Francisco · Eater SF roundup</p>
@@ -319,6 +336,12 @@ permalink: /hot-chocolate/
   });
   document.getElementById('hcDetailX').addEventListener('click', function(){
     selected = null; hideDetail(); renderList();
+  });
+
+  /* ── collapse toggle ── */
+  document.getElementById('hcCollapseBtn').addEventListener('click', function(){
+    document.querySelector('.hc-panes').classList.toggle('left-collapsed');
+    setTimeout(function(){ map.invalidateSize(); }, 300);
   });
 
   renderList();
