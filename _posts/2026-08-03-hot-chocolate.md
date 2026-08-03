@@ -187,7 +187,7 @@ permalink: /hot-chocolate/
      addr:'941 Cole St, SF, CA 94117',
      links:[{t:'Website',u:'https://www.zaziesf.com/dinner-menu-options.html'},{t:'Yelp',u:'https://www.yelp.com/biz/zazie-san-francisco'}]},
 
-    {key:'icecream', name:'The Ice Cream Bar', nb:'Cole Valley', lat:37.7676, lng:-122.4501,
+    {key:'icecream', name:'The Ice Cream Bar', nb:'Cole Valley', lat:37.7664, lng:-122.4504,
      status:'notyet', drink:'Soda-fountain-style hot chocolate',
      note:'A 1930s-inspired soda fountain down the street from Zazie, with house-made syrups and seasonal specials.',
      addr:'~815 Cole St, SF, CA 94117', links:[]},
