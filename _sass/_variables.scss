@@ -19,9 +19,25 @@ $helvetica: Helvetica, Arial, sans-serif;
 $helveticaNeue: "Helvetica Neue", Helvetica, Arial, sans-serif;
 $georgia: Georgia, serif;
 
-// Mobile breakpoints
+// Breakpoints
 @mixin mobile {
   @media screen and (max-width: 640px) {
     @content;
   }
 }
+
+@mixin tablet {
+  @media screen and (min-width: 641px) and (max-width: 900px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media screen and (min-width: 901px) {
+    @content;
+  }
+}
+
+// Container width
+$max-content-width: 740px;
+$max-site-width: min(90vw, 1100px);
