@@ -10,13 +10,6 @@ layout: default
     </ul>
   </section>
 
-  <section class="category-card">
-    <h2 id="Places">Places</h2>
-    <ul class="post-list">
-      <li><a href="{{ site.baseurl }}/places/">Places to Visit</a></li>
-    </ul>
-  </section>
-
   {% comment %}
     Build a de-duplicated list of category names, ordered by the date of
     the most recent post in each category. site.posts is newest-first by
@@ -46,11 +39,15 @@ layout: default
       <section class="category-card">
         <h2 id="{{ cat }}">{{ cat | capitalize }}</h2>
         <ul class="post-list">
-          {% for post in pages_list %}
-            {% if post.title != null %}
-            <li><a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a></li>
-            {% endif %}
-          {% endfor %}
+          {% if cat == '2026' %}
+            <li><a href="{{ site.baseurl }}/places/">Places to Visit</a></li>
+          {% else %}
+            {% for post in pages_list %}
+              {% if post.title != null %}
+              <li><a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a></li>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
           {% if cat == 'Misc' %}
             <li><a href="{{ site.baseurl }}/presentations/">Presentations</a></li>
           {% endif %}
