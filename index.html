@@ -30,7 +30,12 @@ layout: default
 
   {% for cat in cat_order %}
     {% unless cat == blank %}
-      {% assign pages_list = site.categories[cat] | sort: 'date' | reverse %}
+      {% assign pages_list = site.categories[cat] %}
+      {% unless pages_list %}
+        {% assign pages_list = "" | split: "," %}
+      {% endunless %}
+      {% assign pages_list = pages_list | sort: 'date' | reverse %}
+      {% if pages_list.size > 0 %}
       <section class="category-card">
         <h2 id="{{ cat }}">{{ cat | capitalize }}</h2>
         <ul class="post-list">
@@ -44,6 +49,7 @@ layout: default
           {% endif %}
         </ul>
       </section>
+      {% endif %}
     {% endunless %}
   {% endfor %}
 </div>
