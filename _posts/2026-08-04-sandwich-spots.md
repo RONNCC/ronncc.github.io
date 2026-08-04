@@ -114,9 +114,9 @@ permalink: /sandwich-spots/
     <h2>Sandwich Spots</h2>
     <p class="ss-sub">Best sandwiches in San Francisco · Infatuation SF roundup</p>
     <div class="ss-chips">
-      <button class="ss-chip on" data-filter="all">All<span class="ss-ct">20</span></button>
-      <button class="ss-chip" data-filter="visited">Visited<span class="ss-ct">0</span></button>
-      <button class="ss-chip" data-filter="notyet">Not yet<span class="ss-ct">20</span></button>
+      <button class="ss-chip on" data-filter="all">All<span class="ss-ct">19</span></button>
+      <button class="ss-chip" data-filter="visited">Visited<span class="ss-ct">3</span></button>
+      <button class="ss-chip" data-filter="notyet">Not yet<span class="ss-ct">16</span></button>
     </div>
   </div>
   <div class="ss-list" id="ssList"></div>
@@ -126,8 +126,8 @@ permalink: /sandwich-spots/
 <div class="ss-right">
   <div id="ssMap" class="ss-map"></div>
   <div class="ss-map-legend">
-    <span><span class="ss-dot" style="background:#4caf50"></span>Visited (0)</span>
-    <span><span class="ss-dot" style="background:#ff9800"></span>Not yet (20)</span>
+    <span><span class="ss-dot" style="background:#4caf50"></span>Visited (3)</span>
+    <span><span class="ss-dot" style="background:#ff9800"></span>Not yet (16)</span>
   </div>
 
   <!-- DETAIL PANEL -->
@@ -156,13 +156,7 @@ permalink: /sandwich-spots/
      addr:'18 Ocean Ave, San Francisco, CA 94112',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/ocean-subs'}]},
 
-    {key:'saigonsandwich', name:'Saigon Sandwich', nb:'Tenderloin', lat:37.7825, lng:-122.4166,
-     status:'notyet', drink:'Bánh mì — widely considered the best in SF',
-     note:'Cash-only Tenderloin institution for decades. Crackly fresh-baked rolls, well-spiced meat, mayo, pickled daikon and carrots — about $7 a sandwich. (Infatuation: 9.2)',
-     addr:'560 Larkin St, San Francisco, CA 94102',
-     links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/saigon-sandwich'}]},
-
-    {key:'palmcity', name:'Palm City', nb:'Sunset', lat:37.7638, lng:-122.5019,
+     {key:'palmcity', name:'Palm City', nb:'Sunset', lat:37.7638, lng:-122.5019,
      status:'notyet', drink:'Italian American hoagie — mortadella, \'nduja mayo, sesame roll',
      note:'A Sunset wine bar that also makes giant Philly-style hoagies. Fresh toppings like broccoli rabe and arugula keep the massive sandwiches tasting light. (Infatuation: 8.5)',
      addr:'4055 Irving St, San Francisco, CA 94122',
@@ -198,14 +192,14 @@ permalink: /sandwich-spots/
      addr:'748 Van Ness Ave, San Francisco, CA 94102',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/salty-s'}]},
 
-    {key:'sandys', name:'Sandy\'s', nb:'Haight', lat:37.7699, lng:-122.4436,
-     status:'notyet', drink:'Muffuletta — original or mushroom, Duke\'s mayo, giardiniera',
+     {key:'sandys', name:'Sandy\'s', nb:'Haight', lat:37.7699, lng:-122.4436,
+      status:'visited', drink:'Muffuletta — original or mushroom, Duke\'s mayo, giardiniera',
      note:'SF\'s muffuletta king. Sesame bread made specially by an Oakland bakery, a thick spicy olive spread, and fermented cauliflower-carrot giardiniera. (Infatuation: 9.0)',
      addr:'1457 Haight St, San Francisco, CA 94117',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/sandys'}]},
 
-    {key:'latortagorda', name:'La Torta Gorda', nb:'Mission', lat:37.7524, lng:-122.4085,
-     status:'notyet', drink:'Mega Cubana torta — milanesa, sausage, pierna, ham, chorizo, egg, turkey, two cheeses',
+     {key:'latortagorda', name:'La Torta Gorda', nb:'Mission', lat:37.7524, lng:-122.4085,
+      status:'visited', drink:'Mega Cubana torta — milanesa, sausage, pierna, ham, chorizo, egg, turkey, two cheeses',
      note:'Tortas live up to the oversized name. The Mega Cubana is large enough to feed five or six people; comes in junior or regular size.',
      addr:'2833 24th St, San Francisco, CA 94110',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/la-torta-gorda'}]},
@@ -258,8 +252,8 @@ permalink: /sandwich-spots/
      addr:'490 Taraval St, San Francisco, CA 94116',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/guerra-quality-meats'}]},
 
-    {key:'kp49', name:'KP49', nb:'Union Square', lat:37.7889, lng:-122.4038,
-     status:'notyet', drink:'Beef bourguignon sandwich',
+     {key:'kp49', name:'KP49', nb:'Union Square', lat:37.7889, lng:-122.4038,
+      status:'visited', drink:'Beef bourguignon sandwich',
      note:'One sandwich, done extremely well — slow-braised beef, caramelized onions and mushrooms, tangy house sauce. Eat fast before the panini bread gets soggy; chicken version available too.',
      addr:'49 Kearny St, San Francisco, CA 94108',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/kp49'}]},
