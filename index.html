@@ -2,26 +2,32 @@
 layout: default
 ---
 
-<h2 id="Tools">Tools</h2>
-<ul class="post-list">
-  <li><a href="{{ site.baseurl }}/photoaging-visualizer/">Photoaging Visualizer</a></li>
-</ul>
+<div class="category-grid">
+  <section class="category-card">
+    <h2 id="Tools">Tools</h2>
+    <ul class="post-list">
+      <li><a href="{{ site.baseurl }}/photoaging-visualizer/">Photoaging Visualizer</a></li>
+    </ul>
+  </section>
 
-{% for tag in site.categories %}
-  <h2 id="{{ tag[0] }}">{{ tag[0] | capitalize }}</h2>
-  <ul class="post-list">
-    {% assign pages_list = tag[1] %}
-    {% for post in pages_list %}
-      {% if post.title != null %}
-      {% if group == null or group == post.group %}
-      <li><a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a></li>
+  {% for tag in site.categories %}
+  <section class="category-card">
+    <h2 id="{{ tag[0] }}">{{ tag[0] | capitalize }}</h2>
+    <ul class="post-list">
+      {% assign pages_list = tag[1] %}
+      {% for post in pages_list %}
+        {% if post.title != null %}
+        {% if group == null or group == post.group %}
+        <li><a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a></li>
+        {% endif %}
+        {% endif %}
+      {% endfor %}
+      {% if tag[0] == 'Misc' %}
+        <li><a href="{{ site.baseurl }}/presentations/">Presentations</a></li>
       {% endif %}
-      {% endif %}
-    {% endfor %}
-    {% if tag[0] == 'Misc' %}
-      <li><a href="{{ site.baseurl }}/presentations/">Presentations</a></li>
-    {% endif %}
-    {% assign pages_list = nil %}
-    {% assign group = nil %}
-  </ul>
-{% endfor %}
+      {% assign pages_list = nil %}
+      {% assign group = nil %}
+    </ul>
+  </section>
+  {% endfor %}
+</div>
