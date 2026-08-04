@@ -10,24 +10,40 @@ layout: default
     </ul>
   </section>
 
-  {% for tag in site.categories %}
-  <section class="category-card">
-    <h2 id="{{ tag[0] }}">{{ tag[0] | capitalize }}</h2>
-    <ul class="post-list">
-      {% assign pages_list = tag[1] %}
-      {% for post in pages_list %}
-        {% if post.title != null %}
-        {% if group == null or group == post.group %}
-        <li><a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a></li>
-        {% endif %}
-        {% endif %}
-      {% endfor %}
-      {% if tag[0] == 'Misc' %}
-        <li><a href="{{ site.baseurl }}/presentations/">Presentations</a></li>
-      {% endif %}
-      {% assign pages_list = nil %}
-      {% assign group = nil %}
-    </ul>
-  </section>
+  {% comment %}
+    Build a de-duplicated list of category names, ordered by the date of
+    the most recent post in each category. site.posts is newest-first by
+    default, so the first time we see a given category corresponds to
+    that category's latest post.
+  {% endcomment %}
+  {% assign posts_sorted = site.posts | sort: 'date' | reverse %}
+  {% assign cat_order_str = "|||" %}
+  {% for post in posts_sorted %}
+    {% for cat in post.categories %}
+      {% assign needle = "|||" | append: cat | append: "|||" %}
+      {% unless cat_order_str contains needle %}
+        {% assign cat_order_str = cat_order_str | append: cat | append: "|||" %}
+      {% endunless %}
+    {% endfor %}
+  {% endfor %}
+  {% assign cat_order = cat_order_str | split: "|||" %}
+
+  {% for cat in cat_order %}
+    {% unless cat == blank %}
+      {% assign pages_list = site.categories[cat] | sort: 'date' | reverse %}
+      <section class="category-card">
+        <h2 id="{{ cat }}">{{ cat | capitalize }}</h2>
+        <ul class="post-list">
+          {% for post in pages_list %}
+            {% if post.title != null %}
+            <li><a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a></li>
+            {% endif %}
+          {% endfor %}
+          {% if cat == 'Misc' %}
+            <li><a href="{{ site.baseurl }}/presentations/">Presentations</a></li>
+          {% endif %}
+        </ul>
+      </section>
+    {% endunless %}
   {% endfor %}
 </div>
