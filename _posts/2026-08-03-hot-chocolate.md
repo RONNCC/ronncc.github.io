@@ -42,7 +42,6 @@ redirect_from: /2026/hot-chocolate
 .hc-item-body{min-width:0;flex:1}
 .hc-item-name{font-weight:700;font-size:14px;color:#1a1a1a;line-height:1.3}
 .hc-item-nb{font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.04em;margin-top:1px}
-.hc-item-detail{font-size:12.5px;color:#666;margin-top:4px;line-height:1.4}
 .hc-item-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px;white-space:nowrap;flex-shrink:0;margin-top:2px}
 .hc-item-badge.visited{background:#e8f5e9;color:#2e7d32}
 .hc-item-badge.notyet{background:#fff3e0;color:#e65100}
@@ -246,7 +245,6 @@ redirect_from: /2026/hot-chocolate
         + '<div class="hc-item-body">'
         + '<div class="hc-item-name">'+s.name+'</div>'
         + '<div class="hc-item-nb">'+s.nb+'</div>'
-        + '<div class="hc-item-detail">'+s.note+'</div>'
         + '</div>'
         + badgeHTML(s.status)
         + '</div>';
