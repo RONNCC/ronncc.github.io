@@ -199,11 +199,11 @@ permalink: /hot-chocolate/
      addr:'500 Church St, SF, CA 94114',
      links:[{t:'Yelp',u:'https://www.yelp.com/biz/spro-coffee-lab-san-francisco-8'}]},
 
-    {key:'christopherelbow', name:'Christopher Elbow Chocolates', nb:'Location unconfirmed', lat:null, lng:null,
-     status:'visited', drink:'Craft drinking chocolate',
-     note:'Artisan chocolatier featured on the Eater map — the exact SF address isn\'t confirmed.',
-     addr:'(location within SF unconfirmed)',
-     links:[{t:'Eater',u:'https://sf.eater.com/venue/74859/christopher-elbow-chocolates'}]},
+    {key:'christopherelbow', name:'Christopher Elbow Chocolates', nb:'Hayes Valley', lat:37.7768, lng:-122.4231,
+      status:'visited', drink:'Craft drinking chocolate',
+      note:'Artisan chocolatier known for its painted truffle cups and craft drinking chocolate — featured on the Eater SF map.',
+      addr:'401 Hayes St, San Francisco, CA 94102 · (415) 355-1105',
+      links:[{t:'Website',u:'https://www.elbowchocolates.com/'},{t:'Eater',u:'https://sf.eater.com/venue/74859/christopher-elbow-chocolates'}]},
 
     {key:'keikos', name:'Keiko\'s Coffee Shop', nb:'Mission', lat:37.7346, lng:-122.4258,
       status:'notyet', drink:'House hot chocolate',
