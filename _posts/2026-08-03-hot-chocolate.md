@@ -10,9 +10,10 @@ permalink: /hot-chocolate/
 @media(max-width:800px){.hc-app{margin:-20px -16px 0}}
 
 /* ── 2-pane grid ── */
-.hc-panes{display:grid;grid-template-columns:clamp(320px,30vw,520px) 1fr;height:calc(100vh - 80px);overflow:hidden;transition:grid-template-columns .25s ease}
-.hc-panes.left-collapsed{grid-template-columns:52px 1fr}
+.hc-panes{display:grid;grid-template-columns:340px 1fr;height:calc(100vh - 80px);overflow:hidden;transition:grid-template-columns .25s ease}
+.hc-panes.left-collapsed{grid-template-columns:44px 1fr}
 @media(max-width:800px){.hc-panes{grid-template-columns:1fr;height:auto;overflow:auto}.hc-panes.left-collapsed{grid-template-columns:1fr}}
+@media(min-width:1200px){.hc-panes{grid-template-columns:400px 1fr}}
 
 /* ── left pane ── */
 .hc-left{border-right:1px solid #e0e0e0;background:#fafafa;display:flex;flex-direction:column;min-height:0;overflow:hidden;position:relative;transition:all .25s ease}
