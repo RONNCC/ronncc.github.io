@@ -88,6 +88,10 @@ permalink: /hot-chocolate/
 .hc-map .leaflet-popup-content a{color:#6a1b9a;font-weight:600;text-decoration:none;cursor:pointer}
 .hc-map .leaflet-popup-content a:hover{text-decoration:underline}
 
+/* ── custom colored pin markers ── */
+.hc-map .hc-pin{background:transparent;border:none}
+.hc-map .hc-pin svg{display:block;filter:drop-shadow(0 2px 3px rgba(0,0,0,.3))}
+
 /* ── collapse toggle ── */
 .hc-collapse-btn{position:absolute;top:10px;right:10px;z-index:20;width:30px;height:30px;border:none;background:#fff;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.12);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;color:#666;transition:background .12s}
 .hc-collapse-btn:hover{background:#f0f0f0}
@@ -277,10 +281,25 @@ permalink: /hot-chocolate/
     attribution:'&copy; OpenStreetMap &copy; CARTO'
   }).addTo(map);
 
+  var STATUS_COLOR = {visited:'#4caf50', notyet:'#ff9800', unknown:'#999'};
+  function statusIcon(status){
+    var color = STATUS_COLOR[status] || STATUS_COLOR.notyet;
+    return L.divIcon({
+      className: 'hc-pin hc-pin-'+status,
+      html: '<svg width="28" height="40" viewBox="0 0 28 40" xmlns="http://www.w3.org/2000/svg">'
+        + '<path d="M14 0C6.3 0 0 6.3 0 14c0 10.5 14 26 14 26s14-15.5 14-26c0-7.7-6.3-14-14-14z" fill="'+color+'" stroke="#fff" stroke-width="1.5"/>'
+        + '<circle cx="14" cy="14" r="5.5" fill="#fff"/>'
+        + '</svg>',
+      iconSize: [28, 40],
+      iconAnchor: [14, 40],
+      popupAnchor: [0, -36]
+    });
+  }
+
   var markers = {};
   SPOTS.forEach(function(s){
     if(s.lat===null) return;
-    var m = L.marker([s.lat, s.lng]).addTo(map);
+    var m = L.marker([s.lat, s.lng], {icon: statusIcon(s.status)}).addTo(map);
     m.bindPopup('<strong>'+s.name+'</strong>'+s.nb+'<br><a data-goto="'+s.key+'">View details →</a>');
     m.on('popupopen', function(){
       var link = document.querySelector('.leaflet-popup a[data-goto="'+s.key+'"]');
