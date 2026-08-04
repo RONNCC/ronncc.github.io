@@ -117,8 +117,8 @@ permalink: /hot-chocolate/
     <p class="hc-sub">Best hot chocolate in San Francisco · Eater SF roundup</p>
     <div class="hc-chips">
       <button class="hc-chip on" data-filter="all">All<span class="hc-ct">11</span></button>
-      <button class="hc-chip" data-filter="visited">Visited<span class="hc-ct">3</span></button>
-      <button class="hc-chip" data-filter="notyet">Not yet<span class="hc-ct">8</span></button>
+      <button class="hc-chip" data-filter="visited">Visited<span class="hc-ct">4</span></button>
+      <button class="hc-chip" data-filter="notyet">Not yet<span class="hc-ct">7</span></button>
     </div>
   </div>
   <div class="hc-list" id="hcList"></div>
@@ -128,8 +128,8 @@ permalink: /hot-chocolate/
 <div class="hc-right">
   <div id="hcMap" class="hc-map"></div>
   <div class="hc-map-legend">
-    <span><span class="hc-dot" style="background:#4caf50"></span>Visited (3)</span>
-    <span><span class="hc-dot" style="background:#ff9800"></span>Not yet (8)</span>
+    <span><span class="hc-dot" style="background:#4caf50"></span>Visited (4)</span>
+    <span><span class="hc-dot" style="background:#ff9800"></span>Not yet (7)</span>
   </div>
 
   <!-- DETAIL PANEL -->
@@ -149,7 +149,7 @@ permalink: /hot-chocolate/
 (function(){
   var SPOTS = [
     {key:'buenavista', name:'Buena Vista Cafe', nb:'Fisherman\'s Wharf', lat:37.8063, lng:-122.4206,
-     status:'notyet', drink:'Irish whiskey hot chocolate',
+     status:'visited', drink:'Irish whiskey hot chocolate',
      note:'A 1952-founded institution right at the Powell-Hyde cable car turnaround, better known for Irish Coffee — but its boozy hot chocolate is a lesser-known menu star. Mon–Thu 9am–11pm, Sat/Sun from 8am.',
      addr:'2765 Hyde St (@ Beach), SF, CA 94109',
      links:[{t:'Website',u:'http://www.thebuenavista.com/'},{t:'Instagram',u:'https://www.instagram.com/p/DQpE59Sjt1R/'}]},
