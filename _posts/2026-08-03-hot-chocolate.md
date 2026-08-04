@@ -113,8 +113,8 @@ permalink: /hot-chocolate/
     <p class="hc-sub">Best hot chocolate in San Francisco · Eater SF roundup</p>
     <div class="hc-chips">
       <button class="hc-chip on" data-filter="all">All<span class="hc-ct">11</span></button>
-      <button class="hc-chip" data-filter="visited">Visited<span class="hc-ct">1</span></button>
-      <button class="hc-chip" data-filter="notyet">Not yet<span class="hc-ct">10</span></button>
+      <button class="hc-chip" data-filter="visited">Visited<span class="hc-ct">3</span></button>
+      <button class="hc-chip" data-filter="notyet">Not yet<span class="hc-ct">8</span></button>
       <button class="hc-chip" data-filter="unknown">Unconfirmed<span class="hc-ct">0</span></button>
     </div>
   </div>
@@ -125,9 +125,8 @@ permalink: /hot-chocolate/
 <div class="hc-right">
   <div id="hcMap" class="hc-map"></div>
   <div class="hc-map-legend">
-    <span><span class="hc-dot" style="background:#4caf50"></span>Visited</span>
-    <span><span class="hc-dot" style="background:#ff9800"></span>Not yet</span>
-    <span><span class="hc-dot" style="background:#bbb"></span>Unconfirmed</span>
+    <span><span class="hc-dot" style="background:#4caf50"></span>Visited (3)</span>
+    <span><span class="hc-dot" style="background:#ff9800"></span>Not yet (8)</span>
   </div>
 
   <!-- DETAIL PANEL -->
@@ -170,17 +169,17 @@ permalink: /hot-chocolate/
      addr:'950 Mason St, SF, CA 94108',
      links:[{t:'Website',u:'https://www.fairmont-san-francisco.com/explore/holidays/'},{t:'Instagram',u:'https://www.instagram.com/reel/DRX1Mcdkk40/'}]},
 
-    {key:'dandelion', name:'Dandelion Chocolate (Valencia)', nb:'Mission', lat:37.7614, lng:-122.4219,
-     status:'notyet', drink:'Single-origin hot chocolate; also Mexican-style and frozen',
-     note:'Bean-to-bar chocolatier with a creamy, mildly sweet hot chocolate in the $6.50–7.50 range. Also at the Ferry Building, 16th St Factory, and Fillmore.',
-     addr:'740 Valencia St, SF, CA 94110',
-     links:[{t:'Website',u:'https://www.dandelionchocolate.com/pages/valencia-street'}]},
+    {key:'dandelion', name:'Dandelion Chocolate (Valencia)', nb:'Mission', lat:37.7610, lng:-122.4218,
+      status:'visited', drink:'Mission Hot Chocolate — spiced single-origin drinking chocolate with optional house-made marshmallows',
+      note:'Bean-to-bar chocolatier famous for its Mission Hot Chocolate — a spiced, Mexican-style drinking chocolate made with single-origin beans (Ecuador/Belgian), topped with optional house-made marshmallows from a self-serve jar. Also offers European Drinking Chocolate (thick, Italian-style) and hot variants. $6.50–7.50 range. Also at the Ferry Building, 16th St Factory, and Fillmore.',
+      addr:'740 Valencia St, San Francisco, CA 94110 · (415) 349-0942',
+      links:[{t:'Website',u:'https://www.dandelionchocolate.com/pages/valencia-street'},{t:'Yelp',u:'https://www.yelp.com/biz/dandelion-chocolate-san-francisco-9'}]},
 
     {key:'oaxaquena', name:'La Oaxaqueña Bakery & Restaurant', nb:'Mission', lat:37.7629, lng:-122.4198,
-     status:'notyet', drink:'Champurrado (Oaxacan-style hot chocolate)',
-     note:'Traditional champurrado — a masa-thickened, cinnamon-spiced Mexican hot chocolate — alongside an Oaxacan and Salvadoran menu. Open till 2:30am.',
-     addr:'2128 Mission St, SF, CA 94110',
-     links:[{t:'Yelp',u:'https://www.yelp.com/biz/la-oaxaque%C3%B1a-san-francisco-2'}]},
+      status:'visited', drink:'Chocolate Caliente — Oaxacan-style hot chocolate with cinnamon-spiced chocolate tablets melted in steamed milk',
+      note:'Traditional Oaxacan Chocolate Caliente — authentic Oaxacan chocolate discs melted down in steamed milk with generous cinnamon and warm spices, served in a giant ceramic mug "for here." Not to be confused with champurrado (which includes masa for thickness). Also serves an Oaxacan and Salvadoran menu. Open till 2:30am.',
+      addr:'2128 Mission St, San Francisco, CA 94110 · (415) 621-5446',
+      links:[{t:'Yelp',u:'https://www.yelp.com/biz/la-oaxaque%C3%B1a-san-francisco-2'}]},
 
     {key:'zazie', name:'Zazie', nb:'Cole Valley', lat:37.766, lng:-122.450,
      status:'notyet', drink:'Signature "Baked Hot Chocolate" with golden marshmallows (GF)',
@@ -200,10 +199,10 @@ permalink: /hot-chocolate/
      links:[{t:'Yelp',u:'https://www.yelp.com/biz/spro-coffee-lab-san-francisco-8'}]},
 
     {key:'christopherelbow', name:'Christopher Elbow Chocolates', nb:'Hayes Valley', lat:37.7768, lng:-122.4231,
-      status:'visited', drink:'Craft drinking chocolate',
-      note:'Artisan chocolatier known for its painted truffle cups and craft drinking chocolate — featured on the Eater SF map.',
-      addr:'401 Hayes St, San Francisco, CA 94102 · (415) 355-1105',
-      links:[{t:'Website',u:'https://www.elbowchocolates.com/'},{t:'Eater',u:'https://sf.eater.com/venue/74859/christopher-elbow-chocolates'}]},
+       status:'visited', drink:'Cocoa Noir Dark Drinking Chocolate (73% Ecuador single-origin) with optional house-made meringue',
+       note:'Artisan chocolatier known for its painted truffle cups and craft drinking chocolates made to order with single-origin beans (Ecuador for earthy notes, Belize for fruity). Cocoa Noir is their rich European-style dark drinking chocolate, served with optional house-made meringue or marshmallow fluff. 14 flavors including seasonal options like peppermint and coconut curry.',
+       addr:'401 Hayes St, San Francisco, CA 94102 · (415) 355-1105',
+       links:[{t:'Website',u:'https://www.elbowchocolates.com/'},{t:'Eater',u:'https://sf.eater.com/venue/74859/christopher-elbow-chocolates'}]},
 
     {key:'keikos', name:'Keiko\'s Coffee Shop', nb:'Mission', lat:37.7346, lng:-122.4258,
       status:'notyet', drink:'House hot chocolate',
