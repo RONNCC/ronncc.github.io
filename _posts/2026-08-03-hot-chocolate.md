@@ -41,8 +41,7 @@ permalink: /hot-chocolate/
 .hc-item-body{min-width:0;flex:1}
 .hc-item-name{font-weight:700;font-size:14px;color:#1a1a1a;line-height:1.3}
 .hc-item-nb{font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.04em;margin-top:1px}
-.hc-item-detail{font-size:12.5px;color:#666;margin-top:4px;line-height:1.4;display:none}
-.hc-item.on .hc-item-detail{display:block}
+.hc-item-detail{font-size:12.5px;color:#666;margin-top:4px;line-height:1.4}
 .hc-item-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px;white-space:nowrap;flex-shrink:0;margin-top:2px}
 .hc-item-badge.visited{background:#e8f5e9;color:#2e7d32}
 .hc-item-badge.notyet{background:#fff3e0;color:#e65100}
@@ -117,8 +116,8 @@ permalink: /hot-chocolate/
     <p class="hc-sub">Best hot chocolate in San Francisco · Eater SF roundup</p>
     <div class="hc-chips">
       <button class="hc-chip on" data-filter="all">All<span class="hc-ct">11</span></button>
-      <button class="hc-chip" data-filter="visited">Visited<span class="hc-ct">4</span></button>
-      <button class="hc-chip" data-filter="notyet">Not yet<span class="hc-ct">7</span></button>
+      <button class="hc-chip" data-filter="visited">Visited<span class="hc-ct">3</span></button>
+      <button class="hc-chip" data-filter="notyet">Not yet<span class="hc-ct">8</span></button>
     </div>
   </div>
   <div class="hc-list" id="hcList"></div>
@@ -128,8 +127,8 @@ permalink: /hot-chocolate/
 <div class="hc-right">
   <div id="hcMap" class="hc-map"></div>
   <div class="hc-map-legend">
-    <span><span class="hc-dot" style="background:#4caf50"></span>Visited (4)</span>
-    <span><span class="hc-dot" style="background:#ff9800"></span>Not yet (7)</span>
+    <span><span class="hc-dot" style="background:#4caf50"></span>Visited (3)</span>
+    <span><span class="hc-dot" style="background:#ff9800"></span>Not yet (8)</span>
   </div>
 
   <!-- DETAIL PANEL -->
@@ -149,7 +148,7 @@ permalink: /hot-chocolate/
 (function(){
   var SPOTS = [
     {key:'buenavista', name:'Buena Vista Cafe', nb:'Fisherman\'s Wharf', lat:37.8063, lng:-122.4206,
-     status:'visited', drink:'Irish whiskey hot chocolate',
+     status:'notyet', drink:'Irish whiskey hot chocolate',
      note:'A 1952-founded institution right at the Powell-Hyde cable car turnaround, better known for Irish Coffee — but its boozy hot chocolate is a lesser-known menu star. Mon–Thu 9am–11pm, Sat/Sun from 8am.',
      addr:'2765 Hyde St (@ Beach), SF, CA 94109',
      links:[{t:'Website',u:'http://www.thebuenavista.com/'},{t:'Instagram',u:'https://www.instagram.com/p/DQpE59Sjt1R/'}]},
