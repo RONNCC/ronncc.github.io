@@ -3,6 +3,7 @@ layout: post
 title: "Hot Chocolate Spots in SF"
 categories: ["2026"]
 permalink: /hot-chocolate/
+redirect_from: /2026/hot-chocolate
 ---
 
 <style>
