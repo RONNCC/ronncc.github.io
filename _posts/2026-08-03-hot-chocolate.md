@@ -142,6 +142,10 @@ redirect_from: /2026/hot-chocolate
 </div>
 </div>
 
+<p style="max-width:900px;margin:16px auto 0;padding:0 20px;font-size:13px;color:#888">
+  Reference: <a href="https://sf.eater.com/maps/best-hot-chocolate-san-francisco" target="_blank" rel="noopener">Eater SF — Where To Find The Best Hot Chocolate In San Francisco</a>
+</p>
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
