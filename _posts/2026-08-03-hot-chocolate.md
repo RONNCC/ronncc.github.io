@@ -115,7 +115,6 @@ permalink: /hot-chocolate/
       <button class="hc-chip on" data-filter="all">All<span class="hc-ct">11</span></button>
       <button class="hc-chip" data-filter="visited">Visited<span class="hc-ct">3</span></button>
       <button class="hc-chip" data-filter="notyet">Not yet<span class="hc-ct">8</span></button>
-      <button class="hc-chip" data-filter="unknown">Unconfirmed<span class="hc-ct">0</span></button>
     </div>
   </div>
   <div class="hc-list" id="hcList"></div>
