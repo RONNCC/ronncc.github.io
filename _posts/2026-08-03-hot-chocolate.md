@@ -6,8 +6,8 @@ permalink: /hot-chocolate/
 ---
 
 <style>
-.hc-app{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding:0;margin:0;line-height:1.5;color:#1a1a1a;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;width:100vw}
-@media(max-width:800px){.hc-app{margin:0}
+.hc-app{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding:0;margin:0;line-height:1.5;color:#1a1a1a;width:100vw;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw}
+@media(max-width:800px){.hc-app{margin:0;left:auto;right:auto;margin-left:0;margin-right:0;width:unset}}
 
 /* ── 2-pane grid ── */
 .hc-panes{display:grid;grid-template-columns:300px 1fr;height:calc(100vh - 80px);overflow:hidden;transition:grid-template-columns .25s ease}
