@@ -115,8 +115,8 @@ permalink: /sandwich-spots/
     <p class="ss-sub">Best sandwiches in San Francisco · Infatuation SF roundup</p>
     <div class="ss-chips">
       <button class="ss-chip on" data-filter="all">All<span class="ss-ct">19</span></button>
-      <button class="ss-chip" data-filter="visited">Visited<span class="ss-ct">3</span></button>
-      <button class="ss-chip" data-filter="notyet">Not yet<span class="ss-ct">16</span></button>
+      <button class="ss-chip" data-filter="visited">Visited<span class="ss-ct">5</span></button>
+      <button class="ss-chip" data-filter="notyet">Not yet<span class="ss-ct">14</span></button>
     </div>
   </div>
   <div class="ss-list" id="ssList"></div>
@@ -126,8 +126,8 @@ permalink: /sandwich-spots/
 <div class="ss-right">
   <div id="ssMap" class="ss-map"></div>
   <div class="ss-map-legend">
-    <span><span class="ss-dot" style="background:#4caf50"></span>Visited (3)</span>
-    <span><span class="ss-dot" style="background:#ff9800"></span>Not yet (16)</span>
+    <span><span class="ss-dot" style="background:#4caf50"></span>Visited (5)</span>
+    <span><span class="ss-dot" style="background:#ff9800"></span>Not yet (14)</span>
   </div>
 
   <!-- DETAIL PANEL -->
@@ -234,9 +234,9 @@ permalink: /sandwich-spots/
      addr:'503 Irving St, San Francisco, CA 94122',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/the-yellow-submarine'}]},
 
-    {key:'doloresdeluxe', name:'Dolores Deluxe', nb:'Mission', lat:37.7524, lng:-122.4278,
-     status:'notyet', drink:'Mole rotisserie chicken, or pastrami with spinach-artichoke dip',
-     note:'A corner store near Dolores Park with a frequently rotating menu. Don\'t skip the leek omelette breakfast sandwich with spicy tomato jam.',
+     {key:'doloresdeluxe', name:'Dolores Deluxe', nb:'Mission', lat:37.7524, lng:-122.4278,
+      status:'visited', drink:'Mole rotisserie chicken, or pastrami with spinach-artichoke dip',
+      note:'A corner store near Dolores Park with a frequently rotating menu. Don\'t skip the leek omelette breakfast sandwich with spicy tomato jam.',
      addr:'3500 22nd St, San Francisco, CA 94114',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/dolores-deluxe'}]},
 
@@ -246,9 +246,9 @@ permalink: /sandwich-spots/
      addr:'2901 Sacramento St, San Francisco, CA 94115',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/the-hornet-sf'}]},
 
-    {key:'guerraqualitymeats', name:'Guerra Quality Meats', nb:'Parkside', lat:37.7423, lng:-122.4726,
-     status:'notyet', drink:'Sicilian — hot coppa, salami, provolone, tomato, lettuce, jalapeños',
-     note:'Longstanding Italian butcher shop. Get it on a dutch crunch roll — buttery, dark golden brown, with a soft crackly top. (Infatuation: 8.0)',
+     {key:'guerraqualitymeats', name:'Guerra Quality Meats', nb:'Parkside', lat:37.7423, lng:-122.4726,
+      status:'visited', drink:'Sicilian — hot coppa, salami, provolone, tomato, lettuce, jalapeños',
+      note:'Longstanding Italian butcher shop. Get it on a dutch crunch roll — buttery, dark golden brown, with a soft crackly top. Updated August 2026 — still great. (Infatuation: 8.0)',
      addr:'490 Taraval St, San Francisco, CA 94116',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/guerra-quality-meats'}]},
 
