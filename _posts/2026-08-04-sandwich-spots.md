@@ -114,9 +114,9 @@ permalink: /sandwich-spots/
     <h2>Sandwich Spots</h2>
     <p class="ss-sub">Best sandwiches in San Francisco · Infatuation SF roundup</p>
     <div class="ss-chips">
-      <button class="ss-chip on" data-filter="all">All<span class="ss-ct">20</span></button>
-      <button class="ss-chip" data-filter="visited">Visited<span class="ss-ct">5</span></button>
-      <button class="ss-chip" data-filter="notyet">Not yet<span class="ss-ct">15</span></button>
+      <button class="ss-chip on" data-filter="all">All<span class="ss-ct">21</span></button>
+      <button class="ss-chip" data-filter="visited">Visited<span class="ss-ct">7</span></button>
+      <button class="ss-chip" data-filter="notyet">Not yet<span class="ss-ct">14</span></button>
     </div>
   </div>
   <div class="ss-list" id="ssList"></div>
@@ -126,8 +126,8 @@ permalink: /sandwich-spots/
 <div class="ss-right">
   <div id="ssMap" class="ss-map"></div>
   <div class="ss-map-legend">
-    <span><span class="ss-dot" style="background:#4caf50"></span>Visited (5)</span>
-    <span><span class="ss-dot" style="background:#ff9800"></span>Not yet (15)</span>
+    <span><span class="ss-dot" style="background:#4caf50"></span>Visited (7)</span>
+    <span><span class="ss-dot" style="background:#ff9800"></span>Not yet (14)</span>
   </div>
 
   <!-- DETAIL PANEL -->
@@ -154,9 +154,15 @@ permalink: /sandwich-spots/
      status:'notyet', drink:'Classic subs on toasted dutch crunch, tangy herb vinaigrette',
      note:'Just four subs on the menu, but each is so balanced with salty cold cuts, herb vinaigrette, and a crunchy-yet-chewy dutch crunch roll that regulars call it the city\'s best. (Infatuation: 9.0)',
      addr:'18 Ocean Ave, San Francisco, CA 94112',
-     links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/ocean-subs'}]},
+      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/ocean-subs'}]},
 
-     {key:'palmcity', name:'Palm City', nb:'Sunset', lat:37.7638, lng:-122.5019,
+     {key:'saigonsandwich', name:'Saigon Sandwich', nb:'Tenderloin', lat:37.7825, lng:-122.4166,
+      status:'visited', drink:'Bánh mì — widely considered the best in SF',
+      note:'Cash-only Tenderloin institution for decades. Crackly fresh-baked rolls, well-spiced meat, mayo, pickled daikon and carrots — about $7 a sandwich. (Infatuation: 9.2)',
+      addr:'560 Larkin St, San Francisco, CA 94102',
+      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/saigon-sandwich'}]},
+
+      {key:'palmcity', name:'Palm City', nb:'Sunset', lat:37.7638, lng:-122.5019,
      status:'notyet', drink:'Italian American hoagie — mortadella, \'nduja mayo, sesame roll',
      note:'A Sunset wine bar that also makes giant Philly-style hoagies. Fresh toppings like broccoli rabe and arugula keep the massive sandwiches tasting light. (Infatuation: 8.5)',
      addr:'4055 Irving St, San Francisco, CA 94122',
@@ -169,7 +175,7 @@ permalink: /sandwich-spots/
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/deli-board'}]},
 
     {key:'outtasight', name:'Outta Sight Pizza', nb:'Tenderloin', lat:37.7846, lng:-122.4165,
-     status:'notyet', drink:'Italian Combo — mortadella, pepperoni, ham, coppa',
+      status:'visited', drink:'Italian Combo — mortadella, pepperoni, ham, coppa',
      note:'Known for pizza, but the towering sandwiches deserve just as much attention. Watch for seasonal specials like the tuna melt and Green Gobbler. (Infatuation: 9.1)',
      addr:'422 Larkin St, San Francisco, CA 94102',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/outta-sight'}]},
