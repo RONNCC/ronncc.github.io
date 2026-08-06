@@ -114,9 +114,9 @@ permalink: /sandwich-spots/
     <h2>Sandwich Spots</h2>
     <p class="ss-sub">Best sandwiches in San Francisco · Infatuation SF roundup</p>
     <div class="ss-chips">
-      <button class="ss-chip on" data-filter="all">All<span class="ss-ct">19</span></button>
+      <button class="ss-chip on" data-filter="all">All<span class="ss-ct">21</span></button>
       <button class="ss-chip" data-filter="visited">Visited<span class="ss-ct">5</span></button>
-      <button class="ss-chip" data-filter="notyet">Not yet<span class="ss-ct">14</span></button>
+      <button class="ss-chip" data-filter="notyet">Not yet<span class="ss-ct">16</span></button>
     </div>
   </div>
   <div class="ss-list" id="ssList"></div>
@@ -127,7 +127,7 @@ permalink: /sandwich-spots/
   <div id="ssMap" class="ss-map"></div>
   <div class="ss-map-legend">
     <span><span class="ss-dot" style="background:#4caf50"></span>Visited (5)</span>
-    <span><span class="ss-dot" style="background:#ff9800"></span>Not yet (14)</span>
+    <span><span class="ss-dot" style="background:#ff9800"></span>Not yet (16)</span>
   </div>
 
   <!-- DETAIL PANEL -->
@@ -247,8 +247,8 @@ permalink: /sandwich-spots/
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/the-hornet-sf'}]},
 
      {key:'guerraqualitymeats', name:'Guerra Quality Meats', nb:'Parkside', lat:37.7423, lng:-122.4726,
-      status:'visited', drink:'Sicilian — hot coppa, salami, provolone, tomato, lettuce, jalapeños',
-      note:'Longstanding Italian butcher shop. Get it on a dutch crunch roll — buttery, dark golden brown, with a soft crackly top. Updated August 2026 — still great. (Infatuation: 8.0)',
+      status:'notyet', drink:'Sicilian — hot coppa, salami, provolone, tomato, lettuce, jalapeños',
+      note:'Longstanding Italian butcher shop. Get it on a dutch crunch roll — buttery, dark golden brown, with a soft crackly top. (Infatuation: 8.0)',
      addr:'490 Taraval St, San Francisco, CA 94116',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/guerra-quality-meats'}]},
 
@@ -262,8 +262,14 @@ permalink: /sandwich-spots/
      status:'notyet', drink:'Roasted turkey sandwich on a dutch crunch roll',
      note:'A Richmond grocery store nicknamed "The Turkey Sandwich Emporium." Also has housemade pastas and salads — stock up on drinks and chips too.',
      addr:'782 Arguello Blvd, San Francisco, CA 94118',
-     links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/arguello-market'}]}
-  ];
+      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/arguello-market'}]},
+
+     {key:'guerreromarket', name:'Guerrero Market & Deli', nb:'Mission', lat:37.7598, lng:-122.4275,
+      status:'visited', drink:'Roast pork banh mi, or a classic deli sandwich',
+      note:'Mission District grocery & deli. Updated August 2026 — roast pork banh mi was great, fresh baguette and good balance of flavors.',
+      addr:'701 Guerrero St, San Francisco, CA 94110',
+      links:[{t:'Yelp',u:'https://www.yelp.com/biz/guerrero-market-and-deli-san-francisco'}]}
+   ];
 
   var filter = 'all';
   var selected = null;
