@@ -114,9 +114,9 @@ permalink: /sandwich-spots/
     <h2>Sandwich Spots</h2>
     <p class="ss-sub">Best sandwiches in San Francisco · Infatuation SF roundup</p>
     <div class="ss-chips">
-      <button class="ss-chip on" data-filter="all">All<span class="ss-ct">21</span></button>
+      <button class="ss-chip on" data-filter="all">All<span class="ss-ct">20</span></button>
       <button class="ss-chip" data-filter="visited">Visited<span class="ss-ct">5</span></button>
-      <button class="ss-chip" data-filter="notyet">Not yet<span class="ss-ct">16</span></button>
+      <button class="ss-chip" data-filter="notyet">Not yet<span class="ss-ct">15</span></button>
     </div>
   </div>
   <div class="ss-list" id="ssList"></div>
@@ -127,7 +127,7 @@ permalink: /sandwich-spots/
   <div id="ssMap" class="ss-map"></div>
   <div class="ss-map-legend">
     <span><span class="ss-dot" style="background:#4caf50"></span>Visited (5)</span>
-    <span><span class="ss-dot" style="background:#ff9800"></span>Not yet (16)</span>
+    <span><span class="ss-dot" style="background:#ff9800"></span>Not yet (15)</span>
   </div>
 
   <!-- DETAIL PANEL -->
