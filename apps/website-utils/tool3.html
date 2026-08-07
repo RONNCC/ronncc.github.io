@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Log Sanitizer | Website Utils</title>
+  <meta name="description" content="100% client-side — nothing leaves your browser. Paste terminal logs, scrub PII & secrets, then share safely." />
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #dbeafe 0%, #ffffff 100%);
+      color: #1f2937;
+      -webkit-font-smoothing: antialiased;
+    }
+    header { background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    nav.container { max-width: 1200px; margin: 0 auto; padding: 12px 24px; }
+    nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 16px; }
+    nav a { color: #2563eb; text-decoration: none; font-weight: 500; }
+    nav a:hover { color: #1d4ed8; }
+    nav a.active { text-decoration: underline; }
+    main.container { max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
+    h1.title { font-size: 1.75rem; font-weight: 800; margin: 0 0 8px; text-align: center; color: #1e40af; }
+    p.subtitle { text-align: center; color: #4b5563; font-size: 1rem; margin: 0 0 16px; }
+    .warn { background: #fef3c7; border: 1px solid #fde68a; color: #92400e; border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 16px; }
+    .card { background: #ffffff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 20px; margin-bottom: 16px; }
+    details summary { cursor: pointer; font-weight: 600; color: #374151; }
+    .pat-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      height: 34px; padding: 0 14px; border: none; border-radius: 6px; font-size: 13px;
+      font-weight: 500; cursor: pointer; white-space: nowrap; color: #fff; transition: background 0.15s;
+    }
+    .btn-blue { background: #3b82f6; } .btn-blue:hover { background: #2563eb; }
+    .btn-gray { background: #6b7280; } .btn-gray:hover { background: #4b5563; }
+    .btn-outline { background: #fff; color: #374151; border: 1px solid #d1d5db; }
+    .btn-outline:hover { background: #f3f4f6; }
+    .badge { font-size: 11px; background: #dbeafe; color: #1d4ed8; border-radius: 9999px; padding: 2px 8px; }
+    .hint { margin-left: auto; font-size: 12px; color: #9ca3af; }
+    .pat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin-top: 12px; }
+    .pat-grid label { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; color: #374151; cursor: pointer; padding: 4px 0; }
+    .pat-grid label .pdesc { display: block; font-size: 11px; color: #9ca3af; }
+    .pat-grid input[type="checkbox"] { margin-top: 2px; accent-color: #2563eb; }
+    h3.sec { font-size: 1.05rem; font-weight: 700; color: #1f2937; margin: 20px 0 10px; }
+    .rule-row { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+    .rule-row input[type="text"] { height: 32px; border: 1px solid #d1d5db; border-radius: 6px; padding: 0 8px; font-size: 13px; }
+    .rule-row input.find { width: 220px; }
+    .rule-row input.replace { width: 200px; }
+    .rule-row select { height: 32px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px; background: #fff; }
+    .rule-row .rm { background: none; border: none; color: #ef4444; font-size: 16px; cursor: pointer; }
+    .rule-row .toggle { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: #6b7280; border: 1px solid #d1d5db; border-radius: 6px; padding: 4px 8px; cursor: pointer; background: #fff; user-select: none; }
+    .rule-row .toggle.on { background: #eff6ff; border-color: #93c5fd; color: #1d4ed8; }
+    .rule-row .err { color: #ef4444; font-size: 12px; width: 100%; }
+    .rules-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .test-result { font-size: 12px; color: #059669; margin-top: 8px; }
+    .bottom-bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 16px; border-top: 1px solid #e5e7eb; padding-top: 14px; }
+    .bottom-bar label { font-size: 13px; color: #374151; display: inline-flex; align-items: center; gap: 6px; }
+    .bottom-bar input[type="text"] { height: 30px; width: 84px; border: 1px solid #d1d5db; border-radius: 6px; padding: 0 8px; font-size: 13px; }
+    .bottom-bar input[type="checkbox"] { accent-color: #2563eb; }
+    .bottom-bar .flex-1 { flex: 1; }
+    .stats { font-size: 12px; color: #059669; margin-top: 8px; }
+    .stats .pathmap { color: #6b7280; margin-top: 2px; }
+    .io-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 1024px) { .io-grid { grid-template-columns: 1fr 1fr; } }
+    .io-col .io-label { font-size: 12px; font-weight: 600; color: #6b7280; margin-bottom: 6px; letter-spacing: 0.05em; }
+    .io-col .view-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+    .io-col textarea {
+      width: 100%; height: 54vh; min-height: 320px; background: #0f172a; color: #f1f5f9;
+      border: 1px solid #334155; border-radius: 8px; padding: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px; line-height: 1.5; resize: vertical;
+    }
+    .io-col textarea:focus { outline: none; border-color: #3b82f6; }
+    .seg { display: flex; border: 1px solid #d1d5db; border-radius: 6px; overflow: hidden; }
+    .seg button { border: none; background: #fff; padding: 6px 12px; font-size: 13px; cursor: pointer; color: #6b7280; }
+    .seg button.on { background: #eff6ff; color: #1d4ed8; font-weight: 600; }
+    .diff-legend { font-size: 11px; color: #9ca3af; display: flex; gap: 10px; margin-left: auto; }
+    .diff-legend .removed { background: #fecaca; color: #991b1b; border-radius: 4px; padding: 1px 6px; }
+    .diff-legend .inserted { background: #bbf7d0; color: #065f46; border-radius: 4px; padding: 1px 6px; }
+    .diff-grid { background: #0f172a; border: 1px solid #334155; border-radius: 8px; overflow: auto; height: 54vh; min-height: 320px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; line-height: 1.5; }
+    .diff-grid .row { display: flex; }
+    .diff-grid .side { flex: 1; padding: 2px 8px; white-space: pre-wrap; word-break: break-word; }
+    .diff-grid .side.left { border-right: 1px solid #334155; }
+    .diff-grid .ln { color: #64748b; margin-right: 8px; user-select: none; font-size: 11px; width: 34px; text-align: right; flex-shrink: 0; }
+    .diff-grid .text-slate-300 { color: #cbd5e1; }
+    .diff-grid .removed { background: rgba(239,68,68,0.35); color: #fecaca; text-decoration: line-through; border-radius: 2px; padding: 0 2px; }
+    .diff-grid .inserted { background: rgba(16,185,129,0.35); color: #a7f3d0; border-radius: 2px; padding: 0 2px; }
+    .diff-grid .empty { color: #64748b; }
+    footer.note { text-align: center; color: #9ca3af; font-size: 12px; margin-top: 16px; }
+    /* Toasts */
+    .toast-wrap { position: fixed; top: 16px; left: 16px; right: 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 9999; pointer-events: none; }
+    .toast {
+      pointer-events: auto; background: #111827; color: #fff; padding: 10px 14px; border-radius: 8px;
+      font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); opacity: 0; transform: translateY(-8px);
+      transition: all 0.2s; max-width: 90vw;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.success { background: #16a34a; }
+    .toast.error { background: #dc2626; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="tool1.html">Image Collage</a></li>
+        <li><a href="tool2.html">Video to GIF Converter</a></li>
+        <li><a href="tool3.html" class="active">Log Sanitizer</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1 class="title">Log Sanitizer</h1>
+    <p class="subtitle">100% client-side — nothing leaves your browser. Paste terminal logs, scrub PII &amp; secrets, then share safely.</p>
+
+    <div class="warn"><strong>Heads up:</strong> Regex redaction is best-effort, not perfect. Always review in the Diff view before publishing anything public or immutable.</div>
+
+    <div class="card">
+      <details id="patternsDetails">
+        <summary>Redaction patterns — <span id="enabledCount">37 / 37</span> enabled — click to show/hide</summary>
+        <div class="pat-bar">
+          <button type="button" class="btn btn-blue" id="enableAllBtn">Enable all</button>
+          <button type="button" class="btn btn-gray" id="disableAllBtn">Disable all</button>
+          <span class="badge">All on by default</span>
+          <span class="hint">Uncheck anything you don't need</span>
+        </div>
+        <div id="patternGrid" class="pat-grid"></div>
+      </details>
+
+      <h3 class="sec">Custom rules</h3>
+      <div id="customRules"></div>
+      <div class="rules-actions">
+        <button type="button" class="btn btn-outline" id="addRuleBtn">+ Add rule</button>
+        <button type="button" class="btn btn-outline" id="quickUserBtn">+ $USER quick set</button>
+        <button type="button" class="btn btn-outline" id="orgBtn">+ Org/school scrubber</button>
+        <button type="button" class="btn btn-outline" id="testBtn">Test all vs input</button>
+        <button type="button" class="btn btn-outline" id="exportBtn">Export JSON</button>
+        <button type="button" class="btn btn-outline" id="importBtn">Import JSON</button>
+        <input type="file" id="importInput" accept=".json,application/json" hidden />
+      </div>
+      <div id="testResult" class="test-result"></div>
+
+      <div class="bottom-bar">
+        <label>User tag <input type="text" id="userPh" value="user" /></label>
+        <label>Host tag <input type="text" id="hostPh" value="host" /></label>
+        <label class="cursor"><input type="checkbox" id="anonymizePaths" checked /> Anonymize project paths</label>
+        <div class="flex-1"></div>
+        <button type="button" class="btn btn-blue" id="copyBtn">Copy</button>
+        <button type="button" class="btn btn-outline" id="clearBtn">Clear</button>
+      </div>
+
+      <div id="stats" class="stats"></div>
+    </div>
+
+    <div class="io-grid">
+      <div class="io-col">
+        <div class="io-label">INPUT — raw logs</div>
+        <textarea id="input" spellcheck="false" placeholder="Paste terminal logs here, e.g.
+
+[ERROR] 2024-03-15 10:42:17 job=import user=alice@example.com host=db01.internal status=401 token=sk-ant-0123456789abcdef0123456789abcdef
+connection: postgres://admin:secret@10.0.0.5:5432/app?sslmode=require
+/Users/alice/projects/myapp/config.json loaded by service-api-1</textarea>
+      </div>
+      <div class="io-col">
+        <div class="view-bar">
+          <div class="seg">
+            <button type="button" id="viewTextBtn" class="on">Redacted Text</button>
+            <button type="button" id="viewDiffBtn">Diff View</button>
+          </div>
+          <div class="diff-legend">
+            <span class="removed">removed</span>
+            <span class="inserted">inserted</span>
+          </div>
+        </div>
+        <div id="outputWrap">
+          <textarea id="output" spellcheck="false" readonly placeholder="Redacted output appears here…"></textarea>
+        </div>
+        <div id="diffWrap" style="display:none">
+          <div id="diffGrid" class="diff-grid"></div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="note">Runs fully client-side. Your custom rules live in this browser's localStorage.</footer>
+  </main>
+
+  <div id="toastWrap" class="toast-wrap"></div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var PATTERNS = [
+        { id:"emails", label:"Email addresses", desc:"user@example.com", re:/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi, rep:"[email@redacted]" },
+        { id:"ipv4", label:"IPv4 addresses", desc:"192.168.1.1", re:/\b(?:(?:25[0-5]|2[0-4]\d|1?\d{1,2})\.){3}(?:25[0-5]|2[0-4]\d|1?\d{1,2})\b/g, rep:"[IP]" },
+        { id:"ipv6", label:"IPv6 addresses", desc:"fe80::1", re:/\b(?:[a-f0-9]{0,4}:){2,7}[a-f0-9]{0,4}\b/gi, rep:"[IPV6]" },
+        { id:"mac", label:"MAC addresses", desc:"aa:bb:cc:dd:ee:ff", re:/\b([0-9a-f]{2}[:-]){5}[0-9a-f]{2}\b/gi, rep:"[MAC]" },
+        { id:"aws_key", label:"AWS Access Keys", desc:"AKIA...", re:/\b(AKIA|A3T|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[0-9A-Z]{16}\b/g, rep:"[AWS_KEY]" },
+        { id:"aws_secret", label:"AWS Secret Access Key assignments", desc:"aws_secret_access_key = ...", re:/(?<=aws_secret_access_key["']?\s*[:=]\s*["']?)[A-Za-z0-9/+=]{40}(?=["']?)/gi, rep:"[AWS_SECRET]" },
+        { id:"github", label:"GitHub tokens", desc:"ghp_, gho_, etc.", re:/\bgh[pousr]_[A-Za-z0-9_]{36,255}\b/g, rep:"[GITHUB_TOKEN]" },
+        { id:"gitlab", label:"GitLab tokens", desc:"glpat-...", re:/\bglpat-[A-Za-z0-9_-]{20}\b/g, rep:"[GITLAB_TOKEN]" },
+        { id:"openai", label:"OpenAI / Stripe keys", desc:"sk-...", re:/\bsk-(?:live|test|proj)?[-_a-zA-Z0-9]{20,}\b/g, rep:"[SECRET_KEY]" },
+        { id:"anthropic", label:"Anthropic keys", desc:"sk-ant-...", re:/\bsk-ant-[A-Za-z0-9_-]{20,}\b/g, rep:"[ANTHROPIC_KEY]" },
+        { id:"hf_token", label:"Hugging Face tokens", desc:"hf_...", re:/\bhf_[A-Za-z0-9]{34,40}\b/g, rep:"[HF_TOKEN]" },
+        { id:"npm_token", label:"npm tokens", desc:"npm_...", re:/\bnpm_[A-Za-z0-9]{36}\b/g, rep:"[NPM_TOKEN]" },
+        { id:"pypi_token", label:"PyPI tokens", desc:"pypi-...", re:/\bpypi-AgEIcHlwaS5vcmc[A-Za-z0-9_-]{50,}\b/g, rep:"[PYPI_TOKEN]" },
+        { id:"slack", label:"Slack tokens", desc:"xoxb-, xoxp-...", re:/\bxox[abpsr]-[A-Za-z0-9-]{10,72}\b/g, rep:"[SLACK_TOKEN]" },
+        { id:"discord", label:"Discord tokens", desc:"discord bot tokens", re:/[MN][A-Za-z\d]{23}\.[A-Za-z\d_-]{6}\.[A-Za-z\d_-]{27}/g, rep:"[DISCORD_TOKEN]" },
+        { id:"google_api", label:"Google API keys", desc:"AIza...", re:/\bAIza[0-9A-Za-z_-]{35}\b/g, rep:"[GOOGLE_API_KEY]" },
+        { id:"gcp_sa", label:"GCP Service Account emails", desc:"...@...iam.gserviceaccount.com", re:/\b[A-Za-z0-9_-]+@[A-Za-z0-9_-]+\.iam\.gserviceaccount\.com\b/g, rep:"[GCP_SA@redacted]" },
+        { id:"twilio", label:"Twilio API keys", desc:"SK...", re:/\bSK[0-9a-fA-F]{32}\b/g, rep:"[TWILIO_KEY]" },
+        { id:"sendgrid", label:"SendGrid keys", desc:"SG....", re:/\bSG\.[A-Za-z0-9_-]{22}\.[A-Za-z0-9_-]{43}\b/g, rep:"[SENDGRID_KEY]" },
+        { id:"jwt", label:"JWT tokens", desc:"eyJ....", re:/\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\b/g, rep:"[JWT]" },
+        { id:"bearer", label:"Bearer / Basic / Api-Key headers", desc:"Authorization: Bearer ...", re:/(Bearer|Basic|Token|Api[-_]?Key)\s+[A-Za-z0-9._\-+=/]{20,}/gi, rep:"$1 [REDACTED]" },
+        { id:"private_key", label:"Private keys / PEM blocks", desc:"-----BEGIN PRIVATE KEY-----", re:/-----BEGIN (?:.*PRIVATE KEY|OPENSSH PRIVATE KEY)-----[\s\S]+?-----END (?:.*PRIVATE KEY|OPENSSH PRIVATE KEY)-----/g, rep:"[PRIVATE_KEY_REDACTED]" },
+        { id:"url_creds", label:"Credentials in URLs", desc:"postgres://user:pass@host", re:/([a-z][a-z0-9+.-]+:\/\/)([^/\s@]+)@/gi, repFn:function (e, t) { return t + "[user:pass]@"; } },
+        { id:"mongodb_uri", label:"MongoDB connection strings", desc:"mongodb+srv://...", re:/mongodb(?:\+srv)?:\/\/[^\s"']+/gi, rep:"[MONGODB_URI_REDACTED]" },
+        { id:"homedir_mac", label:"macOS home paths", desc:"/Users/janedoe → /Users/user", reFn:function (o) { return [/\/Users\/([A-Za-z0-9._-]+)/g, "/Users/" + o.userPh]; } },
+        { id:"homedir_linux", label:"Linux home paths", desc:"/home/janedoe → /home/user", reFn:function (o) { return [/\/home\/([A-Za-z0-9._-]+)/g, "/home/" + o.userPh]; } },
+        { id:"homedir_win", label:"Windows C:\\Users\\...", desc:"C:\\Users\\janedoe → C:\\Users\\user", reFn:function (o) { return [/C:\\Users\\([A-Za-z0-9._-]+)/gi, "C:\\Users\\" + o.userPh]; } },
+        { id:"generic_secrets", label:"Generic KEY= / SECRET= values", desc:'API_KEY="..."', re:/(?<=["']?(?:api[_-]?key|secret|password|passwd|pwd|token|auth|client_secret)["']?\s*[:=]\s*["']?)[A-Za-z0-9/+=\-_.$!@#%~]{8,128}(?=["'\s\n}&#;,]|$)/gi, rep:"[REDACTED]" },
+        { id:"docker_auth", label:"Docker auth blobs", desc:'"auth": "dXNlcjpwYXNz"', re:/(?<="auth"\s*:\s*")[A-Za-z0-9+/=]{20,}(?=")/g, rep:"[DOCKER_AUTH]" },
+        { id:"session_cookie", label:"Session cookies", desc:"session=...", re:/\b(?:sessionid|session|connect\.sid|jwt|__Secure-)[=:]\s*[A-Za-z0-9._\-+/=]{20,}/gi, repFn:function (e) { return e.split(/[=:]/)[0] + "=[REDACTED]"; } },
+        { id:"credit_card", label:"Credit card numbers", desc:"4111 1111 1111 1111", re:/\b(?:\d[ -]*?){13,19}\b/g, rep:"[CC_REDACTED]" },
+        { id:"phone", label:"Phone numbers", desc:"+1-555-...", re:/(?:\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b/g, rep:"[PHONE]" },
+        { id:"ssn", label:"US SSN", desc:"123-45-6789", re:/\b\d{3}-\d{2}-\d{4}\b/g, rep:"[SSN]" },
+        { id:"hex_secret", label:"Long hex / base64 secrets", desc:"32+ char hex strings", re:/\b[A-Fa-f0-9]{32,}\b/g, rep:"[HEX_SECRET]" },
+        { id:"uuid", label:"UUIDs / GUIDs", desc:"a0eebc99-9c0b-...", re:/\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/gi, rep:"[UUID]" },
+        { id:"azure_sas", label:"Azure SAS tokens", desc:"sig=...", re:/\bsig=[A-Za-z0-9%]{20,}[&\s"']?/gi, rep:"sig=[REDACTED]" },
+        { id:"private_ip_host", label:"Internal hostnames", desc:"*.internal, *.local", re:/\b([a-z0-9_-]+\.)*(internal|local|lan|intranet)\b/gi, rep:"[internal-host]" }
+      ];
+
+      var ORG_RULES = [
+        { find: "ccsf", replace: "ORG1", type: "literal", ci: true, ww: true },
+        { find: "gatech", replace: "ORG1", type: "literal", ci: true, ww: false },
+        { find: "georgia.?tech", replace: "ORG1", type: "regex", ci: true, ww: false },
+        { find: "cmu", replace: "ORG1", type: "literal", ci: true, ww: true },
+        { find: "berkeley", replace: "ORG1", type: "literal", ci: true, ww: true },
+        { find: "docu[a-z0-9._-]*", replace: "DOCU_REDACTED", type: "regex", ci: true, ww: false }
+      ];
+
+      var USER_RULES = [
+        { find: "/Users/egriffins", replace: "/Users/$USER1", type: "literal", ci: false, ww: false },
+        { find: "$egriffins", replace: "$USER1", type: "literal", ci: false, ww: false },
+        { find: "/Users/egriffins", replace: "/Users/$USER1", type: "literal", ci: false, ww: false }
+      ];
+
+      function blankRule() {
+        return { find: "", replace: "[REDACTED]", type: "literal", ci: false, ww: false };
+      }
+
+      var KEY = "logSanitizer.react.v1";
+
+      var state = {
+        input: "",
+        enabled: {},
+        customs: [],
+        userPh: "user",
+        hostPh: "host",
+        anonymizePaths: true,
+        patternsOpen: false,
+        view: "text",
+        testResult: "",
+        hydrated: false
+      };
+      PATTERNS.forEach(function (p) { state.enabled[p.id] = true; });
+
+      var el = {
+        patternsDetails: document.getElementById("patternsDetails"),
+        enabledCount: document.getElementById("enabledCount"),
+        enableAllBtn: document.getElementById("enableAllBtn"),
+        disableAllBtn: document.getElementById("disableAllBtn"),
+        patternGrid: document.getElementById("patternGrid"),
+        customRules: document.getElementById("customRules"),
+        addRuleBtn: document.getElementById("addRuleBtn"),
+        quickUserBtn: document.getElementById("quickUserBtn"),
+        orgBtn: document.getElementById("orgBtn"),
+        testBtn: document.getElementById("testBtn"),
+        exportBtn: document.getElementById("exportBtn"),
+        importBtn: document.getElementById("importBtn"),
+        importInput: document.getElementById("importInput"),
+        testResult: document.getElementById("testResult"),
+        userPh: document.getElementById("userPh"),
+        hostPh: document.getElementById("hostPh"),
+        anonymizePaths: document.getElementById("anonymizePaths"),
+        copyBtn: document.getElementById("copyBtn"),
+        clearBtn: document.getElementById("clearBtn"),
+        stats: document.getElementById("stats"),
+        input: document.getElementById("input"),
+        output: document.getElementById("output"),
+        outputWrap: document.getElementById("outputWrap"),
+        diffWrap: document.getElementById("diffWrap"),
+        diffGrid: document.getElementById("diffGrid"),
+        viewTextBtn: document.getElementById("viewTextBtn"),
+        viewDiffBtn: document.getElementById("viewDiffBtn")
+      };
+
+      function showToast(message, type) {
+        var t = document.createElement("div");
+        t.className = "toast" + (type ? " " + type : "");
+        t.textContent = message;
+        document.getElementById("toastWrap").appendChild(t);
+        requestAnimationFrame(function () { t.classList.add("show"); });
+        setTimeout(function () {
+          t.classList.remove("show");
+          setTimeout(function () { t.remove(); }, 250);
+        }, 4000);
+      }
+
+      // ---- pattern grid ----
+      function renderPatterns() {
+        el.patternGrid.innerHTML = "";
+        PATTERNS.forEach(function (p) {
+          var label = document.createElement("label");
+          var cb = document.createElement("input");
+          cb.type = "checkbox";
+          cb.checked = state.enabled[p.id];
+          cb.addEventListener("change", function () {
+            state.enabled[p.id] = cb.checked;
+            updateCount();
+            rerun();
+            save();
+          });
+          var span = document.createElement("span");
+          var strong = document.createElement("strong");
+          strong.textContent = p.label;
+          var desc = document.createElement("span");
+          desc.className = "pdesc";
+          desc.textContent = p.desc;
+          span.appendChild(strong);
+          span.appendChild(desc);
+          label.appendChild(cb);
+          label.appendChild(span);
+          el.patternGrid.appendChild(label);
+        });
+      }
+
+      function updateCount() {
+        var n = PATTERNS.filter(function (p) { return state.enabled[p.id]; }).length;
+        el.enabledCount.textContent = n + " / " + PATTERNS.length;
+      }
+
+      // ---- custom rules UI ----
+      function renderRules() {
+        el.customRules.innerHTML = "";
+        state.customs.forEach(function (rule, idx) {
+          var row = document.createElement("div");
+          row.className = "rule-row";
+
+          var rm = document.createElement("button");
+          rm.type = "button";
+          rm.className = "rm";
+          rm.title = "Remove rule";
+          rm.setAttribute("aria-label", "Remove rule");
+          rm.textContent = "\u2715";
+          rm.addEventListener("click", function () {
+            state.customs.splice(idx, 1);
+            renderRules();
+            rerun();
+            save();
+          });
+
+          var find = document.createElement("input");
+          find.type = "text";
+          find.className = "find";
+          find.placeholder = "Find, e.g. egriffins";
+          find.value = rule.find;
+          find.addEventListener("input", function () {
+            rule.find = find.value;
+            rerun();
+            save();
+          });
+
+          var replace = document.createElement("input");
+          replace.type = "text";
+          replace.className = "replace";
+          replace.placeholder = "Replace with, e.g. $USER1";
+          replace.value = rule.replace;
+          replace.addEventListener("input", function () {
+            rule.replace = replace.value;
+            rerun();
+            save();
+          });
+
+          var type = document.createElement("select");
+          var o1 = document.createElement("option"); o1.value = "literal"; o1.textContent = "Literal"; o1.selected = rule.type !== "regex";
+          var o2 = document.createElement("option"); o2.value = "regex"; o2.textContent = "Regex"; o2.selected = rule.type === "regex";
+          type.appendChild(o1); type.appendChild(o2);
+          type.addEventListener("change", function () {
+            rule.type = type.value;
+            renderRules();
+            rerun();
+            save();
+          });
+
+          var ci = document.createElement("button");
+          ci.type = "button";
+          ci.className = "toggle" + (rule.ci ? " on" : "");
+          ci.textContent = "Aa";
+          ci.title = "Ignore case: egriffins will also match EGriffins, EGRIFFINS, etc.";
+          ci.addEventListener("click", function () {
+            rule.ci = !rule.ci;
+            renderRules();
+            rerun();
+            save();
+          });
+
+          var ww = document.createElement("button");
+          ww.type = "button";
+          ww.className = "toggle" + (rule.ww ? " on" : "");
+          ww.textContent = "\u2316 word";
+          ww.title = "Whole word: only match complete words. Literal mode only.";
+          ww.disabled = rule.type === "regex";
+          if (ww.disabled) ww.style.opacity = 0.4;
+          ww.addEventListener("click", function () {
+            if (rule.type === "regex") return;
+            rule.ww = !rule.ww;
+            renderRules();
+            rerun();
+            save();
+          });
+
+          row.appendChild(rm);
+          row.appendChild(find);
+          row.appendChild(replace);
+          row.appendChild(type);
+          row.appendChild(ci);
+          row.appendChild(ww);
+
+          var built = buildRegex(rule);
+          if (!built.ok) {
+            var err = document.createElement("div");
+            err.className = "err";
+            err.textContent = built.error;
+            row.appendChild(err);
+          }
+
+          el.customRules.appendChild(row);
+        });
+      }
+
+      function buildRegex(rule) {
+        if (!rule.find) return { ok: false, error: "empty" };
+        try {
+          var flags = "g";
+          if (rule.ci) flags += "i";
+          var pattern;
+          if (rule.type === "regex") {
+            pattern = rule.find;
+          } else {
+            pattern = rule.find.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+            if (rule.ww) pattern = "\\b" + pattern + "\\b";
+          }
+          return { ok: true, regex: new RegExp(pattern, flags) };
+        } catch (e) {
+          return { ok: false, error: e.message };
+        }
+      }
+
+      // ---- sanitize ----
+      var PATH_DIRS = new Set("src source projects repos repo code dev workspace work Documents Downloads Desktop tmp opt app home Users user".split(" "));
+
+      function anonymizePathsFn(text, opts) {
+        var pathMap = new Map();
+        var i = 1;
+        var tokenOf = function (v) {
+          if (!pathMap.has(v)) pathMap.set(v, "PATH" + i++);
+          return pathMap.get(v);
+        };
+        var pathOf = function (fullPath) { return tokenOf(fullPath); };
+
+        text = text.replace(
+          /(?<![A-Za-z0-9._-])(~|\/Users\/[^\s/'"`\\:;|()[\]{}]+|\/home\/[^\s/'"`\\:;|()[\]{}]+|\/workspace|\/app|\/opt|\/var\/www)((?:\/[A-Za-z0-9._\-+@]+){2,})/g,
+          function (match, prefix, rest) {
+            var parts = rest.split("/").filter(Boolean);
+            if (parts.length < 2) return match;
+            var keep = 0;
+            if (parts[0] && PATH_DIRS.has(parts[0])) keep = 1;
+            var head = parts.slice(0, keep).join("/");
+            return prefix + (head ? "/" + head : "") + "/" + pathOf(parts.slice(keep).join("/"));
+          }
+        );
+
+        text = text.replace(/C:\\Users\\[^\s\\'"`:;|()[\]{}]+((?:\\[A-Za-z0-9._\-+@]+){2,})/gi,
+          function (match, rest) {
+            var prefix = (match.match(/^C:\\Users\\[^\s\\]+/i) || [])[0] || "C:\\Users\\" + opts.userPh;
+            var parts = rest.split("\\").filter(Boolean);
+            if (parts.length < 2) return match;
+            var keep = 0;
+            if (parts[0] && PATH_DIRS.has(parts[0])) keep = 1;
+            var head = parts.slice(0, keep).join("\\");
+            return prefix + (head ? "\\" + head : "") + "\\" + pathOf(parts.slice(keep).join("\\").replace(/\\/g, "/"));
+          }
+        );
+
+        return { text: text, pathMap: pathMap };
+      }
+
+      function sanitize(input, enabled, customs, opts, anonymizePaths) {
+        var counts = {};
+        var text = input;
+        var pathMap = new Map();
+        if (!input) return { output: "", counts: counts, pathMap: pathMap };
+
+        customs.filter(function (r) { return r.find; }).forEach(function (rule) {
+          var built = buildRegex(rule);
+          if (!built.ok) return;
+          var n = 0;
+          text = text.replace(built.regex, function () { n++; return rule.replace; });
+          if (n > 0) {
+            var ck = "custom:" + rule.find.slice(0, 30);
+            counts[ck] = (counts[ck] || 0) + n;
+          }
+        });
+
+        var apply = function (src, re, rep) {
+          var n = 0;
+          var out = src.replace(re, function () {
+            var args = arguments;
+            n++;
+            return typeof rep === "function" ? rep.apply(null, args) : rep;
+          });
+          if (n > 0) {
+            var key = re.toString().slice(0, 48);
+            counts[key] = (counts[key] || 0) + n;
+          }
+          return out;
+        };
+
+        PATTERNS.filter(function (p) { return enabled[p.id]; }).forEach(function (p) {
+          if (p.reFn) {
+            var pr = p.reFn({ userPh: opts.userPh });
+            text = apply(text, pr[0], pr[1]);
+          } else if (p.re) {
+            text = apply(text, p.re, p.repFn || p.rep);
+          }
+        });
+
+        if (anonymizePaths) {
+          var res = anonymizePathsFn(text, { userPh: opts.userPh });
+          text = res.text;
+          pathMap = res.pathMap;
+        }
+
+        return { output: text, counts: counts, pathMap: pathMap };
+      }
+
+      var result = { output: "", counts: {}, pathMap: new Map() };
+
+      function rerun() {
+        result = sanitize(state.input, state.enabled, state.customs, { userPh: state.userPh, hostPh: state.hostPh }, state.anonymizePaths);
+        renderOutput();
+        renderStats();
+        if (state.view === "diff") renderDiff();
+      }
+
+      function renderOutput() {
+        el.output.value = result.output;
+      }
+
+      function renderStats() {
+        var total = 0;
+        Object.keys(result.counts).forEach(function (k) { total += result.counts[k]; });
+        var html = "";
+        if (total > 0) {
+          html += "<strong>" + total + " redactions</strong>";
+          var parts = Object.keys(result.counts).map(function (k) {
+            return result.counts[k] + "\u00d7 " + k;
+          });
+          html += " \u2014 " + parts.join("  \u2022  ");
+        }
+        if (result.pathMap.size > 0) {
+          html += '<div class="pathmap">Path map: ';
+          var pms = [];
+          result.pathMap.forEach(function (v, k) {
+            pms.push(k + " = \u2026/" + v.split("/").slice(-2).join("/"));
+          });
+          html += pms.join("  \u2022  ") + "</div>";
+        }
+        el.stats.innerHTML = html;
+      }
+
+      // ---- diff view ----
+      function tokenize(line) { return line.split(/\s+/).filter(Boolean); }
+
+      function lcsDiff(a, b) {
+        var n = a.length, m = b.length;
+        if (n * m > 200000) return null;
+        var dp = [];
+        for (var i = 0; i <= n; i++) dp[i] = [];
+        for (i = 0; i <= n; i++) dp[i][m] = 0;
+        for (var j = 0; j <= m; j++) dp[n][j] = 0;
+        for (i = n - 1; i >= 0; i--) {
+          for (j = m - 1; j >= 0; j--) {
+            if (a[i] === b[j]) dp[i][j] = dp[i + 1][j + 1] + 1;
+            else dp[i][j] = Math.max(dp[i + 1][j], dp[i][j + 1]);
+          }
+        }
+        var outA = [], outB = [], ai = 0, bj = 0;
+        while (ai < n && bj < m) {
+          if (a[ai] === b[bj]) { outA.push({ t: "same", tok: a[ai] }); outB.push({ t: "same", tok: b[bj] }); ai++; bj++; }
+          else if (dp[ai + 1][bj] >= dp[ai][bj + 1]) { outA.push({ t: "rem", tok: a[ai] }); ai++; }
+          else { outB.push({ t: "ins", tok: b[bj] }); bj++; }
+        }
+        while (ai < n) { outA.push({ t: "rem", tok: a[ai] }); ai++; }
+        while (bj < m) { outB.push({ t: "ins", tok: b[bj] }); bj++; }
+        return { a: outA, b: outB };
+      }
+
+      function renderDiff() {
+        var linesA = state.input.split("\n");
+        var linesB = result.output.split("\n");
+        var grid = document.createElement("div");
+        grid.className = "diff-grid";
+
+        var n = Math.max(linesA.length, linesB.length);
+        for (var i = 0; i < n; i++) {
+          var la = linesA[i] || "", lb = linesB[i] || "";
+          var row = document.createElement("div");
+          row.className = "row";
+
+          var lnA = document.createElement("span"); lnA.className = "ln"; lnA.textContent = (i + 1);
+          var sideA = document.createElement("div"); sideA.className = "side left";
+          var lnB = document.createElement("span"); lnB.className = "ln"; lnB.textContent = (i + 1);
+          var sideB = document.createElement("div"); sideB.className = "side";
+
+          if (la === lb) {
+            var sa = document.createElement("span"); sa.className = "text-slate-300"; sa.textContent = la === "" ? "\u00a0" : la;
+            sideA.appendChild(sa);
+            var sb = document.createElement("span"); sb.className = "text-slate-300"; sb.textContent = lb === "" ? "\u00a0" : lb;
+            sideB.appendChild(sb);
+          } else if (la === "" && lb !== "") {
+            var ea = document.createElement("span"); ea.className = "empty"; ea.textContent = "(empty)";
+            sideA.appendChild(ea);
+            var insb = document.createElement("span"); insb.className = "inserted"; insb.textContent = lb;
+            sideB.appendChild(insb);
+          } else if (la !== "" && lb === "") {
+            var rema = document.createElement("span"); rema.className = "removed"; rema.textContent = la;
+            sideA.appendChild(rema);
+            var eb = document.createElement("span"); eb.className = "empty"; eb.textContent = "(empty)";
+            sideB.appendChild(eb);
+          } else {
+            var d = lcsDiff(tokenize(la), tokenize(lb));
+            if (d) {
+              d.a.forEach(function (seg) {
+                var sp = document.createElement("span");
+                sp.className = seg.t === "same" ? "text-slate-300" : "removed";
+                sp.textContent = seg.tok + " ";
+                sideA.appendChild(sp);
+              });
+              d.b.forEach(function (seg) {
+                var sp = document.createElement("span");
+                sp.className = seg.t === "same" ? "text-slate-300" : "inserted";
+                sp.textContent = seg.tok + " ";
+                sideB.appendChild(sp);
+              });
+            } else {
+              var spa = document.createElement("span"); spa.className = "removed"; spa.textContent = la;
+              sideA.appendChild(spa);
+              var spb = document.createElement("span"); spb.className = "inserted"; spb.textContent = lb;
+              sideB.appendChild(spb);
+            }
+          }
+
+          row.appendChild(lnA); row.appendChild(sideA); row.appendChild(lnB); row.appendChild(sideB);
+          grid.appendChild(row);
+        }
+
+        el.diffWrap.innerHTML = "";
+        el.diffWrap.appendChild(grid);
+      }
+
+      // ---- view switching ----
+      function setView(v) {
+        state.view = v;
+        if (v === "text") {
+          el.outputWrap.style.display = "";
+          el.diffWrap.style.display = "none";
+          el.viewTextBtn.classList.add("on");
+          el.viewDiffBtn.classList.remove("on");
+        } else {
+          el.outputWrap.style.display = "none";
+          el.diffWrap.style.display = "";
+          el.viewTextBtn.classList.remove("on");
+          el.viewDiffBtn.classList.add("on");
+          renderDiff();
+        }
+      }
+      el.viewTextBtn.addEventListener("click", function () { setView("text"); });
+      el.viewDiffBtn.addEventListener("click", function () { setView("diff"); });
+
+      // ---- actions ----
+      el.addRuleBtn.addEventListener("click", function () {
+        state.customs.push(blankRule());
+        renderRules();
+        rerun();
+        save();
+      });
+
+      el.quickUserBtn.addEventListener("click", function () {
+        USER_RULES.forEach(function (r) { state.customs.push(r); });
+        renderRules();
+        rerun();
+        save();
+      });
+
+      el.orgBtn.addEventListener("click", function () {
+        ORG_RULES.forEach(function (r) { state.customs.push(r); });
+        renderRules();
+        rerun();
+        save();
+      });
+
+      el.testBtn.addEventListener("click", function () {
+        var withFind = state.customs.filter(function (c) { return c.find; });
+        if (withFind.length === 0) {
+          el.testResult.textContent = "No custom rules.";
+          return;
+        }
+        el.testResult.textContent = withFind.map(function (c, i) {
+          var r = buildRegex(c);
+          if (!r.ok) return "#" + (i + 1) + " ERR: " + r.error;
+          var m = state.input.match(r.regex);
+          return "#" + (i + 1) + ' "' + c.find.slice(0, 30) + '" \u2192 ' + (m ? m.length + " match" + (m.length !== 1 ? "es" : "") : "0 matches");
+        }).join("  \u2022  ");
+      });
+
+      el.exportBtn.addEventListener("click", function () {
+        var blob = new Blob([JSON.stringify(state.customs.filter(function (c) { return c.find; }), null, 2)], { type: "application/json" });
+        var a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "log-sanitizer-rules.json";
+        a.click();
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 100);
+      });
+
+      el.importBtn.addEventListener("click", function () { el.importInput.click(); });
+      el.importInput.addEventListener("change", async function (e) {
+        var f = e.target.files ? e.target.files[0] : null;
+        if (f) {
+          try {
+            var data = JSON.parse(await f.text());
+            if (!Array.isArray(data)) throw new Error("not array");
+            var rules = data.map(function (x) {
+              return {
+                find: x.find || "",
+                replace: x.replace || "[REDACTED]",
+                type: x.type === "regex" ? "regex" : "literal",
+                ci: !!x.ci,
+                ww: !!x.ww
+              };
+            });
+            state.customs = rules.length ? rules : [blankRule()];
+            renderRules();
+            rerun();
+            save();
+            showToast("Imported " + rules.length + " rules", "success");
+          } catch (err) {
+            showToast("Invalid JSON", "error");
+          }
+          el.importInput.value = "";
+        }
+      });
+
+      el.copyBtn.addEventListener("click", function () {
+        if (!result.output) { showToast("Nothing to copy yet", "error"); return; }
+        navigator.clipboard.writeText(result.output)
+          .then(function () { showToast("Copied redacted output", "success"); })
+          .catch(function () { showToast("Failed to copy", "error"); });
+      });
+
+      el.clearBtn.addEventListener("click", function () {
+        state.input = "";
+        el.input.value = "";
+        rerun();
+      });
+
+      el.input.addEventListener("input", function () {
+        state.input = el.input.value;
+        rerun();
+      });
+
+      el.userPh.addEventListener("input", function () {
+        state.userPh = el.userPh.value;
+        rerun();
+        save();
+      });
+      el.hostPh.addEventListener("input", function () {
+        state.hostPh = el.hostPh.value;
+        save();
+      });
+      el.anonymizePaths.addEventListener("change", function () {
+        state.anonymizePaths = el.anonymizePaths.checked;
+        rerun();
+        save();
+      });
+      el.patternsDetails.addEventListener("toggle", function () {
+        state.patternsOpen = el.patternsDetails.open;
+        save();
+      });
+
+      el.enableAllBtn.addEventListener("click", function () {
+        PATTERNS.forEach(function (p) { state.enabled[p.id] = true; });
+        renderPatterns();
+        updateCount();
+        rerun();
+        save();
+      });
+      el.disableAllBtn.addEventListener("click", function () {
+        PATTERNS.forEach(function (p) { state.enabled[p.id] = false; });
+        renderPatterns();
+        updateCount();
+        rerun();
+        save();
+      });
+
+      // ---- persistence ----
+      var saveTimer = null;
+      function save() {
+        if (!state.hydrated) return;
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(function () {
+          try {
+            localStorage.setItem(KEY, JSON.stringify({
+              enabled: state.enabled,
+              customs: state.customs,
+              userPh: state.userPh,
+              hostPh: state.hostPh,
+              patternsOpen: state.patternsOpen,
+              anonymizePaths: state.anonymizePaths
+            }));
+          } catch (err) { /* ignore */ }
+        }, 280);
+      }
+
+      (function init() {
+        try {
+          var s = localStorage.getItem(KEY);
+          if (s) {
+            var d = JSON.parse(s);
+            if (d.enabled) { Object.keys(d.enabled).forEach(function (k) { if (k in state.enabled) state.enabled[k] = !!d.enabled[k]; }); }
+            if (Array.isArray(d.customs)) state.customs = d.customs;
+            else state.customs = ORG_RULES.concat([blankRule()]);
+            if (d.userPh) state.userPh = d.userPh;
+            if (d.hostPh) state.hostPh = d.hostPh;
+            if (d.patternsOpen) state.patternsOpen = true;
+            if (d.anonymizePaths === false) state.anonymizePaths = false;
+          } else {
+            state.customs = ORG_RULES.concat([blankRule()]);
+          }
+        } catch (err) {
+          state.customs = ORG_RULES.concat([blankRule()]);
+        }
+        state.hydrated = true;
+
+        el.patternsDetails.open = state.patternsOpen;
+        el.userPh.value = state.userPh;
+        el.hostPh.value = state.hostPh;
+        el.anonymizePaths.checked = state.anonymizePaths;
+        renderPatterns();
+        updateCount();
+        renderRules();
+        rerun();
+      })();
+    })();
+  </script>
+</body>
+</html>

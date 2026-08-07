@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Website Utils</title>
+  <meta name="description" content="A collection of small, client-side utilities: Image Collage Creator, Video to GIF Converter, and Log Sanitizer. Everything runs in your browser." />
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #dbeafe 0%, #ffffff 100%);
+      color: #1f2937;
+      -webkit-font-smoothing: antialiased;
+    }
+    header { background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    nav.container { max-width: 1080px; margin: 0 auto; padding: 12px 24px; }
+    nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 16px; }
+    nav a { color: #2563eb; text-decoration: none; font-weight: 500; }
+    nav a:hover { color: #1d4ed8; }
+    nav a.active { text-decoration: underline; }
+    main.container { max-width: 1080px; margin: 0 auto; padding: 48px 24px; }
+    h1.title { font-size: 2rem; font-weight: 800; margin: 0 0 12px; text-align: center; color: #1e40af; }
+    p.subtitle { text-align: center; color: #4b5563; font-size: 1.05rem; margin: 0 auto 40px; max-width: 640px; line-height: 1.5; }
+    .tool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+    .tool-card {
+      display: block; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 24px; text-decoration: none; color: inherit;
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+    .tool-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.12); transform: translateY(-2px); }
+    .tool-card .icon { font-size: 28px; margin-bottom: 12px; }
+    .tool-card h2 { font-size: 1.15rem; font-weight: 700; margin: 0 0 8px; color: #1f2937; }
+    .tool-card p { font-size: 0.9rem; color: #6b7280; margin: 0 0 14px; line-height: 1.5; }
+    .tool-card .go { color: #2563eb; font-weight: 600; font-size: 0.9rem; }
+    footer { text-align: center; color: #9ca3af; font-size: 0.8rem; padding: 24px; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <ul>
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="tool1.html">Image Collage</a></li>
+        <li><a href="tool2.html">Video to GIF Converter</a></li>
+        <li><a href="tool3.html">Log Sanitizer</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1 class="title">Website Utils</h1>
+    <p class="subtitle">Small, focused tools that run 100% in your browser — nothing is uploaded to any server. Pick a tool to get started.</p>
+
+    <div class="tool-grid">
+      <a class="tool-card" href="tool1.html">
+        <div class="icon">&#128444;&#65039;</div>
+        <h2>Image Collage Creator</h2>
+        <p>Paste or drop in images, arrange them in a horizontal or vertical layout, then generate a downloadable or copyable collage.</p>
+        <span class="go">Open tool &rarr;</span>
+      </a>
+
+      <a class="tool-card" href="tool2.html">
+        <div class="icon">&#127916;</div>
+        <h2>Video to GIF Converter</h2>
+        <p>Turn a video into an animated GIF right in the browser. Pick the frame rate, width, start time, and duration.</p>
+        <span class="go">Open tool &rarr;</span>
+      </a>
+
+      <a class="tool-card" href="tool3.html">
+        <div class="icon">&#128272;</div>
+        <h2>Log Sanitizer</h2>
+        <p>Paste terminal logs and scrub PII, secrets, and paths with 37 built-in patterns plus custom rules. Fully client-side.</p>
+        <span class="go">Open tool &rarr;</span>
+      </a>
+    </div>
+  </main>
+
+  <footer>Website Utils &#183; all tools run locally in your browser</footer>
+</body>
+</html>

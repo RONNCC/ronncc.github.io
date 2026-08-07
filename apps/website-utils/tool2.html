@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Video to GIF Converter | Website Utils</title>
+  <meta name="description" content="Convert your videos to GIFs right in your browser. Drag and drop a video file or select one to get started. Pick the frame rate, width, start time, and duration." />
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #dbeafe 0%, #ffffff 100%);
+      color: #1f2937;
+      -webkit-font-smoothing: antialiased;
+    }
+    header { background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    nav.container { max-width: 1080px; margin: 0 auto; padding: 12px 24px; }
+    nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 16px; }
+    nav a { color: #2563eb; text-decoration: none; font-weight: 500; }
+    nav a:hover { color: #1d4ed8; }
+    nav a.active { text-decoration: underline; }
+    main.container { max-width: 1080px; margin: 0 auto; padding: 32px; }
+    h2.title { font-size: 1.5rem; font-weight: 800; margin: 0 0 16px; text-align: center; color: #1e40af; }
+    p.subtitle { text-align: center; color: #4b5563; font-size: 1rem; margin: 0 0 24px; }
+    .card { background: #f9fafb; padding: 24px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    /* Loading */
+    .loading { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 40px 0; color: #4b5563; }
+    .spinner {
+      width: 32px; height: 32px; border: 3px solid #d1d5db; border-top-color: #3b82f6;
+      border-radius: 50%; animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    /* Dropzone */
+    .dropzone {
+      border: 2px dashed #d1d5db; border-radius: 8px; padding: 32px; min-height: 200px;
+      background: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 16px; text-align: center; color: #6b7280; cursor: pointer; transition: all 0.2s; outline: none;
+    }
+    .dropzone.over { border-color: #3b82f6; background: #eff6ff; color: #1d4ed8; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      height: 40px; padding: 0 20px; border: none; border-radius: 6px; font-size: 14px;
+      font-weight: 500; cursor: pointer; white-space: nowrap; color: #ffffff; transition: background 0.15s;
+    }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-blue { background: #3b82f6; }
+    .btn-blue:hover:not(:disabled) { background: #2563eb; }
+    .btn-green { background: #22c55e; }
+    .btn-green:hover:not(:disabled) { background: #16a34a; }
+    .btn-outline { background: #ffffff; color: #374151; border: 1px solid #d1d5db; }
+    .btn-outline:hover:not(:disabled) { background: #f3f4f6; }
+    /* Two-column layout */
+    .workspace { display: flex; flex-direction: column; gap: 24px; margin-top: 24px; }
+    @media (min-width: 768px) { .workspace { flex-direction: row; } .workspace > .col { flex: 1; } }
+    .col { min-width: 0; }
+    .panel { background: #ffffff; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .panel h3 { font-size: 1.05rem; font-weight: 700; color: #1f2937; margin: 0 0 12px; }
+    .panel video, .panel img { width: 100%; max-height: 320px; object-fit: contain; border-radius: 8px; background: #111827; }
+    .slider-block { margin-top: 14px; }
+    .slider-block label { display: block; font-size: 13px; font-weight: 500; color: #374151; margin-bottom: 6px; }
+    .slider-block .row { display: flex; align-items: center; gap: 12px; }
+    .slider-block input[type="range"] { flex: 1; accent-color: #3b82f6; }
+    .slider-block .val { min-width: 44px; text-align: right; font-size: 14px; color: #1f2937; font-weight: 600; }
+    .button-row { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+    /* Toasts */
+    .toast-wrap { position: fixed; top: 16px; left: 16px; right: 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 9999; pointer-events: none; }
+    .toast {
+      pointer-events: auto; background: #111827; color: #fff; padding: 10px 14px; border-radius: 8px;
+      font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); opacity: 0; transform: translateY(-8px);
+      transition: all 0.2s; max-width: 90vw;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.success { background: #16a34a; }
+    .toast.error { background: #dc2626; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="tool1.html">Image Collage</a></li>
+        <li><a href="tool2.html" class="active">Video to GIF Converter</a></li>
+        <li><a href="tool3.html">Log Sanitizer</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h2 class="title">Video to GIF Converter</h2>
+    <p class="subtitle">Convert your videos to GIFs right in your browser. Drag and drop a video file or select one to get started.</p>
+
+    <div class="card">
+      <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <div>Loading FFmpeg... This may take a moment.</div>
+      </div>
+
+      <div id="dropContainer" hidden>
+        <div id="dropzone" class="dropzone" tabindex="0">
+          <div>Drag and drop a video file here, or click to select one</div>
+          <button type="button" id="selectBtn" class="btn btn-blue">Select Video</button>
+          <input type="file" id="video-input" accept="video/*" hidden />
+        </div>
+      </div>
+
+      <div id="workspace" class="workspace" hidden>
+        <div class="col">
+          <div class="panel">
+            <h3>Input Video</h3>
+            <video id="video" controls></video>
+            <div class="slider-block">
+              <label for="fps">Frame Rate (FPS)</label>
+              <div class="row"><input type="range" id="fps" min="1" max="30" step="1" value="10" /><span class="val" id="fpsVal">10</span></div>
+            </div>
+            <div class="slider-block">
+              <label for="width">Width (px)</label>
+              <div class="row"><input type="range" id="width" min="100" max="800" step="10" value="320" /><span class="val" id="widthVal">320</span></div>
+            </div>
+            <div class="slider-block">
+              <label for="start-time">Start Time (s)</label>
+              <div class="row"><input type="range" id="start-time" min="0" max="30" step="0.1" value="0" /><span class="val" id="startTimeVal">0.0</span></div>
+            </div>
+            <div class="slider-block">
+              <label for="duration">Duration (s)</label>
+              <div class="row"><input type="range" id="duration" min="1" max="10" step="0.1" value="5" /><span class="val" id="durationVal">5.0</span></div>
+            </div>
+            <div class="button-row">
+              <button id="convertBtn" class="btn btn-blue">Convert to GIF</button>
+              <button id="clearBtn" class="btn btn-outline">Clear</button>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="panel" id="outputPanel" hidden>
+            <h3>Output GIF</h3>
+            <img id="output" alt="Converted GIF" />
+            <div class="button-row">
+              <button id="downloadBtn" class="btn btn-green">Download GIF</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="toastWrap" class="toast-wrap"></div>
+
+  <script type="module">
+    import { FFmpeg } from "https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js";
+
+    const state = {
+      core: null,
+      loaded: false,
+      selectedVideoFile: null,
+      videoUrl: null,
+      outputUrl: null,
+      isDragging: false,
+      isConverting: false,
+      progress: 0,
+      fps: 10,
+      startTime: 0,
+      duration: 5,
+      width: 320,
+    };
+
+    const el = {
+      loading: document.getElementById("loading"),
+      dropContainer: document.getElementById("dropContainer"),
+      dropzone: document.getElementById("dropzone"),
+      selectBtn: document.getElementById("selectBtn"),
+      videoInput: document.getElementById("video-input"),
+      workspace: document.getElementById("workspace"),
+      video: document.getElementById("video"),
+      fps: document.getElementById("fps"),
+      fpsVal: document.getElementById("fpsVal"),
+      width: document.getElementById("width"),
+      widthVal: document.getElementById("widthVal"),
+      startTime: document.getElementById("start-time"),
+      startTimeVal: document.getElementById("startTimeVal"),
+      duration: document.getElementById("duration"),
+      durationVal: document.getElementById("durationVal"),
+      convertBtn: document.getElementById("convertBtn"),
+      clearBtn: document.getElementById("clearBtn"),
+      outputPanel: document.getElementById("outputPanel"),
+      output: document.getElementById("output"),
+      downloadBtn: document.getElementById("downloadBtn"),
+    };
+
+    function showToast(message, type) {
+      const t = document.createElement("div");
+      t.className = "toast" + (type ? " " + type : "");
+      t.textContent = message;
+      document.getElementById("toastWrap").appendChild(t);
+      requestAnimationFrame(() => t.classList.add("show"));
+      setTimeout(() => {
+        t.classList.remove("show");
+        setTimeout(() => t.remove(), 250);
+      }, 4000);
+    }
+
+    async function toBlobURL(url, type) {
+      const buf = await (await fetch(url)).arrayBuffer();
+      return URL.createObjectURL(new Blob([buf], { type }));
+    }
+
+    async function fetchFile(file) {
+      const data = await new Promise((resolve, reject) => {
+        const fr = new FileReader();
+        fr.onload = () => {
+          const buf = fr.result;
+          resolve(buf instanceof ArrayBuffer ? new Uint8Array(buf) : new Uint8Array());
+        };
+        fr.onerror = (e) => reject(Error(`File could not be read! Code=${e?.target?.error?.code || -1}`));
+        fr.readAsArrayBuffer(file);
+      });
+      return data;
+    }
+
+    async function initFFmpeg() {
+      showToast("Loading FFmpeg", "default");
+      const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd";
+      const core = new FFmpeg();
+      try {
+        await core.load({
+          coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
+          wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm"),
+        });
+        core.on("progress", ({ progress }) => {
+          state.progress = Math.round(100 * progress);
+          updateConvertBtn();
+        });
+        state.core = core;
+        state.loaded = true;
+        el.loading.hidden = true;
+        el.dropContainer.hidden = false;
+        el.dropzone.focus();
+        showToast("FFmpeg is loaded and ready to convert videos!", "success");
+      } catch (e) {
+        console.error("Failed to load FFmpeg:", e);
+        el.loading.textContent = "Failed to load FFmpeg. Please refresh and try again.";
+        showToast(`Failed to load FFmpeg: ${e.message}. Please refresh and try again.`, "error");
+      }
+    }
+
+    function syncSliders() {
+      el.startTime.max = String((el.video.duration || 30));
+      el.startTime.value = String(state.startTime);
+      el.startTimeVal.textContent = state.startTime.toFixed(1);
+      el.duration.max = String(Math.max(1, el.video.duration || 10));
+      el.duration.value = String(state.duration);
+      el.durationVal.textContent = state.duration.toFixed(1);
+      el.fps.value = String(state.fps);
+      el.fpsVal.textContent = String(state.fps);
+      el.width.value = String(state.width);
+      el.widthVal.textContent = String(state.width);
+    }
+
+    function setVideoFile(file) {
+      const ok = file && file.type && file.type.startsWith("video/");
+      if (!ok) {
+        showToast("Please select a valid video file.", "error");
+        return;
+      }
+      if (state.videoUrl) URL.revokeObjectURL(state.videoUrl);
+      if (state.outputUrl) URL.revokeObjectURL(state.outputUrl);
+      state.selectedVideoFile = file;
+      state.videoUrl = URL.createObjectURL(file);
+      state.outputUrl = null;
+      state.startTime = 0;
+      el.outputPanel.hidden = true;
+      el.output.removeAttribute("src");
+      el.video.src = state.videoUrl;
+      el.video.onloadedmetadata = () => {
+        el.startTime.max = String(el.video.duration || 30);
+        el.duration.max = String(Math.min(10, el.video.duration || 10));
+        state.duration = Math.min(5, el.video.duration || 5);
+        state.startTime = 0;
+        syncSliders();
+      };
+      el.video.play().catch(() => {});
+      el.dropContainer.hidden = true;
+      el.workspace.hidden = false;
+    }
+
+    function clearAll() {
+      if (state.videoUrl) URL.revokeObjectURL(state.videoUrl);
+      if (state.outputUrl) URL.revokeObjectURL(state.outputUrl);
+      state.selectedVideoFile = null;
+      state.videoUrl = null;
+      state.outputUrl = null;
+      state.startTime = 0;
+      state.duration = 5;
+      el.video.removeAttribute("src");
+      el.output.removeAttribute("src");
+      el.outputPanel.hidden = true;
+      el.workspace.hidden = true;
+      el.dropContainer.hidden = false;
+    }
+
+    el.selectBtn.addEventListener("click", () => el.videoInput.click());
+    el.videoInput.addEventListener("change", (e) => {
+      const f = e.target.files ? e.target.files[0] : null;
+      if (f) setVideoFile(f);
+      el.videoInput.value = "";
+    });
+
+    const setDropText = (t) => {
+      const d = el.dropzone.firstElementChild;
+      if (d) d.textContent = t;
+    };
+    el.dropzone.addEventListener("dragenter", (e) => { e.preventDefault(); e.stopPropagation(); el.dropzone.classList.add("over"); setDropText("Drop video here"); });
+    el.dropzone.addEventListener("dragover", (e) => { e.preventDefault(); e.stopPropagation(); el.dropzone.classList.add("over"); });
+    el.dropzone.addEventListener("dragleave", (e) => { e.preventDefault(); e.stopPropagation(); el.dropzone.classList.remove("over"); setDropText("Drag and drop a video file here, or click to select one"); });
+    el.dropzone.addEventListener("drop", (e) => {
+      e.preventDefault(); e.stopPropagation();
+      el.dropzone.classList.remove("over");
+      setDropText("Drag and drop a video file here, or click to select one");
+      const f = Array.from(e.dataTransfer.files).find((x) => x.type && x.type.startsWith("video/"));
+      if (f) setVideoFile(f);
+      else showToast("Please drop a valid video file.", "error");
+    });
+
+    ["fps", "width", "start-time", "duration"].forEach((id) => {
+      document.getElementById(id).addEventListener("input", (e) => {
+        const v = parseFloat(e.target.value);
+        if (id === "fps") { state.fps = v; el.fpsVal.textContent = v; }
+        else if (id === "width") { state.width = v; el.widthVal.textContent = v; }
+        else if (id === "start-time") { state.startTime = v; el.startTimeVal.textContent = v.toFixed(1); }
+        else if (id === "duration") { state.duration = v; el.durationVal.textContent = v.toFixed(1); }
+        if (id === "start-time" && !isNaN(v) && el.video.duration && v > el.video.duration - state.duration) {
+          state.startTime = Math.max(0, el.video.duration - state.duration);
+          el.startTime.value = state.startTime;
+          el.startTimeVal.textContent = state.startTime.toFixed(1);
+        }
+      });
+    });
+
+    function updateConvertBtn() {
+      if (state.isConverting) {
+        el.convertBtn.textContent = `Converting... ${state.progress}%`;
+      } else {
+        el.convertBtn.textContent = "Convert to GIF";
+      }
+    }
+
+    async function handleConvert() {
+      if (!(state.loaded && state.core && state.selectedVideoFile)) return;
+      try {
+        state.isConverting = true;
+        state.progress = 0;
+        updateConvertBtn();
+        el.convertBtn.disabled = true;
+        Array.from(document.querySelectorAll("input[type=range]")).forEach((x) => (x.disabled = true));
+
+        const ext = (state.selectedVideoFile.name.split(".").pop() || "mp4");
+        const inputName = `input-${Date.now()}.${ext}`;
+        const outputName = "output.gif";
+
+        await state.core.writeFile(inputName, await fetchFile(state.selectedVideoFile));
+
+        const scale = `scale=${state.width}:-1:flags=lanczos`;
+        const fps = `fps=${state.fps}`;
+        const filter = `${fps},${scale},split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse`;
+
+        await state.core.exec([
+          "-i", inputName,
+          "-ss", state.startTime.toString(),
+          "-t", state.duration.toString(),
+          "-vf", filter,
+          "-loop", "0",
+          outputName,
+        ]);
+
+        const data = await state.core.readFile(outputName);
+        const url = URL.createObjectURL(new Blob([data], { type: "image/gif" }));
+        await state.core.deleteFile(inputName);
+        await state.core.deleteFile(outputName);
+
+        state.outputUrl = url;
+        el.output.src = url;
+        el.outputPanel.hidden = false;
+        state.isConverting = false;
+        state.progress = 100;
+        updateConvertBtn();
+        el.convertBtn.disabled = false;
+        Array.from(document.querySelectorAll("input[type=range]")).forEach((x) => (x.disabled = false));
+        showToast("Video successfully converted to GIF!", "success");
+      } catch (e) {
+        console.error("Error during conversion:", e);
+        state.isConverting = false;
+        state.progress = 0;
+        updateConvertBtn();
+        el.convertBtn.disabled = false;
+        Array.from(document.querySelectorAll("input[type=range]")).forEach((x) => (x.disabled = false));
+        showToast("Failed to convert video to GIF. Please try again.", "error");
+      }
+    }
+    el.convertBtn.addEventListener("click", handleConvert);
+
+    el.downloadBtn.addEventListener("click", () => {
+      if (!state.outputUrl) return;
+      const a = document.createElement("a");
+      a.href = state.outputUrl;
+      a.download = `converted-${Date.now()}.gif`;
+      a.click();
+    });
+
+    el.clearBtn.addEventListener("click", clearAll);
+
+    initFFmpeg();
+  </script>
+</body>
+</html>

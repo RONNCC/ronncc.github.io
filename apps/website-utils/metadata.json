@@ -1,0 +1,6 @@
+{
+  "name": "Website Utils",
+  "description": "A collection of three client-side utilities — Image Collage Creator, Video to GIF Converter, and Log Sanitizer — together on a single landing page. Static ports of the v0.dev Website Utils app (Vercel) with equivalent behavior.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["png-download", "gif-download", "clipboard", "ffmpeg-wasm"]
+}
