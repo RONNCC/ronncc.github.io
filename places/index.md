@@ -15,4 +15,8 @@ Guides to actual places worth going to. Mostly SF for now.
     <a href="{{ site.baseurl }}/sandwich-spots/">Sandwich Spots in SF</a>
     - an interactive map of the best sandwiches around the city.
   </li>
+  <li>
+    <a href="{{ site.baseurl }}/museums/">Bay Area Museums & Pass Guide</a>
+    - filterable map & table of 70 museums with NARM/ROAM, ICOM, and entry-card info.
+  </li>
 </ul>
