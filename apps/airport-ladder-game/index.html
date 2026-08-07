@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Airport Ladder Game</title>
+  <meta name="description" content="Find paths between airports by changing one letter at a time" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+  <style>
+    html { -webkit-text-size-adjust: 100%; }
+    mark { background-color: #fef08a; padding: 0 2px; border-radius: 2px; }
+    .map-tooltip {
+      position: absolute; z-index: 50; background: #fff; padding: 8px;
+      border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.06);
+      font-size: 14px; border: 1px solid #e5e7eb; pointer-events: none;
+      white-space: nowrap; display: none;
+    }
+    /* Simple spinner used while a path is being computed */
+    .animate-spin-slow { animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body class="font-sans">
+  <main class="flex min-h-screen flex-col items-center p-4 md:p-8 bg-gradient-to-b from-white to-sky-50">
+    <!-- Welcome modal (shown once) -->
+    <div id="welcome-modal" class="hidden fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+      <div class="w-full max-w-md md:max-w-lg bg-white rounded-lg shadow-lg p-6">
+        <div class="text-center sm:text-left">
+          <h2 class="text-lg font-semibold leading-none tracking-tight text-center sm:text-left flex items-center justify-center sm:justify-start text-2xl">
+            <svg id="welcome-plane" class="text-emerald-600 mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path></svg>
+            Welcome to the Airport Ladder Game
+          </h2>
+          <p class="text-sm text-muted-foreground text-gray-500 text-center sm:text-left mt-2">Find paths between airports by changing one letter at a time</p>
+        </div>
+        <div class="space-y-4 my-4">
+          <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-200">
+            <h3 class="font-semibold text-emerald-800 mb-2 flex items-center">
+              <svg id="welcome-info" class="mr-2" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg>
+              How It Works
+            </h3>
+            <p class="text-emerald-700">This is a word ladder game with airport codes. You can only travel between airports if their three-letter codes differ by exactly one letter.</p>
+          </div>
+          <div class="space-y-2">
+            <h3 class="font-semibold">Examples:</h3>
+            <div class="flex items-center bg-gray-50 p-2 rounded">
+              <div class="font-mono bg-emerald-100 text-emerald-800 px-2 py-1 rounded">LAX</div>
+              <svg class="mx-2 text-gray-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              <div class="font-mono bg-emerald-100 text-emerald-800 px-2 py-1 rounded">LAS</div>
+              <span class="ml-2 text-sm text-gray-500">Changed letter 3: <span class="text-red-600 font-bold">X</span> to <span class="text-green-600 font-bold">S</span></span>
+            </div>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-1">How to Play:</h3>
+            <ol class="list-decimal pl-5 space-y-1 text-gray-700">
+              <li>Select your starting airport</li>
+              <li>Select your destination airport</li>
+              <li>Click "Find Path" to discover the route</li>
+              <li>The map will display the path visually</li>
+            </ol>
+          </div>
+        </div>
+        <div class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
+          <button id="welcome-start" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors h-10 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white">Start Exploring</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full max-w-6xl">
+      <!-- Header -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+        <div class="flex items-center">
+          <svg id="header-plane" class="text-emerald-600 mr-2" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path></svg>
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Airport Ladder Game</h1>
+        </div>
+        <div class="flex items-center">
+          <button id="how-it-works-btn" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-300 bg-white hover:bg-gray-100 h-9 rounded-md px-3 gap-2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg>
+            How It Works
+          </button>
+        </div>
+      </div>
+
+      <!-- Control card -->
+      <div class="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-8">
+        <p class="text-base sm:text-lg mb-6 text-center text-gray-600">Find a path between major airports where each step changes only one letter in the airport code.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div class="space-y-2">
+            <label class="flex items-center text-base sm:text-lg font-semibold text-gray-700">
+              <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center mr-2 text-emerald-600">1</div>
+              Start Airport
+            </label>
+            <div class="relative" id="start-search-container"></div>
+          </div>
+          <div class="space-y-2">
+            <label class="flex items-center text-base sm:text-lg font-semibold text-gray-700">
+              <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-2 text-red-600">2</div>
+              End Airport
+            </label>
+            <div class="relative" id="end-search-container"></div>
+          </div>
+        </div>
+        <button id="find-path-btn" disabled class="w-full py-3 px-4 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center justify-center">
+          <span id="find-path-label">Find Path</span>
+        </button>
+      </div>
+
+      <!-- Map -->
+      <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+        <div class="border-b border-gray-200 p-4 bg-gray-50">
+          <h2 class="text-xl font-semibold text-gray-800">World Map</h2>
+        </div>
+        <div class="h-[600px] relative" id="map-container">
+          <div id="map-loading" class="absolute inset-0 w-full h-full flex items-center justify-center bg-white">
+            <svg class="animate-spin mr-2 text-emerald-600" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg>
+            <p class="text-lg">Loading airports data...</p>
+          </div>
+          <svg id="map-svg" class="w-full h-full" style="display:none;"></svg>
+          <div id="map-tooltip" class="map-tooltip"></div>
+          <!-- Legend -->
+          <div class="absolute bottom-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-md shadow-md z-10 border border-gray-200" id="map-legend" style="display:none;">
+            <div class="text-xs font-semibold text-gray-700 mb-1">Legend:</div>
+            <div class="space-y-1">
+              <div class="flex items-center"><div class="w-3 h-3 rounded-full bg-[#10b981] mr-1.5 border border-gray-400"></div><span class="text-xs text-gray-600">Start</span></div>
+              <div class="flex items-center"><div class="w-3 h-3 rounded-full bg-[#f59e0b] mr-1.5 border border-gray-400"></div><span class="text-xs text-gray-600">Connection</span></div>
+              <div class="flex items-center"><div class="w-3 h-3 rounded-full bg-[#ef4444] mr-1.5 border border-gray-400"></div><span class="text-xs text-gray-600">Destination</span></div>
+              <div class="flex items-center"><div class="w-1.5 h-1.5 rounded-full bg-[#3b82f6] mr-1.5 border border-gray-400" style="margin-left:3px;margin-right:9px;"></div><span class="text-xs text-gray-600">Other Airport</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Path results -->
+      <div id="path-results" class="bg-white rounded-xl shadow-md overflow-hidden" style="display:none;">
+        <div class="border-b border-gray-200 p-4 bg-gray-50">
+          <h2 class="text-xl font-semibold text-gray-800">Path Results</h2>
+        </div>
+        <div class="p-4 sm:p-6" id="path-results-body"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- How It Works dialog -->
+  <div id="how-dialog" class="hidden fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+    <div class="w-full max-w-lg bg-white rounded-lg shadow-lg p-6 relative">
+      <button id="how-close" class="absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100 focus:outline-none" aria-label="Close">
+        <svg class="h-4 w-4" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+      </button>
+      <div class="text-center sm:text-left">
+        <h2 class="text-lg font-semibold tracking-tight">About Airport Ladder Game</h2>
+        <p class="text-sm text-muted-foreground text-gray-500 mt-1">How to use this tool and understand the one-letter difference rule.</p>
+      </div>
+      <div class="space-y-4 mt-4">
+        <div>
+          <h3 class="font-bold">The One-Letter Difference Rule</h3>
+          <p class="text-gray-600">You can only travel between airports if their three-letter airport codes differ by exactly one letter. For example:</p>
+          <div class="mt-2 space-y-2">
+            <div class="flex items-center bg-gray-50 p-2 rounded">
+              <div class="font-mono bg-emerald-100 text-emerald-800 px-2 py-1 rounded">LAX</div>
+              <svg class="mx-2 text-gray-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              <div class="font-mono bg-emerald-100 text-emerald-800 px-2 py-1 rounded">LAS</div>
+              <span class="ml-2 text-sm text-gray-500">Changed letter 3: <span class="text-red-600 font-bold">X</span> to <span class="text-green-600 font-bold">S</span></span>
+            </div>
+            <div class="flex items-center bg-gray-50 p-2 rounded">
+              <div class="font-mono bg-emerald-100 text-emerald-800 px-2 py-1 rounded">JFK</div>
+              <svg class="mx-2 text-gray-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              <div class="font-mono bg-emerald-100 text-emerald-800 px-2 py-1 rounded">JMK</div>
+              <span class="ml-2 text-sm text-gray-500">Changed letter 2: <span class="text-red-600 font-bold">F</span> to <span class="text-green-600 font-bold">M</span></span>
+            </div>
+            <div class="flex items-center bg-red-50 p-2 rounded">
+              <div class="font-mono bg-red-100 text-red-800 px-2 py-1 rounded">SFO</div>
+              <svg class="mx-2 text-gray-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              <div class="font-mono bg-red-100 text-red-800 px-2 py-1 rounded">LAX</div>
+              <span class="ml-2 text-sm text-red-500">Invalid: Multiple letter differences</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold">How to Use</h3>
+          <ol class="list-decimal pl-6 mt-1 space-y-1 text-gray-600">
+            <li>Select your starting airport</li>
+            <li>Select your destination airport</li>
+            <li>Click "Find Path" to discover the route with the one-letter difference rule</li>
+            <li>The map will display the path visually, and the path list will show each step</li>
+          </ol>
+        </div>
+        <div>
+          <h3 class="font-bold">Understanding the Results</h3>
+          <p class="text-gray-600">The path finder uses a breadth-first search algorithm to find the shortest path between airports following the one-letter difference constraint. If no path exists, the application will tell you.</p>
+        </div>
+        <div>
+          <h3 class="font-bold">Map Navigation</h3>
+          <p class="text-gray-600">You can zoom in and out using the mouse wheel or the zoom controls in the top-right corner of the map. Click and drag to pan around the map. When a path is found, the map will automatically center on it.</p>
+        </div>
+        <div class="text-sm text-gray-500 border-t pt-2">
+          <p>This is a fun way to explore airport connections with a word-ladder twist!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  "use strict";
+
+  /* ------------------------------------------------------------------ *
+   *  State
+   * ------------------------------------------------------------------ */
+  let airports = [];
+  let isLoading = true;
+  let start = null;
+  let end = null;
+  let path = [];
+  let finding = false;
+  let pathError = null;
+  let graph = null;
+
+  /* ------------------------------------------------------------------ *
+   *  Icons (lucide-style inline SVGs)
+   * ------------------------------------------------------------------ */
+  const ICON = {
+    search: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-gray-400"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>',
+    x: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>',
+    mappin: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>',
+    arrowright: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>',
+    loader: '<svg class="animate-spin mr-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg>',
+    alert: '<svg class="mr-2 mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>'
+  };
+
+  /* ------------------------------------------------------------------ *
+   *  Data loading (same source + filter as the original)
+   * ------------------------------------------------------------------ */
+  function parseCSV(text) {
+    // Robust RFC-4180-ish parser (handles quoted fields with commas)
+    const rows = [];
+    let row = [], field = '', inQuotes = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (inQuotes) {
+        if (c === '"') {
+          if (text[i + 1] === '"') { field += '"'; i++; }
+          else inQuotes = false;
+        } else field += c;
+      } else if (c === '"') {
+        inQuotes = true;
+      } else if (c === ',') {
+        row.push(field); field = '';
+      } else if (c === '\n' || c === '\r') {
+        if (c === '\r' && text[i + 1] === '\n') i++;
+        row.push(field); field = '';
+        rows.push(row); row = [];
+      } else field += c;
+    }
+    if (field.length > 0 || row.length > 0) { row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  async function loadAirports() {
+    try {
+      const res = await fetch('https://davidmegginson.github.io/ourairports-data/airports.csv');
+      if (!res.ok) throw new Error('Failed to fetch airports: ' + res.status);
+      const text = await res.text();
+      const rows = parseCSV(text);
+      const header = rows[0].map(h => h.trim());
+      const idx = {};
+      header.forEach((h, i) => idx[h] = i);
+      const out = [];
+      for (let r = 1; r < rows.length; r++) {
+        const row = rows[r];
+        const get = (key) => (idx[key] !== undefined ? (row[idx[key]] || '').trim() : '');
+        if (get('type') === 'large_airport' && get('iata_code') && get('iata_code').length === 3) {
+          const lat = parseFloat(get('latitude_deg'));
+          const lon = parseFloat(get('longitude_deg'));
+          let state;
+          const region = get('iso_region');
+          if (region && region.includes('-')) state = region.split('-')[1];
+          out.push({
+            code: get('iata_code').trim().toUpperCase(),
+            name: get('name'),
+            city: get('municipality') || undefined,
+            state: state,
+            country: get('iso_country') || undefined,
+            latitude: isNaN(lat) ? undefined : lat,
+            longitude: isNaN(lon) ? undefined : lon
+          });
+        }
+      }
+      return out;
+    } catch (e) {
+      console.error('Error fetching airports:', e);
+      return null;
+    }
+  }
+
+  /* ------------------------------------------------------------------ *
+   *  Graph + BFS (same algorithm as the original)
+   * ------------------------------------------------------------------ */
+  class AirportGraph {
+    constructor(airportList) {
+      this.airports = airportList;
+      this.graph = this.buildGraph();
+    }
+    isDifferByOneLetter(a, b) {
+      if (a.length !== b.length) return false;
+      let diffs = 0;
+      for (let i = 0; i < a.length; i++) {
+        if (a[i] !== b[i]) diffs++;
+        if (diffs > 1) return false;
+      }
+      return diffs === 1;
+    }
+    buildGraph() {
+      const g = new Map();
+      this.airports.forEach(t => g.set(t.code, []));
+      const codes = this.airports.map(a => a.code);
+      for (let i = 0; i < codes.length; i++) {
+        for (let j = i + 1; j < codes.length; j++) {
+          if (this.isDifferByOneLetter(codes[i], codes[j])) {
+            g.get(codes[i]).push(codes[j]);
+            g.get(codes[j]).push(codes[i]);
+          }
+        }
+      }
+      return g;
+    }
+    findPath(startCode, endCode) {
+      if (startCode === endCode) return [startCode];
+      if (!this.graph.has(startCode) || !this.graph.has(endCode)) {
+        console.warn('One or both airports not found in graph:', startCode, endCode);
+        return [];
+      }
+      const queue = [startCode];
+      const visited = new Set([startCode]);
+      const prev = new Map();
+      while (queue.length > 0) {
+        const cur = queue.shift();
+        if (cur === endCode) return this.reconstructPath(prev, startCode, endCode);
+        for (const next of (this.graph.get(cur) || [])) {
+          if (!visited.has(next)) {
+            visited.add(next);
+            prev.set(next, cur);
+            queue.push(next);
+          }
+        }
+      }
+      console.log('No path found between ' + startCode + ' and ' + endCode);
+      return [];
+    }
+    reconstructPath(prev, startCode, endCode) {
+      const arr = [endCode];
+      let cur = endCode;
+      while (cur !== startCode) {
+        const p = prev.get(cur);
+        if (!p) break;
+        arr.unshift(p);
+        cur = p;
+      }
+      return arr.map(code => this.airports.find(a => a.code === code));
+    }
+  }
+
+  /* ------------------------------------------------------------------ *
+   *  Search (Fuse-like: weighted, location-ignored substring scoring)
+   * ------------------------------------------------------------------ */
+  function scoreAirport(a, q) {
+    const query = q.toLowerCase().trim();
+    if (!query) return 0;
+    let best = -1;
+    const fields = [
+      { v: a.code.toLowerCase(), w: 10 },
+      { v: (a.name || '').toLowerCase(), w: 5 },
+      { v: (a.city || '').toLowerCase(), w: 3 },
+      { v: (a.state || '').toLowerCase(), w: 1 },
+      { v: (a.country || '').toLowerCase(), w: 1 }
+    ];
+    for (const f of fields) {
+      if (!f.v) continue;
+      const idx = f.v.indexOf(query);
+      if (idx !== -1) {
+        let s = f.w * 10;
+        if (idx === 0) s += 5;
+        if (f.v === query) s += 20;
+        s -= idx * 0.1;
+        if (s > best) best = s;
+      }
+    }
+    return best;
+  }
+  function searchAirports(query) {
+    if (!query) return [];
+    const scored = [];
+    for (const a of airports) {
+      const s = scoreAirport(a, query);
+      if (s > 0) scored.push({ a, s });
+    }
+    scored.sort((x, y) => y.s - x.s || x.a.code.localeCompare(y.a.code));
+    return scored.slice(0, 10).map(x => x.a);
+  }
+  function highlight(text, q) {
+    if (!q || !text) return text;
+    try {
+      return text.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'),
+        '<mark class="bg-yellow-100 px-0.5 rounded">$1</mark>');
+    } catch (e) { return text; }
+  }
+  function placeText(a) {
+    const parts = [];
+    if (a.city) parts.push(a.city);
+    if (a.state) parts.push(a.state);
+    if (a.country) parts.push(a.country);
+    return parts.join(', ');
+  }
+
+  /* ------------------------------------------------------------------ *
+   *  Search inputs
+   * ------------------------------------------------------------------ */
+  function createSearch(kind) {
+    const container = document.getElementById(kind === 'start' ? 'start-search-container' : 'end-search-container');
+    const state = { query: '', open: false, results: [] };
+    container.innerHTML = '';
+
+    const render = () => {
+      const selected = kind === 'start' ? start : end;
+      if (selected) {
+        container.innerHTML =
+          '<div class="flex items-center bg-white border border-gray-300 rounded-md p-3 shadow-sm">' +
+            '<div class="flex-1">' +
+              '<div class="flex items-center">' +
+                '<div class="font-mono font-bold text-lg">' + selected.code + '</div>' +
+                '<div class="mx-2 text-gray-400">&bull;</div>' +
+                '<div class="text-gray-700">' + esc(selected.name) + '</div>' +
+              '</div>' +
+              '<div class="text-sm text-gray-500 flex items-center mt-1">' + ICON.mappin + esc(placeText(selected)) + '</div>' +
+            '</div>' +
+            '<button class="ml-2 p-1 rounded-full hover:bg-gray-100 text-gray-500 hover:text-gray-700 transition-colors" aria-label="Clear selection" data-action="clear">' + ICON.x.replace('width="24"', 'width="20"').replace('height="24"', 'height="20"') + '</button>' +
+          '</div>';
+        const btn = container.querySelector('[data-action="clear"]');
+        btn.addEventListener('click', () => {
+          if (kind === 'start') { start = null; } else { end = null; }
+          createSearch('start'); createSearch('end'); updateFindButton();
+        });
+        return;
+      }
+
+      let html =
+        '<div class="relative">' +
+          '<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">' + ICON.search + '</div>' +
+          '<input type="text" value="' + esc(state.query) + '" placeholder="Search by code, name or city..." ' +
+            'class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent" ' +
+            (isLoading ? 'disabled' : '') + ' data-role="input">' +
+          (state.query ? '<button class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600" data-action="clear-query">' + ICON.x.replace('width="24"', 'width="18"').replace('height="24"', 'height="18"') + '</button>' : '') +
+        '</div>';
+      if (state.open && state.query) {
+        html += '<div class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">';
+        if (state.results.length > 0) {
+          state.results.forEach(a => {
+            html += '<div class="p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0" data-action="select" data-code="' + a.code + '">' +
+              '<div class="flex items-center">' +
+                '<div class="font-mono font-bold">' + a.code + '</div>' +
+                '<div class="mx-2 text-gray-400">&bull;</div>' +
+                '<div class="text-gray-700">' + highlight(esc(a.name), state.query) + '</div>' +
+              '</div>' +
+              '<div class="text-sm text-gray-500 flex items-center mt-1">' + ICON.mappin + '<span>' + highlight(esc(placeText(a)), state.query) + '</span></div>' +
+            '</div>';
+          });
+        } else {
+          html += '<div class="p-3 text-gray-500">No airports found</div>';
+        }
+        html += '</div>';
+      }
+      container.innerHTML = html;
+
+      const input = container.querySelector('[data-role="input"]');
+      if (input) {
+        input.addEventListener('input', (e) => {
+          state.query = e.target.value;
+          state.open = true;
+          state.results = searchAirports(state.query);
+          render();
+        });
+        input.addEventListener('focus', () => { state.open = true; render(); });
+        input.addEventListener('blur', () => setTimeout(() => { state.open = false; render(); }, 150));
+      }
+      const clearQ = container.querySelector('[data-action="clear-query"]');
+      if (clearQ) clearQ.addEventListener('click', () => { state.query = ''; state.open = false; render(); });
+      container.querySelectorAll('[data-action="select"]').forEach(el => {
+        el.addEventListener('mousedown', (e) => e.preventDefault());
+        el.addEventListener('click', () => {
+          const a = airports.find(x => x.code === el.dataset.code);
+          if (!a) return;
+          if (kind === 'start') start = a; else end = a;
+          state.query = ''; state.open = false;
+          createSearch('start'); createSearch('end'); updateFindButton();
+        });
+      });
+    };
+    render();
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function updateFindButton() {
+    const btn = document.getElementById('find-path-btn');
+    btn.disabled = !start || !end || isLoading || finding;
+  }
+
+  /* ------------------------------------------------------------------ *
+   *  Map
+   * ------------------------------------------------------------------ */
+  const mapState = { geoPath: null, projection: null, zoom: 1, center: [0, 20], features: [], hasPathFocus: false };
+
+  async function initMap() {
+    const svg = document.getElementById('map-svg');
+    const container = document.getElementById('map-container');
+    const tooltip = document.getElementById('map-tooltip');
+    const width = container.clientWidth || 800;
+    const height = 600;
+
+    const projection = d3.geoMercator().scale(150).translate([width / 2, height / 2]);
+    const geoPath = d3.geoPath().projection(projection);
+    mapState.projection = projection;
+    mapState.geoPath = geoPath;
+
+    svg.style.display = 'block';
+    const g = svg.append('g');
+
+    // Countries
+    try {
+      const res = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
+      const topo = await res.json();
+      const features = topojson.feature(topo, topo.objects.countries).features;
+      mapState.features = features;
+      g.selectAll('path.country')
+        .data(features)
+        .join('path')
+        .attr('class', 'country')
+        .attr('d', geoPath)
+        .attr('fill', '#f1f5f9')
+        .attr('stroke', '#cbd5e1')
+        .attr('stroke-width', 0.5)
+        .style('outline', 'none')
+        .on('mouseenter', function (e, d) {
+          d3.select(this).attr('fill', '#e2e8f0');
+          showTooltip(e, d.properties.name);
+        })
+        .on('mouseleave', function () {
+          d3.select(this).attr('fill', '#f1f5f9');
+          hideTooltip();
+        });
+    } catch (e) {
+      console.error('Failed to load world map:', e);
+    }
+
+    // Marker layer (airport + path markers are re-rendered on demand)
+    const markerLayer = g.append('g').attr('class', 'markers');
+    const pathLayer = g.append('g').attr('class', 'path');
+    const lineLayer = g.append('g').attr('class', 'lines');
+
+    mapState.markerLayer = markerLayer;
+    mapState.pathLayer = pathLayer;
+    mapState.lineLayer = lineLayer;
+    mapState.svg = svg;
+    mapState.g = g;
+
+    renderMarkers(markerLayer);
+
+    // Zoom / pan (d3.zoom on the base group)
+    const zoomBehavior = d3.zoom()
+      .scaleExtent([1, 16])
+      .on('zoom', (e) => {
+        g.attr('transform', e.transform);
+        // counter-scale markers so they keep constant size
+        const k = e.transform.k;
+        markerLayer.selectAll('circle').attr('r', 3 / k);
+        pathLayer.selectAll('circle').attr('r', 8 / k);
+        pathLayer.selectAll('text').attr('font-size', 10 / k);
+      });
+    mapState.zoomBehavior = zoomBehavior;
+    mapState.container = container;
+    svg.call(zoomBehavior);
+    svg.call(zoomBehavior.transform, d3.zoomIdentity);
+
+    // Zoom controls (top-right)
+    const controls = d3.select(container)
+      .append('div')
+      .style('position', 'absolute')
+      .style('top', '12px')
+      .style('right', '12px')
+      .style('z-index', '10')
+      .style('display', 'flex')
+      .style('flex-direction', 'column')
+      .style('gap', '4px');
+    const mkBtn = (label) => {
+      const b = controls.append('button')
+        .text(label)
+        .style('width', '32px').style('height', '32px')
+        .style('background', '#fff').style('border', '1px solid #d1d5db')
+        .style('border-radius', '6px').style('cursor', 'pointer')
+        .style('font-size', '16px').style('line-height', '1')
+        .style('box-shadow', '0 1px 2px rgba(0,0,0,.05)')
+        .on('mouseover', function () { d3.select(this).style('background', '#f3f4f6'); })
+        .on('mouseout', function () { d3.select(this).style('background', '#fff'); });
+      return b;
+    };
+    mkBtn('+').on('click', () => svg.transition().duration(200).call(mapState.zoomBehavior.scaleBy, 1.4));
+    mkBtn('-').on('click', () => svg.transition().duration(200).call(mapState.zoomBehavior.scaleBy, 1 / 1.4));
+
+    document.getElementById('map-legend').style.display = 'block';
+
+    function showTooltip(e, text) {
+      tooltip.textContent = text;
+      tooltip.style.display = 'block';
+      positionTooltip(e);
+    }
+    function positionTooltip(e) {
+      const rect = container.getBoundingClientRect();
+      let x = e.clientX - rect.left + 14;
+      let y = e.clientY - rect.top + 14;
+      const tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
+      if (x + tw > rect.width) x = e.clientX - rect.left - tw - 14;
+      if (y + th > rect.height) y = e.clientY - rect.top - th - 14;
+      tooltip.style.left = x + 'px';
+      tooltip.style.top = y + 'px';
+    }
+    function hideTooltip() { tooltip.style.display = 'none'; }
+    mapState.showTooltip = showTooltip;
+    mapState.hideTooltip = hideTooltip;
+    mapState.positionTooltip = positionTooltip;
+  }
+
+  function renderMarkers(layer) {
+    layer.selectAll('*').remove();
+    const withCoords = airports.filter(a => a.latitude !== undefined && a.longitude !== undefined);
+    const k = mapState.zoom;
+    layer.selectAll('circle.airport')
+      .data(withCoords)
+      .join('circle')
+      .attr('class', 'airport')
+      .attr('cx', d => mapState.projection([d.longitude, d.latitude])[0])
+      .attr('cy', d => mapState.projection([d.longitude, d.latitude])[1])
+      .attr('r', 3 / k)
+      .attr('fill', '#3b82f6')
+      .attr('opacity', 0.7)
+      .style('pointer-events', 'auto')
+      .on('mouseenter', function (e, d) {
+        mapState.showTooltip(e, d.code + ': ' + d.name + (d.city ? ' - ' + placeText(d) : ''));
+      })
+      .on('mousemove', (e) => mapState.positionTooltip(e))
+      .on('mouseleave', () => mapState.hideTooltip());
+  }
+
+  function renderPath(layer) {
+    layer.selectAll('*').remove();
+    if (!path || path.length === 0) return;
+    const k = mapState.zoom;
+    path.forEach((a, idx) => {
+      if (a.longitude && a.latitude) {
+        const isStart = idx === 0;
+        const isEnd = idx === path.length - 1;
+        const r = (isStart || isEnd ? 8 : 6);
+        const group = layer.append('g')
+          .attr('transform', `translate(${mapState.projection([a.longitude, a.latitude])[0]},${mapState.projection([a.longitude, a.latitude])[1]})`);
+        group.append('circle')
+          .attr('r', r / k)
+          .attr('fill', isStart ? '#10b981' : isEnd ? '#ef4444' : '#f59e0b')
+          .style('pointer-events', 'none');
+        group.append('text')
+          .attr('text-anchor', 'middle')
+          .attr('y', -((r / k) + 8))
+          .style('font-family', 'monospace')
+          .style('font-size', 10 / k + 'px')
+          .style('font-weight', 'bold')
+          .style('fill', '#000')
+          .style('stroke', '#fff')
+          .style('stroke-width', 2 / k)
+          .style('paint-order', 'stroke')
+          .text(a.code)
+          .style('pointer-events', 'none');
+        group
+          .style('pointer-events', 'auto')
+          .on('mouseenter', function (e) {
+            mapState.showTooltip(e, a.code + ': ' + a.name + (a.city ? ' - ' + placeText(a) : '') + (isStart ? ' (Start)' : isEnd ? ' (Destination)' : ''));
+          })
+          .on('mousemove', (e) => mapState.positionTooltip(e))
+          .on('mouseleave', () => mapState.hideTooltip());
+      }
+    });
+  }
+
+  function renderLines(layer) {
+    layer.selectAll('*').remove();
+    if (!path || path.length < 2) return;
+    for (let i = 0; i < path.length - 1; i++) {
+      const a = path[i], b = path[i + 1];
+      if (a.longitude && a.latitude && b.longitude && b.latitude) {
+        const pa = mapState.projection([a.longitude, a.latitude]);
+        const pb = mapState.projection([b.longitude, b.latitude]);
+        layer.append('line')
+          .attr('x1', pa[0]).attr('y1', pa[1])
+          .attr('x2', pb[0]).attr('y2', pb[1])
+          .attr('stroke', '#f59e0b')
+          .attr('stroke-width', 3)
+          .attr('stroke-linecap', 'round')
+          .attr('stroke-dasharray', '5,5')
+          .style('pointer-events', 'none');
+      }
+    }
+  }
+
+  function focusPath() {
+    const pts = path.filter(a => a.latitude && a.longitude);
+    if (!pts.length) return;
+    if (pts.length === 1) {
+      zoomToCenter(pts[0], 4);
+      return;
+    }
+    const lats = pts.map(p => p.latitude), lons = pts.map(p => p.longitude);
+    const minLat = Math.min(...lats), maxLat = Math.max(...lats);
+    const minLon = Math.min(...lons), maxLon = Math.max(...lons);
+    const extent = Math.max(maxLat - minLat, maxLon - minLon);
+    let k = 1;
+    if (extent > 0) k = Math.min(16, Math.max(1, Math.floor(180 / extent)));
+    zoomToCenter({ longitude: (minLon + maxLon) / 2, latitude: (minLat + maxLat) / 2 }, k);
+  }
+
+  function zoomToCenter(pt, k) {
+    const svg = mapState.svg;
+    const proj = mapState.projection;
+    const x = proj([pt.longitude, pt.latitude])[0];
+    const y = proj([pt.longitude, pt.latitude])[1];
+    const width = (mapState.container && mapState.container.clientWidth) || 800;
+    const height = (mapState.container && mapState.container.clientHeight) || 600;
+    const tx = width / 2 - k * x;
+    const ty = height / 2 - k * y;
+    mapState.zoom = k;
+    svg.transition().duration(600).call(
+      mapState.zoomBehavior.transform,
+      d3.zoomIdentity.translate(tx, ty).scale(k)
+    );
+  }
+
+  /* ------------------------------------------------------------------ *
+   *  Find Path
+   * ------------------------------------------------------------------ */
+  function findPath() {
+    if (!start || !end) return;
+    finding = true;
+    pathError = null;
+    updateFindButton();
+    const label = document.getElementById('find-path-label');
+    label.innerHTML = ICON.loader + 'Finding Path...';
+
+    // small delay to match the original's UX
+    setTimeout(() => {
+      try {
+        const t = graph.findPath(start.code, end.code);
+        path = t;
+        renderPath(mapState.pathLayer);
+        renderLines(mapState.lineLayer);
+        renderResults();
+        focusPath();
+        if (t.length === 0) {
+          pathError = 'No path found between ' + start.code + ' and ' + end.code + '. Try different airports.';
+          renderResults();
+        }
+      } catch (e) {
+        console.error('Error finding path:', e);
+        pathError = 'An error occurred while finding the path: ' + (e instanceof Error ? e.message : String(e));
+        renderResults();
+      } finally {
+        finding = false;
+        label.textContent = 'Find Path';
+        updateFindButton();
+      }
+    }, 100);
+  }
+
+  function renderResults() {
+    const box = document.getElementById('path-results');
+    const body = document.getElementById('path-results-body');
+    box.style.display = 'block';
+    if (pathError) {
+      body.innerHTML =
+        '<div class="p-4 bg-amber-50 text-amber-800 rounded-md flex items-start">' + ICON.alert + '<span>' + esc(pathError) + '</span></div>';
+      return;
+    }
+    if (path.length > 1) {
+      let html = '<div class="space-y-4">';
+      html += '<p class="text-gray-600">Found a path with ' + (path.length - 1) + ' step' + (path.length > 2 ? 's' : '') + ' between <span class="font-semibold">' + start.code + '</span> and <span class="font-semibold">' + end.code + '</span>:</p>';
+      html += '<div class="flex flex-wrap items-center">';
+      path.forEach((a, i) => {
+        const cls = i === 0 ? 'bg-emerald-100 text-emerald-800' : i === path.length - 1 ? 'bg-red-100 text-red-800' : 'bg-amber-100 text-amber-800';
+        html += '<div class="flex items-center mb-2">' +
+          '<div class="px-4 py-2 rounded-md font-mono font-bold ' + cls + '">' + a.code + '</div>' +
+          '<div class="text-sm text-gray-600 mx-2">' + esc(a.name) + '</div>' +
+          (i < path.length - 1 ? '<div class="mx-2 text-gray-400">' + ICON.arrowright.replace('width="24"', 'width="20"').replace('height="24"', 'height="20"') + '</div>' : '') +
+        '</div>';
+      });
+      html += '</div>';
+      html += '<div class="mt-4 p-4 bg-gray-50 rounded-md"><h3 class="font-semibold mb-2">Letter Changes:</h3><div class="space-y-2">';
+      for (let i = 0; i < path.length - 1; i++) {
+        const a = path[i], b = path[i + 1];
+        const diff = [...a.code].findIndex((ch, j) => ch !== b.code[j]);
+        html += '<div class="flex items-center">' +
+          '<div class="font-mono bg-gray-100 px-2 py-1 rounded">' + [...a.code].map((ch, j) => j === diff ? '<span class="text-red-600 font-bold">' + ch + '</span>' : ch).join('') + '</div>' +
+          '<div class="mx-2 text-gray-400">' + ICON.arrowright.replace('width="24"', 'width="16"').replace('height="24"', 'height="16"') + '</div>' +
+          '<div class="font-mono bg-gray-100 px-2 py-1 rounded">' + [...b.code].map((ch, j) => j === diff ? '<span class="text-green-600 font-bold">' + ch + '</span>' : ch).join('') + '</div>' +
+          '<span class="ml-2 text-sm text-gray-500">Changed letter ' + (diff + 1) + ' from <span class="text-red-600 font-bold">' + a.code[diff] + '</span> to <span class="text-green-600 font-bold">' + b.code[diff] + '</span></span>' +
+        '</div>';
+      }
+      html += '</div></div></div>';
+      body.innerHTML = html;
+    } else {
+      body.innerHTML =
+        '<div class="p-4 bg-amber-50 text-amber-800 rounded-md flex items-start">' + ICON.alert +
+        '<span>No path found between ' + start.code + ' and ' + end.code + '. Try different airports.</span></div>';
+    }
+  }
+
+  /* ------------------------------------------------------------------ *
+   *  Dialogs
+   * ------------------------------------------------------------------ */
+  function showModal(el) { el.classList.remove('hidden'); el.classList.add('flex'); }
+  function hideModal(el) { el.classList.add('hidden'); el.classList.remove('flex'); }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Welcome modal (first visit)
+    if (!localStorage.getItem('hasSeenWelcome')) {
+      localStorage.setItem('hasSeenWelcome', 'true');
+      showModal(document.getElementById('welcome-modal'));
+    }
+    document.getElementById('welcome-start').addEventListener('click', () => hideModal(document.getElementById('welcome-modal')));
+    document.getElementById('welcome-modal').addEventListener('click', (e) => { if (e.target.id === 'welcome-modal') hideModal(e.target); });
+
+    // How It Works dialog
+    const howDialog = document.getElementById('how-dialog');
+    document.getElementById('how-it-works-btn').addEventListener('click', () => showModal(howDialog));
+    document.getElementById('how-close').addEventListener('click', () => hideModal(howDialog));
+    howDialog.addEventListener('click', (e) => { if (e.target.id === 'how-dialog') hideModal(e.target); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { hideModal(howDialog); hideModal(document.getElementById('welcome-modal')); } });
+
+    document.getElementById('find-path-btn').addEventListener('click', findPath);
+
+    (async () => {
+      const data = await loadAirports();
+      isLoading = false;
+      if (!data) {
+        document.getElementById('map-loading').innerHTML =
+          '<div class="p-4 bg-amber-50 text-amber-800 rounded-md flex items-start">' + ICON.alert + '<span>Failed to load airport data. Please try refreshing the page.</span></div>';
+        return;
+      }
+      airports = data;
+      graph = new AirportGraph(airports);
+      createSearch('start');
+      createSearch('end');
+      updateFindButton();
+
+      await initMap();
+      document.getElementById('map-loading').style.display = 'none';
+    })();
+  });
+  </script>
+</body>
+</html>

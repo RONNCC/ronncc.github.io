@@ -80,6 +80,5 @@ exclude:
   - LICENSE
   - README.md
   - CNAME
-  - apps
   - scripts
   - vendor

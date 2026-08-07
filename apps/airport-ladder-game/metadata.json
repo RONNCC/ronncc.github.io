@@ -1,0 +1,6 @@
+{
+  "name": "Airport Ladder Game",
+  "description": "Find paths between airports by changing one letter at a time. Static port of a v0.dev app: BFS one-letter pathfinding over large airports, with an interactive world map.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
