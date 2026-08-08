@@ -10,25 +10,15 @@ redirect_from: /2026/museums
 .ms-app{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding:0;margin:0;line-height:1.5;color:#1a1a1a;width:100vw;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw}
 @media(max-width:800px){.ms-app{margin:0;left:auto;right:auto;margin-left:0;margin-right:0;width:unset}}
 
-/* ── top toolbar ── */
-.ms-bar{background:#fff;border-bottom:1px solid #e5e5e5;padding:14px 20px;}
+/* ── top bar ── */
+.ms-bar{background:#fff;border-bottom:1px solid #e5e5e5;padding:14px 20px}
 .ms-bar h2{margin:0 0 2px;font-size:18px;font-weight:800;color:#1a1a1a}
 .ms-bar .ms-sub{font-size:12.5px;color:#777;margin:0 0 12px}
-.ms-filter-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+.ms-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
 .ms-count{margin-left:auto;font-size:12px;color:#888;font-weight:600;white-space:nowrap}
 .ms-view-toggle{display:flex;gap:6px}
 .ms-view-btn{border:1px solid #ddd;background:#fff;color:#666;font:600 12px/1 inherit;padding:6px 13px;border-radius:999px;cursor:pointer;transition:all .12s}
 .ms-view-btn.on{background:#1a1a1a;border-color:#1a1a1a;color:#fff}
-
-/* ── 2-pane grid ── */
-.ms-panes{display:grid;grid-template-columns:320px 1fr;height:calc(100vh - 165px);overflow:hidden;transition:grid-template-columns .25s ease}
-@media(max-width:800px){.ms-panes{grid-template-columns:1fr;height:auto;overflow:auto}}
-@media(min-width:1200px){.ms-panes{grid-template-columns:340px 1fr}}
-
-/* ── left pane ── */
-.ms-left{border-right:1px solid #e0e0e0;background:#fafafa;display:flex;flex-direction:column;min-height:0;overflow:hidden}
-@media(max-width:800px){.ms-left{border-right:none;border-bottom:1px solid #e0e0e0;height:auto;overflow:auto}}
-.ms-left-head{padding:14px 18px 12px;border-bottom:1px solid #e5e5e5;flex-shrink:0}
 .ms-filter-label{font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin:0 0 6px}
 .ms-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
 .ms-chip{border:1px solid #ddd;background:#fff;color:#666;font:600 12px/1 inherit;padding:5px 11px;border-radius:999px;cursor:pointer;transition:all .12s}
@@ -39,33 +29,35 @@ redirect_from: /2026/museums
 .ms-loc-btn:hover{border-color:#0f6ab4;color:#0f6ab4}
 .ms-loc-btn.on{background:#e8f2fb;border-color:#0f6ab4;color:#0f6ab4}
 
-.ms-list{flex:1;overflow-y:auto;padding:8px;scrollbar-width:thin;scrollbar-color:#ccc transparent}
-@media(max-width:800px){.ms-list{max-height:40vh}}
+/* ── content area ── */
+.ms-content{position:relative;height:calc(100vh - 180px);overflow:hidden}
+@media(max-width:800px){.ms-content{height:auto;overflow:auto}}
 
-/* ── list item ── */
-.ms-item{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border-radius:10px;cursor:pointer;border:1px solid transparent;margin-bottom:4px;transition:all .12s}
-.ms-item:hover{background:#eaf1f8;border-color:#d4e3f2}
-.ms-item.on{background:#eef5fc;border-color:#bcd6ee;box-shadow:inset 3px 0 0 #0f6ab4}
-.ms-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:4px;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.12)}
-.ms-item-body{min-width:0;flex:1}
-.ms-item-name{font-weight:700;font-size:13.5px;color:#1a1a1a;line-height:1.3}
-.ms-item-nb{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.03em;margin-top:2px}
-.ms-item-badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+/* ── map ── */
+.ms-map{display:none;width:100%;height:100%;position:absolute;top:0;left:0}
+.ms-map.active{display:block}
+.ms-map .leaflet-container{height:100%;width:100%}
+
+/* ── list view ── */
+.ms-list{display:none;overflow-y:auto;height:100%;padding:8px 12px;scrollbar-width:thin;scrollbar-color:#ccc transparent}
+.ms-list.active{display:block}
+.ms-list-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;border:1px solid transparent;margin-bottom:4px;transition:all .12s}
+.ms-list-item:hover{background:#eaf1f8;border-color:#d4e3f2}
+.ms-list-item.on{background:#eef5fc;border-color:#bcd6ee;box-shadow:inset 3px 0 0 #0f6ab4}
+.ms-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.12)}
+.ms-list-item-body{min-width:0;flex:1}
+.ms-list-item-name{font-weight:700;font-size:13.5px;color:#1a1a1a;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ms-list-item-meta{font-size:11px;color:#888;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ms-list-item-badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
 .ms-badge{font-size:9.5px;font-weight:700;padding:2px 6px;border-radius:6px;white-space:nowrap}
 .ms-badge.both{background:#e8f5e9;color:#2e7d32}
 .ms-badge.walker{background:#fff8e1;color:#b26a00}
 .ms-badge.nl{background:#f5f5f5;color:#888}
 .ms-badge.icon{background:#ede7f6;color:#6a1b9a}
-
-/* ── right pane ── */
-.ms-right{display:flex;flex-direction:column;min-height:0;position:relative;overflow:hidden;background:#fff}
-@media(max-width:800px){.ms-right{height:60vh}}
-.ms-map{flex:1;min-height:0;display:none}
-.ms-map.active{display:block}
-.ms-map .leaflet-container{height:100%;width:100%}
+.ms-badge.free{background:#e3f2fd;color:#1565c0}
 
 /* ── table view ── */
-.ms-tablewrap{flex:1;overflow:auto;display:none;min-height:0}
+.ms-tablewrap{display:none;overflow:auto;height:100%;min-height:0}
 .ms-tablewrap.active{display:block}
 .ms-table{width:100%;border-collapse:collapse;font-size:12.5px;text-align:left;min-width:720px}
 .ms-table th{position:sticky;top:0;background:#f2f2f2;color:#333;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.03em;padding:9px 10px;border-bottom:1px solid #ddd;text-align:left;white-space:nowrap;cursor:pointer;user-select:none}
@@ -86,7 +78,7 @@ redirect_from: /2026/museums
 .ms-table .ms-card.nl{background:#f5f5f5;color:#888}
 .ms-table tr.ms-click{cursor:pointer}
 
-/* ── detail panel (slides up) ── */
+/* ── detail panel ── */
 .ms-detail{position:absolute;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e0e0e0;box-shadow:0 -4px 20px rgba(0,0,0,.12);border-radius:14px 14px 0 0;transform:translateY(100%);transition:transform .25s ease;z-index:1000;max-height:55%;overflow-y:auto}
 .ms-detail.open{transform:translateY(0)}
 @media(max-width:800px){.ms-detail{max-height:70%;border-radius:16px 16px 0 0}}
@@ -100,7 +92,7 @@ redirect_from: /2026/museums
 .ms-detail .ms-cell b{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.03em;color:#999;margin-bottom:3px;font-weight:700}
 .ms-detail-close{position:absolute;top:10px;right:14px;width:28px;height:28px;border-radius:50%;border:1px solid #ddd;background:#fff;cursor:pointer;display:grid;place-items:center;font-size:14px;color:#888}
 
-/* ── region legend ── */
+/* ── legend ── */
 .ms-legend{position:absolute;bottom:12px;left:12px;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);border:1px solid #e0e0e0;border-radius:8px;padding:8px 12px;font-size:11px;color:#666;z-index:999;display:flex;flex-wrap:wrap;gap:8px}
 .ms-legend span{display:flex;align-items:center;gap:4px}
 
@@ -115,48 +107,34 @@ redirect_from: /2026/museums
 <div class="ms-app">
 <div class="ms-bar">
   <h2>Bay Area Museums</h2>
-  <p class="ms-sub">Filter by region, city, or pass. Tap a pin to see details. Toggle map / easy-scan table.</p>
-  <div class="ms-filter-row">
+  <p class="ms-sub">Filter by region or pass type. Tap a pin or row to see details.</p>
+  <div class="ms-toolbar">
     <button class="ms-loc-btn" id="msLoc">📍 Near me</button>
     <div class="ms-count" id="msCount"></div>
     <div class="ms-view-toggle">
       <button class="ms-view-btn on" data-view="map" id="msViewMap">🗺️ Map</button>
-      <button class="ms-view-btn" data-view="table" id="msViewTable">📋 Table</button>
+      <button class="ms-view-btn" data-view="list" id="msViewList">📋 List</button>
+      <button class="ms-view-btn" data-view="table" id="msViewTable">📊 Table</button>
     </div>
   </div>
   <div class="ms-filter-label">Region</div>
   <div class="ms-chips" id="msRegionChips"></div>
-  <div class="ms-filter-label">Pass / card</div>
-  <div class="ms-chips" id="msCardChips"></div>
+  <div class="ms-filter-label">Access</div>
+  <div class="ms-chips" id="msAccessChips"></div>
 </div>
 
-<div class="ms-panes">
-  <!-- LEFT PANE -->
-  <div class="ms-left">
-    <div class="ms-left-head">
-      <div class="ms-filter-label">Where can I go? (tap to focus)</div>
-      <div class="ms-chips" id="msCityChips"></div>
-      <div class="ms-filter-label">Walker travelers (NARM/ROAM)</div>
-      <div class="ms-chips" id="msWalkerChips"></div>
-      <div class="ms-filter-label">ICOM membership</div>
-      <div class="ms-chips" id="msIcomChips"></div>
-    </div>
-    <div class="ms-list" id="msList"></div>
+<div class="ms-content">
+  <div id="msMap" class="ms-map active"></div>
+  <div class="ms-list" id="msList"></div>
+  <div class="ms-tablewrap" id="msTableWrap">
+    <table class="ms-table" id="msTable"><thead><tr></tr></thead><tbody></tbody></table>
   </div>
+  <div class="ms-legend" id="msLegend"></div>
 
-  <!-- RIGHT PANE -->
-  <div class="ms-right">
-    <div id="msMap" class="ms-map active"></div>
-    <div class="ms-tablewrap" id="msTableWrap">
-      <table class="ms-table" id="msTable"><thead><tr></tr></thead><tbody></tbody></table>
-    </div>
-    <div class="ms-legend" id="msLegend"></div>
-
-    <div class="ms-detail" id="msDetail">
-      <div class="ms-detail-handle" id="msDetailClose"></div>
-      <button class="ms-detail-close" id="msDetailX">&times;</button>
-      <div class="ms-detail-inner" id="msDetailInner"></div>
-    </div>
+  <div class="ms-detail" id="msDetail">
+    <div class="ms-detail-handle" id="msDetailClose"></div>
+    <button class="ms-detail-close" id="msDetailX">&times;</button>
+    <div class="ms-detail-inner" id="msDetailInner"></div>
   </div>
 </div>
 </div>
@@ -250,7 +228,7 @@ redirect_from: /2026/museums
     {key:'seymour', name:'Seymour Marine Discovery Center', city:'Santa Cruz', region:'Coast/Santa Cruz', lat:36.9510, lng:-122.0659, hours:'Thu–Sun 10–4', walker:'yes', icom:'unknown', card:'walker', addr:'3011 Delaware Ave, Santa Cruz, CA'}
   ];
 
-  var filters = { region:null, city:null, walker:null, icom:null, card:null };
+  var filters = { region:null, access:null };
   var sort = 'name', sortDir = 1;
   var view = 'map', selected = null, myLoc = null;
 
@@ -258,23 +236,14 @@ redirect_from: /2026/museums
 
   function matches(m){
     if(filters.region && m.region!==filters.region) return false;
-    if(filters.city && m.city!==filters.city) return false;
-    if(filters.walker){
-      var w = filters.walker==='yes' ? (m.walker==='yes') : (m.walker!=='yes');
-      if(!w) return false;
-    }
-    if(filters.icom){
-      var ic;
-      if(filters.icom==='yes') ic = (m.icom==='yes'||m.icom==='likely');
-      else if(filters.icom==='likely') ic = m.icom==='likely';
-      else ic = m.icom!=='yes' && m.icom!=='likely';
-      if(!ic) return false;
-    }
-    if(filters.card){
-      if(filters.card==='both'){ if(m.card!=='both' && m.card!=='free') return false; }
-      else if(filters.card==='walker'){ if(m.card!=='walker' && m.card!=='both' && m.card!=='free') return false; }
-      else if(filters.card==='free'){ if(m.card!=='free') return false; }
-      else if(filters.card==='nl'){ if(m.card!=='nl') return false; }
+    if(filters.access){
+      if(filters.access==='walker'){
+        if(m.walker!=='yes' && m.walker!=='free') return false;
+      } else if(filters.access==='icom'){
+        if(m.icom!=='yes' && m.icom!=='likely') return false;
+      } else if(filters.access==='free'){
+        if(m.walker!=='free' && m.icom!=='free') return false;
+      }
     }
     return true;
   }
@@ -314,12 +283,6 @@ redirect_from: /2026/museums
     if(m.icom==='free') return {t:'Free', c:'free'};
     return {t:'✗', c:'no'};
   }
-  function cardTxt(m){
-    if(m.card==='both') return 'Both';
-    if(m.card==='walker') return 'Walker';
-    if(m.card==='free') return 'Free';
-    return 'Neither';
-  }
 
   function pinHTML(m){
     var color = REGION_COLOR[m.region] || '#999';
@@ -332,30 +295,35 @@ redirect_from: /2026/museums
     return '<div class="ms-dot" style="background:'+(REGION_COLOR[m.region]||'#999')+'"></div>';
   }
 
+  function badgesHTML(m){
+    var cl = cardLabel(m);
+    var h = '<span class="ms-badge '+cl.c+'">'+cl.t+'</span>';
+    if(m.walker==='free'||m.icom==='free') h += '<span class="ms-badge free">Free entry</span>';
+    return h;
+  }
+
   var map, markers = {};
 
   function renderChips(){
-    var reg={}, cit={}, wal={}, ico={}, car={};
+    var reg={}, wal=0, ico=0, fre=0;
     MUSEUMS.forEach(function(m){
       reg[m.region]=(reg[m.region]||0)+1;
-      cit[m.city]=(cit[m.city]||0)+1;
-      wal[m.walker]=(wal[m.walker]||0)+1;
-      ico[m.icom]=(ico[m.icom]||0)+1;
-      car[m.card]=(car[m.card]||0)+1;
+      if(m.walker==='yes'||m.walker==='free') wal++;
+      if(m.icom==='yes'||m.icom==='likely') ico++;
+      if(m.walker==='free'||m.icom==='free') fre++;
     });
-    function arr(map){ return Object.keys(map).map(function(k){ return {val:k, n:map[k]}; }); }
-    chipContainer('msRegionChips','region', arr(reg));
-    chipContainer('msCityChips','city', arr(cit).sort(function(a,b){return a.val.localeCompare(b.val);}));
-    chipContainer('msWalkerChips','walker', arr(wal));
-    chipContainer('msIcomChips','icom', arr(ico));
-    chipContainer('msCardChips','card', arr(car));
+    var regionList = Object.keys(reg).map(function(k){ return {val:k, n:reg[k]}; });
+    chipContainer('msRegionChips','region', regionList);
+    var accessList = [{val:'walker', n:wal, label:'Walker ✓'}, {val:'icom', n:ico, label:'ICOM ✓'}, {val:'free', n:fre, label:'Free'}];
+    chipContainer('msAccessChips','access', accessList);
   }
 
   function chipContainer(id, field, list){
     var el = document.getElementById(id);
-    var h = '<button class="ms-chip'+(filters[field]===null?' on':'')+'" data-f="'+field+'" data-v="">All <span class="ms-ct">'+list.length+'</span></button>';
+    var h = '<button class="ms-chip'+(filters[field]===null?' on':'')+'" data-f="'+field+'" data-v="">All <span class="ms-ct">'+MUSEUMS.length+'</span></button>';
     list.forEach(function(it){
-      h += '<button class="ms-chip'+(filters[field]===it.val?' on':'')+'" data-f="'+field+'" data-v="'+it.val+'">'+esc(it.val)+'<span class="ms-ct">'+it.n+'</span></button>';
+      var label = it.label || it.val;
+      h += '<button class="ms-chip'+(filters[field]===it.val?' on':'')+'" data-f="'+field+'" data-v="'+it.val+'">'+esc(label)+'<span class="ms-ct">'+it.n+'</span></button>';
     });
     el.innerHTML = h;
   }
@@ -363,27 +331,19 @@ redirect_from: /2026/museums
   function renderList(){
     var list = document.getElementById('msList');
     list.innerHTML = filtered().map(function(m){
-      return '<div class="ms-item'+(selected===m.key?' on':'')+'" data-key="'+m.key+'">'
+      return '<div class="ms-list-item'+(selected===m.key?' on':'')+'" data-key="'+m.key+'">'
         + icon(m)
-        + '<div class="ms-item-body">'
-        + '<div class="ms-item-name">'+esc(m.name)+'</div>'
-        + '<div class="ms-item-nb">'+esc(m.city)+' · '+esc(m.region)+'</div>'
-        + '<div class="ms-item-badges">'+badgesHTML(m)+'</div>'
+        + '<div class="ms-list-item-body">'
+        + '<div class="ms-list-item-name">'+esc(m.name)+'</div>'
+        + '<div class="ms-list-item-meta">'+esc(m.city)+'</div>'
+        + '<div class="ms-list-item-badges">'+badgesHTML(m)+'</div>'
         + '</div></div>';
     }).join('');
-    list.querySelectorAll('.ms-item').forEach(function(el){
+    list.querySelectorAll('.ms-list-item').forEach(function(el){
       el.addEventListener('click', function(){ select(el.getAttribute('data-key')); });
     });
   }
 
-  function badgesHTML(m){
-    var cl = cardLabel(m);
-    var h = '<span class="ms-card '+cl.c+'">'+cl.t+'</span>';
-    if(m.walker==='free'||m.icom==='free') h += '<span class="ms-badge icom">Free</span>';
-    return h;
-  }
-
-  // table
   var COLS = [
     {key:'name', label:'Museum'},
     {key:'city', label:'City'},
@@ -459,7 +419,7 @@ redirect_from: /2026/museums
       if(map) map.setView([m.lat,m.lng], 14, {animate:true});
     }
     showDetail(m);
-    var el = document.querySelector('.ms-item[data-key="'+key+'"]') || document.querySelector('tr[data-key="'+key+'"]');
+    var el = document.querySelector('.ms-list-item[data-key="'+key+'"]') || document.querySelector('tr[data-key="'+key+'"]');
     if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
   }
 
@@ -483,12 +443,11 @@ redirect_from: /2026/museums
 
   function applyMapFilter(){
     var visible = filtered();
-    var onMap = 0;
     MUSEUMS.forEach(function(m){
       var mk = markers[m.key];
       if(!mk) return;
       var show = visible.indexOf(m)>=0;
-      if(show){ mk.addTo(map); onMap++; }
+      if(show) mk.addTo(map);
       else map.removeLayer(mk);
     });
     if(visible.length && map){
@@ -500,11 +459,14 @@ redirect_from: /2026/museums
   function setView(v){
     view = v;
     document.getElementById('msViewMap').classList.toggle('on', v==='map');
+    document.getElementById('msViewList').classList.toggle('on', v==='list');
     document.getElementById('msViewTable').classList.toggle('on', v==='table');
     document.getElementById('msMap').classList.toggle('active', v==='map');
+    document.getElementById('msList').classList.toggle('active', v==='list');
     document.getElementById('msTableWrap').classList.toggle('active', v==='table');
-    if(v==='table'){ renderTable(); }
-    else { setTimeout(function(){ if(map) map.invalidateSize(); }, 100); }
+    if(v==='map'){ setTimeout(function(){ if(map) map.invalidateSize(); }, 100); }
+    else if(v==='list'){ renderList(); }
+    else if(v==='table'){ renderTable(); }
   }
 
   function updateAll(){
@@ -512,13 +474,13 @@ redirect_from: /2026/museums
     document.getElementById('msCount').textContent = items.length+' / '+MUSEUMS.length+' museums';
     renderList();
     if(view==='table') renderTable();
-    applyMapFilter();
+    if(view==='map') applyMapFilter();
   }
 
-  // chip wiring
   function bindChips(){
-    ['region','city','walker','icom','card'].forEach(function(field){
-      document.getElementById('ms'+cap(field)+'Chips').addEventListener('click', function(e){
+    ['region','access'].forEach(function(field){
+      var elId = field==='region'?'msRegionChips':'msAccessChips';
+      document.getElementById(elId).addEventListener('click', function(e){
         var chip = e.target.closest('.ms-chip');
         if(!chip) return;
         var val = chip.getAttribute('data-v');
@@ -528,11 +490,11 @@ redirect_from: /2026/museums
       });
     });
   }
-  function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
 
   document.addEventListener('DOMContentLoaded', function(){
     renderChips(); bindChips(); setupMap(); updateAll();
     document.getElementById('msViewMap').addEventListener('click', function(){ setView('map'); });
+    document.getElementById('msViewList').addEventListener('click', function(){ setView('list'); });
     document.getElementById('msViewTable').addEventListener('click', function(){ setView('table'); });
     document.getElementById('msLoc').addEventListener('click', function(){
       if(!navigator.geolocation) return;
@@ -540,7 +502,6 @@ redirect_from: /2026/museums
         myLoc={lat:pos.coords.latitude, lng:pos.coords.longitude};
         document.getElementById('msLoc').classList.add('on');
         document.getElementById('msLoc').textContent='📍 '+myLoc.lat.toFixed(2)+','+myLoc.lng.toFixed(2);
-        myLoc.sortMode=true;
         updateAll();
       }, function(){});
     });
