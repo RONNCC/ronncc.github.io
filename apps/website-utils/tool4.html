@@ -81,6 +81,40 @@
     .toast.show { opacity: 1; transform: translateY(0); }
     .toast.success { background: #16a34a; }
     .toast.error { background: #dc2626; }
+
+    /* dropzone states */
+    .dz-ph { transition: opacity 0.15s; }
+    .dropzone.loading .dz-ph, .dropzone.result-state .dz-ph { opacity: 0; pointer-events: none; }
+
+    .dz-spinner { width: 28px; height: 28px; border: 3px solid #dbeafe; border-top-color: #3b82f6;
+      border-radius: 50%; animation: spin 0.7s linear infinite; display: none; margin: 0 auto 10px; }
+    .dz-loading-msg { font-size: 0.9rem; color: #3b82f6; display: none; }
+    .dropzone.loading .dz-spinner, .dropzone.loading .dz-loading-msg { display: block; }
+
+    .dz-thumb { width: 40px; height: 40px; border-radius: 6px; object-fit: cover; border: 1px solid #e5e7eb;
+      background: #f3f4f6; flex-shrink: 0; }
+    .dz-text { flex: 1; text-align: left; min-width: 0; }
+    .dz-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.03em; color: #9ca3af; margin: 0; }
+    .dz-dims { font-size: 0.9rem; font-weight: 600; color: #1f2937; margin: 0; }
+    .dz-meta { font-size: 0.8rem; color: #6b7280; margin: 0; }
+    .dz-divider { width: 1px; background: #e5e7eb; align-self: stretch; flex-shrink: 0; }
+    .dz-preview-img { width: 36px; height: 36px; border-radius: 6px; object-fit: cover;
+      border: 1px solid #e5e7eb; background: #f3f4f6; flex-shrink: 0; }
+    .dz-source-info { display: none; align-items: center; gap: 12px; width: 100%; }
+    .dropzone.result-state .dz-source-info { display: flex; }
+    .dz-result-msg { font-size: 0.85rem; color: #6b7280; text-align: center; display: none; }
+    .dropzone.result-state .dz-result-msg { display: block; width: 100%; }
+
+    @keyframes dz-flash {
+      0%  { box-shadow: 0 0 0 0 rgba(59,130,246,0.45); }
+      50% { box-shadow: 0 0 0 8px rgba(59,130,246,0.12); }
+      100%{ box-shadow: 0 0 0 0 rgba(59,130,246,0); }
+    }
+    .dropzone.flash { animation: dz-flash 0.4s ease-out; }
+    .dropzone.loading { border-color: #3b82f6; background: #eff6ff; pointer-events: none; }
+    .dropzone.result-state { border: none; background: #f9fafb; cursor: default; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -114,8 +148,21 @@
         </div>
 
         <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Paste an image, drop an image, or click to browse">
-          <p class="drop-hint">Paste your image here with <strong>&#8984;/Ctrl + V</strong>, drag &amp; drop it, or click to browse</p>
-          <p class="drop-sub">Pasted from your clipboard is the fastest way &mdash; it never leaves your machine</p>
+          <p class="drop-hint dz-ph">Paste your image here with <strong>&#8984;/Ctrl + V</strong>, drag &amp; drop it, or click to browse</p>
+          <p class="drop-sub dz-ph">Pasted from your clipboard is the fastest way &mdash; it never leaves your machine</p>
+          <div class="dz-spinner"></div>
+          <p class="dz-loading-msg">Reading image&hellip;</p>
+          <div class="dz-source-info">
+            <img id="srcThumb" class="dz-thumb" alt="Source image thumbnail" />
+            <div class="dz-text">
+              <p class="dz-label">Source</p>
+              <p class="dz-dims" id="srcDims"></p>
+              <p class="dz-meta" id="srcSize"></p>
+            </div>
+            <div class="dz-divider"></div>
+            <img id="dstThumb" class="dz-preview-img" alt="Resized preview" />
+          </div>
+          <p class="dz-result-msg">Resized &mdash; see details below</p>
         </div>
         <input type="file" id="fileInput" accept="image/*" hidden />
       </div>
@@ -179,7 +226,11 @@
         outDims: document.getElementById("outDims"),
         outSize: document.getElementById("outSize"),
         statusStat: document.getElementById("statusStat"),
-        status: document.getElementById("status")
+        status: document.getElementById("status"),
+        srcThumb: document.getElementById("srcThumb"),
+        srcDims: document.getElementById("srcDims"),
+        srcSize: document.getElementById("srcSize"),
+        dstThumb: document.getElementById("dstThumb")
       };
 
       var MAX_EDGE = 1600;          // longest edge in px (matches what Google Messages uses for MMS)
@@ -209,6 +260,28 @@
         return (n / (1024 * 1024)).toFixed(2) + " MB";
       }
 
+      function flashDropzone() {
+        var dz = el.dropzone;
+        dz.classList.remove("flash");
+        void dz.offsetWidth;
+        dz.classList.add("flash");
+        dz.addEventListener("animationend", function () { dz.classList.remove("flash"); }, { once: true });
+      }
+
+      function setDropzoneState(state) {
+        el.dropzone.classList.remove("loading", "result-state");
+        if (state) el.dropzone.classList.add(state);
+      }
+
+      function updateDropzoneResult() {
+        if (!lastSource) return;
+        el.srcThumb.src = lastSource.img.src;
+        el.srcDims.textContent = lastSource.img.naturalWidth + " \u00d7 " + lastSource.img.naturalHeight + " px";
+        el.srcSize.textContent = formatBytes(lastSource.size);
+        if (outBlob) el.dstThumb.src = URL.createObjectURL(outBlob);
+        setDropzoneState("result-state");
+      }
+
       // ---- input handling -------------------------------------------------
 
       function pickImage(e) {
@@ -216,7 +289,8 @@
           return it.type && it.type.indexOf("image") === 0;
         });
         if (items.length === 0) { showToast("No image found on the clipboard.", "error"); return; }
-        // Prefer png/jpeg/webp over exotics like tiff
+        flashDropzone();
+        setDropzoneState("loading");
         items.sort(function (a, b) {
           function rank(t) { return t.indexOf("png") === 0 || t.indexOf("jpeg") === 0 ? 1 : 0; }
           return rank(b.type) - rank(a.type);
@@ -228,6 +302,7 @@
         if (!file) return;
         if (!file.type || file.type.indexOf("image") !== 0) {
           showToast("Only image files are supported.", "error");
+          setDropzoneState("");
           return;
         }
         var url = URL.createObjectURL(file);
@@ -235,11 +310,13 @@
         img.onload = function () {
           URL.revokeObjectURL(url);
           lastSource = { img: img, size: file.size };
+          updateDropzoneResult();
           process(img, { size: file.size });
         };
         img.onerror = function () {
           URL.revokeObjectURL(url);
           showToast("Could not decode that image. Try copying it as a PNG or JPEG.", "error");
+          setDropzoneState("");
         };
         img.src = url;
       }
@@ -266,12 +343,18 @@
         el.dropzone.classList.remove("over");
         var f = e.dataTransfer.files && e.dataTransfer.files[0];
         if (!f) { showToast("Please drop an image file.", "error"); return; }
+        flashDropzone();
+        setDropzoneState("loading");
         handleFile(f);
       });
 
       el.dropzone.addEventListener("click", function () { el.fileInput.click(); });
       el.fileInput.addEventListener("change", function () {
-        if (el.fileInput.files && el.fileInput.files[0]) handleFile(el.fileInput.files[0]);
+        if (el.fileInput.files && el.fileInput.files[0]) {
+          flashDropzone();
+          setDropzoneState("loading");
+          handleFile(el.fileInput.files[0]);
+        }
         el.fileInput.value = "";
       });
 
@@ -361,6 +444,7 @@
       }
 
       function renderResult(blob, w, h) {
+        var isFirstRun = el.result.hidden;
         el.outDims.textContent = w + " \u00d7 " + h + " px";
         el.outSize.textContent = formatBytes(blob.size);
         el.outStat.classList.add("ok");
@@ -368,8 +452,12 @@
         el.statusStat.classList.add("ok");
         el.status.textContent = "Ready to send";
         el.preview.src = URL.createObjectURL(blob);
-        el.result.hidden = false;
-        showToast("Resized to " + formatBytes(blob.size) + ". Copy it and paste into Voice!", "success");
+        updateDropzoneResult();
+        el.working.hidden = true;
+        if (isFirstRun) {
+          el.result.hidden = false;
+          showToast("Resized to " + formatBytes(blob.size) + ". Copy it and paste into Voice!", "success");
+        }
       }
 
       // ---- result actions --------------------------------------------------
@@ -400,8 +488,11 @@
         el.working.hidden = true;
         if (el.preview.src) URL.revokeObjectURL(el.preview.src);
         el.preview.src = "";
+        if (el.dstThumb.src) URL.revokeObjectURL(el.dstThumb.src);
+        el.dstThumb.src = "";
         outBlob = null;
         lastSource = null;
+        setDropzoneState("");
         el.dropzone.focus();
       }
       el.reset.addEventListener("click", reset);
