@@ -5,77 +5,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Log Sanitizer | Website Utils</title>
   <meta name="description" content="100% client-side — nothing leaves your browser. Paste terminal logs, scrub PII & secrets, then share safely." />
+  <link rel="stylesheet" href="styles.css" />
   <style>
-    * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      min-height: 100vh;
-      background: linear-gradient(to bottom, #dbeafe 0%, #ffffff 100%);
-      color: #1f2937;
-      -webkit-font-smoothing: antialiased;
-    }
-    header { background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-    nav.container { max-width: 1200px; margin: 0 auto; padding: 12px 24px; }
-    nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 16px; }
-    nav a { color: #2563eb; text-decoration: none; font-weight: 500; }
-    nav a:hover { color: #1d4ed8; }
-    nav a.active { text-decoration: underline; }
-    main.container { max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
-    h1.title { font-size: 1.75rem; font-weight: 800; margin: 0 0 8px; text-align: center; color: #1e40af; }
-    p.subtitle { text-align: center; color: #4b5563; font-size: 1rem; margin: 0 0 16px; }
-    .warn { background: #fef3c7; border: 1px solid #fde68a; color: #92400e; border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 16px; }
-    .card { background: #ffffff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 20px; margin-bottom: 16px; }
-    details summary { cursor: pointer; font-weight: 600; color: #374151; }
+    /* page-specific: sanitizer workspace */
+    .warn { background: #fef3c7; border: 1px solid #fde68a; color: #92400e; border-radius: 10px; padding: 10px 14px; font-size: 13px; margin-bottom: 16px; }
+    details summary { cursor: pointer; font-weight: 600; color: #475569; }
     .pat-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-      height: 34px; padding: 0 14px; border: none; border-radius: 6px; font-size: 13px;
-      font-weight: 500; cursor: pointer; white-space: nowrap; color: #fff; transition: background 0.15s;
-    }
-    .btn-blue { background: #3b82f6; } .btn-blue:hover { background: #2563eb; }
-    .btn-gray { background: #6b7280; } .btn-gray:hover { background: #4b5563; }
-    .btn-outline { background: #fff; color: #374151; border: 1px solid #d1d5db; }
-    .btn-outline:hover { background: #f3f4f6; }
-    .badge { font-size: 11px; background: #dbeafe; color: #1d4ed8; border-radius: 9999px; padding: 2px 8px; }
-    .hint { margin-left: auto; font-size: 12px; color: #9ca3af; }
+    .btn { height: 34px; padding: 0 14px; font-size: 13px; border-radius: 8px; }
+    .badge { font-size: 11px; background: #e0e7ff; color: #4f46e5; border-radius: 9999px; padding: 2px 8px; font-weight: 600; }
+    .hint { margin-left: auto; font-size: 12px; color: #94a3b8; }
     .pat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin-top: 12px; }
-    .pat-grid label { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; color: #374151; cursor: pointer; padding: 4px 0; }
-    .pat-grid label .pdesc { display: block; font-size: 11px; color: #9ca3af; }
-    .pat-grid input[type="checkbox"] { margin-top: 2px; accent-color: #2563eb; }
-    h3.sec { font-size: 1.05rem; font-weight: 700; color: #1f2937; margin: 20px 0 10px; }
-    .rule-row { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
-    .rule-row input[type="text"] { height: 32px; border: 1px solid #d1d5db; border-radius: 6px; padding: 0 8px; font-size: 13px; }
+    .pat-grid label { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; color: #475569; cursor: pointer; padding: 4px 0; }
+    .pat-grid label .pdesc { display: block; font-size: 11px; color: #94a3b8; }
+    .pat-grid input[type="checkbox"] { margin-top: 2px; accent-color: #6366f1; }
+    h3.sec { font-size: 1.05rem; font-weight: 700; color: #0f172a; margin: 20px 0 10px; }
+    .rule-row { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+    .rule-row input[type="text"] { height: 32px; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0 8px; font-size: 13px; background: #fff; }
     .rule-row input.find { width: 220px; }
     .rule-row input.replace { width: 200px; }
-    .rule-row select { height: 32px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px; background: #fff; }
-    .rule-row .rm { background: none; border: none; color: #ef4444; font-size: 16px; cursor: pointer; }
-    .rule-row .toggle { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: #6b7280; border: 1px solid #d1d5db; border-radius: 6px; padding: 4px 8px; cursor: pointer; background: #fff; user-select: none; }
-    .rule-row .toggle.on { background: #eff6ff; border-color: #93c5fd; color: #1d4ed8; }
+    .rule-row select { height: 32px; border-radius: 8px; font-size: 13px; background: #fff; padding: 0 8px; }
+    .rule-row .rm { background: none; border: none; color: #ef4444; font-size: 16px; cursor: pointer; padding: 4px; }
+    .rule-row .toggle { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: #64748b; border: 1px solid #cbd5e1; border-radius: 8px; padding: 4px 8px; cursor: pointer; background: #fff; user-select: none; }
+    .rule-row .toggle.on { background: #eff6ff; border-color: #a5b4fc; color: #4f46e5; }
     .rule-row .err { color: #ef4444; font-size: 12px; width: 100%; }
     .rules-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
     .test-result { font-size: 12px; color: #059669; margin-top: 8px; }
-    .bottom-bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 16px; border-top: 1px solid #e5e7eb; padding-top: 14px; }
-    .bottom-bar label { font-size: 13px; color: #374151; display: inline-flex; align-items: center; gap: 6px; }
-    .bottom-bar input[type="text"] { height: 30px; width: 84px; border: 1px solid #d1d5db; border-radius: 6px; padding: 0 8px; font-size: 13px; }
-    .bottom-bar input[type="checkbox"] { accent-color: #2563eb; }
+    .bottom-bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 16px; border-top: 1px solid #e2e8f0; padding-top: 14px; }
+    .bottom-bar label { font-size: 13px; color: #475569; display: inline-flex; align-items: center; gap: 6px; }
+    .bottom-bar input[type="text"] { height: 30px; width: 84px; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0 8px; font-size: 13px; background: #fff; }
+    .bottom-bar input[type="checkbox"] { accent-color: #6366f1; }
     .bottom-bar .flex-1 { flex: 1; }
-    .stats { font-size: 12px; color: #059669; margin-top: 8px; }
-    .stats .pathmap { color: #6b7280; margin-top: 2px; }
+    .cursor { cursor: pointer; }
+    .stats { display: block; font-size: 12px; color: #059669; margin-top: 8px; }
+    .stats .pathmap { color: #64748b; margin-top: 2px; }
     .io-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
     @media (min-width: 1024px) { .io-grid { grid-template-columns: 1fr 1fr; } }
-    .io-col .io-label { font-size: 12px; font-weight: 600; color: #6b7280; margin-bottom: 6px; letter-spacing: 0.05em; }
+    .io-col .io-label { font-size: 12px; font-weight: 600; color: #64748b; margin-bottom: 6px; letter-spacing: 0.05em; }
     .io-col .view-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
     .io-col textarea {
       width: 100%; height: 54vh; min-height: 320px; background: #0f172a; color: #f1f5f9;
       border: 1px solid #334155; border-radius: 8px; padding: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       font-size: 12px; line-height: 1.5; resize: vertical;
     }
-    .io-col textarea:focus { outline: none; border-color: #3b82f6; }
-    .seg { display: flex; border: 1px solid #d1d5db; border-radius: 6px; overflow: hidden; }
-    .seg button { border: none; background: #fff; padding: 6px 12px; font-size: 13px; cursor: pointer; color: #6b7280; }
-    .seg button.on { background: #eff6ff; color: #1d4ed8; font-weight: 600; }
-    .diff-legend { font-size: 11px; color: #9ca3af; display: flex; gap: 10px; margin-left: auto; }
+    .io-col textarea:focus { outline: none; border-color: #6366f1; }
+    .editor-wrap { display: flex; position: relative; }
+    .editor-wrap textarea { border-radius: 0 8px 8px 0; border-left: none; }
+    .line-numbers {
+      width: 42px; min-height: 54vh; min-height: 320px; background: #0f172a;
+      color: #475569; border: 1px solid #334155; border-right: none;
+      border-radius: 8px 0 0 8px; padding: 14px 6px 14px 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px; line-height: 1.5; text-align: right;
+      user-select: none; -webkit-user-select: none; overflow: hidden;
+      white-space: pre-line; pointer-events: none;
+    }
+    .seg { display: flex; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; }
+    .seg button { border: none; background: #fff; padding: 6px 12px; font-size: 13px; cursor: pointer; color: #64748b; }
+    .seg button.on { background: #eff6ff; color: #4f46e5; font-weight: 600; }
+    .diff-legend { font-size: 11px; color: #94a3b8; display: flex; gap: 10px; margin-left: auto; }
     .diff-legend .removed { background: #fecaca; color: #991b1b; border-radius: 4px; padding: 1px 6px; }
     .diff-legend .inserted { background: #bbf7d0; color: #065f46; border-radius: 4px; padding: 1px 6px; }
     .diff-grid { background: #0f172a; border: 1px solid #334155; border-radius: 8px; overflow: auto; height: 54vh; min-height: 320px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; line-height: 1.5; }
@@ -87,17 +74,7 @@
     .diff-grid .removed { background: rgba(239,68,68,0.35); color: #fecaca; text-decoration: line-through; border-radius: 2px; padding: 0 2px; }
     .diff-grid .inserted { background: rgba(16,185,129,0.35); color: #a7f3d0; border-radius: 2px; padding: 0 2px; }
     .diff-grid .empty { color: #64748b; }
-    footer.note { text-align: center; color: #9ca3af; font-size: 12px; margin-top: 16px; }
-    /* Toasts */
-    .toast-wrap { position: fixed; top: 16px; left: 16px; right: 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 9999; pointer-events: none; }
-    .toast {
-      pointer-events: auto; background: #111827; color: #fff; padding: 10px 14px; border-radius: 8px;
-      font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); opacity: 0; transform: translateY(-8px);
-      transition: all 0.2s; max-width: 90vw;
-    }
-    .toast.show { opacity: 1; transform: translateY(0); }
-    .toast.success { background: #16a34a; }
-    .toast.error { background: #dc2626; }
+    footer.note { text-align: center; color: #94a3b8; font-size: 12px; margin-top: 16px; }
   </style>
 </head>
 <body>
@@ -159,11 +136,14 @@
     <div class="io-grid">
       <div class="io-col">
         <div class="io-label">INPUT — raw logs</div>
-        <textarea id="input" spellcheck="false" placeholder="Paste terminal logs here, e.g.
+        <div class="editor-wrap">
+          <div id="lineNumbers" class="line-numbers" aria-hidden="true">1</div>
+          <textarea id="input" spellcheck="false" placeholder="Paste terminal logs here, e.g.
 
 [ERROR] 2024-03-15 10:42:17 job=import user=alice@example.com host=db01.internal status=401 token=sk-ant-0123456789abcdef0123456789abcdef
 connection: postgres://admin:secret@10.0.0.5:5432/app?sslmode=require
-/Users/alice/projects/myapp/config.json loaded by service-api-1</textarea>
+/Users/alice/projects/myapp/config.json loaded by service-api-1"></textarea>
+        </div>
       </div>
       <div class="io-col">
         <div class="view-bar">
@@ -293,6 +273,7 @@ connection: postgres://admin:secret@10.0.0.5:5432/app?sslmode=require
         input: document.getElementById("input"),
         output: document.getElementById("output"),
         outputWrap: document.getElementById("outputWrap"),
+        lineNumbers: document.getElementById("lineNumbers"),
         diffWrap: document.getElementById("diffWrap"),
         diffGrid: document.getElementById("diffGrid"),
         viewTextBtn: document.getElementById("viewTextBtn"),
@@ -562,6 +543,14 @@ connection: postgres://admin:secret@10.0.0.5:5432/app?sslmode=require
         el.output.value = result.output;
       }
 
+      function updateLineNumbers() {
+        var lines = el.input.value.split("\n");
+        var nums = [];
+        for (var i = 1; i <= lines.length; i++) nums.push(i);
+        el.lineNumbers.textContent = nums.join("\n");
+        el.lineNumbers.scrollTop = el.input.scrollTop;
+      }
+
       function renderStats() {
         var total = 0;
         Object.keys(result.counts).forEach(function (k) { total += result.counts[k]; });
@@ -776,11 +765,13 @@ connection: postgres://admin:secret@10.0.0.5:5432/app?sslmode=require
       el.clearBtn.addEventListener("click", function () {
         state.input = "";
         el.input.value = "";
+        updateLineNumbers();
         rerun();
       });
 
       el.input.addEventListener("input", function () {
         state.input = el.input.value;
+        updateLineNumbers();
         rerun();
       });
 
@@ -816,6 +807,10 @@ connection: postgres://admin:secret@10.0.0.5:5432/app?sslmode=require
         updateCount();
         rerun();
         save();
+      });
+
+      el.input.addEventListener("scroll", function () {
+        el.lineNumbers.scrollTop = el.input.scrollTop;
       });
 
       // ---- persistence ----
@@ -865,6 +860,7 @@ connection: postgres://admin:secret@10.0.0.5:5432/app?sslmode=require
         updateCount();
         renderRules();
         rerun();
+        updateLineNumbers();
       })();
     })();
   </script>

@@ -4,117 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MMS Image Resizer | Website Utils</title>
-  <meta name="description" content="Paste or drop in an image and get an MMS-ready version sized for Google Voice: capped at 1600px on the long edge and re-encoded to stay under 1 MB (or 2 MB). Copy it and paste it straight into a text message." />
+  <meta name="description" content="Resize images to fit Google Voice / MMS limits. Caps long edge at 1600px and re-encodes as JPEG. Runs entirely in your browser." />
+  <link rel="stylesheet" href="styles.css" />
   <style>
-    * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      min-height: 100vh;
-      background: linear-gradient(to bottom, #dbeafe 0%, #ffffff 100%);
-      color: #1f2937;
-      -webkit-font-smoothing: antialiased;
-    }
-    header { background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-    nav.container { max-width: 1080px; margin: 0 auto; padding: 12px 24px; }
-    nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 16px; flex-wrap: wrap; }
-    nav a { color: #2563eb; text-decoration: none; font-weight: 500; }
-    nav a:hover { color: #1d4ed8; }
-    nav a.active { text-decoration: underline; }
-    main.container { max-width: 1080px; margin: 0 auto; padding: 32px; }
-    .space-y-6 { display: flex; flex-direction: column; gap: 24px; }
-    h2.title { font-size: 1.5rem; font-weight: 800; margin: 0 0 12px; text-align: center; color: #1e40af; }
-    p.subtitle { text-align: center; color: #4b5563; font-size: 1rem; margin: 0 0 8px; }
-    p.note { text-align: center; color: #6b7280; font-size: 0.85rem; margin: 0 0 24px; line-height: 1.5; }
-    .card { background: #f9fafb; padding: 24px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-    .controls { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
-    .controls label.control-label { font-size: 14px; color: #374151; font-weight: 500; }
-    select.target {
-      height: 36px; border: 1px solid #d1d5db; border-radius: 6px;
-      padding: 0 10px; font-size: 14px; background: #ffffff; color: #374151; cursor: pointer;
-    }
-    select.target:focus { outline: 2px solid #93c5fd; outline-offset: 1px; }
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      height: 36px; padding: 0 16px; border: none; border-radius: 6px; font-size: 14px;
-      font-weight: 500; cursor: pointer; white-space: nowrap; color: #ffffff; transition: background 0.15s;
-    }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn-blue { background: #3b82f6; }
-    .btn-blue:hover:not(:disabled) { background: #2563eb; }
-    .btn-green { background: #22c55e; }
-    .btn-green:hover:not(:disabled) { background: #16a34a; }
-    .btn-purple { background: #8b5cf6; }
-    .btn-purple:hover:not(:disabled) { background: #7c3aed; }
-    .btn-outline { background: #ffffff; color: #374151; border: 1px solid #d1d5db; }
-    .btn-outline:hover:not(:disabled) { background: #f3f4f6; }
-    .dropzone {
-      border: 2px dashed #d1d5db; border-radius: 8px; padding: 24px; min-height: 200px;
-      background: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; cursor: pointer; transition: all 0.2s; outline: none;
-    }
-    .dropzone.over { border-color: #3b82f6; background: #eff6ff; }
-    p.drop-hint { color: #6b7280; margin: 0 0 4px; font-size: 1rem; }
-    p.drop-sub { color: #9ca3af; margin: 0; font-size: 0.85rem; }
-    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 16px; }
-    .stat {
-      flex: 1 1 200px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px;
-      padding: 14px 16px;
-    }
-    .stat .stat-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; color: #6b7280; margin: 0 0 4px; }
-    .stat .stat-value { font-size: 1rem; font-weight: 600; color: #1f2937; margin: 0; }
-    .stat .stat-value.dim { color: #9ca3af; font-weight: 400; font-size: 0.85rem; margin-top: 2px; }
-    .stat.ok .stat-value { color: #16a34a; }
-    .stat.fail .stat-value { color: #dc2626; }
-    .result { background: #ffffff; padding: 24px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-    .result h3 { font-size: 1.1rem; font-weight: 700; color: #1f2937; margin: 0 0 12px; }
-    .result img { max-width: 100%; max-height: 480px; height: auto; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.2); display: block; margin: 0 auto; background: #f3f4f6; }
-    .result-actions { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; justify-content: center; }
-    .busy { text-align: center; color: #6b7280; padding: 24px; }
-    /* Toasts (top-center, matching the rest of the suite) */
-    .toast-wrap { position: fixed; top: 16px; left: 16px; right: 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 9999; pointer-events: none; }
-    .toast {
-      pointer-events: auto; background: #111827; color: #fff; padding: 10px 14px; border-radius: 8px;
-      font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); opacity: 0; transform: translateY(-8px);
-      transition: all 0.2s; max-width: 90vw;
-    }
-    .toast.show { opacity: 1; transform: translateY(0); }
-    .toast.success { background: #16a34a; }
-    .toast.error { background: #dc2626; }
-
-    /* dropzone states */
-    .dz-ph { transition: opacity 0.15s; }
-    .dropzone.loading .dz-ph, .dropzone.result-state .dz-ph { opacity: 0; pointer-events: none; }
-
-    .dz-spinner { width: 28px; height: 28px; border: 3px solid #dbeafe; border-top-color: #3b82f6;
-      border-radius: 50%; animation: spin 0.7s linear infinite; display: none; margin: 0 auto 10px; }
-    .dz-loading-msg { font-size: 0.9rem; color: #3b82f6; display: none; }
-    .dropzone.loading .dz-spinner, .dropzone.loading .dz-loading-msg { display: block; }
-
-    .dz-thumb { width: 40px; height: 40px; border-radius: 6px; object-fit: cover; border: 1px solid #e5e7eb;
-      background: #f3f4f6; flex-shrink: 0; }
-    .dz-text { flex: 1; text-align: left; min-width: 0; }
-    .dz-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.03em; color: #9ca3af; margin: 0; }
-    .dz-dims { font-size: 0.9rem; font-weight: 600; color: #1f2937; margin: 0; }
-    .dz-meta { font-size: 0.8rem; color: #6b7280; margin: 0; }
-    .dz-divider { width: 1px; background: #e5e7eb; align-self: stretch; flex-shrink: 0; }
-    .dz-preview-img { width: 36px; height: 36px; border-radius: 6px; object-fit: cover;
-      border: 1px solid #e5e7eb; background: #f3f4f6; flex-shrink: 0; }
-    .dz-source-info { display: none; align-items: center; gap: 12px; width: 100%; }
-    .dropzone.result-state .dz-source-info { display: flex; }
-    .dz-result-msg { font-size: 0.85rem; color: #6b7280; text-align: center; display: none; }
-    .dropzone.result-state .dz-result-msg { display: block; width: 100%; }
-
-    @keyframes dz-flash {
-      0%  { box-shadow: 0 0 0 0 rgba(59,130,246,0.45); }
-      50% { box-shadow: 0 0 0 8px rgba(59,130,246,0.12); }
-      100%{ box-shadow: 0 0 0 0 rgba(59,130,246,0); }
-    }
-    .dropzone.flash { animation: dz-flash 0.4s ease-out; }
-    .dropzone.loading { border-color: #3b82f6; background: #eff6ff; pointer-events: none; }
-    .dropzone.result-state { border: none; background: #f9fafb; cursor: default; }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
+    /* page-specific: keep the single-column layout narrower */
+    main.container { max-width: 680px; }
   </style>
 </head>
 <body>
@@ -123,82 +17,84 @@
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="tool1.html">Image Collage</a></li>
-        <li><a href="tool2.html">Video to GIF Converter</a></li>
+        <li><a href="tool2.html">Video to GIF</a></li>
         <li><a href="tool3.html">Log Sanitizer</a></li>
-        <li><a href="tool4.html" class="active">MMS Image Resizer</a></li>
+        <li><a href="tool4.html" class="active">MMS Resizer</a></li>
       </ul>
     </nav>
   </header>
 
   <main class="container">
-    <div class="space-y-6">
-      <div>
-        <h2 class="title">MMS Image Resizer</h2>
-        <p class="subtitle">Paste an image and get a version that will actually send via Google Voice / MMS.</p>
-        <p class="note">Per Google's docs, images over 2 MB get auto-compressed into a smaller file and US carriers commonly cap MMS at ~1&ndash;1.2 MB, so this tool caps the long edge at 1600 px and re-encodes as JPEG to squeeze under your chosen target. The whole thing runs locally in your browser.</p>
+    <div class="hero">
+      <div class="hero-icon">&#128247;</div>
+      <h1>MMS Image Resizer</h1>
+      <p class="tagline">Shrink any image so it actually sends via Google Voice.</p>
+      <div class="features">
+        <span class="feature"><span class="feature-icon">&#128274;</span> Private &mdash; never leaves your browser</span>
+        <span class="feature"><span class="feature-icon">&#9889;</span> Instant &mdash; no upload needed</span>
+        <span class="feature"><span class="feature-icon">&#10003;</span> Carrier-safe sizing</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="controls">
+        <label for="target">Target</label>
+        <select id="target" class="target" aria-label="Target file size">
+          <option value="1">Under 1 MB &mdash; safest for carriers (recommended)</option>
+          <option value="2">Under 2 MB &mdash; Google Voice limit</option>
+        </select>
       </div>
 
-      <div class="card">
-        <div class="controls">
-          <label for="target" class="control-label">Target size</label>
-          <select id="target" class="target" aria-label="Target file size">
-            <option value="1">Under 1 MB — safest for carriers (recommended)</option>
-            <option value="2">Under 2 MB — Google Voice auto-send limit</option>
-          </select>
-        </div>
-
-        <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Paste an image, drop an image, or click to browse">
-          <p class="drop-hint dz-ph">Paste your image here with <strong>&#8984;/Ctrl + V</strong>, drag &amp; drop it, or click to browse</p>
-          <p class="drop-sub dz-ph">Pasted from your clipboard is the fastest way &mdash; it never leaves your machine</p>
-          <div class="dz-spinner"></div>
-          <p class="dz-loading-msg">Reading image&hellip;</p>
-          <div class="dz-source-info">
-            <img id="srcThumb" class="dz-thumb" alt="Source image thumbnail" />
-            <div class="dz-text">
-              <p class="dz-label">Source</p>
-              <p class="dz-dims" id="srcDims"></p>
-              <p class="dz-meta" id="srcSize"></p>
-            </div>
-            <div class="dz-divider"></div>
-            <img id="dstThumb" class="dz-preview-img" alt="Resized preview" />
+      <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Paste an image, drop an image, or click to browse">
+        <div class="dz-icon">&#128444;</div>
+        <p class="drop-hint dz-ph">Drop an image, paste with <span class="dz-kbd">&#8984;V</span>, or click</p>
+        <p class="drop-sub dz-ph">Your image never leaves this device</p>
+        <div class="dz-spinner"></div>
+        <p class="dz-loading-msg">Reading image&hellip;</p>
+        <div class="dz-source-info">
+          <img id="srcThumb" class="dz-thumb" alt="Source image thumbnail" />
+          <div class="dz-text">
+            <p class="dz-label">Source</p>
+            <p class="dz-dims" id="srcDims"></p>
+            <p class="dz-meta" id="srcSize"></p>
           </div>
-          <p class="dz-result-msg">Resized &mdash; see details below</p>
         </div>
-        <input type="file" id="fileInput" accept="image/*" hidden />
+        <p class="dz-result-msg">Resized &mdash; see below</p>
       </div>
+      <input type="file" id="fileInput" accept="image/*" hidden />
+    </div>
 
-      <div id="inputCard" class="card" hidden>
-        <div class="stats">
-          <div class="stat">
-            <p class="stat-label">Original</p>
-            <p class="stat-value" id="origDims">&mdash;</p>
-            <p class="stat-value dim" id="origSize">&mdash;</p>
-          </div>
-          <div class="stat" id="outStat">
-            <p class="stat-label">Resized</p>
-            <p class="stat-value" id="outDims">&mdash;</p>
-            <p class="stat-value dim" id="outSize">&mdash;</p>
-          </div>
-          <div class="stat" id="statusStat">
-            <p class="stat-label">Status</p>
-            <p class="stat-value" id="status">&mdash;</p>
-          </div>
+    <div id="inputCard" class="card" hidden style="margin-top: 16px;">
+      <div class="stats">
+        <div class="stat">
+          <p class="stat-label">Original</p>
+          <p class="stat-value" id="origDims">&mdash;</p>
+          <p class="stat-value dim" id="origSize">&mdash;</p>
+        </div>
+        <div class="stat" id="outStat">
+          <p class="stat-label">Resized</p>
+          <p class="stat-value" id="outDims">&mdash;</p>
+          <p class="stat-value dim" id="outSize">&mdash;</p>
+        </div>
+        <div class="stat" id="statusStat">
+          <p class="stat-label">Status</p>
+          <p class="stat-value" id="status">&mdash;</p>
         </div>
       </div>
+    </div>
 
-      <div class="card" id="working" hidden>
-        <p class="busy">Resizing &hellip;</p>
-      </div>
+    <div class="card" id="working" hidden style="margin-top: 16px;">
+      <p class="busy">Resizing<span class="busy-dots"></span></p>
+    </div>
 
-      <div class="result" id="result" hidden>
-        <h3>MMS-ready image</h3>
-        <p class="drop-sub" style="text-align:center;margin:0 0 16px;">Copy it below, then paste it into your Google Voice message. You can also download it and attach it instead.</p>
-        <img id="preview" alt="Resized image ready for MMS" />
-        <div class="result-actions">
-          <button id="copy" class="btn btn-purple">Copy to Clipboard</button>
-          <button id="download" class="btn btn-green">Download JPG</button>
-          <button id="reset" class="btn btn-outline">Start Over</button>
-        </div>
+    <div class="result" id="result" hidden style="margin-top: 16px;">
+      <h3>Ready to send</h3>
+      <p class="result-sub">Copy and paste into Google Voice, or download and attach.</p>
+      <img id="preview" alt="Resized image ready for MMS" />
+      <div class="result-actions">
+        <button id="copy" class="btn btn-purple">Copy to Clipboard</button>
+        <button id="download" class="btn btn-green">Download JPG</button>
+        <button id="reset" class="btn btn-outline">Start Over</button>
       </div>
     </div>
   </main>
@@ -229,17 +125,24 @@
         status: document.getElementById("status"),
         srcThumb: document.getElementById("srcThumb"),
         srcDims: document.getElementById("srcDims"),
-        srcSize: document.getElementById("srcSize"),
-        dstThumb: document.getElementById("dstThumb")
+        srcSize: document.getElementById("srcSize")
       };
 
-      var MAX_EDGE = 1600;          // longest edge in px (matches what Google Messages uses for MMS)
-      var MIN_EDGE = 200;           // safety floor, stops the shrink loop
-      var outBlob = null;           // final JPEG blob
+      var MAX_EDGE = 1600;
+      var MIN_EDGE = 200;
+      var outBlob = null;
       var outName = "mms-image.jpg";
-      var lastSource = null;        // { img, size } of the most recent input
+      var lastSource = null;
 
       function targetBytes() { return parseInt(el.target.value, 10) * 1024 * 1024; }
+
+      function updateDropzoneResult() {
+        if (!lastSource) return;
+        el.srcThumb.src = lastSource.url;
+        el.srcDims.textContent = lastSource.img.naturalWidth + " \u00d7 " + lastSource.img.naturalHeight + " px";
+        el.srcSize.textContent = formatBytes(lastSource.size);
+        setDropzoneState("result-state");
+      }
 
       function showToast(message, type) {
         var wrap = document.getElementById("toastWrap");
@@ -250,7 +153,7 @@
         requestAnimationFrame(function () { t.classList.add("show"); });
         setTimeout(function () {
           t.classList.remove("show");
-          setTimeout(function () { t.remove(); }, 250);
+          setTimeout(function () { t.remove(); }, 300);
         }, 4000);
       }
 
@@ -272,17 +175,6 @@
         el.dropzone.classList.remove("loading", "result-state");
         if (state) el.dropzone.classList.add(state);
       }
-
-      function updateDropzoneResult() {
-        if (!lastSource) return;
-        el.srcThumb.src = lastSource.img.src;
-        el.srcDims.textContent = lastSource.img.naturalWidth + " \u00d7 " + lastSource.img.naturalHeight + " px";
-        el.srcSize.textContent = formatBytes(lastSource.size);
-        if (outBlob) el.dstThumb.src = URL.createObjectURL(outBlob);
-        setDropzoneState("result-state");
-      }
-
-      // ---- input handling -------------------------------------------------
 
       function pickImage(e) {
         var items = Array.prototype.slice.call(e.clipboardData.items).filter(function (it) {
@@ -308,8 +200,8 @@
         var url = URL.createObjectURL(file);
         var img = new Image();
         img.onload = function () {
-          URL.revokeObjectURL(url);
-          lastSource = { img: img, size: file.size };
+          if (lastSource && lastSource.url) URL.revokeObjectURL(lastSource.url);
+          lastSource = { img: img, size: file.size, url: url };
           updateDropzoneResult();
           process(img, { size: file.size });
         };
@@ -368,7 +260,7 @@
 
       // ---- resize pipeline ------------------------------------------------
 
-      var runToken = 0;            // invalidates stale in-flight resizes
+      var runToken = 0;
 
       function process(img, info) {
         var token = ++runToken;
@@ -405,8 +297,6 @@
         });
       }
 
-      // Binary-search the JPEG quality for a fixed canvas; returns null if
-      // even the lowest quality is still too big.
       function encodeWithin(canvas, targetBytes, token, done) {
         var best = null;
         var lo = 0.10, hi = 0.95;
@@ -423,8 +313,6 @@
         })();
       }
 
-      // Keep trying: if quality alone can't get under the target, shrink the
-      // canvas by 30% and re-encode, until the image is small enough.
       function produce(canvas, targetBytes, token, cb) {
         encodeWithin(canvas, targetBytes, token, function (blob) {
           if (token !== runToken) return;
@@ -450,7 +338,7 @@
         el.outStat.classList.add("ok");
         el.statusStat.classList.remove("fail");
         el.statusStat.classList.add("ok");
-        el.status.textContent = "Ready to send";
+        el.status.textContent = "\u2713 Ready";
         el.preview.src = URL.createObjectURL(blob);
         updateDropzoneResult();
         el.working.hidden = true;
@@ -465,9 +353,8 @@
       el.copy.addEventListener("click", function () {
         if (!outBlob) return;
         navigator.clipboard.write([new ClipboardItem({ [outBlob.type]: outBlob })]).then(function () {
-          showToast("Image copied! Paste it into Google Voice with \u2318/Ctrl + V.", "success");
+          showToast("Image copied! Paste into Google Voice with \u2318/Ctrl + V.", "success");
         }).catch(function () {
-          // Fallback: poke the user toward download
           showToast("Copy blocked by the browser. Use the download button instead.", "error");
         });
       });
@@ -488,9 +375,8 @@
         el.working.hidden = true;
         if (el.preview.src) URL.revokeObjectURL(el.preview.src);
         el.preview.src = "";
-        if (el.dstThumb.src) URL.revokeObjectURL(el.dstThumb.src);
-        el.dstThumb.src = "";
         outBlob = null;
+        if (lastSource && lastSource.url) URL.revokeObjectURL(lastSource.url);
         lastSource = null;
         setDropzoneState("");
         el.dropzone.focus();
@@ -501,7 +387,6 @@
         if (lastSource) process(lastSource.img, { size: lastSource.size });
       });
 
-      // Exposed for headless testing (and debugging).
       window.__mmsResizer = {
         handleFile: handleFile,
         reset: reset,
