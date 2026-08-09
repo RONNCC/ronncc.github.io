@@ -162,7 +162,7 @@ permalink: /sandwich-spots/
       addr:'560 Larkin St, San Francisco, CA 94102',
       links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/saigon-sandwich'}]},
 
-      {key:'palmcity', name:'Palm City', nb:'Sunset', lat:37.7638, lng:-122.5019,
+      {key:'palmcity', name:'Palm City', nb:'Sunset', lat:37.7623709, lng:-122.5016052,
      status:'notyet', drink:'Italian American hoagie — mortadella, \'nduja mayo, sesame roll',
      note:'A Sunset wine bar that also makes giant Philly-style hoagies. Fresh toppings like broccoli rabe and arugula keep the massive sandwiches tasting light. (Infatuation: 8.5)',
      addr:'4055 Irving St, San Francisco, CA 94122',
@@ -186,13 +186,13 @@ permalink: /sandwich-spots/
      addr:'5017 Geary Blvd, San Francisco, CA 94118',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/lous-cafe'}]},
 
-    {key:'lucindasdeli', name:'Lucinda\'s Deli & More', nb:'NoPa', lat:37.7739, lng:-122.4380,
+    {key:'lucindasdeli', name:'Lucinda\'s Deli & More', nb:'NoPa', lat:37.7747912, lng:-122.4362738,
      status:'notyet', drink:'Spicy tuna melt — jalapeños, cheddar, arugula, tomato',
      note:'Baguette sandwiches near Alamo Square stuffed burrito-thick, with expertly balanced salt, sweet, and spice. (Infatuation: 8.2)',
      addr:'535 Scott St, San Francisco, CA 94117',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/lucindas-deli-and-more'}]},
 
-    {key:'saltys', name:'Salty\'s', nb:'Civic Center', lat:37.7807, lng:-122.4211,
+    {key:'saltys', name:'Salty\'s', nb:'Civic Center', lat:37.7824536, lng:-122.4204318,
      status:'notyet', drink:'The Glorious Bastard — turkey, ham, garlic mayo',
      note:'Gargantuan sandwiches near Van Ness. Also a simple, delicious egg-cheese-chipotle-maple-mayo breakfast sandwich before the lunch rush. (Infatuation: 8.4)',
      addr:'748 Van Ness Ave, San Francisco, CA 94102',
@@ -216,7 +216,7 @@ permalink: /sandwich-spots/
      addr:'1006 Potrero Ave, San Francisco, CA 94110',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/newkirks'}]},
 
-    {key:'oinkandoscar', name:'Oink & Oscar', nb:'SoMa', lat:37.7864, lng:-122.4041,
+    {key:'oinkandoscar', name:'Oink & Oscar', nb:'SoMa', lat:37.7852313, lng:-122.4037583,
      status:'notyet', drink:'Porkstrami — smoky pork butt in most of the 16 sandwiches',
      note:'Fist-thick sandwiches; the porkstrami is the standout. Try the Oscar\'s Wild (hot honey butter) or The Morris Method (BBQ + jalapeño pickles). (Infatuation: 8.3)',
      addr:'87 Yerba Buena Ln, San Francisco, CA 94103',
@@ -228,13 +228,13 @@ permalink: /sandwich-spots/
      addr:'2222 Polk St, San Francisco, CA 94109',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/the-boys-deli'}]},
 
-    {key:'cielitolindo', name:'Cielito Lindo', nb:'Richmond', lat:37.7768, lng:-122.4949,
+    {key:'cielitolindo', name:'Cielito Lindo', nb:'Richmond', lat:37.7759806, lng:-122.4959281,
      status:'notyet', drink:'Milanesa or carne asada torta',
      note:'Known for quesabirria tacos, but the nine tortas — queso fresco, always — are huge and shouldn\'t be slept on. (Infatuation: 8.2)',
-     addr:'3450 Balboa St, San Francisco, CA 94121',
+     addr:'3440 Balboa St, San Francisco, CA 94121',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/cielito-lindo'}]},
 
-    {key:'yellowsubmarine', name:'The Yellow Submarine', nb:'Sunset', lat:37.7638, lng:-122.4652,
+    {key:'yellowsubmarine', name:'The Yellow Submarine', nb:'Sunset', lat:37.7640406, lng:-122.4632773,
      status:'notyet', drink:'Italian Combo — cold cuts, vinegar-dressed lettuce',
      note:'Decades-old sub shop near Golden Gate Park. Cafeteria-style dining room; cash only.',
      addr:'503 Irving St, San Francisco, CA 94122',
@@ -246,13 +246,13 @@ permalink: /sandwich-spots/
      addr:'3500 22nd St, San Francisco, CA 94114',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/dolores-deluxe'}]},
 
-    {key:'thehornet', name:'The Hornet', nb:'Pacific Heights', lat:37.7897, lng:-122.4406,
+    {key:'thehornet', name:'The Hornet', nb:'Pacific Heights', lat:37.7888729, lng:-122.4407675,
      status:'notyet', drink:'Daily rotating menu — roasted pork & broccolini, or turkey/ham/bacon with banana peppers',
      note:'Takeout counter inside London Market. Consistently good despite the daily-changing menu — order online in case they sell out early. (Infatuation: 8.3)',
      addr:'2901 Sacramento St, San Francisco, CA 94115',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/the-hornet-sf'}]},
 
-     {key:'guerraqualitymeats', name:'Guerra Quality Meats', nb:'Parkside', lat:37.7423, lng:-122.4726,
+     {key:'guerraqualitymeats', name:'Guerra Quality Meats', nb:'Parkside', lat:37.74339, lng:-122.4712239,
       status:'notyet', drink:'Sicilian — hot coppa, salami, provolone, tomato, lettuce, jalapeños',
       note:'Longstanding Italian butcher shop. Get it on a dutch crunch roll — buttery, dark golden brown, with a soft crackly top. (Infatuation: 8.0)',
      addr:'490 Taraval St, San Francisco, CA 94116',
@@ -264,7 +264,7 @@ permalink: /sandwich-spots/
      addr:'49 Kearny St, San Francisco, CA 94108',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/kp49'}]},
 
-    {key:'arguellomarket', name:'Arguello Market', nb:'Richmond', lat:37.7746, lng:-122.4586,
+    {key:'arguellomarket', name:'Arguello Market', nb:'Richmond', lat:37.775658, lng:-122.4581416,
      status:'notyet', drink:'Roasted turkey sandwich on a dutch crunch roll',
      note:'A Richmond grocery store nicknamed "The Turkey Sandwich Emporium." Also has housemade pastas and salads — stock up on drinks and chips too.',
      addr:'782 Arguello Blvd, San Francisco, CA 94118',

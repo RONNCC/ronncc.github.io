@@ -160,7 +160,7 @@ redirect_from: /2026/hot-chocolate
     {key:'ghirardelli', name:'The Original Ghirardelli Ice Cream & Chocolate Shop', nb:'Fisherman\'s Wharf', lat:37.8057, lng:-122.4227,
      status:'notyet', drink:'Ghirardelli chocolate-based hot cocoa',
      note:'Flagship shop of the SF-founded chocolate brand at Ghirardelli Square — the brand is so iconic that even In-N-Out uses Ghirardelli powder for its free kids\' cocoa.',
-     addr:'900 North Point St, Ste F301, SF, CA 94109',
+     addr:'900 North Point St, Ste 52, SF, CA 94109',
      links:[{t:'Website',u:'https://www.ghirardelli.com/'}]},
 
     {key:'xox', name:'XOX Truffles', nb:'North Beach', lat:37.8016, lng:-122.4119,
