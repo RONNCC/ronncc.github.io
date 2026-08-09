@@ -79,9 +79,16 @@ redirect_from: /2026/museums
 .ms-table tr.ms-click{cursor:pointer}
 
 /* ── detail panel ── */
-.ms-detail{position:absolute;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e0e0e0;box-shadow:0 -4px 20px rgba(0,0,0,.12);border-radius:14px 14px 0 0;transform:translateY(100%);transition:transform .25s ease;z-index:1000;max-height:55%;overflow-y:auto}
-.ms-detail.open{transform:translateY(0)}
-@media(max-width:800px){.ms-detail{max-height:70%;border-radius:16px 16px 0 0}}
+.ms-detail{position:relative;background:#fff;display:none;width:340px;max-width:340px;flex-shrink:0;align-self:stretch;max-height:100%;overflow-y:auto;border-left:1px solid #e0e0e0}
+.ms-detail.open{display:block}
+@media(max-width:899px){.ms-detail{position:fixed;bottom:0;left:0;right:0;width:auto;max-width:none;display:block;max-height:60vh;background:#fff;border-top:1px solid #e0e0e0;border-left:none;box-shadow:0 -4px 20px rgba(0,0,0,.12);border-radius:16px 16px 0 0;transform:translateY(100%);transition:transform .25s ease;z-index:1000;overflow-y:auto}
+.ms-detail.open{transform:translateY(0)}}
+@media(min-width:900px){
+.ms-content{display:flex;flex-direction:row}
+.ms-map{position:static;flex:1 1 auto;min-width:0;width:auto}
+.ms-list.active,.ms-tablewrap.active{flex:1 1 auto;min-width:0}
+.ms-detail-handle{display:none}
+}
 .ms-detail-handle{width:36px;height:4px;background:#ddd;border-radius:2px;margin:10px auto 0;cursor:pointer}
 .ms-detail-inner{padding:14px 20px 20px}
 .ms-detail h3{margin:0 0 2px;font-size:17px;font-weight:800}
@@ -124,18 +131,17 @@ redirect_from: /2026/museums
 </div>
 
 <div class="ms-content">
+  <div class="ms-detail" id="msDetail">
+    <div class="ms-detail-handle" id="msDetailClose"></div>
+    <button class="ms-detail-close" id="msDetailX">&times;</button>
+    <div class="ms-detail-inner" id="msDetailInner"></div>
+  </div>
   <div id="msMap" class="ms-map active"></div>
   <div class="ms-list" id="msList"></div>
   <div class="ms-tablewrap" id="msTableWrap">
     <table class="ms-table" id="msTable"><thead><tr></tr></thead><tbody></tbody></table>
   </div>
   <div class="ms-legend" id="msLegend"></div>
-
-  <div class="ms-detail" id="msDetail">
-    <div class="ms-detail-handle" id="msDetailClose"></div>
-    <button class="ms-detail-close" id="msDetailX">&times;</button>
-    <div class="ms-detail-inner" id="msDetailInner"></div>
-  </div>
 </div>
 </div>
 
@@ -179,8 +185,8 @@ redirect_from: /2026/museums
     {key:'rootdivision', name:'Root Division', city:'San Francisco', region:'SF', lat:37.77844, lng:-122.41145, hours:'Wed–Sat 2–6', walker:'yes', icom:'unknown', card:'walker', addr:'1131 Mission St, San Francisco, CA'},
     {key:'sfhs', name:'San Francisco Historical Society', city:'San Francisco', region:'SF', lat:37.78274, lng:-122.40727, hours:'Wed–Sun 10–4', walker:'yes', icom:'unknown', card:'walker', addr:'88 5th St (Old Mint), San Francisco, CA'},
     {key:'icasf', name:"Institute of Contemporary Art SF", city:'San Francisco', region:'SF', lat:37.78157, lng:-122.39848, hours:'Thu–Sun 12–5', walker:'yes', icom:'unknown', card:'walker', addr:'725 Harrison St, San Francisco, CA'},
-    {key:'explo', name:'Exploratorium', city:'San Francisco', region:'SF', lat:37.80090, lng:-122.39853, hours:'Closed Mon; Tue–Sat 10–5; Sun 12–5', walker:'no', icom:'unknown', card:'nl', addr:'Pier 15, San Francisco, CA'},
-    {key:'cas', name:'California Academy of Sciences', city:'San Francisco', region:'SF', lat:37.76983, lng:-122.46609, hours:'Mon–Sat 9:30–5; Sun 11–5', walker:'no', icom:'unknown', card:'nl', addr:'55 Music Concourse Dr, San Francisco, CA'},
+    {key:'explo', name:'Exploratorium', city:'San Francisco', region:'SF', lat:37.80090, lng:-122.39853, hours:'Closed Mon; Tue–Sat 10–5; Sun 12–5', walker:'no', icom:'unknown', card:'nl', paid:'yes', addr:'Pier 15, San Francisco, CA'},
+    {key:'cas', name:'California Academy of Sciences', city:'San Francisco', region:'SF', lat:37.76983, lng:-122.46609, hours:'Mon–Sat 9:30–5; Sun 11–5', walker:'no', icom:'unknown', card:'nl', paid:'yes', addr:'55 Music Concourse Dr, San Francisco, CA'},
     {key:'cablecar', name:'Cable Car Museum', city:'San Francisco', region:'SF', lat:37.79476, lng:-122.41185, hours:'Closed Mon; Tue–Thu 10–4; Fri–Sun 10–5', walker:'free', icom:'free', card:'nl', addr:'1201 Mason St, San Francisco, CA'},
     {key:'omca', name:'Oakland Museum of California', city:'Oakland', region:'East Bay', lat:37.79860, lng:-122.26360, hours:'Wed–Sun 11–5; Fri until 9', walker:'yes', icom:'unknown', card:'walker', addr:'1000 Oak St, Oakland, CA'},
     {key:'chabot', name:'Chabot Space & Science Center', city:'Oakland', region:'East Bay', lat:37.81850, lng:-122.18070, hours:'Wed–Sun 10–5', walker:'yes', icom:'unknown', card:'walker', addr:'10000 Skyline Blvd, Oakland, CA'},
@@ -243,6 +249,8 @@ redirect_from: /2026/museums
         if(m.icom!=='yes' && m.icom!=='likely') return false;
       } else if(filters.access==='free'){
         if(m.walker!=='free' && m.icom!=='free') return false;
+      } else if(filters.access==='paid'){
+        if(m.paid!=='yes') return false;
       }
     }
     return true;
@@ -299,22 +307,24 @@ redirect_from: /2026/museums
     var cl = cardLabel(m);
     var h = '<span class="ms-badge '+cl.c+'">'+cl.t+'</span>';
     if(m.walker==='free'||m.icom==='free') h += '<span class="ms-badge free">Free entry</span>';
+    if(m.paid==='yes') h += '<span class="ms-badge nl">Paid</span>';
     return h;
   }
 
   var map, markers = {};
 
   function renderChips(){
-    var reg={}, wal=0, ico=0, fre=0;
+    var reg={}, wal=0, ico=0, fre=0, paid=0;
     MUSEUMS.forEach(function(m){
       reg[m.region]=(reg[m.region]||0)+1;
       if(m.walker==='yes'||m.walker==='free') wal++;
       if(m.icom==='yes'||m.icom==='likely') ico++;
       if(m.walker==='free'||m.icom==='free') fre++;
+      if(m.paid==='yes') paid++;
     });
     var regionList = Object.keys(reg).map(function(k){ return {val:k, n:reg[k]}; });
     chipContainer('msRegionChips','region', regionList);
-    var accessList = [{val:'walker', n:wal, label:'Walker ✓'}, {val:'icom', n:ico, label:'ICOM ✓'}, {val:'free', n:fre, label:'Free'}];
+    var accessList = [{val:'walker', n:wal, label:'Walker ✓'}, {val:'icom', n:ico, label:'ICOM ✓'}, {val:'free', n:fre, label:'Free'}, {val:'paid', n:paid, label:'Paid'}];
     chipContainer('msAccessChips','access', accessList);
   }
 
@@ -401,12 +411,14 @@ redirect_from: /2026/museums
       + '<div class="ms-cell"><b>Walker Travelers</b>'+wl.t+(m.walker==='yes'?' (NARM/ROAM)':'')+'</div>'
       + '<div class="ms-cell"><b>ICOM</b>'+ic.t+'</div>'
       + '<div class="ms-cell"><b>Best card</b>'+cl.t+'</div>'
-      + (m.walker==='free'||m.icom==='free'?'<div class="ms-cell"><b>Entry</b>Free</div>':'')
+      + (m.paid==='yes'?'<div class="ms-cell"><b>Entry</b>Paid admission</div>':(m.walker==='free'||m.icom==='free'?'<div class="ms-cell"><b>Entry</b>Free</div>':''))
       + '</div>';
     document.getElementById('msDetail').classList.add('open');
+    if(map && window.innerWidth>=900){ setTimeout(function(){ map.invalidateSize(); },120); }
   }
   function hideDetail(){
     document.getElementById('msDetail').classList.remove('open');
+    if(map && window.innerWidth>=900){ setTimeout(function(){ map.invalidateSize(); },120); }
   }
 
   function select(key){
@@ -420,7 +432,7 @@ redirect_from: /2026/museums
     }
     showDetail(m);
     var el = document.querySelector('.ms-list-item[data-key="'+key+'"]') || document.querySelector('tr[data-key="'+key+'"]');
-    if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
+    if(view==='list' && el){ try{ el.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){} }
   }
 
   function setupMap(){
