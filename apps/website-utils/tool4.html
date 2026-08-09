@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MMS Image Resizer | Website Utils</title>
+  <meta name="description" content="Paste or drop in an image and get an MMS-ready version sized for Google Voice: capped at 1600px on the long edge and re-encoded to stay under 1 MB (or 2 MB). Copy it and paste it straight into a text message." />
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #dbeafe 0%, #ffffff 100%);
+      color: #1f2937;
+      -webkit-font-smoothing: antialiased;
+    }
+    header { background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    nav.container { max-width: 1080px; margin: 0 auto; padding: 12px 24px; }
+    nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 16px; flex-wrap: wrap; }
+    nav a { color: #2563eb; text-decoration: none; font-weight: 500; }
+    nav a:hover { color: #1d4ed8; }
+    nav a.active { text-decoration: underline; }
+    main.container { max-width: 1080px; margin: 0 auto; padding: 32px; }
+    .space-y-6 { display: flex; flex-direction: column; gap: 24px; }
+    h2.title { font-size: 1.5rem; font-weight: 800; margin: 0 0 12px; text-align: center; color: #1e40af; }
+    p.subtitle { text-align: center; color: #4b5563; font-size: 1rem; margin: 0 0 8px; }
+    p.note { text-align: center; color: #6b7280; font-size: 0.85rem; margin: 0 0 24px; line-height: 1.5; }
+    .card { background: #f9fafb; padding: 24px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .controls { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+    .controls label.control-label { font-size: 14px; color: #374151; font-weight: 500; }
+    select.target {
+      height: 36px; border: 1px solid #d1d5db; border-radius: 6px;
+      padding: 0 10px; font-size: 14px; background: #ffffff; color: #374151; cursor: pointer;
+    }
+    select.target:focus { outline: 2px solid #93c5fd; outline-offset: 1px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      height: 36px; padding: 0 16px; border: none; border-radius: 6px; font-size: 14px;
+      font-weight: 500; cursor: pointer; white-space: nowrap; color: #ffffff; transition: background 0.15s;
+    }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-blue { background: #3b82f6; }
+    .btn-blue:hover:not(:disabled) { background: #2563eb; }
+    .btn-green { background: #22c55e; }
+    .btn-green:hover:not(:disabled) { background: #16a34a; }
+    .btn-purple { background: #8b5cf6; }
+    .btn-purple:hover:not(:disabled) { background: #7c3aed; }
+    .btn-outline { background: #ffffff; color: #374151; border: 1px solid #d1d5db; }
+    .btn-outline:hover:not(:disabled) { background: #f3f4f6; }
+    .dropzone {
+      border: 2px dashed #d1d5db; border-radius: 8px; padding: 24px; min-height: 200px;
+      background: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; cursor: pointer; transition: all 0.2s; outline: none;
+    }
+    .dropzone.over { border-color: #3b82f6; background: #eff6ff; }
+    p.drop-hint { color: #6b7280; margin: 0 0 4px; font-size: 1rem; }
+    p.drop-sub { color: #9ca3af; margin: 0; font-size: 0.85rem; }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 16px; }
+    .stat {
+      flex: 1 1 200px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .stat .stat-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; color: #6b7280; margin: 0 0 4px; }
+    .stat .stat-value { font-size: 1rem; font-weight: 600; color: #1f2937; margin: 0; }
+    .stat .stat-value.dim { color: #9ca3af; font-weight: 400; font-size: 0.85rem; margin-top: 2px; }
+    .stat.ok .stat-value { color: #16a34a; }
+    .stat.fail .stat-value { color: #dc2626; }
+    .result { background: #ffffff; padding: 24px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .result h3 { font-size: 1.1rem; font-weight: 700; color: #1f2937; margin: 0 0 12px; }
+    .result img { max-width: 100%; max-height: 480px; height: auto; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.2); display: block; margin: 0 auto; background: #f3f4f6; }
+    .result-actions { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; justify-content: center; }
+    .busy { text-align: center; color: #6b7280; padding: 24px; }
+    /* Toasts (top-center, matching the rest of the suite) */
+    .toast-wrap { position: fixed; top: 16px; left: 16px; right: 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 9999; pointer-events: none; }
+    .toast {
+      pointer-events: auto; background: #111827; color: #fff; padding: 10px 14px; border-radius: 8px;
+      font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); opacity: 0; transform: translateY(-8px);
+      transition: all 0.2s; max-width: 90vw;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.success { background: #16a34a; }
+    .toast.error { background: #dc2626; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="tool1.html">Image Collage</a></li>
+        <li><a href="tool2.html">Video to GIF Converter</a></li>
+        <li><a href="tool3.html">Log Sanitizer</a></li>
+        <li><a href="tool4.html" class="active">MMS Image Resizer</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="space-y-6">
+      <div>
+        <h2 class="title">MMS Image Resizer</h2>
+        <p class="subtitle">Paste an image and get a version that will actually send via Google Voice / MMS.</p>
+        <p class="note">Per Google's docs, images over 2 MB get auto-compressed into a smaller file and US carriers commonly cap MMS at ~1&ndash;1.2 MB, so this tool caps the long edge at 1600 px and re-encodes as JPEG to squeeze under your chosen target. The whole thing runs locally in your browser.</p>
+      </div>
+
+      <div class="card">
+        <div class="controls">
+          <label for="target" class="control-label">Target size</label>
+          <select id="target" class="target" aria-label="Target file size">
+            <option value="1">Under 1 MB — safest for carriers (recommended)</option>
+            <option value="2">Under 2 MB — Google Voice auto-send limit</option>
+          </select>
+        </div>
+
+        <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Paste an image, drop an image, or click to browse">
+          <p class="drop-hint">Paste your image here with <strong>&#8984;/Ctrl + V</strong>, drag &amp; drop it, or click to browse</p>
+          <p class="drop-sub">Pasted from your clipboard is the fastest way &mdash; it never leaves your machine</p>
+        </div>
+        <input type="file" id="fileInput" accept="image/*" hidden />
+      </div>
+
+      <div id="inputCard" class="card" hidden>
+        <div class="stats">
+          <div class="stat">
+            <p class="stat-label">Original</p>
+            <p class="stat-value" id="origDims">&mdash;</p>
+            <p class="stat-value dim" id="origSize">&mdash;</p>
+          </div>
+          <div class="stat" id="outStat">
+            <p class="stat-label">Resized</p>
+            <p class="stat-value" id="outDims">&mdash;</p>
+            <p class="stat-value dim" id="outSize">&mdash;</p>
+          </div>
+          <div class="stat" id="statusStat">
+            <p class="stat-label">Status</p>
+            <p class="stat-value" id="status">&mdash;</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="working" hidden>
+        <p class="busy">Resizing &hellip;</p>
+      </div>
+
+      <div class="result" id="result" hidden>
+        <h3>MMS-ready image</h3>
+        <p class="drop-sub" style="text-align:center;margin:0 0 16px;">Copy it below, then paste it into your Google Voice message. You can also download it and attach it instead.</p>
+        <img id="preview" alt="Resized image ready for MMS" />
+        <div class="result-actions">
+          <button id="copy" class="btn btn-purple">Copy to Clipboard</button>
+          <button id="download" class="btn btn-green">Download JPG</button>
+          <button id="reset" class="btn btn-outline">Start Over</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="toastWrap" class="toast-wrap"></div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var el = {
+        target: document.getElementById("target"),
+        dropzone: document.getElementById("dropzone"),
+        fileInput: document.getElementById("fileInput"),
+        inputCard: document.getElementById("inputCard"),
+        working: document.getElementById("working"),
+        result: document.getElementById("result"),
+        preview: document.getElementById("preview"),
+        copy: document.getElementById("copy"),
+        download: document.getElementById("download"),
+        reset: document.getElementById("reset"),
+        origDims: document.getElementById("origDims"),
+        origSize: document.getElementById("origSize"),
+        outStat: document.getElementById("outStat"),
+        outDims: document.getElementById("outDims"),
+        outSize: document.getElementById("outSize"),
+        statusStat: document.getElementById("statusStat"),
+        status: document.getElementById("status")
+      };
+
+      var MAX_EDGE = 1600;          // longest edge in px (matches what Google Messages uses for MMS)
+      var MIN_EDGE = 200;           // safety floor, stops the shrink loop
+      var outBlob = null;           // final JPEG blob
+      var outName = "mms-image.jpg";
+      var lastSource = null;        // { img, size } of the most recent input
+
+      function targetBytes() { return parseInt(el.target.value, 10) * 1024 * 1024; }
+
+      function showToast(message, type) {
+        var wrap = document.getElementById("toastWrap");
+        var t = document.createElement("div");
+        t.className = "toast" + (type ? " " + type : "");
+        t.textContent = message;
+        wrap.appendChild(t);
+        requestAnimationFrame(function () { t.classList.add("show"); });
+        setTimeout(function () {
+          t.classList.remove("show");
+          setTimeout(function () { t.remove(); }, 250);
+        }, 4000);
+      }
+
+      function formatBytes(n) {
+        if (n < 1024) return n + " B";
+        if (n < 1024 * 1024) return (n / 1024).toFixed(1) + " KB";
+        return (n / (1024 * 1024)).toFixed(2) + " MB";
+      }
+
+      // ---- input handling -------------------------------------------------
+
+      function pickImage(e) {
+        var items = Array.prototype.slice.call(e.clipboardData.items).filter(function (it) {
+          return it.type && it.type.indexOf("image") === 0;
+        });
+        if (items.length === 0) { showToast("No image found on the clipboard.", "error"); return; }
+        // Prefer png/jpeg/webp over exotics like tiff
+        items.sort(function (a, b) {
+          function rank(t) { return t.indexOf("png") === 0 || t.indexOf("jpeg") === 0 ? 1 : 0; }
+          return rank(b.type) - rank(a.type);
+        });
+        handleFile(items[0].getAsFile());
+      }
+
+      function handleFile(file) {
+        if (!file) return;
+        if (!file.type || file.type.indexOf("image") !== 0) {
+          showToast("Only image files are supported.", "error");
+          return;
+        }
+        var url = URL.createObjectURL(file);
+        var img = new Image();
+        img.onload = function () {
+          URL.revokeObjectURL(url);
+          lastSource = { img: img, size: file.size };
+          process(img, { size: file.size });
+        };
+        img.onerror = function () {
+          URL.revokeObjectURL(url);
+          showToast("Could not decode that image. Try copying it as a PNG or JPEG.", "error");
+        };
+        img.src = url;
+      }
+
+      el.dropzone.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); el.fileInput.click(); }
+      });
+
+      var dropDepth = 0;
+      el.dropzone.addEventListener("dragenter", function (e) {
+        e.preventDefault(); e.stopPropagation();
+        dropDepth++;
+        el.dropzone.classList.add("over");
+      });
+      el.dropzone.addEventListener("dragover", function (e) { e.preventDefault(); e.stopPropagation(); });
+      el.dropzone.addEventListener("dragleave", function (e) {
+        e.preventDefault(); e.stopPropagation();
+        dropDepth--;
+        if (dropDepth <= 0) { dropDepth = 0; el.dropzone.classList.remove("over"); }
+      });
+      el.dropzone.addEventListener("drop", function (e) {
+        e.preventDefault(); e.stopPropagation();
+        dropDepth = 0;
+        el.dropzone.classList.remove("over");
+        var f = e.dataTransfer.files && e.dataTransfer.files[0];
+        if (!f) { showToast("Please drop an image file.", "error"); return; }
+        handleFile(f);
+      });
+
+      el.dropzone.addEventListener("click", function () { el.fileInput.click(); });
+      el.fileInput.addEventListener("change", function () {
+        if (el.fileInput.files && el.fileInput.files[0]) handleFile(el.fileInput.files[0]);
+        el.fileInput.value = "";
+      });
+
+      window.addEventListener("paste", function (e) {
+        if (e.target && e.target.tagName === "SELECT") return;
+        var hasImage = Array.prototype.some.call(e.clipboardData.items, function (it) {
+          return it.type && it.type.indexOf("image") === 0;
+        });
+        if (hasImage) { e.preventDefault(); pickImage(e); }
+      });
+
+      // ---- resize pipeline ------------------------------------------------
+
+      var runToken = 0;            // invalidates stale in-flight resizes
+
+      function process(img, info) {
+        var token = ++runToken;
+        el.inputCard.hidden = false;
+        el.result.hidden = true;
+        el.working.hidden = false;
+        el.preview.src = "";
+        el.outStat.classList.remove("ok", "fail");
+        el.statusStat.classList.remove("ok", "fail");
+
+        el.origDims.textContent = img.naturalWidth + " \u00d7 " + img.naturalHeight + " px";
+        el.origSize.textContent = formatBytes(info.size);
+
+        var canvas = document.createElement("canvas");
+        var scale = Math.min(1, MAX_EDGE / Math.max(img.naturalWidth, img.naturalHeight));
+        var w = Math.max(1, Math.round(img.naturalWidth * scale));
+        var h = Math.max(1, Math.round(img.naturalHeight * scale));
+        canvas.width = w;
+        canvas.height = h;
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+
+        produce(canvas, targetBytes(), token, function (blob, outW, outH) {
+          if (token !== runToken) return;
+          el.working.hidden = true;
+          if (!blob) {
+            showToast("Could not shrink below the target. Try the 2 MB target.", "error");
+            return;
+          }
+          outBlob = blob;
+          renderResult(blob, outW, outH);
+        });
+      }
+
+      // Binary-search the JPEG quality for a fixed canvas; returns null if
+      // even the lowest quality is still too big.
+      function encodeWithin(canvas, targetBytes, token, done) {
+        var best = null;
+        var lo = 0.10, hi = 0.95;
+        (function step() {
+          var q = (lo + hi) / 2;
+          canvas.toBlob(function (blob) {
+            if (token !== runToken) return;
+            if (!blob) { done(best); return; }
+            if (blob.size <= targetBytes) { best = blob; lo = q; }
+            else { hi = q; }
+            if (hi - lo < 0.02) done(best);
+            else step();
+          }, "image/jpeg", q);
+        })();
+      }
+
+      // Keep trying: if quality alone can't get under the target, shrink the
+      // canvas by 30% and re-encode, until the image is small enough.
+      function produce(canvas, targetBytes, token, cb) {
+        encodeWithin(canvas, targetBytes, token, function (blob) {
+          if (token !== runToken) return;
+          if (blob) { cb(blob, canvas.width, canvas.height); return; }
+          if (Math.min(canvas.width, canvas.height) <= MIN_EDGE) { cb(null); return; }
+          var nw = Math.max(1, Math.round(canvas.width * 0.7));
+          var nh = Math.max(1, Math.round(canvas.height * 0.7));
+          var n = document.createElement("canvas");
+          n.width = nw;
+          n.height = nh;
+          var ctx = n.getContext("2d");
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(0, 0, nw, nh);
+          ctx.drawImage(canvas, 0, 0, nw, nh);
+          produce(n, targetBytes, token, cb);
+        });
+      }
+
+      function renderResult(blob, w, h) {
+        el.outDims.textContent = w + " \u00d7 " + h + " px";
+        el.outSize.textContent = formatBytes(blob.size);
+        el.outStat.classList.add("ok");
+        el.statusStat.classList.remove("fail");
+        el.statusStat.classList.add("ok");
+        el.status.textContent = "Ready to send";
+        el.preview.src = URL.createObjectURL(blob);
+        el.result.hidden = false;
+        showToast("Resized to " + formatBytes(blob.size) + ". Copy it and paste into Voice!", "success");
+      }
+
+      // ---- result actions --------------------------------------------------
+
+      el.copy.addEventListener("click", function () {
+        if (!outBlob) return;
+        navigator.clipboard.write([new ClipboardItem({ [outBlob.type]: outBlob })]).then(function () {
+          showToast("Image copied! Paste it into Google Voice with \u2318/Ctrl + V.", "success");
+        }).catch(function () {
+          // Fallback: poke the user toward download
+          showToast("Copy blocked by the browser. Use the download button instead.", "error");
+        });
+      });
+
+      el.download.addEventListener("click", function () {
+        if (!outBlob) return;
+        var a = document.createElement("a");
+        a.href = URL.createObjectURL(outBlob);
+        a.download = outName;
+        a.click();
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+      });
+
+      function reset() {
+        runToken++;
+        el.result.hidden = true;
+        el.inputCard.hidden = true;
+        el.working.hidden = true;
+        if (el.preview.src) URL.revokeObjectURL(el.preview.src);
+        el.preview.src = "";
+        outBlob = null;
+        lastSource = null;
+        el.dropzone.focus();
+      }
+      el.reset.addEventListener("click", reset);
+
+      el.target.addEventListener("change", function () {
+        if (lastSource) process(lastSource.img, { size: lastSource.size });
+      });
+
+      // Exposed for headless testing (and debugging).
+      window.__mmsResizer = {
+        handleFile: handleFile,
+        reset: reset,
+        getResult: function () {
+          return outBlob ? { size: outBlob.size, type: outBlob.type } : null;
+        }
+      };
+    })();
+  </script>
+</body>
+</html>
