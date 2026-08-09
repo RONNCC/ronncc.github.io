@@ -27,7 +27,20 @@ jobs:
           submodules: recursive
           ssh-key: ${{ secrets.PHOTOAGING_VISUALIZER_DEPLOY_KEY }}
 
+      - name: Get photoaging submodule SHA
+        id: photo-sha
+        run: |
+          echo "sha=$(git -C apps/photoaging-visualizer rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache photoaging dist
+        id: dist-cache
+        uses: actions/cache@v4
+        with:
+          path: apps/photoaging-visualizer/dist
+          key: photoaging-dist-${{ steps.photo-sha.outputs.sha }}-${{ hashFiles('apps/photoaging-visualizer/package-lock.json') }}
+
       - name: Set up Node
+        if: steps.dist-cache.outputs.cache-hit != 'true'
         uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -35,6 +48,7 @@ jobs:
           cache-dependency-path: apps/photoaging-visualizer/package-lock.json
 
       - name: Build photoaging visualizer
+        if: steps.dist-cache.outputs.cache-hit != 'true'
         working-directory: apps/photoaging-visualizer
         run: |
           npm ci
