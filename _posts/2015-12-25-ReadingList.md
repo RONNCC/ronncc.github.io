@@ -244,19 +244,3 @@ https://www.jyotirmoy.net/posts/2015-12-29-springer-openaccess.html
 
 ### Compensation
 - http://fortune.com/2016/09/27/the-complete-guide-to-understanding-equity-compensation-at-tech-companies/
-
-## TODO
-
-TO Read Eventually
-http://plindenbaum.blogspot.com/2012/11/visualizing-dependencies-of-makefile.html
-http://linux.die.net/lkmpg/x769.html [read write a proc file]
-
-https://events.linuxfoundation.org/sites/events/files/slides/petazzoni-device-tree-dummies.pdf
-
-https://www.nccgroup.trust/us/about-us/newsroom-and-events/blog/2012/september/details-on-the-crime-attack/
-
-http://googleprojectzero.blogspot.com/
-
-http://wifi-insider.com/wlan/wmm.htm (wmm/802.11 primer)
-
-https://fgiesen.wordpress.com/2014/07/07/cache-coherency/ (cpu cache coherency) and
