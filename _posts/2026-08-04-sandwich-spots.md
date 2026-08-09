@@ -150,7 +150,7 @@ permalink: /sandwich-spots/
 <script>
 (function(){
   var SPOTS = [
-    {key:'oceansubs', name:'Ocean Subs', nb:'Excelsior', lat:37.7215, lng:-122.4368,
+    {key:'oceansubs', name:'Ocean Subs', nb:'Excelsior', lat:37.72416, lng:-122.43587,
      status:'notyet', drink:'Classic subs on toasted dutch crunch, tangy herb vinaigrette',
      note:'Just four subs on the menu, but each is so balanced with salty cold cuts, herb vinaigrette, and a crunchy-yet-chewy dutch crunch roll that regulars call it the city\'s best. (Infatuation: 9.0)',
      addr:'18 Ocean Ave, San Francisco, CA 94112',
@@ -168,19 +168,19 @@ permalink: /sandwich-spots/
      addr:'4055 Irving St, San Francisco, CA 94122',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/palm-city'}]},
 
-    {key:'deliboard', name:'Deli Board', nb:'SoMa', lat:37.7776, lng:-122.4102,
+    {key:'deliboard', name:'Deli Board', nb:'SoMa', lat:37.77756, lng:-122.40703,
      status:'notyet', drink:'Pastrami, plus a daily-changing specials board',
      note:'Tank-sized sandwiches stuffed with everything from corned beef to tuna salad and falafel. Get anything with pastrami, and always ask for the Board sauce. (Infatuation: 8.4)',
      addr:'1058 Folsom St, San Francisco, CA 94103',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/deli-board'}]},
 
-    {key:'outtasight', name:'Outta Sight Pizza', nb:'Tenderloin', lat:37.7846, lng:-122.4165,
+    {key:'outtasight', name:'Outta Sight Pizza', nb:'Tenderloin', lat:37.78184, lng:-122.41711,
       status:'visited', drink:'Italian Combo — mortadella, pepperoni, ham, coppa',
      note:'Known for pizza, but the towering sandwiches deserve just as much attention. Watch for seasonal specials like the tuna melt and Green Gobbler. (Infatuation: 9.1)',
      addr:'422 Larkin St, San Francisco, CA 94102',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/outta-sight'}]},
 
-    {key:'louscafe', name:'Lou\'s Cafe', nb:'Richmond', lat:37.7807, lng:-122.4658,
+    {key:'louscafe', name:'Lou\'s Cafe', nb:'Richmond', lat:37.78043, lng:-122.47328,
      status:'notyet', drink:'Tuna melt with garlic aioli',
      note:'Family-run Richmond spot (also FiDi & Parkside) known for big subs — tuna melt, hot pastrami brisket, meatballs in housemade marinara. (Infatuation: 8.8)',
      addr:'5017 Geary Blvd, San Francisco, CA 94118',
@@ -198,7 +198,7 @@ permalink: /sandwich-spots/
      addr:'748 Van Ness Ave, San Francisco, CA 94102',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/salty-s'}]},
 
-     {key:'sandys', name:'Sandy\'s', nb:'Haight', lat:37.7699, lng:-122.4436,
+     {key:'sandys', name:'Sandy\'s', nb:'Haight', lat:37.76991, lng:-122.44632,
       status:'visited', drink:'Muffuletta — original or mushroom, Duke\'s mayo, giardiniera',
      note:'SF\'s muffuletta king. Sesame bread made specially by an Oakland bakery, a thick spicy olive spread, and fermented cauliflower-carrot giardiniera. (Infatuation: 9.0)',
      addr:'1457 Haight St, San Francisco, CA 94117',
@@ -210,7 +210,7 @@ permalink: /sandwich-spots/
      addr:'2833 24th St, San Francisco, CA 94110',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/la-torta-gorda'}]},
 
-    {key:'newkirks', name:'Newkirk\'s', nb:'Mission', lat:37.7583, lng:-122.4067,
+    {key:'newkirks', name:'Newkirk\'s', nb:'Mission', lat:37.75595, lng:-122.40672,
      status:'notyet', drink:'BEC — bacon, egg, American cheese',
      note:'East Coast-style breakfast/deli sandwiches. The BEC is a gooey, salty wake-up call; also pastrami, grilled ribeye, and hash browns. (Infatuation: 8.0)',
      addr:'1006 Potrero Ave, San Francisco, CA 94110',
@@ -240,7 +240,7 @@ permalink: /sandwich-spots/
      addr:'503 Irving St, San Francisco, CA 94122',
      links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/the-yellow-submarine'}]},
 
-     {key:'doloresdeluxe', name:'Dolores Deluxe', nb:'Mission', lat:37.7524, lng:-122.4278,
+     {key:'doloresdeluxe', name:'Dolores Deluxe', nb:'Mission', lat:37.75512, lng:-122.42573,
       status:'visited', drink:'Mole rotisserie chicken, or pastrami with spinach-artichoke dip',
       note:'A corner store near Dolores Park with a frequently rotating menu. Don\'t skip the leek omelette breakfast sandwich with spicy tomato jam.',
      addr:'3500 22nd St, San Francisco, CA 94114',
@@ -270,7 +270,7 @@ permalink: /sandwich-spots/
      addr:'782 Arguello Blvd, San Francisco, CA 94118',
       links:[{t:'Review',u:'https://www.theinfatuation.com/san-francisco/reviews/arguello-market'}]},
 
-     {key:'guerreromarket', name:'Guerrero Market & Deli', nb:'Mission', lat:37.7598, lng:-122.4275,
+     {key:'guerreromarket', name:'Guerrero Market & Deli', nb:'Mission', lat:37.75989, lng:-122.42351,
       status:'visited', drink:'Roast pork banh mi, or a classic deli sandwich',
       note:'Mission District grocery & deli. Updated August 2026 — roast pork banh mi was great, fresh baguette and good balance of flavors.',
       addr:'701 Guerrero St, San Francisco, CA 94110',
