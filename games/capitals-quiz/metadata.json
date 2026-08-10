@@ -1,0 +1,6 @@
+{
+  "name": "Capitals of the World",
+  "description": "Learn the capital of every country in the world and every US state. Pick which modules to practice (World, each continent, US States), choose a question count, then type the capital. Includes study lists and flashcards. Scores are saved locally in your browser.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

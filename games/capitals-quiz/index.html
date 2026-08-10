@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Capitals of the World</title>
+  <meta name="description" content="Learn the capital of every country in the world and every US state. Pick your modules (World, continents, US States), then quiz yourself by typing the capital." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { -webkit-text-size-adjust: 100%; }
+    .fade-in { animation: fadeIn .2s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="font-sans bg-gradient-to-b from-white to-indigo-50 min-h-screen">
+  <main class="max-w-4xl mx-auto px-4 py-6 md:py-10">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center">
+        <span class="text-2xl mr-2">🌍</span>
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Capitals of the World</h1>
+      </div>
+      <a href="../" class="text-sm text-indigo-600 hover:text-indigo-800 font-medium whitespace-nowrap">← Games</a>
+    </div>
+    <p class="text-gray-600 mb-8">Pick which modules you want to practice, then type the capital for every country or state. Everything runs in your browser.</p>
+
+    <!-- SCREEN: HOME -->
+    <section id="screen-home" class="fade-in">
+      <!-- Module selection -->
+      <div class="bg-white rounded-xl shadow-md p-5 md:p-6 mb-6">
+        <h2 class="text-lg font-semibold text-gray-800 mb-1">1 · Choose your modules</h2>
+        <p class="text-sm text-gray-500 mb-4">Select one or more. "World" includes every country across all six continents.</p>
+        <div id="module-grid" class="grid grid-cols-2 md:grid-cols-3 gap-3"></div>
+      </div>
+
+      <!-- Question count -->
+      <div class="bg-white rounded-xl shadow-md p-5 md:p-6 mb-6">
+        <h2 class="text-lg font-semibold text-gray-800 mb-3">2 · Number of questions</h2>
+        <div id="count-options" class="flex flex-wrap gap-2"></div>
+        <p id="count-hint" class="text-sm text-gray-500 mt-3"></p>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex flex-col sm:flex-row gap-3 mb-6">
+        <button id="start-btn" class="flex-1 py-3 px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold text-lg shadow disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors">Start Quiz</button>
+        <button id="study-btn" class="flex-1 py-3 px-4 bg-white border-2 border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-50 font-semibold text-lg disabled:border-gray-300 disabled:text-gray-300 disabled:cursor-not-allowed transition-colors">Study / Review</button>
+      </div>
+
+      <!-- Best scores -->
+      <div id="best-scores" class="bg-white/70 rounded-xl p-4 text-sm text-gray-600"></div>
+    </section>
+
+    <!-- SCREEN: QUIZ -->
+    <section id="screen-quiz" class="hidden fade-in">
+      <div class="bg-white rounded-xl shadow-md p-5 md:p-8">
+        <!-- Quiz header -->
+        <div class="flex items-center justify-between mb-4 text-sm">
+          <span id="quiz-progress" class="font-semibold text-gray-700"></span>
+          <div class="flex items-center gap-4">
+            <span id="quiz-score" class="font-semibold text-emerald-600"></span>
+            <span id="quiz-streak" class="font-semibold text-amber-600" title="Consecutive correct"></span>
+          </div>
+        </div>
+        <div class="w-full h-2 bg-gray-100 rounded-full mb-6 overflow-hidden">
+          <div id="quiz-progress-bar" class="h-full bg-indigo-500 rounded-full transition-all duration-300" style="width:0%"></div>
+        </div>
+
+        <!-- Question -->
+        <div id="question-wrap" class="text-center">
+          <p id="question-module" class="text-xs uppercase tracking-widest text-indigo-500 font-semibold mb-2"></p>
+          <p id="question-label" class="text-lg md:text-xl text-gray-500 mb-2"></p>
+          <h2 id="question-text" class="text-3xl md:text-4xl font-bold text-gray-800 mb-6"></h2>
+          <form id="answer-form" class="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">
+            <input id="answer-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"
+              placeholder="Type the capital…" autofocus
+              class="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg text-lg focus:outline-none focus:border-indigo-500 bg-white" />
+            <button type="submit" class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold transition-colors">Check</button>
+          </form>
+        </div>
+
+        <!-- Feedback -->
+        <div id="feedback" class="hidden text-center mt-6"></div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button id="quit-btn" class="text-sm text-gray-500 hover:text-gray-700 underline">Quit quiz</button>
+      </div>
+    </section>
+
+    <!-- SCREEN: RESULTS -->
+    <section id="screen-results" class="hidden fade-in">
+      <div class="bg-white rounded-xl shadow-md p-6 md:p-10 text-center">
+        <div id="results-emoji" class="text-5xl mb-3"></div>
+        <h2 id="results-title" class="text-2xl font-bold text-gray-800 mb-2"></h2>
+        <p id="results-score" class="text-5xl font-extrabold text-indigo-600 mb-2"></p>
+        <p id="results-best" class="text-sm text-gray-500 mb-6"></p>
+        <div id="results-sub" class="text-gray-600 mb-8"></div>
+        <div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+          <button id="again-btn" class="flex-1 py-3 px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold transition-colors">Play Again</button>
+          <button id="missed-btn" class="flex-1 py-3 px-4 bg-white border-2 border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-50 font-semibold transition-colors">Review Missed</button>
+          <button id="home-btn" class="flex-1 py-3 px-4 bg-white border-2 border-gray-300 text-gray-600 rounded-lg hover:bg-gray-50 font-semibold transition-colors">Change Modules</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN: STUDY -->
+    <section id="screen-study" class="hidden fade-in">
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-4">
+        <div>
+          <h2 class="text-lg font-semibold text-gray-800">Study Mode</h2>
+          <p class="text-sm text-gray-500">Browse the capitals in your selected modules.</p>
+        </div>
+        <div class="flex gap-2">
+          <button id="flashcard-btn" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-semibold transition-colors">Flashcards</button>
+          <button id="study-back-btn" class="px-4 py-2 bg-white border border-gray-300 text-gray-600 rounded-lg hover:bg-gray-50 text-sm font-semibold transition-colors">Back</button>
+        </div>
+      </div>
+      <input id="study-search" type="text" placeholder="Search country or capital…"
+        class="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-indigo-500 bg-white" />
+
+      <div id="study-list" class="space-y-5"></div>
+
+      <!-- Flashcard view -->
+      <div id="flashcard-view" class="hidden">
+        <div class="max-w-md mx-auto bg-white rounded-xl shadow-md p-8 text-center">
+          <p id="fc-module" class="text-xs uppercase tracking-widest text-indigo-500 font-semibold mb-2"></p>
+          <h3 id="fc-question" class="text-2xl md:text-3xl font-bold text-gray-800 mb-6"></h3>
+          <button id="fc-reveal" class="px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold transition-colors mb-4">Reveal Answer</button>
+          <div id="fc-answer" class="hidden text-xl font-semibold text-emerald-600 mb-6"></div>
+          <div class="flex items-center justify-center gap-4">
+            <button id="fc-prev" class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors">← Prev</button>
+            <span id="fc-counter" class="text-sm text-gray-500 font-medium"></span>
+            <button id="fc-next" class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors">Next →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+  "use strict";
+
+  /* ------------------------------------------------------------------ *
+   *  Data
+   *  ------------------------------------------------------------------ */
+  const MODULES = {
+    northAmerica: { name: "North America", emoji: "🗽", color: "from-sky-400 to-blue-500", countries: [
+      ["Antigua and Barbuda", "St. John's"],
+      ["Bahamas", "Nassau"],
+      ["Barbados", "Bridgetown"],
+      ["Belize", "Belmopan"],
+      ["Canada", "Ottawa"],
+      ["Costa Rica", "San José"],
+      ["Cuba", "Havana"],
+      ["Dominica", "Roseau"],
+      ["Dominican Republic", "Santo Domingo"],
+      ["El Salvador", "San Salvador"],
+      ["Grenada", "St. George's"],
+      ["Guatemala", "Guatemala City"],
+      ["Haiti", "Port-au-Prince"],
+      ["Honduras", "Tegucigalpa"],
+      ["Jamaica", "Kingston"],
+      ["Mexico", "Mexico City"],
+      ["Nicaragua", "Managua"],
+      ["Panama", "Panama City"],
+      ["Saint Kitts and Nevis", "Basseterre"],
+      ["Saint Lucia", "Castries"],
+      ["Saint Vincent and the Grenadines", "Kingstown"],
+      ["Trinidad and Tobago", "Port of Spain"],
+      ["United States", "Washington, D.C."]
+    ]},
+    southAmerica: { name: "South America", emoji: "🦙", color: "from-emerald-400 to-green-500", countries: [
+      ["Argentina", "Buenos Aires"],
+      ["Bolivia", "Sucre", ["La Paz"]],
+      ["Brazil", "Brasília"],
+      ["Chile", "Santiago"],
+      ["Colombia", "Bogotá"],
+      ["Ecuador", "Quito"],
+      ["Guyana", "Georgetown"],
+      ["Paraguay", "Asunción"],
+      ["Peru", "Lima"],
+      ["Suriname", "Paramaribo"],
+      ["Uruguay", "Montevideo"],
+      ["Venezuela", "Caracas"]
+    ]},
+    europe: { name: "Europe", emoji: "🏰", color: "from-violet-400 to-purple-500", countries: [
+      ["Albania", "Tirana"],
+      ["Andorra", "Andorra la Vella"],
+      ["Armenia", "Yerevan"],
+      ["Austria", "Vienna"],
+      ["Azerbaijan", "Baku"],
+      ["Belarus", "Minsk"],
+      ["Belgium", "Brussels"],
+      ["Bosnia and Herzegovina", "Sarajevo"],
+      ["Bulgaria", "Sofia"],
+      ["Croatia", "Zagreb"],
+      ["Cyprus", "Nicosia"],
+      ["Czechia", "Prague"],
+      ["Denmark", "Copenhagen"],
+      ["Estonia", "Tallinn"],
+      ["Finland", "Helsinki"],
+      ["France", "Paris"],
+      ["Georgia", "Tbilisi"],
+      ["Germany", "Berlin"],
+      ["Greece", "Athens"],
+      ["Hungary", "Budapest"],
+      ["Iceland", "Reykjavík"],
+      ["Ireland", "Dublin"],
+      ["Italy", "Rome"],
+      ["Kazakhstan", "Astana"],
+      ["Kosovo", "Pristina"],
+      ["Latvia", "Riga"],
+      ["Liechtenstein", "Vaduz"],
+      ["Lithuania", "Vilnius"],
+      ["Luxembourg", "Luxembourg City", ["Luxembourg"]],
+      ["Malta", "Valletta"],
+      ["Moldova", "Chișinău"],
+      ["Monaco", "Monaco"],
+      ["Montenegro", "Podgorica"],
+      ["Netherlands", "Amsterdam"],
+      ["North Macedonia", "Skopje"],
+      ["Norway", "Oslo"],
+      ["Poland", "Warsaw"],
+      ["Portugal", "Lisbon"],
+      ["Romania", "Bucharest"],
+      ["Russia", "Moscow"],
+      ["San Marino", "San Marino"],
+      ["Serbia", "Belgrade"],
+      ["Slovakia", "Bratislava"],
+      ["Slovenia", "Ljubljana"],
+      ["Spain", "Madrid"],
+      ["Sweden", "Stockholm"],
+      ["Switzerland", "Bern"],
+      ["Turkey", "Ankara"],
+      ["Ukraine", "Kyiv"],
+      ["United Kingdom", "London"],
+      ["Vatican City", "Vatican City"]
+    ]},
+    asia: { name: "Asia", emoji: "🏯", color: "from-rose-400 to-red-500", countries: [
+      ["Afghanistan", "Kabul"],
+      ["Bahrain", "Manama"],
+      ["Bangladesh", "Dhaka"],
+      ["Bhutan", "Thimphu"],
+      ["Brunei", "Bandar Seri Begawan"],
+      ["Cambodia", "Phnom Penh"],
+      ["China", "Beijing"],
+      ["East Timor", "Dili"],
+      ["India", "New Delhi"],
+      ["Indonesia", "Jakarta"],
+      ["Iran", "Tehran"],
+      ["Iraq", "Baghdad"],
+      ["Israel", "Jerusalem"],
+      ["Japan", "Tokyo"],
+      ["Jordan", "Amman"],
+      ["Kuwait", "Kuwait City"],
+      ["Kyrgyzstan", "Bishkek"],
+      ["Laos", "Vientiane"],
+      ["Lebanon", "Beirut"],
+      ["Malaysia", "Kuala Lumpur"],
+      ["Maldives", "Malé"],
+      ["Mongolia", "Ulaanbaatar"],
+      ["Myanmar", "Naypyidaw"],
+      ["Nepal", "Kathmandu"],
+      ["North Korea", "Pyongyang"],
+      ["Oman", "Muscat"],
+      ["Pakistan", "Islamabad"],
+      ["Philippines", "Manila"],
+      ["Qatar", "Doha"],
+      ["Saudi Arabia", "Riyadh"],
+      ["Singapore", "Singapore"],
+      ["South Korea", "Seoul"],
+      ["Sri Lanka", "Sri Jayawardenepura Kotte", ["Colombo"]],
+      ["Syria", "Damascus"],
+      ["Tajikistan", "Dushanbe"],
+      ["Thailand", "Bangkok"],
+      ["Turkmenistan", "Ashgabat"],
+      ["United Arab Emirates", "Abu Dhabi"],
+      ["Uzbekistan", "Tashkent"],
+      ["Vietnam", "Hanoi"],
+      ["Yemen", "Sana'a"]
+    ]},
+    africa: { name: "Africa", emoji: "🦁", color: "from-amber-400 to-orange-500", countries: [
+      ["Algeria", "Algiers"],
+      ["Angola", "Luanda"],
+      ["Benin", "Porto-Novo"],
+      ["Botswana", "Gaborone"],
+      ["Burkina Faso", "Ouagadougou"],
+      ["Burundi", "Gitega"],
+      ["Cabo Verde", "Praia"],
+      ["Cameroon", "Yaoundé"],
+      ["Central African Republic", "Bangui"],
+      ["Chad", "N'Djamena"],
+      ["Comoros", "Moroni"],
+      ["Congo, Democratic Republic of the", "Kinshasa"],
+      ["Congo, Republic of the", "Brazzaville"],
+      ["Côte d'Ivoire", "Yamoussoukro"],
+      ["Djibouti", "Djibouti"],
+      ["Egypt", "Cairo"],
+      ["Equatorial Guinea", "Malabo"],
+      ["Eritrea", "Asmara"],
+      ["Eswatini", "Mbabane"],
+      ["Ethiopia", "Addis Ababa"],
+      ["Gabon", "Libreville"],
+      ["Gambia", "Banjul"],
+      ["Ghana", "Accra"],
+      ["Guinea", "Conakry"],
+      ["Guinea-Bissau", "Bissau"],
+      ["Kenya", "Nairobi"],
+      ["Lesotho", "Maseru"],
+      ["Liberia", "Monrovia"],
+      ["Libya", "Tripoli"],
+      ["Madagascar", "Antananarivo"],
+      ["Malawi", "Lilongwe"],
+      ["Mali", "Bamako"],
+      ["Mauritania", "Nouakchott"],
+      ["Mauritius", "Port Louis"],
+      ["Morocco", "Rabat"],
+      ["Mozambique", "Maputo"],
+      ["Namibia", "Windhoek"],
+      ["Niger", "Niamey"],
+      ["Nigeria", "Abuja"],
+      ["Rwanda", "Kigali"],
+      ["São Tomé and Príncipe", "São Tomé"],
+      ["Senegal", "Dakar"],
+      ["Seychelles", "Victoria"],
+      ["Sierra Leone", "Freetown"],
+      ["Somalia", "Mogadishu"],
+      ["South Africa", "Pretoria", ["Cape Town", "Bloemfontein"]],
+      ["South Sudan", "Juba"],
+      ["Sudan", "Khartoum"],
+      ["Tanzania", "Dodoma", ["Dar es Salaam"]],
+      ["Togo", "Lomé"],
+      ["Tunisia", "Tunis"],
+      ["Uganda", "Kampala"],
+      ["Zambia", "Lusaka"],
+      ["Zimbabwe", "Harare"]
+    ]},
+    oceania: { name: "Oceania", emoji: "🦘", color: "from-cyan-400 to-teal-500", countries: [
+      ["Australia", "Canberra"],
+      ["Fiji", "Suva"],
+      ["Kiribati", "Tarawa"],
+      ["Marshall Islands", "Majuro"],
+      ["Micronesia", "Palikir"],
+      ["Nauru", "Yaren"],
+      ["New Zealand", "Wellington"],
+      ["Palau", "Ngerulmud"],
+      ["Papua New Guinea", "Port Moresby"],
+      ["Samoa", "Apia"],
+      ["Solomon Islands", "Honiara"],
+      ["Tonga", "Nukuʻalofa"],
+      ["Tuvalu", "Funafuti"],
+      ["Vanuatu", "Port Vila"]
+    ]},
+    usStates: { name: "US States", emoji: "⭐", color: "from-indigo-400 to-blue-600", countries: [
+      ["Alabama", "Montgomery"],
+      ["Alaska", "Juneau"],
+      ["Arizona", "Phoenix"],
+      ["Arkansas", "Little Rock"],
+      ["California", "Sacramento"],
+      ["Colorado", "Denver"],
+      ["Connecticut", "Hartford"],
+      ["Delaware", "Dover"],
+      ["Florida", "Tallahassee"],
+      ["Georgia", "Atlanta"],
+      ["Hawaii", "Honolulu"],
+      ["Idaho", "Boise"],
+      ["Illinois", "Springfield"],
+      ["Indiana", "Indianapolis"],
+      ["Iowa", "Des Moines"],
+      ["Kansas", "Topeka"],
+      ["Kentucky", "Frankfort"],
+      ["Louisiana", "Baton Rouge"],
+      ["Maine", "Augusta"],
+      ["Maryland", "Annapolis"],
+      ["Massachusetts", "Boston"],
+      ["Michigan", "Lansing"],
+      ["Minnesota", "Saint Paul"],
+      ["Mississippi", "Jackson"],
+      ["Missouri", "Jefferson City"],
+      ["Montana", "Helena"],
+      ["Nebraska", "Lincoln"],
+      ["Nevada", "Carson City"],
+      ["New Hampshire", "Concord"],
+      ["New Jersey", "Trenton"],
+      ["New Mexico", "Santa Fe"],
+      ["New York", "Albany"],
+      ["North Carolina", "Raleigh"],
+      ["North Dakota", "Bismarck"],
+      ["Ohio", "Columbus"],
+      ["Oklahoma", "Oklahoma City"],
+      ["Oregon", "Salem"],
+      ["Pennsylvania", "Harrisburg"],
+      ["Rhode Island", "Providence"],
+      ["South Carolina", "Columbia"],
+      ["South Dakota", "Pierre"],
+      ["Tennessee", "Nashville"],
+      ["Texas", "Austin"],
+      ["Utah", "Salt Lake City"],
+      ["Vermont", "Montpelier"],
+      ["Virginia", "Richmond"],
+      ["Washington", "Olympia"],
+      ["West Virginia", "Charleston"],
+      ["Wisconsin", "Madison"],
+      ["Wyoming", "Cheyenne"]
+    ]}
+  };
+
+  // "World" = all six country continents (excludes US States, which has its own module)
+  const COUNTRY_MODULE_IDS = ["northAmerica", "southAmerica", "europe", "asia", "africa", "oceania"];
+
+  const QUESTION_COUNTS = [10, 20, 50, "all"];
+
+  /* ------------------------------------------------------------------ *
+   *  Helpers
+   *  ------------------------------------------------------------------ */
+  const $ = (id) => document.getElementById(id);
+
+  function normalize(s) {
+    return String(s == null ? '' : s)
+      .toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')   // strip accents
+      .replace(/[^a-z0-9]+/g, '');                        // drop spaces & punctuation
+  }
+
+  function entryFromRow(row) {
+    return { place: row[0], capital: row[1], aliases: row[2] || [] };
+  }
+
+  function allEntries(moduleIds) {
+    const seen = new Set();
+    const out = [];
+    for (const id of moduleIds) {
+      for (const row of MODULES[id].countries) {
+        const e = entryFromRow(row);
+        if (seen.has(e.place)) continue;
+        seen.add(e.place);
+        out.push(e);
+      }
+    }
+    return out;
+  }
+
+  function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function storageKey(moduleIds, count) {
+    return 'capitals_best_' + [...moduleIds].sort().join('_') + '_' + count;
+  }
+
+  function getBest(moduleIds, count) {
+    const v = localStorage.getItem(storageKey(moduleIds, count));
+    return v ? JSON.parse(v) : null;
+  }
+
+  /* ------------------------------------------------------------------ *
+   *  State
+   *  ------------------------------------------------------------------ */
+  let selectedModules = new Set([...COUNTRY_MODULE_IDS]);
+  let questionCount = 20;
+
+  let quiz = null;          // { questions: [...], index, correct, streak, bestStreak, done }
+  let missed = [];          // entries answered wrong in last run
+  let lastRun = null;       // { moduleIds, count }
+
+  let flash = null;         // { items: [...], index }
+
+  /* ------------------------------------------------------------------ *
+   *  Home screen
+   *  ------------------------------------------------------------------ */
+  function renderModuleGrid() {
+    const grid = $('module-grid');
+    grid.innerHTML = '';
+    const cards = [
+      { id: 'world', name: 'World', emoji: '🌍', color: 'from-indigo-400 to-violet-500', sub: COUNTRY_MODULE_IDS.reduce((n, id) => n + MODULES[id].countries.length, 0) + ' countries' },
+      ...Object.entries(MODULES).map(([id, m]) => ({ id, name: m.name, emoji: m.emoji, color: m.color, sub: m.countries.length + (id === 'usStates' ? ' states' : ' countries') }))
+    ];
+    for (const c of cards) {
+      const active = (c.id === 'world')
+        ? COUNTRY_MODULE_IDS.every(id => selectedModules.has(id))
+        : selectedModules.has(c.id);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'relative rounded-xl bg-gradient-to-br ' + c.color + ' text-white p-4 text-left shadow hover:shadow-md hover:-translate-y-0.5 transition-all ' + (active ? '' : 'opacity-40 saturate-50');
+      btn.innerHTML =
+        '<span class="text-3xl block mb-2">' + c.emoji + '</span>' +
+        '<span class="font-bold block">' + c.name + '</span>' +
+        '<span class="text-xs opacity-90">' + c.sub + '</span>' +
+        '<span class="absolute top-2.5 right-2.5 w-6 h-6 rounded-full border-2 border-white/70 flex items-center justify-center text-xs font-bold">' + (active ? '✓' : '') + '</span>';
+      btn.addEventListener('click', () => {
+        if (c.id === 'world') {
+          const on = COUNTRY_MODULE_IDS.every(id => selectedModules.has(id));
+          for (const id of COUNTRY_MODULE_IDS) on ? selectedModules.delete(id) : selectedModules.add(id);
+        } else {
+          selectedModules.has(c.id) ? selectedModules.delete(c.id) : selectedModules.add(c.id);
+        }
+        renderModuleGrid();
+        updateActions();
+      });
+      grid.appendChild(btn);
+    }
+  }
+
+  function renderCountOptions() {
+    const wrap = $('count-options');
+    wrap.innerHTML = '';
+    for (const c of QUESTION_COUNTS) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = c === 'all' ? 'All' : String(c);
+      btn.className = 'px-4 py-2 rounded-lg border-2 font-semibold transition-colors ' +
+        (questionCount === c ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-white border-gray-300 text-gray-600 hover:border-indigo-400');
+      btn.addEventListener('click', () => { questionCount = c; renderCountOptions(); updateActions(); });
+      wrap.appendChild(btn);
+    }
+  }
+
+  function totalAvailable() {
+    const ids = [...selectedModules];
+    if (ids.length === 0) return 0;
+    const idsToUse = ids.includes('world') ? null : ids; // world only selectable via all country ids
+    return allEntries(idsToUse || COUNTRY_MODULE_IDS).length;
+  }
+
+  function updateActions() {
+    const total = totalAvailable();
+    const startBtn = $('start-btn');
+    const studyBtn = $('study-btn');
+    const disabled = selectedModules.size === 0;
+    startBtn.disabled = disabled;
+    studyBtn.disabled = disabled;
+    const n = questionCount === 'all' ? total : Math.min(questionCount, total);
+    $('count-hint').textContent = total === 0
+      ? 'Pick at least one module above.'
+      : (questionCount === 'all' || questionCount >= total)
+        ? total + ' question' + (total === 1 ? '' : 's') + ' available — every entry will be asked.'
+        : n + ' random question' + (n === 1 ? '' : 's') + ' out of ' + total + ' available.';
+  }
+
+  function renderBestScores() {
+    const box = $('best-scores');
+    const rows = [];
+    if (selectedModules.size > 0) {
+      const total = totalAvailable();
+      const ids = [...selectedModules].includes('world') ? ['world'] : [...selectedModules].sort();
+      for (const c of QUESTION_COUNTS) {
+        const n = c === 'all' ? total : c;
+        if (n > total) continue;
+        const best = getBest(ids, c);
+        if (best && best.best > 0) {
+          rows.push('<span class="inline-block bg-white border border-gray-200 rounded-full px-3 py-1 mr-2 mb-2">' +
+            (c === 'all' ? 'All' : c) + ' questions · best <b class="text-indigo-600">' + best.best + '/' + best.total + '</b> (' + Math.round(100 * best.best / best.total) + '%)</span>');
+        }
+      }
+    }
+    box.innerHTML = rows.length
+      ? '<div class="font-semibold text-gray-500 mb-1">Your best scores</div>' + rows.join('')
+      : 'Complete a quiz to save your best score for each module + question count combo.';
+  }
+
+  /* ------------------------------------------------------------------ *
+   *  Quiz
+   *  ------------------------------------------------------------------ */
+  function startQuiz(moduleIds, count, questionList) {
+    const ids = moduleIds.includes('world') ? COUNTRY_MODULE_IDS : moduleIds;
+    const pool = questionList || allEntries(ids);
+    const total = count === 'all' ? pool.length : Math.min(count, pool.length);
+    quiz = {
+      questions: shuffle(pool.slice()).slice(0, total),
+      index: 0,
+      correct: 0,
+      streak: 0,
+      bestStreak: 0,
+      moduleIds,
+      count,
+      isReview: !!questionList,
+      done: false
+    };
+    missed = [];
+    show('screen-quiz');
+    renderQuestion();
+  }
+
+  function renderQuestion() {
+    const q = quiz.questions[quiz.index];
+    $('quiz-progress').textContent = 'Question ' + (quiz.index + 1) + ' of ' + quiz.questions.length;
+    $('quiz-score').textContent = '✓ ' + quiz.correct;
+    $('quiz-streak').textContent = '🔥 ' + quiz.streak;
+    $('quiz-progress-bar').style.width = (100 * quiz.index / quiz.questions.length) + '%';
+
+    $('question-module').textContent = moduleOf(q.place);
+    $('question-label').textContent = 'What is the capital of…';
+    $('question-text').textContent = q.place;
+
+    const fb = $('feedback');
+    fb.className = 'hidden text-center mt-6';
+    fb.innerHTML = '';
+    const form = $('answer-form');
+    form.classList.remove('hidden');
+    $('question-wrap').classList.remove('hidden');
+    const input = $('answer-input');
+    input.value = '';
+    input.disabled = false;
+    input.focus();
+  }
+
+  function moduleOf(place) {
+    for (const id of COUNTRY_MODULE_IDS) {
+      for (const row of MODULES[id].countries) {
+        if (row[0] === place) return MODULES[id].name;
+      }
+    }
+    for (const row of MODULES.usStates.countries) {
+      if (row[0] === place) return 'US States';
+    }
+    return '';
+  }
+
+  function submitAnswer(value) {
+    const q = quiz.questions[quiz.index];
+    const answer = value.trim();
+    const isCorrect = answer !== '' && checkAnswer(q, answer);
+
+    if (isCorrect) {
+      quiz.correct++;
+      quiz.streak++;
+      quiz.bestStreak = Math.max(quiz.bestStreak, quiz.streak);
+    } else {
+      quiz.streak = 0;
+      missed.push(q);
+    }
+    quiz.index++;
+
+    const fb = $('feedback');
+    fb.classList.remove('hidden');
+    fb.className = 'fade-in text-center mt-6';
+    if (isCorrect) {
+      fb.innerHTML =
+        '<div class="inline-block bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-lg px-6 py-3">' +
+          '<span class="font-semibold text-lg">✓ Correct!</span>' +
+          (quiz.streak >= 2 ? '<span class="block text-sm mt-0.5">Streak: ' + quiz.streak + ' in a row 🔥</span>' : '') +
+        '</div>';
+    } else {
+      fb.innerHTML =
+        '<div class="inline-block bg-rose-50 border border-rose-200 text-rose-700 rounded-lg px-6 py-3">' +
+          '<span class="font-semibold text-lg">✗ ' + esc(answer || '—') + '</span>' +
+          '<span class="block text-sm mt-0.5">The capital of <b>' + esc(q.place) + '</b> is <b class="text-emerald-700">' + esc(q.capital) + '</b></span>' +
+        '</div>';
+    }
+
+    $('answer-form').classList.add('hidden');
+    $('question-wrap').classList.add('hidden');
+    $('quiz-score').textContent = '✓ ' + quiz.correct;
+    $('quiz-streak').textContent = '🔥 ' + quiz.streak;
+    $('quiz-progress-bar').style.width = (100 * quiz.index / quiz.questions.length) + '%';
+
+    if (quiz.index >= quiz.questions.length) {
+      showResults();
+      return;
+    }
+    setTimeout(() => {
+      $('quiz-progress').textContent = 'Question ' + (quiz.index + 1) + ' of ' + quiz.questions.length;
+      renderQuestion();
+    }, 1100);
+  }
+
+  function checkAnswer(q, answer) {
+    const norm = normalize(answer);
+    if (!norm) return false;
+    const targets = [q.capital, ...(q.aliases || [])].map(normalize);
+    return targets.includes(norm);
+  }
+
+  function showResults() {
+    const total = quiz.questions.length;
+    const pct = Math.round(100 * quiz.correct / total);
+
+    let emoji = '😅', title = 'Keep practicing!';
+    if (pct === 100) { emoji = '🏆'; title = 'Perfect score!'; }
+    else if (pct >= 90) { emoji = '🌟'; title = 'Outstanding!'; }
+    else if (pct >= 75) { emoji = '👏'; title = 'Great job!'; }
+    else if (pct >= 50) { emoji = '💪'; title = 'Getting there!'; }
+
+    $('results-emoji').textContent = emoji;
+    $('results-title').textContent = title;
+    $('results-score').textContent = quiz.correct + ' / ' + total;
+
+    const ids = quiz.moduleIds.includes('world') ? ['world'] : [...quiz.moduleIds].sort();
+    if (!quiz.isReview) {
+      const best = getBest(ids, quiz.count);
+      const isBest = !best || quiz.correct > best.best;
+      if (isBest) {
+        localStorage.setItem(storageKey(ids, quiz.count), JSON.stringify({ best: quiz.correct, total, date: new Date().toISOString() }));
+      }
+      $('results-best').textContent = isBest
+        ? '🎉 New best score saved!'
+        : 'Best for this setup: ' + best.best + '/' + best.total + ' (' + Math.round(100 * best.best / best.total) + '%)';
+    } else {
+      $('results-best').textContent = '';
+    }
+
+    let sub = '';
+    if (quiz.bestStreak > 1) sub += 'Best streak: <b>' + quiz.bestStreak + '</b> in a row. ';
+    if (missed.length > 0) sub += '<b>' + missed.length + '</b> missed — review them to lock them in.';
+    $('results-sub').innerHTML = sub || 'Keep it up!';
+
+    const missedBtn = $('missed-btn');
+    missedBtn.style.display = missed.length > 0 ? '' : 'none';
+
+    lastRun = { moduleIds: quiz.moduleIds, count: quiz.count };
+    show('screen-results');
+  }
+
+  /* ------------------------------------------------------------------ *
+   *  Study mode
+   *  ------------------------------------------------------------------ */
+  function openStudy() {
+    show('screen-study');
+    $('study-search').value = '';
+    $('flashcard-view').classList.add('hidden');
+    $('study-list').classList.remove('hidden');
+    renderStudyList();
+  }
+
+  function studyItems() {
+    return allEntries([...selectedModules].includes('world') ? COUNTRY_MODULE_IDS : [...selectedModules]);
+  }
+
+  function renderStudyList() {
+    const q = $('study-search').value.trim().toLowerCase();
+    const items = studyItems().filter(e =>
+      !q || e.place.toLowerCase().includes(q) || e.capital.toLowerCase().includes(q));
+    const list = $('study-list');
+    list.innerHTML = '';
+
+    // group by module for readability
+    const ids = [...selectedModules].includes('world') ? COUNTRY_MODULE_IDS : [...selectedModules];
+    for (const id of ids) {
+      const entries = MODULES[id].countries
+        .map(entryFromRow)
+        .filter(e => !q || e.place.toLowerCase().includes(q) || e.capital.toLowerCase().includes(q));
+      if (entries.length === 0) continue;
+      let html =
+        '<div class="bg-white rounded-xl shadow-md overflow-hidden">' +
+          '<div class="px-4 py-3 bg-gradient-to-r ' + MODULES[id].color + ' text-white flex items-center justify-between">' +
+            '<span class="font-bold">' + MODULES[id].emoji + ' ' + MODULES[id].name + '</span>' +
+            '<span class="text-xs opacity-90">' + entries.length + '</span>' +
+          '</div>' +
+          '<table class="w-full text-sm">';
+      entries.forEach((e, i) => {
+        html += '<tr class="' + (i % 2 ? 'bg-gray-50' : 'bg-white') + '">' +
+          '<td class="px-4 py-2 font-medium text-gray-800">' + esc(e.place) + '</td>' +
+          '<td class="px-4 py-2 text-gray-500 text-right">' + esc(e.capital) + '</td></tr>';
+      });
+      html += '</table></div>';
+      list.innerHTML += html;
+    }
+    if (list.innerHTML === '') {
+      list.innerHTML = '<p class="text-center text-gray-500 py-8">No matches for "' + esc($('study-search').value) + '".</p>';
+    }
+  }
+
+  function openFlashcards() {
+    const items = shuffle(studyItems());
+    if (items.length === 0) return;
+    flash = { items, index: 0 };
+    $('study-list').classList.add('hidden');
+    $('flashcard-view').classList.remove('hidden');
+    renderFlashcard();
+  }
+
+  function renderFlashcard() {
+    const e = flash.items[flash.index];
+    $('fc-module').textContent = moduleOf(e.place);
+    $('fc-question').textContent = e.place;
+    $('fc-answer').textContent = e.capital;
+    $('fc-answer').classList.add('hidden');
+    $('fc-counter').textContent = (flash.index + 1) + ' of ' + flash.items.length;
+    $('fc-prev').disabled = flash.index === 0;
+    $('fc-prev').className = 'px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-600 transition-colors ' + (flash.index === 0 ? 'opacity-40 cursor-not-allowed' : 'hover:bg-gray-50');
+    $('fc-next').textContent = flash.index === flash.items.length - 1 ? 'Restart' : 'Next →';
+  }
+
+  /* ------------------------------------------------------------------ *
+   *  Screen switching
+   *  ------------------------------------------------------------------ */
+  function show(id) {
+    ['screen-home', 'screen-quiz', 'screen-results', 'screen-study'].forEach(s =>
+      $(s).classList.toggle('hidden', s !== id));
+    if (id === 'screen-home') {
+      renderBestScores();
+      updateActions();
+    }
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  /* ------------------------------------------------------------------ *
+   *  Events
+   *  ------------------------------------------------------------------ */
+  document.addEventListener('DOMContentLoaded', () => {
+    renderModuleGrid();
+    renderCountOptions();
+    updateActions();
+    renderBestScores();
+
+    $('answer-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!quiz || quiz.done) return;
+      const input = $('answer-input');
+      if (input.disabled) return;
+      input.disabled = true;
+      submitAnswer(input.value);
+    });
+
+    $('start-btn').addEventListener('click', () => {
+      const ids = [...selectedModules];
+      if (ids.length === 0) return;
+      startQuiz(ids, questionCount);
+    });
+
+    $('study-btn').addEventListener('click', openStudy);
+    $('study-back-btn').addEventListener('click', () => show('screen-home'));
+    $('study-search').addEventListener('input', renderStudyList);
+    $('flashcard-btn').addEventListener('click', openFlashcards);
+
+    $('fc-reveal').addEventListener('click', () => {
+      $('fc-answer').classList.remove('hidden');
+    });
+    $('fc-prev').addEventListener('click', () => {
+      if (flash.index > 0) { flash.index--; renderFlashcard(); }
+    });
+    $('fc-next').addEventListener('click', () => {
+      if (flash.index === flash.items.length - 1) { openFlashcards(); return; }
+      flash.index++;
+      renderFlashcard();
+    });
+
+    $('quit-btn').addEventListener('click', () => show('screen-home'));
+
+    $('again-btn').addEventListener('click', () => {
+      if (lastRun) startQuiz(lastRun.moduleIds, lastRun.count);
+    });
+    $('missed-btn').addEventListener('click', () => {
+      if (lastRun && missed.length > 0) startQuiz(lastRun.moduleIds, lastRun.count, missed);
+    });
+    $('home-btn').addEventListener('click', () => show('screen-home'));
+  });
+  </script>
+</body>
+</html>
