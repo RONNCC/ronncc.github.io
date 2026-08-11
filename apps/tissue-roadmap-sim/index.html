@@ -2,26 +2,96 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TERM Lab Park — Tissue Engineering Sim</title>
-    <meta
-      name="description"
-      content="A low-poly, Rollercoaster-Tycoon-style simulation game for learning tissue engineering & regenerative medicine — 8 levels, quizzes, recap sheets, and deeper dives."
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap"
-      rel="stylesheet"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>TERM Lab Park: Tissue Engineering Pipeline</title>
+    <meta name="description" content="An interactive 15-stop tissue engineering and regenerative medicine production walkthrough." />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div id="term-sim-root"></div>
+    <main class="app-shell">
+      <header class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>TERM Lab Park</h1>
+          <p>One living construct from donor tissue to implantation</p>
+        </div>
+      </div>
+      <button id="btn-panel" class="ghost" aria-expanded="true">Hide panel</button>
+      </header>
+
+      <section class="world" aria-label="Tissue engineering factory">
+        <canvas id="stage"></canvas>
+        <div id="tooltip" class="tooltip" hidden></div>
+        <div class="hud" id="hud">
+      <div class="hud-item"><span>Unit</span><b id="hud-serial">SN-001</b></div>
+      <div class="hud-item"><span>Phase</span><b id="hud-phase">idle</b></div>
+        <div class="hud-item"><span>Station</span><b id="hud-station">0 / 15</b></div>
+        <div class="hud-item"><span>Level</span><b id="hud-level">1 / 5</b></div>
+      <div class="hud-item"><span>Cells</span><b id="hud-cells">500,000</b></div>
+      <div class="hud-note" id="hud-note"></div>
+        </div>
+
+        <div class="zoomer" aria-label="Camera controls">
+      <button id="zoom-in" aria-label="Zoom in">+</button>
+      <button id="zoom-out" aria-label="Zoom out">-</button>
+      <button id="zoom-fit" aria-label="Fit factory">&#10548;</button>
+        </div>
+      </section>
+
+      <aside class="inspector" id="inspector">
+      <button class="sheet-handle" id="sheet-handle" aria-expanded="false">
+        <span></span> Station details
+      </button>
+      <div class="stage-card">
+        <div class="eyebrow"><span class="chip" id="stage-chip">idle</span><span id="stage-tag"></span></div>
+        <p class="level-kicker" id="stage-level">Level 1 · Cell sourcing</p>
+        <div class="level-track" id="level-track" aria-label="Learning levels"></div>
+        <p class="level-summary" id="level-summary"></p>
+        <h2 id="stage-name">Start a construct</h2>
+        <p class="lede" id="stage-short">Enter a unit ID and start the line to follow a construct through the tissue engineering workflow.</p>
+        <div class="stage-body" id="stage-body"></div>
+        <div class="read-progress" id="read-progress" hidden><i id="read-bar"></i><span>Review this station, then continue the pipeline.</span></div>
+        <button class="primary continue" id="btn-continue" hidden>Continue pipeline</button>
+      </div>
+      <section class="sec">
+        <h3>Live construct data</h3>
+        <div class="sheet" id="sheet"></div>
+      </section>
+      <section class="sec">
+        <h3>Traveller <span id="log-count"></span></h3>
+        <div class="tokens" id="log"></div>
+      </section>
+      <section class="sec">
+        <h3>Stations <span>click to fly there</span></h3>
+        <div class="chips" id="station-chips"></div>
+      </section>
+      </aside>
+
+      <footer class="dock" id="dock">
+      <div class="dock-row prompt">
+        <label class="field grow"><span>Unit serial number</span><input id="serial" value="SN-001" maxlength="12" spellcheck="false" /></label>
+        <button id="btn-run" class="primary">Start / restart</button>
+      </div>
+      <div class="dock-row">
+        <div class="group">
+          <button id="btn-play" class="icon" title="Pause or resume"><span id="play-glyph">II</span></button>
+          <button id="btn-next" class="icon" title="Continue current station or advance">&#8674;</button>
+          <button id="btn-reset" class="icon" title="Restart">&#10227;</button>
+        </div>
+        <label class="field speed"><span>Speed <b id="speed-value">1.0x</b></span><input id="speed" type="range" min="0.5" max="4" step="0.5" value="1" /></label>
+        <label class="toggle"><input id="follow" type="checkbox" checked />Follow</label>
+        <label class="toggle"><input id="labels" type="checkbox" checked />Labels</label>
+      </div>
+      </footer>
+    </main>
+
+    <script src="iso.js"></script>
+    <script src="factory.js"></script>
+    <script src="spec.js"></script>
+    <script src="sim.js"></script>
     <script src="render.js"></script>
-    <script src="levels-core.js"></script>
-    <script src="levels-eng.js"></script>
-    <script src="levels.js"></script>
-    <script src="app.js"></script>
+    <script src="ui.js"></script>
+    <script src="main.js"></script>
   </body>
 </html>

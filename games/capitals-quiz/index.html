@@ -6,77 +6,113 @@
   <title>Capitals of the World</title>
   <meta name="description" content="Learn the capital of every country in the world and every US state. Pick your modules (World, continents, US States), then quiz yourself by typing the capital." />
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+    }
+  </script>
+  <script>
+    // Auto-detect system preference
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('dark');
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (e.matches) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    });
+  </script>
   <style>
     html { -webkit-text-size-adjust: 100%; }
     .fade-in { animation: fadeIn .2s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
-<body class="font-sans bg-gradient-to-b from-white to-indigo-50 min-h-screen">
+<body class="font-sans bg-gradient-to-b from-white to-indigo-50 dark:from-gray-900 dark:to-gray-800 min-h-screen">
   <main class="max-w-4xl mx-auto px-4 py-6 md:py-10">
 
     <!-- Header -->
     <div class="flex items-center justify-between mb-6">
       <div class="flex items-center">
         <span class="text-2xl mr-2">🌍</span>
-        <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Capitals of the World</h1>
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">Capitals of the World</h1>
       </div>
-      <a href="../" class="text-sm text-indigo-600 hover:text-indigo-800 font-medium whitespace-nowrap">← Games</a>
+      <a href="../" class="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-medium whitespace-nowrap">← Games</a>
     </div>
-    <p class="text-gray-600 mb-8">Pick which modules you want to practice, then type the capital for every country or state. Everything runs in your browser.</p>
+    <p class="text-gray-600 dark:text-gray-300 mb-8">Pick which modules you want to practice, then type the capital for every country or state. Everything runs in your browser.</p>
+
+    <div class="bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-700 rounded-lg px-4 py-3 mb-8 text-sm text-indigo-800 dark:text-indigo-200">
+      Yeah, basically you should just be playing this game though:
+      <a href="https://www.geoguessr.com/quiz/seterra" target="_blank" rel="noopener" class="font-semibold underline hover:text-indigo-600 dark:hover:text-indigo-300">Seterra Geography Quizzes &rarr;</a>
+    </div>
 
     <!-- SCREEN: HOME -->
     <section id="screen-home" class="fade-in">
       <!-- Module selection -->
-      <div class="bg-white rounded-xl shadow-md p-5 md:p-6 mb-6">
-        <h2 class="text-lg font-semibold text-gray-800 mb-1">1 · Choose your modules</h2>
-        <p class="text-sm text-gray-500 mb-4">Select one or more. "World" includes every country across all six continents.</p>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 md:p-6 mb-6">
+        <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-1">1 · Choose your modules</h2>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Select one or more. "World" includes every country across all six continents.</p>
         <div id="module-grid" class="grid grid-cols-2 md:grid-cols-3 gap-3"></div>
       </div>
 
+      <!-- Difficulty -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 md:p-6 mb-6">
+        <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-1">2 · Difficulty</h2>
+        <div id="difficulty-options" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+      </div>
+
       <!-- Question count -->
-      <div class="bg-white rounded-xl shadow-md p-5 md:p-6 mb-6">
-        <h2 class="text-lg font-semibold text-gray-800 mb-3">2 · Number of questions</h2>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 md:p-6 mb-6">
+        <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-3">3 · Number of questions</h2>
         <div id="count-options" class="flex flex-wrap gap-2"></div>
-        <p id="count-hint" class="text-sm text-gray-500 mt-3"></p>
+        <p id="count-hint" class="text-sm text-gray-500 dark:text-gray-400 mt-3"></p>
       </div>
 
       <!-- Actions -->
       <div class="flex flex-col sm:flex-row gap-3 mb-6">
-        <button id="start-btn" class="flex-1 py-3 px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold text-lg shadow disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors">Start Quiz</button>
-        <button id="study-btn" class="flex-1 py-3 px-4 bg-white border-2 border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-50 font-semibold text-lg disabled:border-gray-300 disabled:text-gray-300 disabled:cursor-not-allowed transition-colors">Study / Review</button>
+        <button id="start-btn" class="flex-1 py-3 px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold text-lg shadow disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors">Start Quiz</button>
+        <button id="study-btn" class="flex-1 py-3 px-4 bg-white dark:bg-gray-800 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 font-semibold text-lg disabled:border-gray-300 dark:disabled:border-gray-600 disabled:text-gray-300 dark:disabled:text-gray-600 disabled:cursor-not-allowed transition-colors">Study / Review</button>
       </div>
 
       <!-- Best scores -->
-      <div id="best-scores" class="bg-white/70 rounded-xl p-4 text-sm text-gray-600"></div>
+      <div id="best-scores" class="bg-white/70 dark:bg-gray-800/70 rounded-xl p-4 text-sm text-gray-600 dark:text-gray-300"></div>
     </section>
 
     <!-- SCREEN: QUIZ -->
     <section id="screen-quiz" class="hidden fade-in">
-      <div class="bg-white rounded-xl shadow-md p-5 md:p-8">
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 md:p-8">
         <!-- Quiz header -->
         <div class="flex items-center justify-between mb-4 text-sm">
-          <span id="quiz-progress" class="font-semibold text-gray-700"></span>
+          <span id="quiz-progress" class="font-semibold text-gray-700 dark:text-gray-300"></span>
           <div class="flex items-center gap-4">
-            <span id="quiz-score" class="font-semibold text-emerald-600"></span>
-            <span id="quiz-streak" class="font-semibold text-amber-600" title="Consecutive correct"></span>
+            <span id="quiz-score" class="font-semibold text-emerald-600 dark:text-emerald-400"></span>
+            <span id="quiz-streak" class="font-semibold text-amber-600 dark:text-amber-400" title="Consecutive correct"></span>
+            <span id="quiz-difficulty" class="hidden sm:inline text-xs font-semibold px-2.5 py-0.5 bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-700 text-indigo-700 dark:text-indigo-300 rounded-full"></span>
           </div>
         </div>
-        <div class="w-full h-2 bg-gray-100 rounded-full mb-6 overflow-hidden">
+        <div class="w-full h-2 bg-gray-100 dark:bg-gray-700 rounded-full mb-6 overflow-hidden">
           <div id="quiz-progress-bar" class="h-full bg-indigo-500 rounded-full transition-all duration-300" style="width:0%"></div>
         </div>
 
         <!-- Question -->
         <div id="question-wrap" class="text-center">
-          <p id="question-module" class="text-xs uppercase tracking-widest text-indigo-500 font-semibold mb-2"></p>
-          <p id="question-label" class="text-lg md:text-xl text-gray-500 mb-2"></p>
-          <h2 id="question-text" class="text-3xl md:text-4xl font-bold text-gray-800 mb-6"></h2>
+          <p id="question-module" class="text-xs uppercase tracking-widest text-indigo-500 dark:text-indigo-400 font-semibold mb-2"></p>
+          <p id="question-label" class="text-lg md:text-xl text-gray-500 dark:text-gray-400 mb-2"></p>
+          <h2 id="question-text" class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-6"></h2>
           <form id="answer-form" class="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">
             <input id="answer-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"
               placeholder="Type the capital…" autofocus
-              class="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg text-lg focus:outline-none focus:border-indigo-500 bg-white" />
+              class="flex-1 px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-lg focus:outline-none focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
             <button type="submit" class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold transition-colors">Check</button>
           </form>
+
+          <!-- MCQ options (Easy) -->
+          <div id="mcq-options" class="hidden flex flex-col sm:flex-row flex-wrap gap-3 max-w-xl mx-auto mb-4"></div>
+
+          <!-- Hint row (Learning / Medium) -->
+          <div id="hint-box" class="mb-4 hidden"></div>
         </div>
 
         <!-- Feedback -->
@@ -84,22 +120,22 @@
       </div>
 
       <div class="text-center mt-4">
-        <button id="quit-btn" class="text-sm text-gray-500 hover:text-gray-700 underline">Quit quiz</button>
+        <button id="quit-btn" class="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 underline">Quit quiz</button>
       </div>
     </section>
 
     <!-- SCREEN: RESULTS -->
     <section id="screen-results" class="hidden fade-in">
-      <div class="bg-white rounded-xl shadow-md p-6 md:p-10 text-center">
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 md:p-10 text-center">
         <div id="results-emoji" class="text-5xl mb-3"></div>
-        <h2 id="results-title" class="text-2xl font-bold text-gray-800 mb-2"></h2>
-        <p id="results-score" class="text-5xl font-extrabold text-indigo-600 mb-2"></p>
-        <p id="results-best" class="text-sm text-gray-500 mb-6"></p>
-        <div id="results-sub" class="text-gray-600 mb-8"></div>
+        <h2 id="results-title" class="text-2xl font-bold text-gray-800 dark:text-white mb-2"></h2>
+        <p id="results-score" class="text-5xl font-extrabold text-indigo-600 dark:text-indigo-400 mb-2"></p>
+        <p id="results-best" class="text-sm text-gray-500 dark:text-gray-400 mb-6"></p>
+        <div id="results-sub" class="text-gray-600 dark:text-gray-300 mb-8"></div>
         <div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
           <button id="again-btn" class="flex-1 py-3 px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold transition-colors">Play Again</button>
-          <button id="missed-btn" class="flex-1 py-3 px-4 bg-white border-2 border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-50 font-semibold transition-colors">Review Missed</button>
-          <button id="home-btn" class="flex-1 py-3 px-4 bg-white border-2 border-gray-300 text-gray-600 rounded-lg hover:bg-gray-50 font-semibold transition-colors">Change Modules</button>
+          <button id="missed-btn" class="flex-1 py-3 px-4 bg-white dark:bg-gray-700 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-600 font-semibold transition-colors">Review Missed</button>
+          <button id="home-btn" class="flex-1 py-3 px-4 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 font-semibold transition-colors">Change Modules</button>
         </div>
       </div>
     </section>
@@ -108,30 +144,30 @@
     <section id="screen-study" class="hidden fade-in">
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-4">
         <div>
-          <h2 class="text-lg font-semibold text-gray-800">Study Mode</h2>
-          <p class="text-sm text-gray-500">Browse the capitals in your selected modules.</p>
+          <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Study Mode</h2>
+          <p class="text-sm text-gray-500 dark:text-gray-400">Browse the capitals in your selected modules.</p>
         </div>
         <div class="flex gap-2">
           <button id="flashcard-btn" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-semibold transition-colors">Flashcards</button>
-          <button id="study-back-btn" class="px-4 py-2 bg-white border border-gray-300 text-gray-600 rounded-lg hover:bg-gray-50 text-sm font-semibold transition-colors">Back</button>
+          <button id="study-back-btn" class="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 text-sm font-semibold transition-colors">Back</button>
         </div>
       </div>
       <input id="study-search" type="text" placeholder="Search country or capital…"
-        class="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-indigo-500 bg-white" />
+        class="w-full px-4 py-2.5 border-2 border-gray-300 dark:border-gray-600 rounded-lg mb-4 focus:outline-none focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
 
       <div id="study-list" class="space-y-5"></div>
 
       <!-- Flashcard view -->
       <div id="flashcard-view" class="hidden">
-        <div class="max-w-md mx-auto bg-white rounded-xl shadow-md p-8 text-center">
-          <p id="fc-module" class="text-xs uppercase tracking-widest text-indigo-500 font-semibold mb-2"></p>
-          <h3 id="fc-question" class="text-2xl md:text-3xl font-bold text-gray-800 mb-6"></h3>
+        <div class="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md p-8 text-center">
+          <p id="fc-module" class="text-xs uppercase tracking-widest text-indigo-500 dark:text-indigo-400 font-semibold mb-2"></p>
+          <h3 id="fc-question" class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-6"></h3>
           <button id="fc-reveal" class="px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold transition-colors mb-4">Reveal Answer</button>
-          <div id="fc-answer" class="hidden text-xl font-semibold text-emerald-600 mb-6"></div>
+          <div id="fc-answer" class="hidden text-xl font-semibold text-emerald-600 dark:text-emerald-400 mb-6"></div>
           <div class="flex items-center justify-center gap-4">
-            <button id="fc-prev" class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors">← Prev</button>
-            <span id="fc-counter" class="text-sm text-gray-500 font-medium"></span>
-            <button id="fc-next" class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors">Next →</button>
+            <button id="fc-prev" class="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">← Prev</button>
+            <span id="fc-counter" class="text-sm text-gray-500 dark:text-gray-400 font-medium"></span>
+            <button id="fc-next" class="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">Next →</button>
           </div>
         </div>
       </div>
@@ -411,6 +447,13 @@
 
   const QUESTION_COUNTS = [10, 20, 50, "all"];
 
+  const DIFFICULTIES = [
+    { id: 'learning', name: 'Learning', emoji: '🎓', color: 'from-teal-400 to-cyan-500', desc: 'Hints reveal the capital letter by letter.' },
+    { id: 'easy',     name: 'Easy',     emoji: '🟢', color: 'from-emerald-400 to-green-500', desc: 'Pick the capital from four multiple-choice options.' },
+    { id: 'medium',   name: 'Medium',   emoji: '🟡', color: 'from-amber-400 to-yellow-500', desc: 'Type it — the first letter is revealed as a hint.' },
+    { id: 'hard',     name: 'Hard',     emoji: '🔴', color: 'from-rose-400 to-red-500', desc: 'Type it — no hints.' }
+  ];
+
   /* ------------------------------------------------------------------ *
    *  Helpers
    *  ------------------------------------------------------------------ */
@@ -449,12 +492,12 @@
     return arr;
   }
 
-  function storageKey(moduleIds, count) {
-    return 'capitals_best_' + [...moduleIds].sort().join('_') + '_' + count;
+  function storageKey(moduleIds, count, diff) {
+    return 'capitals_best_' + [...moduleIds].sort().join('_') + '_' + count + '_' + diff;
   }
 
-  function getBest(moduleIds, count) {
-    const v = localStorage.getItem(storageKey(moduleIds, count));
+  function getBest(moduleIds, count, diff) {
+    const v = localStorage.getItem(storageKey(moduleIds, count, diff));
     return v ? JSON.parse(v) : null;
   }
 
@@ -463,6 +506,7 @@
    *  ------------------------------------------------------------------ */
   let selectedModules = new Set([...COUNTRY_MODULE_IDS]);
   let questionCount = 20;
+  let difficulty = 'medium';
 
   let quiz = null;          // { questions: [...], index, correct, streak, bestStreak, done }
   let missed = [];          // entries answered wrong in last run
@@ -514,8 +558,25 @@
       btn.type = 'button';
       btn.textContent = c === 'all' ? 'All' : String(c);
       btn.className = 'px-4 py-2 rounded-lg border-2 font-semibold transition-colors ' +
-        (questionCount === c ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-white border-gray-300 text-gray-600 hover:border-indigo-400');
+        (questionCount === c ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-indigo-400 dark:hover:border-indigo-500');
       btn.addEventListener('click', () => { questionCount = c; renderCountOptions(); updateActions(); });
+      wrap.appendChild(btn);
+    }
+  }
+
+  function renderDifficulty() {
+    const wrap = $('difficulty-options');
+    wrap.innerHTML = '';
+    for (const d of DIFFICULTIES) {
+      const active = difficulty === d.id;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'relative rounded-xl bg-gradient-to-br ' + d.color + ' text-white p-4 text-left shadow hover:shadow-md hover:-translate-y-0.5 transition-all ' + (active ? 'ring-2 ring-offset-2 ring-indigo-500' : 'opacity-75');
+      btn.innerHTML =
+        '<span class="text-2xl block mb-1.5">' + d.emoji + '</span>' +
+        '<span class="font-bold block">' + d.name + '</span>' +
+        '<span class="text-xs opacity-90 block">' + d.desc + '</span>';
+      btn.addEventListener('click', () => { difficulty = d.id; renderDifficulty(); });
       wrap.appendChild(btn);
     }
   }
@@ -551,15 +612,15 @@
       for (const c of QUESTION_COUNTS) {
         const n = c === 'all' ? total : c;
         if (n > total) continue;
-        const best = getBest(ids, c);
-        if (best && best.best > 0) {
-          rows.push('<span class="inline-block bg-white border border-gray-200 rounded-full px-3 py-1 mr-2 mb-2">' +
-            (c === 'all' ? 'All' : c) + ' questions · best <b class="text-indigo-600">' + best.best + '/' + best.total + '</b> (' + Math.round(100 * best.best / best.total) + '%)</span>');
+         const best = getBest(ids, c, difficulty);
+         if (best && best.best > 0) {
+            rows.push('<span class="inline-block bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full px-3 py-1 mr-2 mb-2">' +
+              (c === 'all' ? 'All' : c) +            ' · ' + difficultyLabel() + ' · best  <b class="text-indigo-600 dark:text-indigo-400">' + best.best + '/' + best.total + '</b> (' + Math.round(100 * best.best / best.total) + '%)</span>');
         }
       }
     }
     box.innerHTML = rows.length
-      ? '<div class="font-semibold text-gray-500 mb-1">Your best scores</div>' + rows.join('')
+      ? '<div class="font-semibold text-gray-500 dark:text-gray-400 mb-1">Your best scores</div>' + rows.join('')
       : 'Complete a quiz to save your best score for each module + question count combo.';
   }
 
@@ -578,10 +639,13 @@
       bestStreak: 0,
       moduleIds,
       count,
+      difficulty,
       isReview: !!questionList,
-      done: false
+      done: false,
+      hintLevels: {}   // per-question hint reveal progress (learning mode)
     };
     missed = [];
+    $('quiz-difficulty').textContent = difficultyLabel();
     show('screen-quiz');
     renderQuestion();
   }
@@ -594,19 +658,108 @@
     $('quiz-progress-bar').style.width = (100 * quiz.index / quiz.questions.length) + '%';
 
     $('question-module').textContent = moduleOf(q.place);
-    $('question-label').textContent = 'What is the capital of…';
+    $('question-label').textContent = labelForDifficulty();
     $('question-text').textContent = q.place;
 
     const fb = $('feedback');
     fb.className = 'hidden text-center mt-6';
     fb.innerHTML = '';
+
+    const d = quiz.difficulty;
+    $('hint-box').classList.toggle('hidden', d !== 'learning' && d !== 'medium');
+    $('mcq-options').classList.toggle('hidden', d !== 'easy');
     const form = $('answer-form');
-    form.classList.remove('hidden');
+    form.classList.toggle('hidden', d === 'easy');
     $('question-wrap').classList.remove('hidden');
-    const input = $('answer-input');
-    input.value = '';
-    input.disabled = false;
-    input.focus();
+
+    // reset per-question hint level
+    quiz.hintLevels[q.place] = 0;
+    quiz.answeredCurrent = false;
+    renderHint(q);
+
+    if (d === 'easy') {
+      renderMcq(q);
+    } else {
+      const input = $('answer-input');
+      input.value = '';
+      input.disabled = false;
+      input.focus();
+    }
+  }
+
+  function labelForDifficulty() {
+    const d = quiz.difficulty;
+    if (d === 'easy') return 'Pick the capital of…';
+    if (d === 'learning') return 'Type the capital of… (hints help)';
+    if (d === 'medium') return 'Type the capital of…';
+    return 'Type the capital of…';
+  }
+
+  // Build the "learning" hint (reveal letters progressively) or "medium" hint (first letter)
+  function renderHint(q) {
+    const box = $('hint-box');
+    const d = quiz.difficulty;
+    const level = quiz.hintLevels[q.place] || 0;
+    box.innerHTML = '';
+    if (d === 'medium') {
+      const first = q.capital.replace(/\s/g, '')[0];
+      box.innerHTML = '<span class="text-sm text-gray-500">Hint: the capital starts with “' + esc(first) + '”</span>';
+      return;
+    }
+    // learning: reveal progressively
+    const letters = q.capital.replace(/[\s']/g, '');
+    if (level <= 0) {
+      const dots = letters.slice(1).replace(/./g, '•');
+      box.innerHTML = '<span class="text-sm text-gray-500">Hint: ' + esc(letters[0] || '') + dots + ' &nbsp; <button id="hint-more" type="button" class="underline text-indigo-600 hover:text-indigo-800">More hints</button></span>';
+    } else {
+      let show = Math.min(letters.length, 1 + Math.floor(level * letters.length / 2));
+      show = Math.max(show, 1);
+      const shown = letters.slice(0, show);
+      const dots = letters.slice(show).replace(/./g, '•');
+      const fully = show >= letters.length;
+      box.innerHTML = '<span class="text-sm text-gray-500">Hint: ' + esc(shown) + (dots ? ' ' + dots : '') + '</span>' +
+        (fully
+          ? '<span class="ml-3 text-xs text-gray-400">(fully revealed)</span>'
+          : ' &nbsp; <button id="hint-more" type="button" class="underline text-indigo-600 hover:text-indigo-800">More hints</button>');
+    }
+    const moreBtn = $('hint-more');
+    if (moreBtn) moreBtn.addEventListener('click', revealHint);
+  }
+
+  function revealHint() {
+    const q = quiz.questions[quiz.index];
+    if (quiz.difficulty !== 'learning') return;
+    quiz.hintLevels[q.place] = (quiz.hintLevels[q.place] || 0) + 1;
+    renderHint(q);
+  }
+
+  // Multiple-choice options (Easy)
+  function renderMcq(q) {
+    const wrap = $('mcq-options');
+    wrap.innerHTML = '';
+    const poolCapitals = allEntries(quiz.moduleIds.includes('world') ? COUNTRY_MODULE_IDS : quiz.moduleIds)
+      .map(e => e.capital + (e.aliases ? ' | ' + e.aliases.join(' | ') : ''))
+      .filter(s => s.toLowerCase() !== q.capital.toLowerCase());
+    shuffle(poolCapitals);
+    const options = [q.capital];
+    for (const s of poolCapitals) {
+      const cap = s.split(' | ')[0];
+      if (options.length >= 4) break;
+      if (options.some(o => normalize(o) === normalize(cap))) continue;
+      options.push(cap);
+    }
+    shuffle(options);
+    for (const opt of options) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'mcq-option text-left w-full sm:w-1/2 lg:w-1/2 xl:w-1/2 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-lg px-4 py-3 font-semibold hover:bg-indigo-50 dark:hover:bg-gray-600 hover:border-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors';
+      btn.textContent = opt;
+      btn.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        submitAnswer(opt);
+      });
+      wrap.appendChild(btn);
+    }
   }
 
   function moduleOf(place) {
@@ -622,6 +775,8 @@
   }
 
   function submitAnswer(value) {
+    if (quiz.answeredCurrent) return;
+    quiz.answeredCurrent = true;
     const q = quiz.questions[quiz.index];
     const answer = value.trim();
     const isCorrect = answer !== '' && checkAnswer(q, answer);
@@ -653,7 +808,8 @@
         '</div>';
     }
 
-    $('answer-form').classList.add('hidden');
+     $('answer-form').classList.add('hidden');
+    $('mcq-options').classList.add('hidden');
     $('question-wrap').classList.add('hidden');
     $('quiz-score').textContent = '✓ ' + quiz.correct;
     $('quiz-streak').textContent = '🔥 ' + quiz.streak;
@@ -692,10 +848,10 @@
 
     const ids = quiz.moduleIds.includes('world') ? ['world'] : [...quiz.moduleIds].sort();
     if (!quiz.isReview) {
-      const best = getBest(ids, quiz.count);
+      const best = getBest(ids, quiz.count, quiz.difficulty);
       const isBest = !best || quiz.correct > best.best;
       if (isBest) {
-        localStorage.setItem(storageKey(ids, quiz.count), JSON.stringify({ best: quiz.correct, total, date: new Date().toISOString() }));
+        localStorage.setItem(storageKey(ids, quiz.count, quiz.difficulty), JSON.stringify({ best: quiz.correct, total, date: new Date().toISOString() }));
       }
       $('results-best').textContent = isBest
         ? '🎉 New best score saved!'
@@ -712,7 +868,7 @@
     const missedBtn = $('missed-btn');
     missedBtn.style.display = missed.length > 0 ? '' : 'none';
 
-    lastRun = { moduleIds: quiz.moduleIds, count: quiz.count };
+    lastRun = { moduleIds: quiz.moduleIds, count: quiz.count, difficulty: quiz.difficulty };
     show('screen-results');
   }
 
@@ -746,22 +902,22 @@
         .filter(e => !q || e.place.toLowerCase().includes(q) || e.capital.toLowerCase().includes(q));
       if (entries.length === 0) continue;
       let html =
-        '<div class="bg-white rounded-xl shadow-md overflow-hidden">' +
+        '<div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">' +
           '<div class="px-4 py-3 bg-gradient-to-r ' + MODULES[id].color + ' text-white flex items-center justify-between">' +
             '<span class="font-bold">' + MODULES[id].emoji + ' ' + MODULES[id].name + '</span>' +
             '<span class="text-xs opacity-90">' + entries.length + '</span>' +
           '</div>' +
           '<table class="w-full text-sm">';
       entries.forEach((e, i) => {
-        html += '<tr class="' + (i % 2 ? 'bg-gray-50' : 'bg-white') + '">' +
-          '<td class="px-4 py-2 font-medium text-gray-800">' + esc(e.place) + '</td>' +
-          '<td class="px-4 py-2 text-gray-500 text-right">' + esc(e.capital) + '</td></tr>';
+        html += '<tr class="' + (i % 2 ? 'bg-gray-50 dark:bg-gray-700' : 'bg-white dark:bg-gray-800') + '">' +
+          '<td class="px-4 py-2 font-medium text-gray-800 dark:text-gray-200">' + esc(e.place) + '</td>' +
+          '<td class="px-4 py-2 text-gray-500 dark:text-gray-400 text-right">' + esc(e.capital) + '</td></tr>';
       });
       html += '</table></div>';
       list.innerHTML += html;
     }
     if (list.innerHTML === '') {
-      list.innerHTML = '<p class="text-center text-gray-500 py-8">No matches for "' + esc($('study-search').value) + '".</p>';
+      list.innerHTML = '<p class="text-center text-gray-500 dark:text-gray-400 py-8">No matches for "' + esc($('study-search').value) + '".</p>';
     }
   }
 
@@ -782,7 +938,7 @@
     $('fc-answer').classList.add('hidden');
     $('fc-counter').textContent = (flash.index + 1) + ' of ' + flash.items.length;
     $('fc-prev').disabled = flash.index === 0;
-    $('fc-prev').className = 'px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-600 transition-colors ' + (flash.index === 0 ? 'opacity-40 cursor-not-allowed' : 'hover:bg-gray-50');
+    $('fc-prev').className = 'px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-300 transition-colors ' + (flash.index === 0 ? 'opacity-40 cursor-not-allowed' : 'hover:bg-gray-50 dark:hover:bg-gray-600');
     $('fc-next').textContent = flash.index === flash.items.length - 1 ? 'Restart' : 'Next →';
   }
 
@@ -804,11 +960,17 @@
       .replace(/"/g, '&quot;');
   }
 
+  function difficultyLabel() {
+    const d = DIFFICULTIES.find(x => x.id === difficulty);
+    return d ? d.emoji + ' ' + d.name : difficulty;
+  }
+
   /* ------------------------------------------------------------------ *
    *  Events
    *  ------------------------------------------------------------------ */
   document.addEventListener('DOMContentLoaded', () => {
     renderModuleGrid();
+    renderDifficulty();
     renderCountOptions();
     updateActions();
     renderBestScores();
@@ -848,10 +1010,18 @@
     $('quit-btn').addEventListener('click', () => show('screen-home'));
 
     $('again-btn').addEventListener('click', () => {
-      if (lastRun) startQuiz(lastRun.moduleIds, lastRun.count);
+      if (lastRun) {
+        difficulty = lastRun.difficulty || difficulty;
+        renderDifficulty();
+        startQuiz(lastRun.moduleIds, lastRun.count);
+      }
     });
     $('missed-btn').addEventListener('click', () => {
-      if (lastRun && missed.length > 0) startQuiz(lastRun.moduleIds, lastRun.count, missed);
+      if (lastRun && missed.length > 0) {
+        difficulty = lastRun.difficulty || difficulty;
+        renderDifficulty();
+        startQuiz(lastRun.moduleIds, lastRun.count, missed);
+      }
     });
     $('home-btn').addEventListener('click', () => show('screen-home'));
   });

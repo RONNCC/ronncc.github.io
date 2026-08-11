@@ -1,0 +1,34 @@
+/* DOM-bound station narration and transport controls. */
+(function (global) {
+  'use strict';
+  var Sim = global.Sim, F = global.Factory, Spec = global.Spec, Render = global.Render;
+  var $ = function (id) { return document.getElementById(id); }, el = {}, active = null, pinned = null, flyTo = null, sheetOpen = false, lastPaint = 0;
+  var ids = ['hud-serial','hud-phase','hud-station','hud-level','hud-cells','hud-note','stage-chip','stage-tag','stage-level','level-track','level-summary','stage-name','stage-short','stage-body','read-progress','read-bar','btn-continue','sheet','log','log-count','station-chips','inspector','sheet-handle','serial','btn-run','btn-play','play-glyph','btn-next','btn-reset','speed','speed-value','follow','labels','btn-panel','tooltip'];
+
+  function init() {
+    ids.forEach(function (id) { el[id] = $(id); });
+    F.LEVELS.forEach(function(level) { var b=document.createElement('button');b.dataset.level=level.number;b.innerHTML='<b>'+level.number+'</b><span>'+level.title+'</span>';b.onclick=function(){var station=byId(level.stations[0]);showStation(station,true);flyTo={x:station.x,y:station.y};};el['level-track'].appendChild(b); });
+    F.STATIONS.forEach(function (s) { var b=document.createElement('button'); b.textContent=s.name; b.dataset.id=s.id; b.onclick=function(){showStation(s,true);flyTo={x:s.x,y:s.y};}; el['station-chips'].appendChild(b); });
+    el['btn-run'].onclick=run; el.serial.onkeydown=function(e){if(e.key==='Enter')run();};
+    el['btn-play'].onclick=function(){Sim.togglePause();paint(true);}; el['btn-next'].onclick=function(){Sim.nextStation();paint(true);}; el['btn-reset'].onclick=run;
+    el['btn-continue'].onclick=function(){Sim.continueStation();};
+    el.speed.oninput=function(){Sim.setSpeed(+el.speed.value);el['speed-value'].textContent=(+el.speed.value).toFixed(1)+'x';};
+    el.labels.onchange=function(){Render.setLabels(el.labels.checked);Sim.setShowLabels(el.labels.checked);};
+    el['btn-panel'].onclick=function(){var hidden=el.inspector.classList.toggle('hidden');document.querySelector('.app-shell').classList.toggle('inspector-hidden',hidden);el['btn-panel'].textContent=hidden?'Show panel':'Hide panel';el['btn-panel'].setAttribute('aria-expanded',String(!hidden));global.dispatchEvent(new Event('resize'));};
+    el['sheet-handle'].onclick=function(){sheetOpen=!sheetOpen;el.inspector.classList.toggle('open',sheetOpen);el['sheet-handle'].setAttribute('aria-expanded',String(sheetOpen));};
+    Sim.on('stationArrive',function(e){active=e.stationId;if(!pinned)showStation(byId(active),false);});
+    Sim.on('reading',function(e){active=e.stationId;if(!pinned)showStation(byId(active),false);});
+    Sim.on('launchStart',function(){active='implantation';pinned=null;});
+    Sim.on('reset',function(){active=null;pinned=null;flyTo=null;});
+  }
+  function byId(id){return F.STATIONS.find(function(s){return s.id===id;});}
+  function run(){var serial=el.serial.value.toUpperCase().replace(/[^A-Z0-9-]/g,'').slice(0,12);if(!serial)serial='SN-001';el.serial.value=serial;Sim.start(serial);active=null;pinned=null;paint(true);}
+  function showStation(s,pin){if(!s)return;pinned=pin?s.id:null;writeCard(s);if(pin&&global.matchMedia('(max-width: 900px)').matches){sheetOpen=true;el.inspector.classList.add('open');}updateChips();}
+  function writeCard(s){var state=Sim.state;el['stage-chip'].textContent=pinned?'pinned':(s.phase||'station');el['stage-chip'].style.color=s.color;el['stage-chip'].style.borderColor=s.color;el['stage-tag'].textContent=s.tag+(pinned?' · tap empty floor to resume':'');el['stage-level'].textContent='Level '+s.level+' · '+s.levelTitle;el['stage-name'].textContent=s.name;el['stage-short'].textContent=s.short;el['stage-body'].innerHTML=s.body.map(function(p){return '<p>'+p+'</p>';}).join('');var waiting=state.phase==='read'&&state.currentStation===s.id;el['btn-continue'].hidden=!waiting;el['read-progress'].hidden=!waiting;}
+  function tooltip(x,y,s){if(!s){el.tooltip.hidden=true;return;}el.tooltip.hidden=false;el.tooltip.innerHTML='<b>'+s.name+'</b>'+s.short;el.tooltip.style.left=Math.min(x+14,global.innerWidth-270)+'px';el.tooltip.style.top=Math.min(y+14,global.innerHeight-80)+'px';}
+  function rows(metrics){return [['Cells',Spec.group(metrics.cells)],['Viability',Spec.pct(metrics.viability)],['Scaffold remaining',Spec.pct(metrics.scaffoldFraction)],['GAG deposition',metrics.gag+' ug/mg'],['Effective modulus',metrics.effectiveModulus+' MPa'],['Maturity',Spec.pct(metrics.maturityIndex)]].map(function(r){return '<div class="row"><span>'+r[0]+'</span><b>'+r[1]+'</b></div>';}).join('');}
+  function updateChips(){Array.prototype.forEach.call(el['station-chips'].children,function(b){b.classList.toggle('on',b.dataset.id===(pinned||active||Sim.state.currentStation));});}
+  function updateLevels(level){Array.prototype.forEach.call(el['level-track'].children,function(b){var n=+b.dataset.level;b.classList.toggle('on',n===level);b.classList.toggle('done',n<level);});}
+  function paint(force){var now=performance.now();if(!force&&now-lastPaint<100)return;lastPaint=now;var s=Sim.state,m=Spec.compute({simHours:s.simHours,stationProgress:s.stationProgress,activeStationId:s.currentStation}),station=byId(s.currentStation)||F.STATIONS[0],level=station.level||1,chapter=F.LEVELS[level-1],complete=chapter.stations.filter(function(id){return s.stationProgress[id]>=1;}).length;el['hud-serial'].textContent=s.serialNumber;el['hud-phase'].textContent=s.phase;el['hud-station'].textContent=s.stage+' / '+F.ORDER.length;el['hud-level'].textContent=level+' / '+F.LEVELS.length;el['level-summary'].textContent=chapter.objective+' Progress: '+complete+' / '+chapter.stations.length+' stations.';el['hud-cells'].textContent=Spec.group(m.cells);el['hud-note'].textContent=s.phase==='read'?'Review the station and press Continue pipeline.':s.paused?'Line paused.':s.phase==='launch'?'Construct is in the implantation sequence.':s.running?'Follow the construct or select any station.':'';el['play-glyph'].textContent=s.paused?'▶':'II';el.sheet.innerHTML=rows(m);el['log-count'].textContent=s.stage+' / '+F.ORDER.length;el.log.innerHTML=F.ORDER.slice(0,s.stage).map(function(id){return '<span class="tok">'+byId(id).name+'</span>';}).join('')||'<span class="tok">No stations completed</span>';var wait=s.phase==='read';el['read-progress'].hidden=!wait;el['btn-continue'].hidden=!wait;if(wait)el['read-bar'].style.width='100%';if(!pinned&&s.currentStation&&s.phase!=='travel'&&s.phase!=='idle')writeCard(station);updateChips();updateLevels(level);}
+  global.UI={init:init,run:run,paint:paint,showStation:showStation,unpin:function(){pinned=null;updateChips();},activeStation:function(){return pinned||active||Sim.state.currentStation;},flyTarget:function(){return flyTo;},clearFlyTo:function(){flyTo=null;},tooltip:tooltip};
+})(window);
