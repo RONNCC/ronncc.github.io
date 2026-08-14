@@ -484,6 +484,25 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
   text-align: center;
 }
 
+.cg-results-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.cg-show-more {
+  padding: .6rem 1rem;
+  border: 1px solid #d4a37b;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--cg-coral);
+  cursor: pointer;
+  font-size: .82rem;
+  font-weight: 800;
+}
+
+.cg-show-more:hover { background: #fff1e3; }
+
 .cg-sf-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -683,6 +702,9 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
       <p class="cg-results-hint">Ratios are guidelines, not café law.</p>
     </div>
     <div class="cg-results" id="cg-results"></div>
+    <div class="cg-results-actions">
+      <button class="cg-show-more" id="cg-show-more" type="button" hidden>Show all menu terms ↓</button>
+    </div>
     <noscript><p class="cg-no-results">This lookup needs JavaScript enabled. The quick ratio map and the shop notes below still work without it.</p></noscript>
   </section>
 
@@ -771,7 +793,7 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
 
   <footer class="cg-sources">
     <p><strong>Sources &amp; caveat.</strong> Classic drink definitions are intentionally approximate: cafés use different cup sizes, shot counts, and milk textures. Seasonal names can disappear or change.</p>
-    <p>Menu vocabulary cross-checked against <a href="https://www.saintfrankcoffee.com/" target="_blank" rel="noopener">Saint Frank</a>, <a href="https://blog.bluebottlecoffee.com/posts/blue-bottle-reopening-menu" target="_blank" rel="noopener">Blue Bottle’s drink menu notes</a>, <a href="https://ritualcoffee.com/news/signature-beverages-fall-23/" target="_blank" rel="noopener">Ritual’s signature-beverage notes</a>, <a href="https://sightglasscoffee.com/blogs/blog/signature-espresso-beverages" target="_blank" rel="noopener">Sightglass’s signature-beverage notes</a>, <a href="https://philzcoffee.com/menu/coffee" target="_blank" rel="noopener">Philz’s coffee menu</a>, <a href="https://lineacaffe.com/drink-menu/" target="_blank" rel="noopener">Linea’s drink menu</a>, <a href="https://vervecoffeeroasters.toast.site/menu/verve-coffee-roasters-pacific-avenue-1540-pacific-avenue" target="_blank" rel="noopener">Verve’s SF menu</a>, <a href="https://order.toasttab.com/online/sausalito-equator" target="_blank" rel="noopener">Equator’s menu</a>, <a href="https://www.fourbarrelcoffee.com/pages/about-us" target="_blank" rel="noopener">Four Barrel</a>, <a href="https://flywheelcoffee.com/" target="_blank" rel="noopener">Flywheel</a>, and <a href="https://sf.eater.com/2019/2/5/18212681/andytown-cafe-downtown-san-francisco-open" target="_blank" rel="noopener">Eater’s Andytown profile</a>.</p>
+    <p>Menu vocabulary cross-checked against <a href="https://www.saintfrankcoffee.com/" target="_blank" rel="noopener">Saint Frank</a>, <a href="https://blog.bluebottlecoffee.com/posts/blue-bottle-reopening-menu" target="_blank" rel="noopener">Blue Bottle’s drink menu notes</a>, <a href="https://ritualcoffee.com/news/signature-beverages-fall-23/" target="_blank" rel="noopener">Ritual’s signature-beverage notes</a>, <a href="https://sightglasscoffee.com/blogs/blog/signature-espresso-beverages" target="_blank" rel="noopener">Sightglass’s signature-beverage notes</a>, <a href="https://philzcoffee.com/menu/coffee" target="_blank" rel="noopener">Philz’s coffee menu</a>, <a href="https://lineacaffe.com/drink-menu/" target="_blank" rel="noopener">Linea’s drink menu</a>, <a href="https://vervecoffeeroasters.toast.site/menu/verve-coffee-roasters-pacific-avenue-1540-pacific-avenue" target="_blank" rel="noopener">Verve’s SF menu</a>, <a href="https://order.toasttab.com/online/equator-coffees-fort-mason" target="_blank" rel="noopener">Equator’s Fort Mason menu</a>, <a href="https://www.fourbarrelcoffee.com/pages/about-us" target="_blank" rel="noopener">Four Barrel</a>, <a href="https://flywheelcoffee.com/" target="_blank" rel="noopener">Flywheel</a>, and <a href="https://sf.eater.com/2019/2/5/18212681/andytown-cafe-downtown-san-francisco-open" target="_blank" rel="noopener">Eater’s Andytown profile</a>.</p>
   </footer>
 </div>
 
@@ -1386,11 +1408,12 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
     noncoffee: "Not coffee"
   };
 
-  var state = { query: "", category: "all", shop: "all" };
+  var state = { query: "", category: "all", shop: "all", showAll: false };
   var search = document.getElementById("cg-search");
   var clear = document.getElementById("cg-clear");
   var results = document.getElementById("cg-results");
   var count = document.getElementById("cg-results-count");
+  var showMore = document.getElementById("cg-show-more");
 
   function escapeHTML(value) {
     return String(value)
@@ -1447,10 +1470,19 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
 
   function render() {
     var visible = drinks.filter(matches);
-    results.innerHTML = visible.length
-      ? visible.map(renderCard).join("")
+    var defaultView = !state.query && state.category === "all" && state.shop === "all";
+    var initialLimit = 18;
+    var shown = defaultView && !state.showAll ? visible.slice(0, initialLimit) : visible;
+    results.innerHTML = shown.length
+      ? shown.map(renderCard).join("")
       : '<div class="cg-no-results">No menu term matched that combination. Try a broader search, or clear one of the filters.</div>';
-    count.innerHTML = '<strong>' + visible.length + '</strong> ' + (visible.length === 1 ? "term" : "terms") + ' shown';
+
+    var resultLabel = visible.length === 1 ? "term" : "terms";
+    count.innerHTML = '<strong>' + visible.length + '</strong> ' + resultLabel + ' found';
+    if (shown.length < visible.length) count.innerHTML += ' <span>· showing ' + shown.length + '</span>';
+
+    showMore.hidden = !(defaultView && visible.length > initialLimit);
+    showMore.textContent = state.showAll ? "Show fewer terms ↑" : "Show all menu terms ↓";
     clear.classList.toggle("is-visible", Boolean(state.query));
   }
 
@@ -1486,6 +1518,11 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
       render();
       document.getElementById("cg-lookup").scrollIntoView({ behavior: "smooth", block: "start" });
     });
+  });
+
+  showMore.addEventListener("click", function () {
+    state.showAll = !state.showAll;
+    render();
   });
 
   search.addEventListener("input", function () {
