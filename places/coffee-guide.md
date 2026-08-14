@@ -476,6 +476,7 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
 .cg-mini-cup[data-category="brewed"] { background: #e5e6f5; }
 .cg-mini-cup[data-category="signature"] { background: #f8dcd0; }
 .cg-mini-cup[data-category="noncoffee"] { background: #e9e8d8; }
+.cg-mini-cup[data-category="world"] { background: #eee2f1; }
 
 .cg-category {
   display: inline-flex;
@@ -495,6 +496,7 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
 .cg-category[data-category="brewed"] { background: #e5e6f5; color: #4f547d; }
 .cg-category[data-category="noncoffee"] { background: #e9e8d8; color: #64643b; }
 .cg-category[data-category="signature"] { background: #f8dcd0; color: #973e28; }
+.cg-category[data-category="world"] { background: #eee2f1; color: #6b4774; }
 
 .cg-card-shops {
   display: flex;
@@ -525,6 +527,36 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
   color: #9b806d;
   font-size: .75rem;
   line-height: 1.4;
+}
+
+.cg-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .3rem;
+  margin: -.2rem 0 .7rem;
+}
+
+.cg-tag {
+  padding: .2rem .45rem;
+  border: 1px solid #ead9c5;
+  border-radius: 999px;
+  background: #fff;
+  color: #8b6d5a;
+  font-size: .66rem;
+  font-weight: 750;
+  line-height: 1.1;
+}
+
+.cg-tag.origin {
+  border-color: #d8c2df;
+  background: #f5eef7;
+  color: #6b4774;
+}
+
+.cg-tag.adult {
+  border-color: #e5b9a8;
+  background: #fff0eb;
+  color: #a8442c;
 }
 
 .cg-meaning {
@@ -609,6 +641,42 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
 .cg-sf-card button { margin-top: .75rem; padding: 0; border: 0; background: transparent; color: var(--cg-coral); cursor: pointer; font-size: .78rem; font-weight: 800; }
 .cg-sf-card button:hover { text-decoration: underline; }
 
+.cg-world-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .75rem;
+}
+
+.cg-world-card {
+  display: flex;
+  min-height: 150px;
+  flex-direction: column;
+  padding: 1rem;
+  border: 1px solid var(--cg-line);
+  border-radius: 16px;
+  background: linear-gradient(145deg, #fff, #fbf4fc);
+}
+
+.cg-world-stamp {
+  display: inline-grid;
+  width: 2.15rem;
+  height: 2.15rem;
+  place-items: center;
+  margin-bottom: .75rem;
+  border: 1px solid #d8c2df;
+  border-radius: 50%;
+  background: #eee2f1;
+  color: #6b4774;
+  font-size: .7rem;
+  font-weight: 900;
+  letter-spacing: .04em;
+}
+
+.cg-world-card h3 { margin: 0 0 .35rem; color: var(--cg-ink); font-size: 1rem; line-height: 1.2; }
+.cg-world-card p { margin: 0; color: var(--cg-muted); font-size: .8rem; line-height: 1.5; }
+.cg-world-card button { margin-top: auto; padding: .65rem 0 0; border: 0; background: transparent; color: var(--cg-coral); cursor: pointer; font-size: .76rem; font-weight: 800; text-align: left; }
+.cg-world-card button:hover { text-decoration: underline; }
+
 .cg-order-card {
   display: grid;
   grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
@@ -653,6 +721,7 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
   .cg-hero-art { order: -1; }
   .cg-hero-art img { max-height: 330px; object-fit: cover; object-position: center; }
   .cg-sf-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cg-world-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .cg-vibes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
@@ -670,6 +739,7 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
   .cg-results-hint { margin-top: .25rem; text-align: left; }
   .cg-results { grid-template-columns: 1fr; }
   .cg-sf-grid { grid-template-columns: 1fr; }
+  .cg-world-grid { grid-template-columns: 1fr; }
   .cg-vibe-head { display: block; }
   .cg-vibe-head p { margin-top: .35rem; }
   .cg-vibes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -808,6 +878,7 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
         <button class="cg-filter" type="button" data-filter="cold" aria-pressed="false">Cold &amp; sparkling</button>
         <button class="cg-filter" type="button" data-filter="signature" aria-pressed="false">SF signatures</button>
         <button class="cg-filter" type="button" data-filter="noncoffee" aria-pressed="false">Not coffee</button>
+        <button class="cg-filter" type="button" data-filter="world" aria-pressed="false">World passport</button>
       </div>
 
       <p class="cg-filter-label">Shop lens</p>
@@ -942,6 +1013,73 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
     </div>
   </section>
 
+  <section class="cg-section" id="cg-world" aria-labelledby="cg-world-title">
+    <div class="cg-section-head">
+      <div>
+        <p class="cg-eyebrow">Coffee passport</p>
+        <h2 id="cg-world-title">The menu gets bigger.</h2>
+      </div>
+      <p>SF borrows freely. If you see one of these names in New York, Spain, Portugal, or somewhere else on a trip, tap the stamp for the little story behind it. Purple tags mark place; red tags mean 21+.</p>
+    </div>
+
+    <div class="cg-world-grid">
+      <article class="cg-world-card">
+        <span class="cg-world-stamp" aria-hidden="true">ES</span>
+        <h3>Spain</h3>
+        <p>Café con leche, bombón, carajillo, café con hielo, manchado, and the endlessly useful café solo.</p>
+        <button type="button" data-region-query="Spain">Open Spain terms →</button>
+      </article>
+      <article class="cg-world-card">
+        <span class="cg-world-stamp" aria-hidden="true">PT</span>
+        <h3>Portugal</h3>
+        <p>Bica, galão, meia de leite, pingado, garoto, and the lemony mazagran.</p>
+        <button type="button" data-region-query="Portugal">Open Portugal terms →</button>
+      </article>
+      <article class="cg-world-card">
+        <span class="cg-world-stamp" aria-hidden="true">NY</span>
+        <h3>New York</h3>
+        <p>Diner “regular coffee,” red eyes, and the egg cream — a soda fountain classic with no egg or cream.</p>
+        <button type="button" data-region-query="New York">Open NYC terms →</button>
+      </article>
+      <article class="cg-world-card">
+        <span class="cg-world-stamp" aria-hidden="true">IT</span>
+        <h3>Italy</h3>
+        <p>Corrected espresso, layered chocolate, and the little rituals behind an Italian bar.</p>
+        <button type="button" data-region-query="Italy">Open Italy terms →</button>
+      </article>
+      <article class="cg-world-card">
+        <span class="cg-world-stamp" aria-hidden="true">AT</span>
+        <h3>Vienna</h3>
+        <p>Whipped cream, melange, tall glasses, and a coffeehouse where the table is part of the order.</p>
+        <button type="button" data-region-query="Austria">Open Vienna terms →</button>
+      </article>
+      <article class="cg-world-card">
+        <span class="cg-world-stamp" aria-hidden="true">GR</span>
+        <h3>Greece</h3>
+        <p>Freddo espresso, freddo cappuccino, and the instant-coffee fizz of a Greek frappé.</p>
+        <button type="button" data-region-query="Greece">Open Greece terms →</button>
+      </article>
+      <article class="cg-world-card">
+        <span class="cg-world-stamp" aria-hidden="true">VN</span>
+        <h3>Vietnam</h3>
+        <p>Phin-brewed coffee with condensed milk, plus egg coffee with a custardy, meringue-like top.</p>
+        <button type="button" data-region-query="Vietnam">Open Vietnam terms →</button>
+      </article>
+      <article class="cg-world-card">
+        <span class="cg-world-stamp" aria-hidden="true">MX</span>
+        <h3>Mexico</h3>
+        <p>Café de olla, carajillo with Licor 43, and coffee drinks that lean into spice and piloncillo.</p>
+        <button type="button" data-region-query="Mexico">Open Mexico terms →</button>
+      </article>
+      <article class="cg-world-card">
+        <span class="cg-world-stamp" aria-hidden="true">∞</span>
+        <h3>More rabbit holes</h3>
+        <p>Turkish coffee, South Indian kaapi, Korean dalgona, German Eiskaffee, and Irish coffee.</p>
+        <button type="button" data-region-query="world">Open the world list →</button>
+      </article>
+    </div>
+  </section>
+
   <section class="cg-section" aria-labelledby="cg-order-title">
     <div class="cg-order-card">
       <h2 id="cg-order-title">A no-stress way to order.</h2>
@@ -954,7 +1092,7 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
 
   <footer class="cg-sources">
     <p><strong>Sources &amp; caveat.</strong> Classic drink definitions are intentionally approximate: cafés use different cup sizes, shot counts, and milk textures. Seasonal names can disappear or change.</p>
-    <p>Menu vocabulary cross-checked against <a href="https://www.saintfrankcoffee.com/" target="_blank" rel="noopener">Saint Frank</a>, <a href="https://blog.bluebottlecoffee.com/posts/blue-bottle-reopening-menu" target="_blank" rel="noopener">Blue Bottle’s drink menu notes</a>, <a href="https://ritualcoffee.com/news/signature-beverages-fall-23/" target="_blank" rel="noopener">Ritual’s signature-beverage notes</a>, <a href="https://sightglasscoffee.com/blogs/blog/signature-espresso-beverages" target="_blank" rel="noopener">Sightglass’s signature-beverage notes</a>, <a href="https://philzcoffee.com/menu/coffee" target="_blank" rel="noopener">Philz’s coffee menu</a>, <a href="https://lineacaffe.com/drink-menu/" target="_blank" rel="noopener">Linea’s drink menu</a>, <a href="https://vervecoffeeroasters.toast.site/menu/verve-coffee-roasters-pacific-avenue-1540-pacific-avenue" target="_blank" rel="noopener">Verve’s SF menu</a>, <a href="https://order.toasttab.com/online/equator-coffees-fort-mason" target="_blank" rel="noopener">Equator’s Fort Mason menu</a>, <a href="https://www.fourbarrelcoffee.com/pages/about-us" target="_blank" rel="noopener">Four Barrel</a>, <a href="https://flywheelcoffee.com/" target="_blank" rel="noopener">Flywheel</a>, <a href="https://www.thecoffeemovement.com/menu" target="_blank" rel="noopener">The Coffee Movement’s menu</a>, <a href="https://dailycoffeenews.com/2021/06/02/abanico-coffee-roasters-is-right-at-home-in-the-mission/" target="_blank" rel="noopener">Daily Coffee News on Abanico</a>, <a href="https://sf.eater.com/2024/3/15/24102109/sextant-coffee-opening-mission-district-cafe" target="_blank" rel="noopener">Eater’s Sextant profile</a>, <a href="https://mazarinecoffee.com/food-print-menu/" target="_blank" rel="noopener">Mazarine’s menu</a>, <a href="https://www.sfchronicle.com/recipes/article/Recipe-Karl-the-Latte-Wrecking-Ball-s-Spiced-6582045.php" target="_blank" rel="noopener">the Karl the Latte recipe</a>, and <a href="https://sf.eater.com/2019/2/5/18212681/andytown-cafe-downtown-san-francisco-open" target="_blank" rel="noopener">Eater’s Andytown profile</a>.</p>
+    <p>Menu vocabulary cross-checked against <a href="https://www.saintfrankcoffee.com/" target="_blank" rel="noopener">Saint Frank</a>, <a href="https://blog.bluebottlecoffee.com/posts/blue-bottle-reopening-menu" target="_blank" rel="noopener">Blue Bottle’s drink menu notes</a>, <a href="https://ritualcoffee.com/news/signature-beverages-fall-23/" target="_blank" rel="noopener">Ritual’s signature-beverage notes</a>, <a href="https://sightglasscoffee.com/blogs/blog/signature-espresso-beverages" target="_blank" rel="noopener">Sightglass’s signature-beverage notes</a>, <a href="https://philzcoffee.com/menu/coffee" target="_blank" rel="noopener">Philz’s coffee menu</a>, <a href="https://lineacaffe.com/drink-menu/" target="_blank" rel="noopener">Linea’s drink menu</a>, <a href="https://vervecoffeeroasters.toast.site/menu/verve-coffee-roasters-pacific-avenue-1540-pacific-avenue" target="_blank" rel="noopener">Verve’s SF menu</a>, <a href="https://order.toasttab.com/online/equator-coffees-fort-mason" target="_blank" rel="noopener">Equator’s Fort Mason menu</a>, <a href="https://www.fourbarrelcoffee.com/pages/about-us" target="_blank" rel="noopener">Four Barrel</a>, <a href="https://flywheelcoffee.com/" target="_blank" rel="noopener">Flywheel</a>, <a href="https://www.thecoffeemovement.com/menu" target="_blank" rel="noopener">The Coffee Movement’s menu</a>, <a href="https://dailycoffeenews.com/2021/06/02/abanico-coffee-roasters-is-right-at-home-in-the-mission/" target="_blank" rel="noopener">Daily Coffee News on Abanico</a>, <a href="https://sf.eater.com/2024/3/15/24102109/sextant-coffee-opening-mission-district-cafe" target="_blank" rel="noopener">Eater’s Sextant profile</a>, <a href="https://mazarinecoffee.com/food-print-menu/" target="_blank" rel="noopener">Mazarine’s menu</a>, <a href="https://www.sfchronicle.com/recipes/article/Recipe-Karl-the-Latte-Wrecking-Ball-s-Spiced-6582045.php" target="_blank" rel="noopener">the Karl the Latte recipe</a>, <a href="https://www.coffee-consulate.com/en/blog/spain" target="_blank" rel="noopener">Coffee Consulate’s Spain glossary</a>, <a href="https://visiteurope.com/experiences/portugal-coffee-culture" target="_blank" rel="noopener">Visit Europe’s Portugal guide</a>, <a href="https://ny.eater.com/2022/10/5/23386042/egg-creams-in-nyc-beanmonger-s-and-p-agis-counter" target="_blank" rel="noopener">Eater NY on egg creams</a>, and <a href="https://sf.eater.com/2019/2/5/18212681/andytown-cafe-downtown-san-francisco-open" target="_blank" rel="noopener">Eater’s Andytown profile</a>.</p>
   </footer>
 </div>
 
@@ -1673,6 +1811,352 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
       order: "a Raf, with cinnamon"
     },
     {
+      name: "Café Solo",
+      aliases: ["cafe solo", "un café", "Spanish espresso"],
+      category: "world",
+      region: "Spain",
+      tags: ["world", "Spain", "black", "espresso"],
+      meaning: "In Spain, “a coffee” often means café solo: a short black espresso. It is the base vocabulary behind cortado, con leche, bombón, and more.",
+      ingredients: "Espresso, usually served black; sugar is offered separately.",
+      order: "un café solo, por favor"
+    },
+    {
+      name: "Café con Leche",
+      aliases: ["cafe con leche", "Spanish coffee with milk", "Spanish latte"],
+      category: "world",
+      region: "Spain",
+      tags: ["world", "Spain", "half milk", "breakfast"],
+      meaning: "Spain’s everyday milk coffee: usually espresso with a generous amount of hot milk, often around half and half. It is the safer local translation of “latte” than asking for a cappuccino.",
+      ingredients: "Espresso or strong coffee + hot or steamed milk; sugar is optional.",
+      order: "un café con leche"
+    },
+    {
+      name: "Café con Hielo",
+      aliases: ["cafe con hielo", "Spanish iced coffee", "coffee over ice"],
+      category: "world",
+      region: "Spain",
+      tags: ["world", "Spain", "cold", "black"],
+      meaning: "The Spanish summer move: order the coffee hot, then pour it over a separate glass of ice. Sweeten before the pour if that is your style.",
+      ingredients: "Espresso or café solo + a separate glass of ice; sugar is optional.",
+      order: "un café con hielo"
+    },
+    {
+      name: "Café Bombón",
+      aliases: ["cafe bombon", "bombón", "espresso condensed milk"],
+      category: "world",
+      region: "Spain",
+      tags: ["world", "Spain", "sweet", "layered"],
+      meaning: "A Valencian sweet treat served in a glass so the dark espresso and pale condensed milk show their layers. Stir it before drinking.",
+      ingredients: "Espresso layered over sweetened condensed milk.",
+      order: "un café bombón"
+    },
+    {
+      name: "Carajillo",
+      aliases: ["Spanish coffee with liquor", "coffee and brandy", "coffee and rum"],
+      category: "world",
+      region: "Spain",
+      tags: ["world", "Spain", "21+", "after dinner"],
+      adult: true,
+      meaning: "An after-dinner coffee with a splash of liquor. Brandy, rum, or whiskey are common; some versions are flambéed, but the name does not guarantee fire.",
+      ingredients: "Espresso or black coffee + brandy, rum, whiskey, or another spirit; sugar may be added.",
+      order: "a carajillo — which spirit do you use?"
+    },
+    {
+      name: "Café Manchado / Sombra",
+      aliases: ["cafe manchado", "manchado", "cafe sombra", "milk stained with coffee"],
+      category: "world",
+      region: "Spain",
+      tags: ["world", "Spain", "mostly milk", "light coffee"],
+      meaning: "The milk-heavy opposite of a cortado: hot milk lightly stained with coffee. Andalusia may call a similar drink café sombra.",
+      ingredients: "Mostly hot or steamed milk + a small amount of espresso.",
+      order: "a café manchado, light on the coffee"
+    },
+    {
+      name: "Barraquito",
+      aliases: ["Canary Islands coffee", "barraquito coffee"],
+      category: "world",
+      region: "Spain",
+      tags: ["world", "Spain", "Canary Islands", "layered", "21+"],
+      adult: true,
+      meaning: "A Canary Islands layered coffee that looks like a tiny dessert and drinks like a spiced coffee cocktail.",
+      ingredients: "Condensed milk + espresso + Licor 43 + steamed milk or foam + lemon peel + cinnamon.",
+      order: "a barraquito"
+    },
+    {
+      name: "Bica / Cimbalino",
+      aliases: ["bica", "cimbalino", "Portuguese espresso", "um café"],
+      category: "world",
+      region: "Portugal",
+      tags: ["world", "Portugal", "black", "espresso", "Lisbon / Porto"],
+      meaning: "Portugal’s small, everyday espresso. In Lisbon it is commonly a bica; in Porto, cimbalino is a local word you may hear.",
+      ingredients: "Portuguese-style espresso, served short and black.",
+      order: "uma bica in Lisbon, or um cimbalino in Porto"
+    },
+    {
+      name: "Pingado / Garoto",
+      aliases: ["pingado", "garoto", "pingo", "Portuguese macchiato"],
+      category: "world",
+      region: "Portugal",
+      tags: ["world", "Portugal", "tiny", "a little milk"],
+      meaning: "A bica with just a little milk. Pingado means dripped; garoto is the small, gently milky version. The exact distinction varies by café and region.",
+      ingredients: "Espresso + a few drops or a small splash of milk or foam.",
+      order: "um pingado — or um garoto, depending on the café"
+    },
+    {
+      name: "Meia de Leite",
+      aliases: ["meia-de-leite", "Portuguese half milk coffee"],
+      category: "world",
+      region: "Portugal",
+      tags: ["world", "Portugal", "half milk", "breakfast"],
+      meaning: "Literally half milk: Portugal’s large-cup, roughly equal coffee-and-milk order. A useful cousin to café au lait.",
+      ingredients: "Coffee or espresso + roughly equal hot milk in a cup.",
+      order: "uma meia de leite"
+    },
+    {
+      name: "Galão",
+      aliases: ["galao", "Portuguese tall coffee", "Portuguese latte"],
+      category: "world",
+      region: "Portugal",
+      tags: ["world", "Portugal", "tall glass", "milky"],
+      meaning: "A tall glass of coffee with lots of foamed milk. Think lighter and taller than meia de leite, with the glass doing some of the storytelling.",
+      ingredients: "Roughly 1 part coffee to 3 parts steamed or foamed milk, usually in a tall glass.",
+      order: "um galão escuro if you want it stronger"
+    },
+    {
+      name: "Mazagran",
+      aliases: ["Portuguese iced coffee", "lemon coffee", "coffee lemonade"],
+      category: "world",
+      region: "Portugal",
+      tags: ["world", "Portugal", "cold", "citrus"],
+      meaning: "A bracing iced coffee with lemon. Its history is tied to Algeria, while Portugal made the name part of its own café vocabulary; recipes wander between coffee, citrus, sugar, mint, and sparkle.",
+      ingredients: "Chilled coffee or espresso + lemon + sugar + ice; tonic, sparkling water, or mint may appear.",
+      order: "a mazagran — what is your house version?"
+    },
+    {
+      name: "Café com Cheirinho",
+      aliases: ["coffee with scent", "Portuguese coffee with aguardente"],
+      category: "world",
+      region: "Portugal",
+      tags: ["world", "Portugal", "21+", "after dinner"],
+      adult: true,
+      meaning: "Portugal’s fragrant after-dinner coffee: the spirit is the “little scent.” It is the Portuguese relative of caffè corretto and carajillo.",
+      ingredients: "Espresso + aguardente or another local spirit; sugar is optional.",
+      order: "um café com cheirinho"
+    },
+    {
+      name: "New York Diner Regular",
+      aliases: ["regular coffee", "coffee regular", "NYC diner coffee"],
+      category: "world",
+      region: "New York",
+      tags: ["world", "New York", "diner", "drip"],
+      meaning: "In a New York diner, “regular coffee” can mean the house drip with the diner’s expected milk or cream and sugar. It is intentionally less precise than a specialty menu.",
+      ingredients: "Drip coffee + milk or cream + sugar, according to the counter’s house convention.",
+      order: "a regular coffee, cream and sugar"
+    },
+    {
+      name: "New York Egg Cream",
+      aliases: ["egg cream", "coffee egg cream", "Bushwick egg cream"],
+      category: "world",
+      region: "New York",
+      tags: ["world", "New York", "soda fountain", "not coffee"],
+      meaning: "A New York soda-fountain classic with neither egg nor cream. Some modern NYC versions add coffee or espresso to the chocolate-syrup-and-seltzer format.",
+      ingredients: "Milk + chocolate or vanilla syrup + seltzer; coffee is an optional modern riff.",
+      order: "an egg cream — and is it the coffee version?"
+    },
+    {
+      name: "Caffè Corretto",
+      aliases: ["caffe corretto", "corrected coffee", "espresso with grappa"],
+      category: "world",
+      region: "Italy",
+      tags: ["world", "Italy", "21+", "after dinner"],
+      adult: true,
+      meaning: "Italian for “corrected” coffee: espresso corrected with a little liquor, often grappa, sambuca, or brandy.",
+      ingredients: "Espresso + a small pour of liqueur or spirit.",
+      order: "a caffè corretto — with grappa, please"
+    },
+    {
+      name: "Bicerin",
+      aliases: ["Turin bicerin", "chocolate espresso cream"],
+      category: "world",
+      region: "Italy",
+      tags: ["world", "Italy", "layered", "dessert"],
+      meaning: "Turin’s layered glass: espresso, hot chocolate, and cream kept distinct so you can see the architecture before stirring.",
+      ingredients: "Espresso + hot chocolate + whipped or lightly poured cream.",
+      order: "a bicerin"
+    },
+    {
+      name: "Einspänner",
+      aliases: ["einspanner", "Viennese whipped-cream coffee"],
+      category: "world",
+      region: "Austria",
+      tags: ["world", "Austria", "Vienna", "whipped cream"],
+      meaning: "A Viennese coffeehouse classic: strong black coffee insulated by a thick crown of whipped cream, traditionally served in a glass.",
+      ingredients: "Double espresso or strong black coffee + whipped cream.",
+      order: "an Einspänner"
+    },
+    {
+      name: "Wiener Melange",
+      aliases: ["Viennese melange", "melange coffee"],
+      category: "world",
+      region: "Austria",
+      tags: ["world", "Austria", "Vienna", "milk"],
+      meaning: "Vienna’s cappuccino-adjacent house classic: coffee softened with steamed milk and a cap of foam. Exact café recipes vary.",
+      ingredients: "Espresso or strong coffee + steamed milk + milk foam.",
+      order: "a Wiener Melange"
+    },
+    {
+      name: "Freddo Espresso / Freddo Cappuccino",
+      aliases: ["freddo", "Greek iced espresso", "Greek iced cappuccino"],
+      category: "world",
+      region: "Greece",
+      tags: ["world", "Greece", "cold", "foam"],
+      meaning: "Greek summer coffee made cold on purpose: espresso is shaken or blended with ice; the cappuccino version adds a layer of cold milk foam.",
+      ingredients: "Espresso + ice; Freddo Cappuccino adds cold-frothed milk foam.",
+      order: "a freddo espresso, no sugar"
+    },
+    {
+      name: "Greek Frappé",
+      aliases: ["frappe", "Nescafé frappé", "Greek instant coffee"],
+      category: "world",
+      region: "Greece",
+      tags: ["world", "Greece", "cold", "shaken"],
+      meaning: "Not a blended dessert by default: Greek frappé is instant coffee shaken with water into a dramatic foam, then poured over ice.",
+      ingredients: "Instant coffee + cold water + sugar optional + ice; milk may be added.",
+      order: "a Greek frappé, medium sweet with milk"
+    },
+    {
+      name: "Cà Phê Sữa Đá",
+      aliases: ["ca phe sua da", "Vietnamese iced coffee", "Vietnamese condensed milk coffee"],
+      category: "world",
+      region: "Vietnam",
+      tags: ["world", "Vietnam", "cold", "condensed milk"],
+      meaning: "Vietnamese iced coffee: intensely brewed coffee meets sweetened condensed milk and ice. Phin means the small metal filter often used to make it.",
+      ingredients: "Phin-brewed robusta coffee + sweetened condensed milk + ice.",
+      order: "cà phê sữa đá"
+    },
+    {
+      name: "Vietnamese Egg Coffee",
+      aliases: ["cà phê trứng", "ca phe trung", "egg coffee"],
+      category: "world",
+      region: "Vietnam",
+      tags: ["world", "Vietnam", "custardy", "dessert"],
+      meaning: "A Hanoi-born dessert-like coffee topped with a whipped egg-yolk mixture. It is closer to a coffee custard than an omelet in a cup.",
+      ingredients: "Strong coffee + whipped egg yolk + condensed milk and sugar.",
+      order: "cà phê trứng"
+    },
+    {
+      name: "Café de Olla",
+      aliases: ["cafe de olla", "Mexican spiced coffee", "piloncillo coffee"],
+      category: "world",
+      region: "Mexico",
+      tags: ["world", "Mexico", "spiced", "black"],
+      meaning: "Mexican spiced coffee traditionally brewed in a clay pot. Piloncillo brings molasses-like sweetness, and cinnamon makes the aroma unmistakable.",
+      ingredients: "Brewed coffee + piloncillo + cinnamon; cloves, orange peel, or star anise may join.",
+      order: "a café de olla"
+    },
+    {
+      name: "Mexican Carajillo 43",
+      aliases: ["carajillo 43", "Licor 43 coffee", "Mexican carajillo"],
+      category: "world",
+      region: "Mexico",
+      tags: ["world", "Mexico", "21+", "cold", "after dinner"],
+      adult: true,
+      meaning: "A modern Mexican bar version of carajillo: espresso and Licor 43 shaken or poured over ice. Vanilla-citrus sweetness makes it easy to mistake for dessert.",
+      ingredients: "Espresso + Licor 43 + ice; shaken or layered.",
+      order: "a carajillo 43"
+    },
+    {
+      name: "Turkish Coffee",
+      aliases: ["Türk kahvesi", "cezve coffee", "ibrik coffee"],
+      category: "world",
+      region: "Turkey",
+      tags: ["world", "Turkey", "unfiltered", "cardamom optional"],
+      meaning: "Very finely ground coffee simmered with water in a cezve or ibrik and poured without filtering. Let the grounds settle before the last sip.",
+      ingredients: "Finely ground coffee + water + sugar optional; cardamom may be added.",
+      order: "a Turkish coffee, medium sweet"
+    },
+    {
+      name: "South Indian Filter Coffee",
+      aliases: ["kaapi", "kapi", "Madras filter coffee"],
+      category: "world",
+      region: "India",
+      tags: ["world", "India", "chicory", "frothy"],
+      meaning: "A strong coffee decoction mixed with hot milk and sugar, then aerated by pouring between a metal tumbler and dabarah. Watch for the little performance.",
+      ingredients: "South Indian filter coffee decoction + milk + sugar; chicory is common.",
+      order: "filter coffee, or kaapi"
+    },
+    {
+      name: "Dalgona Coffee",
+      aliases: ["whipped coffee", "Korean whipped coffee"],
+      category: "world",
+      region: "Korea",
+      tags: ["world", "Korea", "whipped", "cold"],
+      meaning: "Whipped instant coffee foam served over milk. The name nods to a Korean sugar candy, while the drink itself became an internet-era café favorite.",
+      ingredients: "Instant coffee + sugar + hot water whipped into foam over milk and ice.",
+      order: "a Dalgona coffee"
+    },
+    {
+      name: "Eiskaffee",
+      aliases: ["German iced coffee", "ice cream coffee"],
+      category: "world",
+      region: "Germany",
+      tags: ["world", "Germany", "cold", "dessert"],
+      meaning: "German iced coffee is often a dessert: chilled coffee poured with vanilla ice cream and whipped cream, not simply coffee over ice.",
+      ingredients: "Chilled coffee + vanilla ice cream + whipped cream; chocolate shavings are optional.",
+      order: "an Eiskaffee"
+    },
+    {
+      name: "Irish Coffee",
+      aliases: ["Irish coffee cocktail", "whiskey coffee"],
+      category: "world",
+      region: "Ireland",
+      tags: ["world", "Ireland", "21+", "whipped cream"],
+      adult: true,
+      meaning: "A coffee cocktail rather than a café milk drink: whiskey and sugar warm the coffee while cream floats on top.",
+      ingredients: "Hot coffee + Irish whiskey + sugar + lightly whipped cream.",
+      order: "an Irish coffee"
+    },
+    {
+      name: "Yuenyeung",
+      aliases: ["yuanyang", "Hong Kong coffee tea", "coffee milk tea"],
+      category: "world",
+      region: "Hong Kong",
+      tags: ["world", "Hong Kong", "tea + coffee", "milky"],
+      meaning: "Hong Kong’s coffee-and-tea hybrid. The name means mandarin ducks, a pairing that makes the unusual combination feel inevitable.",
+      ingredients: "Coffee + black milk tea + evaporated milk and/or condensed milk.",
+      order: "a yuenyeung, hot or iced"
+    },
+    {
+      name: "Kopi C",
+      aliases: ["Singapore kopi c", "coffee with evaporated milk"],
+      category: "world",
+      region: "Singapore",
+      tags: ["world", "Singapore", "evaporated milk", "sweet"],
+      meaning: "A Singapore kopitiam order: coffee with evaporated milk and sugar. The letter C is the clue that it is not condensed milk kopi.",
+      ingredients: "Strong kopi-style coffee + evaporated milk + sugar.",
+      order: "kopi C, less sweet"
+    },
+    {
+      name: "Café Touba",
+      aliases: ["Touba coffee", "Senegalese spiced coffee"],
+      category: "world",
+      region: "Senegal",
+      tags: ["world", "Senegal", "spiced", "pepper"],
+      meaning: "Senegalese coffee scented with djarr, a peppery spice often compared with grains of paradise. The spice is part of the identity, not a garnish.",
+      ingredients: "Coffee + roasted djarr / grains of paradise; sugar is common.",
+      order: "Café Touba"
+    },
+    {
+      name: "Kopi Joss",
+      aliases: ["charcoal coffee", "Indonesia charcoal coffee"],
+      category: "world",
+      region: "Indonesia",
+      tags: ["world", "Indonesia", "charcoal", "theatrical"],
+      meaning: "A Yogyakarta street-coffee spectacle with a piece of hot charcoal dropped into the cup. It is fun to know about, but not a DIY trick.",
+      ingredients: "Black coffee + sugar + a piece of burning charcoal added at service.",
+      order: "kopi joss — served by a place that knows the tradition"
+    },
+    {
       name: "Matcha Latte",
       aliases: ["iced matcha", "matcha milk"],
       category: "noncoffee",
@@ -1743,7 +2227,8 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
     brewed: "Brewed",
     cold: "Cold / sparkling",
     signature: "SF signature",
-    noncoffee: "Not coffee"
+    noncoffee: "Not coffee",
+    world: "World passport"
   };
 
   var state = { query: "", category: "all", shop: "all", showAll: false };
@@ -1774,6 +2259,8 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
       (item.aliases || []).join(" "),
       item.category,
       (item.shops || []).join(" "),
+      item.region,
+      (item.tags || []).join(" "),
       item.meaning,
       item.ingredients,
       item.order
@@ -1791,13 +2278,14 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
       brewed: "#4f547d",
       cold: "#4d806a",
       signature: "#b75032",
-      noncoffee: "#74804a"
+      noncoffee: "#74804a",
+      world: "#6b4774"
     };
     var fill = fills[item.category] || fills.espresso;
     var glass = item.category === "cold"
       ? '<path d="M9 5h18l-2 25H11L9 5Z" fill="#f5fffb" fill-opacity=".78" stroke="#39735f" stroke-width="1.5"/><path d="M11 17h14l-1 10H12L11 17Z" fill="' + fill + '" opacity=".82"/>'
       : '<path d="M6 10h22l-2 18H10L6 10Z" fill="#fffaf3" stroke="#8b4d2c" stroke-width="1.5"/><path d="M9 15h16v9H11L9 15Z" fill="' + fill + '" opacity=".9"/><ellipse cx="17" cy="14.5" rx="8" ry="2.6" fill="' + fill + '" opacity=".96"/>';
-    var extra = item.category === "signature"
+    var extra = item.category === "signature" || item.category === "world"
       ? '<path d="m28 5 .7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7.7-2Z" fill="#d58c5c"/>'
       : item.category === "brewed"
         ? '<path d="M10 7c2-2 4 2 6 0s4 2 6 0" fill="none" stroke="#8a91bb" stroke-width="1.3" stroke-linecap="round"/>'
@@ -1812,6 +2300,13 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
     var shopTags = (item.shops || []).map(function (shop) {
       return '<span class="cg-shop-tag">' + escapeHTML(shop) + '</span>';
     }).join("");
+    var tagList = (item.tags || []).filter(function (tag) { return tag !== "world"; });
+    var tags = tagList.length
+      ? '<div class="cg-tags">' + tagList.map(function (tag) {
+          var tagClass = tag === item.region ? "origin" : tag === "21+" ? "adult" : "";
+          return '<span class="cg-tag ' + tagClass + '">' + escapeHTML(tag) + '</span>';
+        }).join("") + '</div>'
+      : "";
     var seasonal = item.seasonal ? '<span class="cg-seasonal">Seasonal / recipe may rotate</span>' : "";
     return '<article class="cg-card">' +
       '<div class="cg-card-top">' +
@@ -1822,6 +2317,7 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
       '</div>' +
       '<h3>' + escapeHTML(item.name) + '</h3>' +
       aliases +
+      tags +
       '<p class="cg-meaning">' + escapeHTML(item.meaning) + '</p>' +
       '<div class="cg-detail-box">' +
         '<div class="cg-detail-row"><strong>In the cup</strong><span>' + escapeHTML(item.ingredients) + '</span></div>' +
@@ -1886,6 +2382,20 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
   document.querySelectorAll("[data-vibe-query]").forEach(function (button) {
     button.addEventListener("click", function () {
       state.query = button.getAttribute("data-vibe-query");
+      state.category = "all";
+      state.shop = "all";
+      state.showAll = true;
+      search.value = state.query;
+      setActive("[data-filter]", "data-filter", "all");
+      setActive("[data-shop-filter]", "data-shop-filter", "all");
+      render();
+      document.getElementById("cg-lookup").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  document.querySelectorAll("[data-region-query]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      state.query = button.getAttribute("data-region-query");
       state.category = "all";
       state.shop = "all";
       state.showAll = true;
