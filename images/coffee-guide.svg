@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+  <title id="title">A visual guide to coffee drink ratios</title>
+  <desc id="desc">Five illustrated cups show the progression from espresso to cortado, cappuccino, latte, and cold brew with tonic.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff9f0"/>
+      <stop offset="1" stop-color="#f6e7d2"/>
+    </linearGradient>
+    <linearGradient id="coffee" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6f3821"/>
+      <stop offset="1" stop-color="#32170f"/>
+    </linearGradient>
+    <linearGradient id="milk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff8e9"/>
+      <stop offset="1" stop-color="#e7cda7"/>
+    </linearGradient>
+    <linearGradient id="foam" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fffdf7"/>
+      <stop offset="1" stop-color="#f2ddba"/>
+    </linearGradient>
+    <linearGradient id="tonic" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#dff3e7"/>
+      <stop offset="1" stop-color="#9bd1bb"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#5d321f" flood-opacity=".14"/>
+    </filter>
+    <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#b26c43" opacity=".16"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="430" rx="28" fill="url(#paper)"/>
+  <rect width="1200" height="430" rx="28" fill="url(#dots)"/>
+  <path d="M38 72C198 12 302 90 444 48S752 16 900 69s196-10 262-26" fill="none" stroke="#d58c5c" stroke-width="2" stroke-dasharray="4 10" opacity=".55"/>
+  <text x="56" y="49" fill="#8b4d2c" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" letter-spacing="2.4">THE QUICK RATIO MAP</text>
+  <text x="1143" y="49" text-anchor="end" fill="#8b4d2c" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="1.5">MORE MILK → SOFTER SIP</text>
+
+  <!-- Espresso -->
+  <g transform="translate(112 112)" filter="url(#shadow)">
+    <ellipse cx="72" cy="212" rx="73" ry="12" fill="#c9936d" opacity=".25"/>
+    <path d="M8 116h127l-10 75c-2 15-14 25-29 25H47c-15 0-27-10-29-25z" fill="#fffdf8" stroke="#a95f37" stroke-width="3"/>
+    <ellipse cx="71.5" cy="116" rx="63.5" ry="18" fill="#d7a578" stroke="#a95f37" stroke-width="3"/>
+    <ellipse cx="71.5" cy="114" rx="53" ry="12" fill="url(#coffee)"/>
+    <path d="M37 112c10-8 17 8 27 0s17 8 27 0 17 8 27 0" fill="none" stroke="#d99257" stroke-width="3" opacity=".75"/>
+    <text x="71" y="260" text-anchor="middle" fill="#3b2116" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700">ESPRESSO</text>
+    <text x="71" y="283" text-anchor="middle" fill="#8b4d2c" font-family="Arial, Helvetica, sans-serif" font-size="12">just the shot</text>
+  </g>
+
+  <!-- Cortado -->
+  <g transform="translate(330 112)" filter="url(#shadow)">
+    <ellipse cx="72" cy="212" rx="73" ry="12" fill="#c9936d" opacity=".25"/>
+    <path d="M18 93h108l-9 99c-2 15-10 24-24 24H51c-14 0-22-9-24-24z" fill="#fffdf8" fill-opacity=".6" stroke="#a95f37" stroke-width="3"/>
+    <path d="M21 143h102l-6 49c-2 15-10 24-24 24H51c-14 0-22-9-24-24z" fill="url(#milk)" opacity=".95"/>
+    <path d="M21 139h102v-26c-7-8-18-12-29-12H50c-11 0-22 4-29 12z" fill="url(#coffee)"/>
+    <ellipse cx="72" cy="103" rx="54" ry="11" fill="#8e4b29" opacity=".78"/>
+    <path d="M38 100c8-5 14 6 22 0s14 6 22 0 14 6 22 0" fill="none" stroke="#e0a46d" stroke-width="2.5" opacity=".8"/>
+    <text x="72" y="260" text-anchor="middle" fill="#3b2116" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700">CORTADO</text>
+    <text x="72" y="283" text-anchor="middle" fill="#8b4d2c" font-family="Arial, Helvetica, sans-serif" font-size="12">espresso = milk</text>
+  </g>
+
+  <!-- Cappuccino -->
+  <g transform="translate(548 112)" filter="url(#shadow)">
+    <ellipse cx="72" cy="212" rx="73" ry="12" fill="#c9936d" opacity=".25"/>
+    <path d="M8 116h127l-10 75c-2 15-14 25-29 25H47c-15 0-27-10-29-25z" fill="#fffdf8" stroke="#a95f37" stroke-width="3"/>
+    <path d="M18 153h107l-8 38c-2 15-14 25-29 25H47c-15 0-27-10-29-25z" fill="url(#milk)"/>
+    <path d="M13 117h117c-9-18-23-29-58-29s-49 11-59 29z" fill="url(#foam)" stroke="#a95f37" stroke-width="3"/>
+    <ellipse cx="72" cy="117" rx="59" ry="15" fill="#9a5934"/>
+    <path d="M35 112c11-8 17 8 28 0s17 8 28 0 17 8 28 0" fill="none" stroke="#e4ad76" stroke-width="3" opacity=".78"/>
+    <text x="72" y="260" text-anchor="middle" fill="#3b2116" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700">CAPPUCCINO</text>
+    <text x="72" y="283" text-anchor="middle" fill="#8b4d2c" font-family="Arial, Helvetica, sans-serif" font-size="12">more foam + texture</text>
+  </g>
+
+  <!-- Latte -->
+  <g transform="translate(766 112)" filter="url(#shadow)">
+    <ellipse cx="72" cy="212" rx="73" ry="12" fill="#c9936d" opacity=".25"/>
+    <path d="M8 111h127l-10 80c-2 15-14 25-29 25H47c-15 0-27-10-29-25z" fill="#fffdf8" stroke="#a95f37" stroke-width="3"/>
+    <path d="M18 142h107l-8 49c-2 15-14 25-29 25H47c-15 0-27-10-29-25z" fill="url(#milk)"/>
+    <ellipse cx="71.5" cy="111" rx="63.5" ry="20" fill="url(#foam)" stroke="#a95f37" stroke-width="3"/>
+    <ellipse cx="71.5" cy="114" rx="52" ry="12" fill="#cf9a68" opacity=".85"/>
+    <path d="M47 111c12-14 28 14 41 0" fill="none" stroke="#f9eee0" stroke-width="3" opacity=".9"/>
+    <text x="72" y="260" text-anchor="middle" fill="#3b2116" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700">LATTE</text>
+    <text x="72" y="283" text-anchor="middle" fill="#8b4d2c" font-family="Arial, Helvetica, sans-serif" font-size="12">more milk + microfoam</text>
+  </g>
+
+  <!-- Cold brew tonic -->
+  <g transform="translate(984 112)" filter="url(#shadow)">
+    <ellipse cx="72" cy="212" rx="73" ry="12" fill="#c9936d" opacity=".25"/>
+    <path d="M20 94h104l-8 97c-2 15-10 24-23 24H51c-13 0-21-9-23-24z" fill="url(#tonic)" fill-opacity=".8" stroke="#5e9e80" stroke-width="3"/>
+    <path d="M24 155h96l-4 36c-2 15-10 24-23 24H51c-13 0-21-9-23-24z" fill="url(#coffee)" opacity=".9"/>
+    <path d="M24 150h96c-6-19-18-30-48-30s-42 11-48 30z" fill="#6f3821" opacity=".86"/>
+    <circle cx="43" cy="132" r="5" fill="#fff" opacity=".75"/><circle cx="102" cy="143" r="4" fill="#fff" opacity=".7"/><circle cx="65" cy="157" r="3" fill="#fff" opacity=".8"/><circle cx="91" cy="177" r="4" fill="#fff" opacity=".55"/>
+    <path d="M45 100l15 15M61 99l15 15M77 98l15 15" stroke="#5e9e80" stroke-width="3" stroke-linecap="round"/>
+    <text x="72" y="260" text-anchor="middle" fill="#3b2116" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700">COLD + FIZZ</text>
+    <text x="72" y="283" text-anchor="middle" fill="#8b4d2c" font-family="Arial, Helvetica, sans-serif" font-size="12">tonic / soda + coffee</text>
+  </g>
+
+  <text x="600" y="379" text-anchor="middle" fill="#8b4d2c" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" letter-spacing="1.2">RATIOS VARY BY SHOP — THE IDEA IS THE USEFUL PART</text>
+</svg>
