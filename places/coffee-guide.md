@@ -244,6 +244,71 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
 .cg-callout p { margin: 0; color: #6d4734; font-size: .92rem; line-height: 1.55; }
 .cg-callout strong { color: #4d2d20; }
 
+.cg-vibe-panel {
+  margin-top: 1rem;
+  padding: 1.1rem;
+  border: 1px solid var(--cg-line);
+  border-radius: 18px;
+  background: #fff;
+}
+
+.cg-vibe-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: .8rem;
+}
+
+.cg-vibe-head p { margin: 0; color: var(--cg-muted); font-size: .84rem; }
+.cg-vibe-head strong { color: var(--cg-ink); }
+
+.cg-vibes {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: .55rem;
+}
+
+.cg-vibe {
+  min-width: 0;
+  padding: .7rem .65rem .75rem;
+  border: 1px solid var(--cg-line);
+  border-radius: 13px;
+  background: var(--cg-paper);
+  color: var(--cg-ink);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+
+.cg-vibe:hover {
+  border-color: #d4a37b;
+  box-shadow: 0 7px 16px rgba(77, 45, 26, .08);
+  transform: translateY(-2px);
+}
+
+.cg-vibe-icon {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  margin-bottom: .45rem;
+  border-radius: 10px;
+  background: #f0dfcc;
+  font-size: 1.1rem;
+}
+
+.cg-vibe:nth-child(2) .cg-vibe-icon { background: #e9e8d8; }
+.cg-vibe:nth-child(3) .cg-vibe-icon { background: #dff0ec; }
+.cg-vibe:nth-child(4) .cg-vibe-icon { background: #e5e6f5; }
+.cg-vibe:nth-child(5) .cg-vibe-icon { background: #f8dcd0; }
+.cg-vibe:nth-child(6) .cg-vibe-icon { background: #eee2f1; }
+
+.cg-vibe strong,
+.cg-vibe small { display: block; }
+.cg-vibe strong { font-size: .82rem; line-height: 1.2; }
+.cg-vibe small { margin-top: .25rem; color: var(--cg-muted); font-size: .7rem; line-height: 1.35; }
+
 .cg-search-panel {
   position: sticky;
   top: 12px;
@@ -388,6 +453,29 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
   gap: .65rem;
   min-height: 1.55rem;
 }
+
+.cg-card-kind {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  min-width: 0;
+}
+
+.cg-mini-cup {
+  display: grid;
+  width: 1.8rem;
+  height: 1.8rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 9px;
+  background: #f0dfcc;
+}
+
+.cg-mini-cup svg { display: block; width: 1.35rem; height: 1.35rem; }
+.cg-mini-cup[data-category="cold"] { background: #dff0ec; }
+.cg-mini-cup[data-category="brewed"] { background: #e5e6f5; }
+.cg-mini-cup[data-category="signature"] { background: #f8dcd0; }
+.cg-mini-cup[data-category="noncoffee"] { background: #e9e8d8; }
 
 .cg-category {
   display: inline-flex;
@@ -565,6 +653,7 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
   .cg-hero-art { order: -1; }
   .cg-hero-art img { max-height: 330px; object-fit: cover; object-position: center; }
   .cg-sf-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cg-vibes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 @media screen and (max-width: 700px) {
@@ -581,6 +670,9 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
   .cg-results-hint { margin-top: .25rem; text-align: left; }
   .cg-results { grid-template-columns: 1fr; }
   .cg-sf-grid { grid-template-columns: 1fr; }
+  .cg-vibe-head { display: block; }
+  .cg-vibe-head p { margin-top: .35rem; }
+  .cg-vibes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .cg-order-card { grid-template-columns: 1fr; }
 }
 
@@ -649,6 +741,45 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
       <span class="cg-callout-mark" aria-hidden="true">!</span>
       <p><strong>Two tiny traps:</strong> a <strong>macchiato</strong> traditionally means espresso “marked” with a little foam — not automatically a giant caramel drink. And a <strong>Gibraltar</strong> is essentially a small cortado; in SF, the glass and the local name are part of the fun.</p>
     </div>
+
+    <div class="cg-vibe-panel" aria-label="Choose a coffee mood">
+      <div class="cg-vibe-head">
+        <p><strong>Choose by mood</strong></p>
+        <p>Tap a vibe and the lookup will pull up a starting point.</p>
+      </div>
+      <div class="cg-vibes">
+        <button class="cg-vibe" type="button" data-vibe-query="cortado">
+          <span class="cg-vibe-icon" aria-hidden="true">◐</span>
+          <strong>Bold, balanced</strong>
+          <small>Cortado · Gibraltar</small>
+        </button>
+        <button class="cg-vibe" type="button" data-vibe-query="latte">
+          <span class="cg-vibe-icon" aria-hidden="true">◒</span>
+          <strong>Soft &amp; silky</strong>
+          <small>Latte · flat white</small>
+        </button>
+        <button class="cg-vibe" type="button" data-vibe-query="pour-over">
+          <span class="cg-vibe-icon" aria-hidden="true">⌁</span>
+          <strong>Bright &amp; black</strong>
+          <small>Pour-over · siphon</small>
+        </button>
+        <button class="cg-vibe" type="button" data-vibe-query="tonic">
+          <span class="cg-vibe-icon" aria-hidden="true">✦</span>
+          <strong>Cold &amp; fizzy</strong>
+          <small>Tonic · Snowy Plover</small>
+        </button>
+        <button class="cg-vibe" type="button" data-vibe-query="mocha">
+          <span class="cg-vibe-icon" aria-hidden="true">●</span>
+          <strong>Sweet &amp; cozy</strong>
+          <small>Mocha · Café Miel</small>
+        </button>
+        <button class="cg-vibe" type="button" data-vibe-query="flight">
+          <span class="cg-vibe-icon" aria-hidden="true">◌</span>
+          <strong>Curious</strong>
+          <small>Flight · named blends</small>
+        </button>
+      </div>
+    </div>
   </section>
 
   <section class="cg-section" id="cg-lookup" aria-labelledby="cg-lookup-title">
@@ -694,6 +825,11 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
         <button class="cg-filter" type="button" data-shop-filter="Equator" aria-pressed="false">Equator</button>
         <button class="cg-filter" type="button" data-shop-filter="Wrecking Ball" aria-pressed="false">Wrecking Ball</button>
         <button class="cg-filter" type="button" data-shop-filter="Flywheel" aria-pressed="false">Flywheel</button>
+        <button class="cg-filter" type="button" data-shop-filter="The Coffee Movement" aria-pressed="false">Coffee Movement</button>
+        <button class="cg-filter" type="button" data-shop-filter="Abanico" aria-pressed="false">Abanico</button>
+        <button class="cg-filter" type="button" data-shop-filter="Sextant" aria-pressed="false">Sextant</button>
+        <button class="cg-filter" type="button" data-shop-filter="Pinhole" aria-pressed="false">Pinhole</button>
+        <button class="cg-filter" type="button" data-shop-filter="Mazarine" aria-pressed="false">Mazarine</button>
       </div>
     </div>
 
@@ -778,6 +914,31 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
         <p><strong>Look for:</strong> V60 pour-over, siphon coffee, flash brew, cold brew, and nitro. This is the filter-method rabbit hole.</p>
         <button type="button" data-shop-jump="Flywheel">Show Flywheel terms →</button>
       </article>
+      <article class="cg-sf-card">
+        <h3>The Coffee Movement</h3>
+        <p><strong>Look for:</strong> Piccolo, Cocoa Cappuccino, tasting flights, espresso tonic, orange-vanilla latte, and Coffee Cream Soda.</p>
+        <button type="button" data-shop-jump="The Coffee Movement">Show Coffee Movement terms →</button>
+      </article>
+      <article class="cg-sf-card">
+        <h3>Abanico</h3>
+        <p><strong>Look for:</strong> Café con Morro, Café con Leche, Café con Coco y Choco, Cortadito, café de olla, and Pinolillo.</p>
+        <button type="button" data-shop-jump="Abanico">Show Abanico terms →</button>
+      </article>
+      <article class="cg-sf-card">
+        <h3>Sextant</h3>
+        <p><strong>Look for:</strong> Wired Gandhi, Frosty Gandhi, ginger gasheer, and adeny — East African and Arabian Peninsula coffee traditions in espresso-drink form.</p>
+        <button type="button" data-shop-jump="Sextant">Show Sextant terms →</button>
+      </article>
+      <article class="cg-sf-card">
+        <h3>Pinhole</h3>
+        <p><strong>Look for:</strong> piccolo, shaken iced coffee, single-shot oat lattes, and a friendly neighborhood espresso menu.</p>
+        <button type="button" data-shop-jump="Pinhole">Show Pinhole terms →</button>
+      </article>
+      <article class="cg-sf-card">
+        <h3>Mazarine</h3>
+        <p><strong>Look for:</strong> the Raf — espresso, half-and-half, and cinnamon — plus nitro cold brew and classic downtown espresso drinks.</p>
+        <button type="button" data-shop-jump="Mazarine">Show Mazarine terms →</button>
+      </article>
     </div>
   </section>
 
@@ -793,7 +954,7 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
 
   <footer class="cg-sources">
     <p><strong>Sources &amp; caveat.</strong> Classic drink definitions are intentionally approximate: cafés use different cup sizes, shot counts, and milk textures. Seasonal names can disappear or change.</p>
-    <p>Menu vocabulary cross-checked against <a href="https://www.saintfrankcoffee.com/" target="_blank" rel="noopener">Saint Frank</a>, <a href="https://blog.bluebottlecoffee.com/posts/blue-bottle-reopening-menu" target="_blank" rel="noopener">Blue Bottle’s drink menu notes</a>, <a href="https://ritualcoffee.com/news/signature-beverages-fall-23/" target="_blank" rel="noopener">Ritual’s signature-beverage notes</a>, <a href="https://sightglasscoffee.com/blogs/blog/signature-espresso-beverages" target="_blank" rel="noopener">Sightglass’s signature-beverage notes</a>, <a href="https://philzcoffee.com/menu/coffee" target="_blank" rel="noopener">Philz’s coffee menu</a>, <a href="https://lineacaffe.com/drink-menu/" target="_blank" rel="noopener">Linea’s drink menu</a>, <a href="https://vervecoffeeroasters.toast.site/menu/verve-coffee-roasters-pacific-avenue-1540-pacific-avenue" target="_blank" rel="noopener">Verve’s SF menu</a>, <a href="https://order.toasttab.com/online/equator-coffees-fort-mason" target="_blank" rel="noopener">Equator’s Fort Mason menu</a>, <a href="https://www.fourbarrelcoffee.com/pages/about-us" target="_blank" rel="noopener">Four Barrel</a>, <a href="https://flywheelcoffee.com/" target="_blank" rel="noopener">Flywheel</a>, and <a href="https://sf.eater.com/2019/2/5/18212681/andytown-cafe-downtown-san-francisco-open" target="_blank" rel="noopener">Eater’s Andytown profile</a>.</p>
+    <p>Menu vocabulary cross-checked against <a href="https://www.saintfrankcoffee.com/" target="_blank" rel="noopener">Saint Frank</a>, <a href="https://blog.bluebottlecoffee.com/posts/blue-bottle-reopening-menu" target="_blank" rel="noopener">Blue Bottle’s drink menu notes</a>, <a href="https://ritualcoffee.com/news/signature-beverages-fall-23/" target="_blank" rel="noopener">Ritual’s signature-beverage notes</a>, <a href="https://sightglasscoffee.com/blogs/blog/signature-espresso-beverages" target="_blank" rel="noopener">Sightglass’s signature-beverage notes</a>, <a href="https://philzcoffee.com/menu/coffee" target="_blank" rel="noopener">Philz’s coffee menu</a>, <a href="https://lineacaffe.com/drink-menu/" target="_blank" rel="noopener">Linea’s drink menu</a>, <a href="https://vervecoffeeroasters.toast.site/menu/verve-coffee-roasters-pacific-avenue-1540-pacific-avenue" target="_blank" rel="noopener">Verve’s SF menu</a>, <a href="https://order.toasttab.com/online/equator-coffees-fort-mason" target="_blank" rel="noopener">Equator’s Fort Mason menu</a>, <a href="https://www.fourbarrelcoffee.com/pages/about-us" target="_blank" rel="noopener">Four Barrel</a>, <a href="https://flywheelcoffee.com/" target="_blank" rel="noopener">Flywheel</a>, <a href="https://www.thecoffeemovement.com/menu" target="_blank" rel="noopener">The Coffee Movement’s menu</a>, <a href="https://dailycoffeenews.com/2021/06/02/abanico-coffee-roasters-is-right-at-home-in-the-mission/" target="_blank" rel="noopener">Daily Coffee News on Abanico</a>, <a href="https://sf.eater.com/2024/3/15/24102109/sextant-coffee-opening-mission-district-cafe" target="_blank" rel="noopener">Eater’s Sextant profile</a>, <a href="https://mazarinecoffee.com/food-print-menu/" target="_blank" rel="noopener">Mazarine’s menu</a>, <a href="https://www.sfchronicle.com/recipes/article/Recipe-Karl-the-Latte-Wrecking-Ball-s-Spiced-6582045.php" target="_blank" rel="noopener">the Karl the Latte recipe</a>, and <a href="https://sf.eater.com/2019/2/5/18212681/andytown-cafe-downtown-san-francisco-open" target="_blank" rel="noopener">Eater’s Andytown profile</a>.</p>
   </footer>
 </div>
 
@@ -873,6 +1034,15 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
       meaning: "The San Francisco name for a small, balanced espresso-and-milk drink, traditionally served in a 4.5 oz Gibraltar glass. Most cafés treat it as a cortado twin.",
       ingredients: "Usually a double espresso + a similar amount of lightly textured milk.",
       order: "a Gibraltar — or a cortado if that is what you call it"
+    },
+    {
+      name: "Piccolo Latte",
+      aliases: ["piccolo", "small latte", "ristretto latte"],
+      category: "milk",
+      shops: ["The Coffee Movement", "Pinhole"],
+      meaning: "A tiny latte, often built from a ristretto shot and silky milk in a 3–4 oz glass. It is milkier than a macchiato but much smaller than a normal latte.",
+      ingredients: "Usually 1 ristretto shot + steamed milk with thin microfoam.",
+      order: "a piccolo — how many shots does yours use?"
     },
     {
       name: "Cappuccino",
@@ -965,11 +1135,11 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
       order: "a French press, if you are serving it"
     },
     {
-      name: "Coffee Flight",
-      aliases: ["single-origin flight", "four ways", "tasting flight"],
+      name: "Coffee Flight / Tasting Flight",
+      aliases: ["single-origin flight", "four ways", "tasting flight", "coffee tasting"],
       category: "brewed",
-      shops: ["Saint Frank"],
-      meaning: "Not one drink: a tasting set. Saint Frank has used “single origin coffee four ways” for a small tour of how the same coffee changes across preparations.",
+      shops: ["Saint Frank", "The Coffee Movement"],
+      meaning: "Not one drink: a tasting set. Saint Frank has used “single origin coffee four ways,” while The Coffee Movement offers three pours or one coffee prepared three ways. It is coffee as a tiny field trip.",
       ingredients: "Several small coffees, often espresso, filter, pour-over, or other brew methods.",
       order: "the coffee flight — what is included today?"
     },
@@ -993,9 +1163,9 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
     },
     {
       name: "Nitro Cold Brew",
-      aliases: ["nitro", "nitrogen coffee"],
+      aliases: ["nitro", "nitrogen coffee", "nitro flash brew"],
       category: "cold",
-      shops: ["Saint Frank", "Ritual", "Four Barrel"],
+      shops: ["Saint Frank", "Ritual", "Four Barrel", "Mazarine", "Flywheel", "Verve"],
       meaning: "Cold brew infused with nitrogen through a tap. The tiny bubbles give it a creamy-looking pour without dairy.",
       ingredients: "Cold brew + nitrogen; milk is optional.",
       order: "a nitro cold brew"
@@ -1013,7 +1183,7 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
       name: "Espresso Tonic / Kaffe Tonic",
       aliases: ["coffee tonic", "tonic coffee", "iced espresso tonic"],
       category: "cold",
-      shops: ["Saint Frank", "Sightglass", "Linea", "Verve", "Equator"],
+      shops: ["Saint Frank", "Sightglass", "Linea", "Verve", "Equator", "The Coffee Movement", "Wrecking Ball"],
       meaning: "A bright, bitter, fizzy drink: espresso poured over tonic and ice. Kaffe Tonic is Saint Frank’s local-flavored name for the idea.",
       ingredients: "Espresso + tonic water + ice; citrus garnish is a common extra.",
       order: "a Kaffe Tonic — espresso over tonic, right?"
@@ -1335,6 +1505,174 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
       order: "Pillow Fight as espresso, please"
     },
     {
+      name: "Cortadito",
+      aliases: ["sweet cortado", "cortadito cubano"],
+      category: "signature",
+      shops: ["Abanico"],
+      meaning: "A cortado’s sweeter Cuban cousin: the espresso-and-milk balance is still small and strong, but condensed milk makes it richer and sweeter.",
+      ingredients: "Equal parts espresso and milk + sweetened condensed milk.",
+      order: "a Cortadito — is it sweetened with condensed milk?"
+    },
+    {
+      name: "Café con Leche",
+      aliases: ["cafe con leche", "coffee with milk"],
+      category: "signature",
+      shops: ["Abanico"],
+      meaning: "Literally coffee with milk. At Abanico, it is a sweetened latte-style drink with a cinnamon finish, connecting a familiar espresso drink to Latin American café tradition.",
+      ingredients: "Espresso + steamed milk + condensed milk or house sweetness + cinnamon.",
+      order: "a Café con Leche, with the cinnamon"
+    },
+    {
+      name: "Iced Café de Olla",
+      aliases: ["cafe de olla", "iced cafe de olla", "cinnamon piloncillo coffee"],
+      category: "signature",
+      shops: ["Abanico"],
+      seasonal: true,
+      meaning: "A flash-brewed iced coffee inspired by the Mexican spiced-pot tradition. The menu name points to the sweetener and spice, not a milk ratio.",
+      ingredients: "Flash-brewed iced coffee + piloncillo syrup + cinnamon; milk is not the main event.",
+      order: "an Iced Café de Olla"
+    },
+    {
+      name: "Café con Morro",
+      aliases: ["cafe con morro", "morro latte", "Salvadoran horchata coffee"],
+      category: "signature",
+      shops: ["Abanico"],
+      meaning: "Abanico’s signature latte with Salvadoran character. Morro seeds bring a nutty, spiced horchata-like note; this is not the same as rice horchata.",
+      ingredients: "Espresso + milk + morro-seed syrup or horchata + allspice; often finished with ground morro.",
+      order: "a Café con Morro"
+    },
+    {
+      name: "Café con Coco y Choco",
+      aliases: ["coco y choco", "coconut chocolate latte"],
+      category: "signature",
+      shops: ["Abanico"],
+      meaning: "A coconut-and-chocolate latte that makes the dessert cue explicit without losing the espresso base.",
+      ingredients: "Espresso + milk + sweetened condensed coconut milk + cacao.",
+      order: "a Café con Coco y Choco"
+    },
+    {
+      name: "Pinolillo",
+      aliases: ["cacao corn drink", "pinolillo latte"],
+      category: "noncoffee",
+      shops: ["Abanico"],
+      meaning: "A traditional Nicaraguan-style cacao-and-corn drink, not an espresso drink. It is a great café-menu example of “coffee shop” not meaning everything contains coffee.",
+      ingredients: "Cacao + purple heirloom corn + cinnamon + allspice + anise + piloncillo syrup.",
+      order: "a Pinolillo"
+    },
+    {
+      name: "Con ‘Espumita’ Cubana",
+      aliases: ["Cuban espumita", "sugar foam espresso", "espumita"],
+      category: "signature",
+      shops: ["Abanico"],
+      meaning: "A tiny espresso sweetened with a whipped sugar foam. The magic is the texture: turbinado sugar is beaten into a light, spoonable cap.",
+      ingredients: "Espresso + whipped turbinado sugar foam.",
+      order: "the Con ‘Espumita’ Cubana"
+    },
+    {
+      name: "Cocoa Cappuccino",
+      aliases: ["cocoa cap", "chocolate cappuccino"],
+      category: "signature",
+      shops: ["The Coffee Movement"],
+      meaning: "The Coffee Movement’s simple signature: a cappuccino made more playful with dark chocolate dust. It is still a cappuccino, not a mocha unless chocolate is mixed into the drink.",
+      ingredients: "Espresso + steamed milk + microfoam + dark chocolate dust.",
+      order: "a Cocoa Cappuccino"
+    },
+    {
+      name: "Coffee Cream Soda",
+      aliases: ["espresso cream soda", "coffee soda", "orange vanilla cream soda"],
+      category: "cold",
+      shops: ["The Coffee Movement"],
+      seasonal: true,
+      meaning: "A coffee-shop soda with espresso, tonic-like fizz, citrus, vanilla, and a creamy finish. It is a close cousin to a Snowy Plover, but a different house recipe.",
+      ingredients: "Espresso + tonic water + orange zest + vanilla bean + coconut whipped cream.",
+      order: "the Coffee Cream Soda — is it currently seasonal?"
+    },
+    {
+      name: "Coffee Movement seasonal lattes",
+      aliases: ["Vanilla Rosemary Latte", "Vanilla Lavender Latte", "Orange Vanilla Latte", "Ginger Spice Latte"],
+      category: "signature",
+      shops: ["The Coffee Movement"],
+      seasonal: true,
+      meaning: "Rotating lattes that use the espresso-and-milk template as a canvas for herb, citrus, vanilla, or warming spice.",
+      ingredients: "Espresso + milk + the current house syrup or infusion; rosemary, lavender, orange zest, or ginger spice may rotate.",
+      order: "the seasonal latte — what is the flavor today?"
+    },
+    {
+      name: "Espresso Mule",
+      aliases: ["coffee mule", "ginger espresso soda"],
+      category: "cold",
+      shops: ["The Coffee Movement"],
+      seasonal: true,
+      meaning: "A seasonal espresso-and-ginger-soda riff on a Moscow Mule. Expect something sharp and refreshing rather than creamy; ask about the current citrus and mixer.",
+      ingredients: "Espresso + ginger beer or ginger soda + citrus; the house build rotates.",
+      order: "an Espresso Mule — what is in the current build?"
+    },
+    {
+      name: "Wrecking Ball Karl the Latte",
+      aliases: ["Karl the Fog", "Karl the Latte", "spiced almond milk latte"],
+      category: "signature",
+      shops: ["Wrecking Ball"],
+      seasonal: true,
+      meaning: "A smoky, spiced Wrecking Ball latte. The “fog” nickname is a San Francisco wink; the drink itself is tea, spice, honey, espresso, and almond milk.",
+      ingredients: "Lapsang souchong tea + cardamom + dark cocoa + espresso + honey + almond milk.",
+      order: "Karl the Latte — if it is on the menu"
+    },
+    {
+      name: "Sextant Wired Gandhi",
+      aliases: ["Wired Gandhi", "spiced dirty chai"],
+      category: "signature",
+      shops: ["Sextant"],
+      meaning: "A Sextant drink inspired by East African and Arabian Peninsula flavors. It drinks like a spicier dirty chai, with espresso and warming aromatics.",
+      ingredients: "Espresso + spiced tea / chai-like milk base; the exact seasonal recipe is house-specific.",
+      order: "a Wired Gandhi"
+    },
+    {
+      name: "Sextant Frosty Gandhi",
+      aliases: ["Frosty Gandhi", "peppermint Gandhi"],
+      category: "signature",
+      shops: ["Sextant"],
+      seasonal: true,
+      meaning: "The Wired Gandhi with a cool peppermint turn. It is a latte riff, not a frozen blended drink.",
+      ingredients: "Wired Gandhi base + peppermint syrup or infusion + milk.",
+      order: "a Frosty Gandhi"
+    },
+    {
+      name: "Sextant Ginger Gasheer",
+      aliases: ["ginger gasheer", "ginger black coffee"],
+      category: "signature",
+      shops: ["Sextant"],
+      meaning: "A black-coffee drink with fresh ginger from Sextant’s East African / Middle Eastern-inspired menu. Ginger is the point, not a flavored latte afterthought.",
+      ingredients: "Black coffee + fresh ginger; preparation and sweetness may vary.",
+      order: "Ginger Gasheer, black if possible"
+    },
+    {
+      name: "Sextant Adeny",
+      aliases: ["adeny coffee", "cardamom star anise coffee"],
+      category: "signature",
+      shops: ["Sextant"],
+      meaning: "A coffee named for the Port of Eden / Aden tradition, with aromatic spice rather than chocolate or caramel as its main signal.",
+      ingredients: "Coffee + cardamom + star anise; ask whether it is served black or with milk today.",
+      order: "an Adeny — how is it prepared today?"
+    },
+    {
+      name: "Pinhole Shaken Iced Coffee",
+      aliases: ["shaken iced coffee", "single-shot oat latte"],
+      category: "cold",
+      shops: ["Pinhole"],
+      meaning: "Pinhole menu language for a cold coffee made with movement and ice. The exact base can change, so ask whether today’s version is brewed coffee or espresso-forward.",
+      ingredients: "Coffee or espresso + ice, shaken; milk or sweetness may be added by the current recipe.",
+      order: "the shaken iced coffee — what is the base today?"
+    },
+    {
+      name: "Mazarine Raf",
+      aliases: ["Raf", "raf coffee", "cinnamon cream coffee"],
+      category: "signature",
+      shops: ["Mazarine"],
+      meaning: "A glossy, creamy espresso drink with Russian roots that Mazarine made part of the downtown SF vocabulary. It is richer than a latte because half-and-half gets steamed into the espresso.",
+      ingredients: "Espresso + half-and-half + cinnamon; some versions add sugar or honey.",
+      order: "a Raf, with cinnamon"
+    },
+    {
       name: "Matcha Latte",
       aliases: ["iced matcha", "matcha milk"],
       category: "noncoffee",
@@ -1425,7 +1763,9 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
   }
 
   function normalize(value) {
-    return String(value).toLowerCase().replace(/[-_/]+/g, " ").replace(/\s+/g, " ").trim();
+    var text = String(value).toLowerCase();
+    if (text.normalize) text = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    return text.replace(/[-_/]+/g, " ").replace(/\s+/g, " ").trim();
   }
 
   function matches(item) {
@@ -1444,6 +1784,27 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
     return queryMatch && categoryMatch && shopMatch;
   }
 
+  function renderMiniCup(item) {
+    var fills = {
+      espresso: "#65331f",
+      milk: "#bf6d3d",
+      brewed: "#4f547d",
+      cold: "#4d806a",
+      signature: "#b75032",
+      noncoffee: "#74804a"
+    };
+    var fill = fills[item.category] || fills.espresso;
+    var glass = item.category === "cold"
+      ? '<path d="M9 5h18l-2 25H11L9 5Z" fill="#f5fffb" fill-opacity=".78" stroke="#39735f" stroke-width="1.5"/><path d="M11 17h14l-1 10H12L11 17Z" fill="' + fill + '" opacity=".82"/>'
+      : '<path d="M6 10h22l-2 18H10L6 10Z" fill="#fffaf3" stroke="#8b4d2c" stroke-width="1.5"/><path d="M9 15h16v9H11L9 15Z" fill="' + fill + '" opacity=".9"/><ellipse cx="17" cy="14.5" rx="8" ry="2.6" fill="' + fill + '" opacity=".96"/>';
+    var extra = item.category === "signature"
+      ? '<path d="m28 5 .7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7.7-2Z" fill="#d58c5c"/>'
+      : item.category === "brewed"
+        ? '<path d="M10 7c2-2 4 2 6 0s4 2 6 0" fill="none" stroke="#8a91bb" stroke-width="1.3" stroke-linecap="round"/>'
+        : '';
+    return '<span class="cg-mini-cup" data-category="' + escapeHTML(item.category) + '" aria-hidden="true"><svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">' + glass + extra + '</svg></span>';
+  }
+
   function renderCard(item) {
     var aliases = item.aliases && item.aliases.length
       ? '<p class="cg-aliases">Also called: ' + escapeHTML(item.aliases.join(" · ")) + '</p>'
@@ -1454,7 +1815,9 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
     var seasonal = item.seasonal ? '<span class="cg-seasonal">Seasonal / recipe may rotate</span>' : "";
     return '<article class="cg-card">' +
       '<div class="cg-card-top">' +
-        '<span class="cg-category" data-category="' + escapeHTML(item.category) + '">' + escapeHTML(categoryLabels[item.category]) + '</span>' +
+        '<div class="cg-card-kind">' + renderMiniCup(item) +
+          '<span class="cg-category" data-category="' + escapeHTML(item.category) + '">' + escapeHTML(categoryLabels[item.category]) + '</span>' +
+        '</div>' +
         '<div class="cg-card-shops">' + shopTags + '</div>' +
       '</div>' +
       '<h3>' + escapeHTML(item.name) + '</h3>' +
@@ -1515,6 +1878,20 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
     button.addEventListener("click", function () {
       state.shop = button.getAttribute("data-shop-jump");
       setActive("[data-shop-filter]", "data-shop-filter", state.shop);
+      render();
+      document.getElementById("cg-lookup").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  document.querySelectorAll("[data-vibe-query]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      state.query = button.getAttribute("data-vibe-query");
+      state.category = "all";
+      state.shop = "all";
+      state.showAll = true;
+      search.value = state.query;
+      setActive("[data-filter]", "data-filter", "all");
+      setActive("[data-shop-filter]", "data-shop-filter", "all");
       render();
       document.getElementById("cg-lookup").scrollIntoView({ behavior: "smooth", block: "start" });
     });
