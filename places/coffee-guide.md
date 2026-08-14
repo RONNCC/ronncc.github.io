@@ -559,6 +559,16 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
   color: #a8442c;
 }
 
+button.cg-tag {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+button.cg-tag:hover {
+  border-color: #c89670;
+  background: #fff1e3;
+}
+
 .cg-meaning {
   margin: 0 0 .85rem;
   color: var(--cg-muted);
@@ -767,6 +777,7 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
       <div class="cg-hero-links" aria-label="Guide sections">
         <a href="#cg-decoder">Start with the ratio ↓</a>
         <a href="#cg-lookup">Look up a drink ↓</a>
+        <a href="#cg-world">World passport ↓</a>
       </div>
       <p class="cg-updated">Classic definitions + SF menu sightings · last checked August 14, 2026</p>
     </div>
@@ -1077,6 +1088,36 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
         <p>Turkish coffee, South Indian kaapi, Korean dalgona, German Eiskaffee, and Irish coffee.</p>
         <button type="button" data-region-query="world">Open the world list →</button>
       </article>
+      <article class="cg-world-card">
+        <span class="cg-world-stamp" aria-hidden="true">FR</span>
+        <h3>France</h3>
+        <p>Noisette, crème, allongé, and the reminder that “un café” usually means espresso.</p>
+        <button type="button" data-region-query="France">Open France terms →</button>
+      </article>
+      <article class="cg-world-card">
+        <span class="cg-world-stamp" aria-hidden="true">AU</span>
+        <h3>Australia + NZ</h3>
+        <p>Magic and long black: tiny, coffee-forward drinks with strong opinions about ratio.</p>
+        <button type="button" data-region-query="Australia">Open Australia terms →</button>
+      </article>
+      <article class="cg-world-card">
+        <span class="cg-world-stamp" aria-hidden="true">CU</span>
+        <h3>Cuba</h3>
+        <p>Cafecito, colada, cortadito, and espumita — coffee as a sweet social ritual.</p>
+        <button type="button" data-region-query="Cuba">Open Cuba terms →</button>
+      </article>
+      <article class="cg-world-card">
+        <span class="cg-world-stamp" aria-hidden="true">MA</span>
+        <h3>Morocco</h3>
+        <p>Nous nous means half-half: espresso and milk in a small glass, often with sugar.</p>
+        <button type="button" data-region-query="Morocco">Open Morocco terms →</button>
+      </article>
+      <article class="cg-world-card">
+        <span class="cg-world-stamp" aria-hidden="true">ET</span>
+        <h3>Ethiopia</h3>
+        <p>Buna is more than a cup: roasting, incense, a jebena, and three rounds of shared coffee.</p>
+        <button type="button" data-region-query="Ethiopia">Open Ethiopia terms →</button>
+      </article>
     </div>
   </section>
 
@@ -1092,7 +1133,7 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
 
   <footer class="cg-sources">
     <p><strong>Sources &amp; caveat.</strong> Classic drink definitions are intentionally approximate: cafés use different cup sizes, shot counts, and milk textures. Seasonal names can disappear or change.</p>
-    <p>Menu vocabulary cross-checked against <a href="https://www.saintfrankcoffee.com/" target="_blank" rel="noopener">Saint Frank</a>, <a href="https://blog.bluebottlecoffee.com/posts/blue-bottle-reopening-menu" target="_blank" rel="noopener">Blue Bottle’s drink menu notes</a>, <a href="https://ritualcoffee.com/news/signature-beverages-fall-23/" target="_blank" rel="noopener">Ritual’s signature-beverage notes</a>, <a href="https://sightglasscoffee.com/blogs/blog/signature-espresso-beverages" target="_blank" rel="noopener">Sightglass’s signature-beverage notes</a>, <a href="https://philzcoffee.com/menu/coffee" target="_blank" rel="noopener">Philz’s coffee menu</a>, <a href="https://lineacaffe.com/drink-menu/" target="_blank" rel="noopener">Linea’s drink menu</a>, <a href="https://vervecoffeeroasters.toast.site/menu/verve-coffee-roasters-pacific-avenue-1540-pacific-avenue" target="_blank" rel="noopener">Verve’s SF menu</a>, <a href="https://order.toasttab.com/online/equator-coffees-fort-mason" target="_blank" rel="noopener">Equator’s Fort Mason menu</a>, <a href="https://www.fourbarrelcoffee.com/pages/about-us" target="_blank" rel="noopener">Four Barrel</a>, <a href="https://flywheelcoffee.com/" target="_blank" rel="noopener">Flywheel</a>, <a href="https://www.thecoffeemovement.com/menu" target="_blank" rel="noopener">The Coffee Movement’s menu</a>, <a href="https://dailycoffeenews.com/2021/06/02/abanico-coffee-roasters-is-right-at-home-in-the-mission/" target="_blank" rel="noopener">Daily Coffee News on Abanico</a>, <a href="https://sf.eater.com/2024/3/15/24102109/sextant-coffee-opening-mission-district-cafe" target="_blank" rel="noopener">Eater’s Sextant profile</a>, <a href="https://mazarinecoffee.com/food-print-menu/" target="_blank" rel="noopener">Mazarine’s menu</a>, <a href="https://www.sfchronicle.com/recipes/article/Recipe-Karl-the-Latte-Wrecking-Ball-s-Spiced-6582045.php" target="_blank" rel="noopener">the Karl the Latte recipe</a>, <a href="https://www.coffee-consulate.com/en/blog/spain" target="_blank" rel="noopener">Coffee Consulate’s Spain glossary</a>, <a href="https://visiteurope.com/experiences/portugal-coffee-culture" target="_blank" rel="noopener">Visit Europe’s Portugal guide</a>, <a href="https://ny.eater.com/2022/10/5/23386042/egg-creams-in-nyc-beanmonger-s-and-p-agis-counter" target="_blank" rel="noopener">Eater NY on egg creams</a>, and <a href="https://sf.eater.com/2019/2/5/18212681/andytown-cafe-downtown-san-francisco-open" target="_blank" rel="noopener">Eater’s Andytown profile</a>.</p>
+    <p>Menu vocabulary cross-checked against <a href="https://www.saintfrankcoffee.com/" target="_blank" rel="noopener">Saint Frank</a>, <a href="https://blog.bluebottlecoffee.com/posts/blue-bottle-reopening-menu" target="_blank" rel="noopener">Blue Bottle’s drink menu notes</a>, <a href="https://ritualcoffee.com/news/signature-beverages-fall-23/" target="_blank" rel="noopener">Ritual’s signature-beverage notes</a>, <a href="https://sightglasscoffee.com/blogs/blog/signature-espresso-beverages" target="_blank" rel="noopener">Sightglass’s signature-beverage notes</a>, <a href="https://philzcoffee.com/menu/coffee" target="_blank" rel="noopener">Philz’s coffee menu</a>, <a href="https://lineacaffe.com/drink-menu/" target="_blank" rel="noopener">Linea’s drink menu</a>, <a href="https://vervecoffeeroasters.toast.site/menu/verve-coffee-roasters-pacific-avenue-1540-pacific-avenue" target="_blank" rel="noopener">Verve’s SF menu</a>, <a href="https://order.toasttab.com/online/equator-coffees-fort-mason" target="_blank" rel="noopener">Equator’s Fort Mason menu</a>, <a href="https://www.fourbarrelcoffee.com/pages/about-us" target="_blank" rel="noopener">Four Barrel</a>, <a href="https://flywheelcoffee.com/" target="_blank" rel="noopener">Flywheel</a>, <a href="https://www.thecoffeemovement.com/menu" target="_blank" rel="noopener">The Coffee Movement’s menu</a>, <a href="https://dailycoffeenews.com/2021/06/02/abanico-coffee-roasters-is-right-at-home-in-the-mission/" target="_blank" rel="noopener">Daily Coffee News on Abanico</a>, <a href="https://sf.eater.com/2024/3/15/24102109/sextant-coffee-opening-mission-district-cafe" target="_blank" rel="noopener">Eater’s Sextant profile</a>, <a href="https://mazarinecoffee.com/food-print-menu/" target="_blank" rel="noopener">Mazarine’s menu</a>, <a href="https://www.sfchronicle.com/recipes/article/Recipe-Karl-the-Latte-Wrecking-Ball-s-Spiced-6582045.php" target="_blank" rel="noopener">the Karl the Latte recipe</a>, <a href="https://www.coffee-consulate.com/en/blog/spain" target="_blank" rel="noopener">Coffee Consulate’s Spain glossary</a>, <a href="https://visiteurope.com/experiences/portugal-coffee-culture" target="_blank" rel="noopener">Visit Europe’s Portugal guide</a>, <a href="https://ny.eater.com/2022/10/5/23386042/egg-creams-in-nyc-beanmonger-s-and-p-agis-counter" target="_blank" rel="noopener">Eater NY on egg creams</a>, <a href="https://gosimplyfrench.com/blog/how-to-order-coffee-in-french-and-sound-like-a-local/31dcd2e1-d4c4-80aa-a307-f53c31abd3ab" target="_blank" rel="noopener">a French café glossary</a>, <a href="https://coffeewise.com.au/what-is-magic-coffee/" target="_blank" rel="noopener">an Australian magic guide</a>, <a href="https://cubancoffeequeen.com/company/what-is-cuban-coffee/make-your-own/cafe-colada/" target="_blank" rel="noopener">Cuban Coffee Queen’s colada guide</a>, <a href="https://www.middleeasteye.net/discover/coffee-turkey-yemen-morocco-middle-east-around" target="_blank" rel="noopener">Middle East Eye’s Moroccan coffee note</a>, <a href="https://eskedarcoffee.com/blogs/conversations-over-coffee/what-is-the-ethiopian-coffee-ceremony-a-guide-to-buna" target="_blank" rel="noopener">Eskedar’s buna guide</a>, and <a href="https://sf.eater.com/2019/2/5/18212681/andytown-cafe-downtown-san-francisco-open" target="_blank" rel="noopener">Eater’s Andytown profile</a>.</p>
   </footer>
 </div>
 
@@ -1177,6 +1218,8 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
       name: "Piccolo Latte",
       aliases: ["piccolo", "small latte", "ristretto latte"],
       category: "milk",
+      region: "Australia",
+      tags: ["world", "Australia", "small", "milk"],
       shops: ["The Coffee Movement", "Pinhole"],
       meaning: "A tiny latte, often built from a ristretto shot and silky milk in a 3–4 oz glass. It is milkier than a macchiato but much smaller than a normal latte.",
       ingredients: "Usually 1 ristretto shot + steamed milk with thin microfoam.",
@@ -2157,6 +2200,106 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
       order: "kopi joss — served by a place that knows the tradition"
     },
     {
+      name: "Café Crème",
+      aliases: ["cafe creme", "French café crème", "French latte"],
+      category: "world",
+      region: "France",
+      tags: ["world", "France", "milk", "bistro"],
+      meaning: "The French café order for espresso with a generous amount of steamed, foamy milk. It is usually a better translation of “latte” in a traditional French café than asking for a latte.",
+      ingredients: "Espresso + steamed milk + foam, often served larger than a noisette.",
+      order: "un café crème"
+    },
+    {
+      name: "Café Noisette",
+      aliases: ["cafe noisette", "French macchiato", "hazelnut-colored coffee"],
+      category: "world",
+      region: "France",
+      tags: ["world", "France", "tiny milk", "espresso"],
+      meaning: "No hazelnut syrup required: noisette refers to the hazelnut color created when a little hot milk hits espresso.",
+      ingredients: "Espresso + a small splash of hot milk.",
+      order: "une noisette"
+    },
+    {
+      name: "Café Allongé",
+      aliases: ["cafe allonge", "French long coffee", "French Americano"],
+      category: "world",
+      region: "France",
+      tags: ["world", "France", "long", "black"],
+      meaning: "An elongated espresso with extra hot water. It is the traditional French answer when you want a longer black coffee than a straight café.",
+      ingredients: "Espresso + extra hot water; the exact extraction varies.",
+      order: "un café allongé"
+    },
+    {
+      name: "Café Gourmand",
+      aliases: ["cafe gourmand", "espresso and desserts", "French dessert coffee"],
+      category: "world",
+      region: "France",
+      tags: ["world", "France", "dessert", "not a ratio"],
+      meaning: "A café order that arrives with espresso plus a small selection of desserts. The “gourmand” describes the whole little plate, not a coffee recipe.",
+      ingredients: "Espresso + miniature pastries or sweets.",
+      order: "un café gourmand"
+    },
+    {
+      name: "Magic Coffee",
+      aliases: ["magic", "Melbourne magic", "double ristretto milk coffee"],
+      category: "world",
+      region: "Australia",
+      tags: ["world", "Australia", "strong", "microfoam"],
+      meaning: "A Melbourne specialty: stronger and smaller than a flat white, usually made with double ristretto and silky milk. It may be a verbal-order item rather than a printed menu item.",
+      ingredients: "Double ristretto + steamed milk with thin microfoam, around 5 oz.",
+      order: "a magic, if you make them"
+    },
+    {
+      name: "Long Black",
+      aliases: ["Australian long black", "New Zealand long black"],
+      category: "world",
+      region: "Australia",
+      tags: ["world", "Australia / New Zealand", "black", "hot water"],
+      meaning: "Espresso poured over hot water, usually keeping more crema on top than an Americano. It is the everyday black-coffee vocabulary of Australia and New Zealand.",
+      ingredients: "Hot water + 1–2 espresso shots poured over it.",
+      order: "a long black"
+    },
+    {
+      name: "Café Cubano / Colada",
+      aliases: ["cafe cubano", "cafecito", "colada", "Cuban espresso"],
+      category: "world",
+      region: "Cuba",
+      tags: ["world", "Cuba", "sweet", "social"],
+      meaning: "Cuban espresso sweetened with espumita, a pale sugar-and-first-drops foam. A colada is the larger shareable batch served with tiny cups for friends.",
+      ingredients: "Strong espresso or moka coffee + sugar whipped with the first coffee drops into espumita.",
+      order: "a cafecito for me, or a colada to share"
+    },
+    {
+      name: "Cuban Cortadito",
+      aliases: ["cortadito cubano", "Cuban short latte", "sweet Cuban cortado"],
+      category: "world",
+      region: "Cuba",
+      tags: ["world", "Cuba", "sweet", "small milk"],
+      meaning: "Do not confuse it with an unsweetened Spanish cortado: the Cuban version starts with sweetened café Cubano and adds warm milk, often evaporated milk.",
+      ingredients: "Sweetened Cuban espresso + roughly equal warm or steamed milk; evaporated milk is common.",
+      order: "a Cuban cortadito"
+    },
+    {
+      name: "Nous Nous",
+      aliases: ["noss-noss", "nss nss", "Moroccan half-half"],
+      category: "world",
+      region: "Morocco",
+      tags: ["world", "Morocco", "half milk", "small glass"],
+      meaning: "Nous nous means half-half in Moroccan Arabic: a small glass of espresso and foamed or steamed milk. It is a local order, not a fancy syrup drink.",
+      ingredients: "Roughly equal espresso and steamed or foamed milk; sugar is optional.",
+      order: "a nous nous"
+    },
+    {
+      name: "Buna / Jebena Coffee Ceremony",
+      aliases: ["buna", "buna tetu", "jebena buna", "Abol Tona Bereka"],
+      category: "world",
+      region: "Ethiopia",
+      tags: ["world", "Ethiopia", "ceremony", "shared"],
+      meaning: "Not a single café drink but a hospitality ritual: beans are roasted, ground, brewed in a jebena, and served in three rounds. Abol, Tona, and Bereka move from strongest to gentlest.",
+      ingredients: "Freshly roasted coffee brewed in a clay jebena; sugar is common, while salt or spices vary by region. Milk is uncommon.",
+      order: "I would love to join the buna ceremony"
+    },
+    {
       name: "Matcha Latte",
       aliases: ["iced matcha", "matcha milk"],
       category: "noncoffee",
@@ -2304,7 +2447,7 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
     var tags = tagList.length
       ? '<div class="cg-tags">' + tagList.map(function (tag) {
           var tagClass = tag === item.region ? "origin" : tag === "21+" ? "adult" : "";
-          return '<span class="cg-tag ' + tagClass + '">' + escapeHTML(tag) + '</span>';
+          return '<button type="button" class="cg-tag ' + tagClass + '" data-tag-query="' + escapeHTML(tag) + '">' + escapeHTML(tag) + '</button>';
         }).join("") + '</div>'
       : "";
     var seasonal = item.seasonal ? '<span class="cg-seasonal">Seasonal / recipe may rotate</span>' : "";
@@ -2405,6 +2548,19 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
       render();
       document.getElementById("cg-lookup").scrollIntoView({ behavior: "smooth", block: "start" });
     });
+  });
+
+  results.addEventListener("click", function (event) {
+    var tag = event.target.closest ? event.target.closest("[data-tag-query]") : null;
+    if (!tag) return;
+    state.query = tag.getAttribute("data-tag-query");
+    state.category = "all";
+    state.shop = "all";
+    state.showAll = true;
+    search.value = state.query;
+    setActive("[data-filter]", "data-filter", "all");
+    setActive("[data-shop-filter]", "data-shop-filter", "all");
+    render();
   });
 
   showMore.addEventListener("click", function () {
