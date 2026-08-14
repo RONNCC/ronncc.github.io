@@ -167,6 +167,15 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
   text-align: right;
 }
 
+.cg-section-head .cg-eyebrow {
+  max-width: none;
+  margin: 0 0 .7rem;
+  color: var(--cg-caramel);
+  font-size: .75rem;
+  line-height: 1.2;
+  text-align: left;
+}
+
 .cg-math-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -629,7 +638,7 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
         <p class="cg-eyebrow">The useful bit</p>
         <h2 id="cg-lookup-title">Look it up at the counter.</h2>
       </div>
-      <p>Search a drink, ingredient, alias, or shop. Try <em>tonic</em>, <em>macadamia</em>, <em>Philz</em>, or <em>small and milky</em>.</p>
+      <p>Search a drink, ingredient, alias, or shop. Try <em>tonic</em>, <em>macadamia</em>, <em>Philz</em>, or <em>cortado</em>.</p>
     </div>
 
     <div class="cg-search-panel">
@@ -661,6 +670,11 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
         <button class="cg-filter" type="button" data-shop-filter="Andytown" aria-pressed="false">Andytown</button>
         <button class="cg-filter" type="button" data-shop-filter="Philz" aria-pressed="false">Philz</button>
         <button class="cg-filter" type="button" data-shop-filter="Four Barrel" aria-pressed="false">Four Barrel</button>
+        <button class="cg-filter" type="button" data-shop-filter="Linea" aria-pressed="false">Linea</button>
+        <button class="cg-filter" type="button" data-shop-filter="Verve" aria-pressed="false">Verve</button>
+        <button class="cg-filter" type="button" data-shop-filter="Equator" aria-pressed="false">Equator</button>
+        <button class="cg-filter" type="button" data-shop-filter="Wrecking Ball" aria-pressed="false">Wrecking Ball</button>
+        <button class="cg-filter" type="button" data-shop-filter="Flywheel" aria-pressed="false">Flywheel</button>
       </div>
     </div>
 
@@ -717,6 +731,31 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
         <p><strong>Look for:</strong> straightforward espresso, cortado, latte, iced coffee, and filter / slow-bar coffee that lets the roast do the talking.</p>
         <button type="button" data-shop-jump="Four Barrel">Show Four Barrel terms →</button>
       </article>
+      <article class="cg-sf-card">
+        <h3>Linea</h3>
+        <p><strong>Look for:</strong> espresso, cortado, shakerato, iced espresso tonic, and the salted maple latte — a small menu with Italian-leaning coffee classics.</p>
+        <button type="button" data-shop-jump="Linea">Show Linea terms →</button>
+      </article>
+      <article class="cg-sf-card">
+        <h3>Verve</h3>
+        <p><strong>Look for:</strong> One + One, Gibraltar, Missile, Whiskey Latte, Nitro Flash Brew, and espresso tonic alongside the usual espresso bar.</p>
+        <button type="button" data-shop-jump="Verve">Show Verve terms →</button>
+      </article>
+      <article class="cg-sf-card">
+        <h3>Equator</h3>
+        <p><strong>Look for:</strong> Habibi Latte, brown sugar cinnamon shakerato, iced brown-butter caramel latte, Chagaccino, and rotating cold-brew builds.</p>
+        <button type="button" data-shop-jump="Equator">Show Equator terms →</button>
+      </article>
+      <article class="cg-sf-card">
+        <h3>Wrecking Ball</h3>
+        <p><strong>Look for:</strong> Pillow Fight espresso, cortado, Kalita pour-over, iced cappuccino, and a focused standard espresso menu.</p>
+        <button type="button" data-shop-jump="Wrecking Ball">Show Wrecking Ball terms →</button>
+      </article>
+      <article class="cg-sf-card">
+        <h3>Flywheel</h3>
+        <p><strong>Look for:</strong> V60 pour-over, siphon coffee, flash brew, cold brew, and nitro. This is the filter-method rabbit hole.</p>
+        <button type="button" data-shop-jump="Flywheel">Show Flywheel terms →</button>
+      </article>
     </div>
   </section>
 
@@ -732,7 +771,7 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
 
   <footer class="cg-sources">
     <p><strong>Sources &amp; caveat.</strong> Classic drink definitions are intentionally approximate: cafés use different cup sizes, shot counts, and milk textures. Seasonal names can disappear or change.</p>
-    <p>Menu vocabulary cross-checked against <a href="https://www.saintfrankcoffee.com/" target="_blank" rel="noopener">Saint Frank</a>, <a href="https://blog.bluebottlecoffee.com/posts/blue-bottle-reopening-menu" target="_blank" rel="noopener">Blue Bottle’s drink menu notes</a>, <a href="https://ritualcoffee.com/news/signature-beverages-fall-23/" target="_blank" rel="noopener">Ritual’s signature-beverage notes</a>, <a href="https://sightglasscoffee.com/blogs/blog/signature-espresso-beverages" target="_blank" rel="noopener">Sightglass’s signature-beverage notes</a>, <a href="https://philzcoffee.com/menu/coffee" target="_blank" rel="noopener">Philz’s coffee menu</a>, <a href="https://www.fourbarrelcoffee.com/pages/about-us" target="_blank" rel="noopener">Four Barrel</a>, and <a href="https://sf.eater.com/2019/2/5/18212681/andytown-cafe-downtown-san-francisco-open" target="_blank" rel="noopener">Eater’s Andytown profile</a>.</p>
+    <p>Menu vocabulary cross-checked against <a href="https://www.saintfrankcoffee.com/" target="_blank" rel="noopener">Saint Frank</a>, <a href="https://blog.bluebottlecoffee.com/posts/blue-bottle-reopening-menu" target="_blank" rel="noopener">Blue Bottle’s drink menu notes</a>, <a href="https://ritualcoffee.com/news/signature-beverages-fall-23/" target="_blank" rel="noopener">Ritual’s signature-beverage notes</a>, <a href="https://sightglasscoffee.com/blogs/blog/signature-espresso-beverages" target="_blank" rel="noopener">Sightglass’s signature-beverage notes</a>, <a href="https://philzcoffee.com/menu/coffee" target="_blank" rel="noopener">Philz’s coffee menu</a>, <a href="https://lineacaffe.com/drink-menu/" target="_blank" rel="noopener">Linea’s drink menu</a>, <a href="https://vervecoffeeroasters.toast.site/menu/verve-coffee-roasters-pacific-avenue-1540-pacific-avenue" target="_blank" rel="noopener">Verve’s SF menu</a>, <a href="https://order.toasttab.com/online/sausalito-equator" target="_blank" rel="noopener">Equator’s menu</a>, <a href="https://www.fourbarrelcoffee.com/pages/about-us" target="_blank" rel="noopener">Four Barrel</a>, <a href="https://flywheelcoffee.com/" target="_blank" rel="noopener">Flywheel</a>, and <a href="https://sf.eater.com/2019/2/5/18212681/andytown-cafe-downtown-san-francisco-open" target="_blank" rel="noopener">Eater’s Andytown profile</a>.</p>
   </footer>
 </div>
 
@@ -943,16 +982,16 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
       name: "Shakerato",
       aliases: ["shaken espresso", "iced shaken coffee"],
       category: "cold",
-      shops: ["Blue Bottle"],
+      shops: ["Blue Bottle", "Linea", "Equator"],
       meaning: "Espresso shaken hard with ice, sometimes with simple syrup. It comes out cold, aerated, and lightly foamy without milk.",
       ingredients: "Espresso + ice; sweetener may be shaken in.",
       order: "a Shakerato — is it sweetened?"
     },
     {
       name: "Espresso Tonic / Kaffe Tonic",
-      aliases: ["coffee tonic", "tonic coffee"],
+      aliases: ["coffee tonic", "tonic coffee", "iced espresso tonic"],
       category: "cold",
-      shops: ["Saint Frank", "Sightglass"],
+      shops: ["Saint Frank", "Sightglass", "Linea", "Verve", "Equator"],
       meaning: "A bright, bitter, fizzy drink: espresso poured over tonic and ice. Kaffe Tonic is Saint Frank’s local-flavored name for the idea.",
       ingredients: "Espresso + tonic water + ice; citrus garnish is a common extra.",
       order: "a Kaffe Tonic — espresso over tonic, right?"
@@ -1066,12 +1105,12 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
       order: "Little Brother as espresso — what is the current single-origin filter?"
     },
     {
-      name: "Saint Frank Sweet Latte",
-      aliases: ["sweet latte", "almond latte", "almond-macadamia latte"],
+      name: "Sweet Latte",
+      aliases: ["Iced Sweet Latte", "Saint Frank Sweet Latte", "Almond Latte", "Almond-Macadamia Latte"],
       category: "signature",
-      shops: ["Saint Frank"],
-      meaning: "Saint Frank’s menu has used Sweet Latte and Almond Latte language, while current café sightings include house almond-macadamia milk. The name is a house build, not a universal ratio.",
-      ingredients: "Espresso + steamed house milk or almond-macadamia milk + the café’s current sweetener or syrup.",
+      shops: ["Saint Frank", "Blue Bottle"],
+      meaning: "Sweet Latte is café-specific language rather than a universal ratio. Saint Frank has used it alongside Almond Latte / house almond-macadamia milk; Blue Bottle describes its version with muscovado sugar.",
+      ingredients: "Espresso + milk + a house sweetener; depending on the shop, that may be muscovado, syrup, or almond-macadamia milk.",
       order: "the Sweet Latte — what milk and sweetener are in today’s version?"
     },
     {
@@ -1173,6 +1212,107 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
       order: "an iced Vanilla Paste Latte"
     },
     {
+      name: "Linea Salted Maple Latte",
+      aliases: ["salted maple latte", "maple latte"],
+      category: "signature",
+      shops: ["Linea"],
+      seasonal: true,
+      meaning: "Linea’s seasonal flavored-latte lane: a classic espresso-and-milk drink with salty maple sweetness rather than a new espresso ratio.",
+      ingredients: "Espresso + steamed milk + salted maple syrup or house maple accent.",
+      order: "a Salted Maple Latte, not too sweet"
+    },
+    {
+      name: "Flywheel Siphon Coffee",
+      aliases: ["siphon", "vacuum pot coffee", "vac pot"],
+      category: "brewed",
+      shops: ["Flywheel"],
+      meaning: "A theatrical filter method using vapor pressure and a vacuum to move water through the coffee. The name describes the brewer, not the roast.",
+      ingredients: "Ground coffee + hot water brewed in a glass siphon brewer.",
+      order: "the siphon — what single origin is on it?"
+    },
+    {
+      name: "Flash Brew",
+      aliases: ["flash-chilled coffee", "iced pour-over", "flash brew nitro"],
+      category: "cold",
+      shops: ["Flywheel", "Verve"],
+      meaning: "Hot-brewed coffee chilled quickly over ice. It preserves more of the bright aroma of a hot filter coffee than a long cold extraction.",
+      ingredients: "Hot-brewed filter coffee + ice; nitrogen may be added for a nitro flash brew.",
+      order: "a flash brew, or nitro flash brew if you have it"
+    },
+    {
+      name: "Verve One + One",
+      aliases: ["One and One", "espresso and macchiato"],
+      category: "signature",
+      shops: ["Verve"],
+      meaning: "A tiny Verve tasting pairing: one straight espresso next to one espresso macchiato. It lets you compare the coffee with and without a little milk.",
+      ingredients: "1 espresso + 1 espresso macchiato, served as a pair.",
+      order: "the One + One"
+    },
+    {
+      name: "Verve Missile",
+      aliases: ["coffee concentrate over ice", "iced cream coffee"],
+      category: "signature",
+      shops: ["Verve"],
+      meaning: "A dessert-leaning iced coffee built from concentrated coffee, cream, and house syrup. The name is Verve-specific.",
+      ingredients: "Coffee concentrate + cream + house-made syrup over ice.",
+      order: "a Missile"
+    },
+    {
+      name: "Verve Whiskey Latte",
+      aliases: ["whiskey latte", "non-alcoholic whiskey latte"],
+      category: "signature",
+      shops: ["Verve"],
+      seasonal: true,
+      meaning: "A regular latte flavored with an alcohol-free whiskey reduction. It gives warm, barrel-like sweetness without making the drink alcoholic.",
+      ingredients: "Espresso + steamed milk + alcohol-free whiskey reduction; cinnamon may be seasonal.",
+      order: "the Whiskey Latte — is the current version spiced?"
+    },
+    {
+      name: "Equator Habibi Latte",
+      aliases: ["Habibi", "Iced Habibi"],
+      category: "signature",
+      shops: ["Equator"],
+      meaning: "Equator’s aromatic espresso latte: floral orange blossom, warm cardamom and clove, and vanilla make it more perfumed than a plain latte.",
+      ingredients: "Espresso + steamed milk + orange blossom + cardamom + clove + vanilla syrup; hot or iced.",
+      order: "a Habibi Latte, iced"
+    },
+    {
+      name: "Equator Brown Sugar Cinnamon Shakerato",
+      aliases: ["brown sugar shakerato", "cinnamon shakerato"],
+      category: "signature",
+      shops: ["Equator"],
+      meaning: "A shaken espresso made creamy and cold with oat milk and warm brown-sugar spice. It is richer than a plain Shakerato.",
+      ingredients: "Espresso + oat milk + brown sugar + cinnamon, shaken over ice.",
+      order: "the Brown Sugar Cinnamon Shakerato"
+    },
+    {
+      name: "Equator Chagaccino",
+      aliases: ["adaptogen mushroom latte", "mushroom latte"],
+      category: "signature",
+      shops: ["Equator"],
+      meaning: "A flavored latte with an adaptogen mushroom blend. The mushroom name is an add-in cue, not a replacement for the espresso.",
+      ingredients: "Espresso + milk + a chaga / adaptogen mushroom blend; hot or iced.",
+      order: "a Chagaccino, and what is in the current blend?"
+    },
+    {
+      name: "Wrecking Ball Iced Cappuccino",
+      aliases: ["ice cappuccino", "iced cap"],
+      category: "cold",
+      shops: ["Wrecking Ball"],
+      meaning: "Wrecking Ball’s cold take on a cappuccino. Expect espresso, cold milk, ice, and a generous creamy foam texture rather than a hot cappuccino poured over ice.",
+      ingredients: "Espresso + cold milk + ice + cold foam; exact build is shop-specific.",
+      order: "an iced cappuccino"
+    },
+    {
+      name: "Wrecking Ball house coffee names",
+      aliases: ["Pillow Fight", "Pillow Fight Espresso", "Kalita"],
+      category: "signature",
+      shops: ["Wrecking Ball"],
+      meaning: "Pillow Fight is a Wrecking Ball espresso blend name, while Kalita describes a pour-over brewer. One is the coffee; the other is the method.",
+      ingredients: "Ask whether the named coffee is being served as espresso or Kalita pour-over.",
+      order: "Pillow Fight as espresso, please"
+    },
+    {
       name: "Matcha Latte",
       aliases: ["iced matcha", "matcha milk"],
       category: "noncoffee",
@@ -1261,8 +1401,12 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
       .replace(/'/g, "&#039;");
   }
 
+  function normalize(value) {
+    return String(value).toLowerCase().replace(/[-_/]+/g, " ").replace(/\s+/g, " ").trim();
+  }
+
   function matches(item) {
-    var haystack = [
+    var haystack = normalize([
       item.name,
       (item.aliases || []).join(" "),
       item.category,
@@ -1270,8 +1414,8 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
       item.meaning,
       item.ingredients,
       item.order
-    ].join(" ").toLowerCase();
-    var queryMatch = !state.query || haystack.indexOf(state.query.toLowerCase()) !== -1;
+    ].join(" "));
+    var queryMatch = !state.query || haystack.indexOf(normalize(state.query)) !== -1;
     var categoryMatch = state.category === "all" || item.category === state.category;
     var shopMatch = state.shop === "all" || (item.shops || []).indexOf(state.shop) !== -1;
     return queryMatch && categoryMatch && shopMatch;
@@ -1313,63 +1457,6 @@ excerpt: A quick, searchable guide to coffee drinks, ingredients, and San Franci
   function setActive(selector, attribute, value) {
     document.querySelectorAll(selector).forEach(function (button) {
       var active = button.getAttribute(attribute) === value;
-      button.classList.toggle("is-active", active);
-      button.setAttribute("aria-pressed", active ? "true" : "false");
-    });
-  }
-
-  document.querySelectorAll("[data-filter]").forEach(function (button) {
-    button.addEventListener("click", function () {
-      state.category = button.getAttribute("data-filter");
-      setActive("[data-filter]", "data-filter", state.category);
-      render();
-    });
-  });
-
-  document.querySelectorAll("[data-shop-filter]").forEach(function (button) {
-    button.addEventListener("click", function () {
-      state.shop = button.getAttribute("data-shop-filter");
-      setActive("[data-shop-filter]", "data-shop-filter", state.shop);
-      render();
-      document.getElementById("cg-lookup-title").scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  });
-
-  document.querySelectorAll("[data-shop-jump]").forEach(function (button) {
-    button.addEventListener("click", function () {
-      state.shop = button.getAttribute("data-shop-jump");
-      setActive("[data-shop-filter]", "data-shop-filter", state.shop);
-      render();
-      document.getElementById("cg-lookup").scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  });
-
-  search.addEventListener("input", function () {
-    state.query = search.value.trim();
-    render();
-  });
-
-  clear.addEventListener("click", function () {
-    search.value = "";
-    state.query = "";
-    search.focus();
-    render();
-  });
-
-  render();
-}());
-</script>
-n () {
-    search.value = "";
-    state.query = "";
-    search.focus();
-    render();
-  });
-
-  render();
-}());
-</script>
-=== value;
       button.classList.toggle("is-active", active);
       button.setAttribute("aria-pressed", active ? "true" : "false");
     });
