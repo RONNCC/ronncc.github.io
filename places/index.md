@@ -23,4 +23,9 @@ Guides to actual places worth going to. Mostly SF for now.
     <a href="{{ site.baseurl }}/coffee-guide/">Coffee Guide ☕</a>
     - an illustrated, searchable decoder for coffee drinks, ingredients, SF café menu names, and the cafés that serve them.
   </li>
+  <li>
+    <a href="{{ site.baseurl }}/civilizations/">Civilization Readers</a>
+    - 53 pocket primers for the museum, with timelines, gallery numbers, 90-minute
+    tours, and an interactive graph. Works offline in the gallery.
+  </li>
 </ul>

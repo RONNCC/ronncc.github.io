@@ -2,47 +2,84 @@
 
 A pocket primer for the museum. Pick a civilization, scan the **visual timeline**, read
 the **context**, then **go deeper** period by period — with a cheat sheet for what you'll
-actually see on display (and where to see it, e.g. the de Young or the Met).
+actually see on display (and where to see it, e.g. the de Young, the Met, or the British
+Museum).
 
 ## Built for use inside a museum
 
+Assume the reader is one-handed, on a phone, standing in a dim gallery with no signal in
+front of an object whose label says "Figure. Wood." That assumption drives every choice
+below.
+
+- **Mobile-first** — a thumb-reachable bottom tab bar on phones (it becomes a top pill bar
+  on desktop), 44px+ tap targets, horizontally scrolling section jump-chips, single-column
+  grids on narrow screens, and wide SVG timelines in proper scroll containers.
 - **Works offline** — a service worker caches the whole site, so it loads with no signal
   (e.g. in a museum basement). On phones it's installable ("Add to Home Screen") via the
   web app manifest.
 - **Dark / low-light mode** — tap the 🌙 toggle for dimly lit galleries; it also follows
   your system preference and remembers your choice.
-- **"In 30 seconds" quick read** — four glanceable bullets at the top of every reader.
-- **"At the Met" line** — actual Met gallery numbers for each civilization (e.g. Egyptian
-  Art is Galleries 100–138, the Temple of Dendur is Gallery 131).
-- **Met floor-by-floor route** (`met.html`) — the Met's galleries mapped to the readers that
-  cover them, grouped by floor (including The Met Cloisters). The Rockefeller Wing is split
-  into Arts of Africa, the Ancient Americas, and Oceania.
-- **SF & Smithsonian routes** — `sf.html` (de Young, Legion of Honor, Asian Art Museum,
-  Rosicrucian Egyptian Museum) and `smithsonian.html` (Natural History, Asian Art, African
-  Art, American Indian).
-- **A graph view** (`routes.html`) — museums, galleries, and civilizations are structured
-  internally as a graph (`MUSEUMS` + `CIV_RELATIONS` in `data.js`), then rendered as an
-  interactive force-directed network: hover to inspect, click to open, drag to pan, scroll
-  to zoom, and filter by node type or region.
+- **"In 30 seconds" quick read** — four glanceable bullets at the top of every reader,
+  with a **Listen** button that speaks them aloud using the browser's built-in speech
+  synthesis (no network, no key — so it still works offline).
+- **Gallery numbers** — actual gallery/room numbers for each civilization (e.g. the Temple
+  of Dendur is Met Gallery 131; the Rosetta Stone is British Museum Room 4).
+- **Print-friendly** — printing strips the navigation and graph and force-opens every
+  collapsed period, so you can carry a paper copy.
 
-## Coverage
+## What's in it
 
-32 civilizations across six regions — the Mediterranean and Near East, Asia, **Africa**
-(including peoples and cultures like the Yoruba & Ife, the Ewe, the Asante, the Dogon, the
-Fang, and the Kongo — not just kingdoms), the Americas, **Oceania** (the Māori and the
-Asmat), and the medieval world.
+- **53 civilizations and peoples** across six regions — the Mediterranean and Near East
+  (including the Hittites, Phoenicia & Carthage, the Etruscans, and Saba/ancient Yemen),
+  Asia (the Cholas, Srivijaya, the Mughals, the Ottomans), **Africa** (Aksum, Igbo-Ukwu,
+  the Yoruba & Ife, the Bamana, the Senufo, the Chokwe, the Dogon, the Fang, the Kongo —
+  peoples and cultures, not just kingdoms), the **Americas** (Chavín, Nazca, Moche, Chimú,
+  the Taíno), **Oceania** (Rapa Nui, Tonga, Aboriginal Australia, the Sepik peoples, the
+  Māori, the Asmat), and the medieval world.
+- **Masterpiece deep dives** (`objects.html`) — one iconic object per civilization with a
+  60-second read and a "look for this" list: the Rosetta Stone, the Ishtar Gate, a Benin
+  plaque, a Yaxchilán lintel, the Nataraja, a moai, the Standard of Ur, and more.
+- **"Start here" tours** (`tours.html`) — timed routes with stop-by-stop directions: 90
+  minutes at the Met, 75 at the de Young, 120 across the Smithsonian, 90 at the British
+  Museum, 120 at the Louvre.
+- **Museum route pages** — `met.html` (floor by floor, including The Met Cloisters),
+  `sf.html` (de Young, Legion of Honor, Asian Art Museum, Rosicrucian Egyptian Museum),
+  `smithsonian.html` (Natural History, Asian Art, African Art, American Indian),
+  `london.html` (British Museum, room by room), `paris.html` (the Louvre, wing by wing),
+  `berlin.html` (Museum Island & the Humboldt Forum), and `template.html` — a generic
+  "encyclopedic museum" skeleton you can copy to add your own.
+- **A graph view** (`routes.html`) — museums, galleries, civilizations, **and objects** are
+  structured internally as a graph (`MUSEUMS`, `CIV_RELATIONS`, `MASTERPIECES` in
+  `data.js`) and rendered as an interactive force-directed network. Edges are typed and
+  colour-coded: neighbour, contemporary, successor/predecessor, influence, region, **trade**
+  (Indus–Mesopotamia), **script** (Phoenician→Greek), **conquest** (Persia→Egypt), and
+  **religious spread** (Gupta→Southeast Asia). There's a **time slider** that fades civs in
+  and out as the years scroll, **drill-down** (tap a museum twice to collapse or expand its
+  galleries in place), type/region filters, pinch-zoom and one-finger pan.
+- **A how-to-read-a-museum guide** (`guide.html`) — what to do when the label is thin, a
+  20-term glossary of the words labels use without explaining (repoussé, faience, slip,
+  provenance…), and a reference list of further reading and collection databases.
 
 ## Structure
 
-- `index.html` — landing page (cards grouped by region, plus a search box and a master "all civilizations at a glance" timeline)
+- `index.html` — landing page (cards grouped by region, a search box, and a master "all
+  civilizations at a glance" timeline)
 - `reader.html` — the reader template; load with `?c=<slug>` (e.g. `reader.html?c=egypt`)
-- `routes.html` — museums + graph hub; `met.html` / `sf.html` / `smithsonian.html` — route pages
-- `data.js` — all civilization content plus the `MUSEUMS` (route graph) and `CIV_RELATIONS` (relationship edges)
-- `data.js` — all civilization content (edit this to add or change civilizations)
-- `app.js` — rendering logic (cards, timeline, world ruler, master timeline, search, detail sections, theme)
-- `styles.css` — styling (light + dark)
-- `sw.js` — service worker (offline cache); `manifest.webmanifest` + `icons/` — installable app
+- `objects.html` / `tours.html` / `guide.html` — masterpieces, timed tours, and the
+  how-to-read/glossary/references guide
+- `routes.html` — museums + graph hub
+- `met.html`, `sf.html`, `smithsonian.html`, `london.html`, `paris.html`, `berlin.html`,
+  `template.html` — museum route pages
+- `data.js` — all content: `CIVILIZATIONS`, `MUSEUMS` (the route graph), `CIV_RELATIONS`
+  (typed relationship edges), `MASTERPIECES`, `TOURS`, `RESOURCES`, `GLOSSARY`
+- `app.js` — rendering logic (cards, timelines, world ruler, graph, tours, search,
+  narration, theme)
+- `styles.css` — styling (light + dark, mobile-first)
+- `sw.js` — service worker (offline cache); `manifest.webmanifest` + `icons/` — installable
 - `metadata.json` — app metadata
+
+Every HTML page is the same shell: it differs only by `<title>`, its meta description, and
+its `data-page` attribute, which `app.js` uses to dispatch to the right render function.
 
 ## Adding a civilization
 
@@ -75,5 +112,18 @@ Year convention: BCE is negative (e.g. `-3100` = 3100 BCE), CE is positive.
 Group display order on the landing page is controlled by the `GROUP_ORDER` array in
 `data.js`; any group not listed there is appended at the end.
 
-> Note: bump the `CACHE` version in `sw.js` when you change content so returning visitors
-> get fresh data.
+To put the new civilization on a museum page, add its slug to the relevant area's `civs`
+array in `MUSEUMS`. To give it a deep-dive card, add an entry to `MASTERPIECES` with
+`civ: "my-civ"`. To connect it in the graph, add edges to `CIV_RELATIONS` using one of the
+types in `REL_LABELS`.
+
+## Adding a museum
+
+Copy `template.html`, change its `<title>`, meta description, and `data-page`; add a
+`MUSEUMS` entry (`{id, name, city, emoji, tagline, note, floors: [{id, name, note, areas:
+[{id, name, galleries, note, civs: [slug]}]}]}`); map the id to the page in `MUSEUM_PAGE`
+in `app.js`; and register the page in the `PAGES` dispatch map. Optionally add a `TOURS`
+entry pointing at your area ids.
+
+> Note: bump the `CACHE` version in `sw.js` when you change content — and add any new HTML
+> file to its `ASSETS` list — so returning visitors get fresh data.
