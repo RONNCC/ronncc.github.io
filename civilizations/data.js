@@ -2216,6 +2216,1486 @@ const CIVILIZATIONS = [
       ]
     }
   },
+
+  {
+    slug: "hittites",
+    name: "The Hittites",
+    emoji: "🦁",
+    accent: "#7c3aed",
+    group: "Ancient Mediterranean & Near East",
+    region: "Anatolia — central Turkey",
+    start: -1650,
+    end: -1180,
+    spanLabel: "c. 1650 – 1180 BCE",
+    tagline: "The Bronze Age superpower nobody remembers — the empire that fought Egypt to a draw and wrote the first surviving peace treaty.",
+    overview: "For roughly four centuries the Hittites ran an empire from Hattusa in the highlands of central Anatolia, and they were Egypt's equal: the two fought at Kadesh in 1274 BCE and then signed a treaty that still survives in both Egyptian and Hittite versions. They wrote in cuneiform on clay and in their own hieroglyphs on stone, worshipped 'the thousand gods of Hatti,' and vanished in the Bronze Age Collapse around 1180 BCE — so completely that they were known only from Biblical mentions until their capital was excavated in 1906. Museum holdings outside Turkey are thin, so expect seals, tablets, small bronzes, and reliefs rather than monuments.",
+    quick: ["Bronze Age empire in Anatolia (modern Turkey), capital Hattusa.", "Fought Ramesses II at Kadesh (1274 BCE) — then signed history's first surviving peace treaty.", "Wrote Hittite (an Indo-European language) in Mesopotamian cuneiform.", "Collapsed c. 1180 BCE and was essentially forgotten until 1906."],
+    met: "Ancient Near Eastern Art — Galleries 400–406. Anatolian material is shown with the wider Near East; look for stamp seals and small bronzes.",
+    context: {
+      bigPicture: "The Hittites were one of the four or five Great Kings of the Late Bronze Age club — alongside Egypt, Babylon, Assyria, and Mitanni — trading gifts, brides, and threats by letter. Their strength was cavalry-era chariotry, treaty-making, and an unusually legalistic culture: Hittite law substituted fines for many of the death penalties common elsewhere. Their archive at Hattusa, tens of thousands of clay tablets, is why we can read their diplomacy at all.",
+      geography: "The Anatolian plateau — cold, high, and rocky, ringed by mountains, with the Black Sea to the north and Syria to the south. Hattusa sits behind gorges and massive walls near modern Boğazkale. Control of Syria (Kadesh, Aleppo, Carchemish) was the flashpoint with Egypt because it controlled the trade corridor.",
+      keyIdeas: [
+        { t: "Great King", d: "The Hittite ruler's title; also 'My Sun,' shown with a winged sun-disk over his head." },
+        { t: "The thousand gods of Hatti", d: "The Hittites absorbed the gods of everyone they conquered rather than replacing them." },
+        { t: "Treaty culture", d: "Vassal and parity treaties with sworn oaths, witnesses, and curses — a Hittite specialty." },
+        { t: "Neo-Hittite states", d: "After the collapse, smaller successor kingdoms in Syria (Carchemish, Zincirli) carried the style on for centuries." }
+      ],
+      spotIt: [
+        { t: "Winged sun-disk", d: "Hovering above a king's head, marking his semi-divine authority." },
+        { t: "Luwian hieroglyphs", d: "Blocky picture-signs used on stone monuments and seals, distinct from cuneiform." },
+        { t: "Stamp seals", d: "Hittites used round stamp seals where Mesopotamia used cylinder seals." },
+        { t: "Stag and bull gods", d: "The stag-god of the countryside and the storm-god's bulls, often as small bronze or silver figures." }
+      ]
+    },
+    periods: [
+      { name: "Old Kingdom", years: "c. 1650–1500 BCE", start: -1650, end: -1500, summary: "Hattusa founded; a raid reaches Babylon.", detail: "Hattusili I moved the capital to Hattusa and campaigned into Syria. His successor Mursili I sacked Babylon around 1595 BCE — a raid so far from home it ended the Old Babylonian dynasty of Hammurabi's line, though the Hittites kept nothing. Palace murders and succession chaos followed, prompting the Edict of Telipinu, an early attempt to write down succession rules." },
+      { name: "Empire (New Kingdom)", years: "c. 1400–1200 BCE", start: -1400, end: -1200, summary: "Great-power status: Syria, Kadesh, and the Egyptian treaty.", detail: "Suppiluliuma I turned Hatti into an empire, swallowing Mitanni and pushing into Syria. Muwatalli II fought Ramesses II at Kadesh in 1274 BCE — both sides claimed victory — and Hattusili III later signed the Eternal Treaty with Egypt, c. 1259 BCE. A copy hangs at the United Nations. Queens (the Tawananna, notably Puduhepa) co-signed treaties and letters in their own names." },
+      { name: "Collapse & Neo-Hittites", years: "c. 1180–700 BCE", start: -1180, end: -700, summary: "Hattusa burns; Syrian successor states keep the culture alive.", detail: "Around 1180 BCE Hattusa was abandoned and burned as the whole eastern Mediterranean system unravelled — the Bronze Age Collapse. Smaller 'Neo-Hittite' or Syro-Hittite kingdoms at Carchemish, Malatya, and Zincirli kept Luwian hieroglyphs and Hittite-style reliefs going until Assyria absorbed them in the 8th century BCE." }
+    ],
+    events: [
+      { year: -1650, label: "Hattusa founded", detail: "Hattusili I makes the highland fortress his capital." },
+      { year: -1595, label: "Sack of Babylon", detail: "Mursili I raids Babylon, ending Hammurabi's dynasty — then goes home." },
+      { year: -1344, label: "Suppiluliuma I", detail: "Conquers Mitanni and makes Hatti a great power in Syria." },
+      { year: -1274, label: "Battle of Kadesh", detail: "The largest chariot battle known, against Ramesses II — a bloody draw." },
+      { year: -1259, label: "Eternal Treaty", detail: "The earliest surviving international peace treaty, preserved in Egyptian and Hittite copies." },
+      { year: -1180, label: "Hattusa falls", detail: "The capital burns during the Bronze Age Collapse; the empire ends." }
+    ],
+    museum: {
+      see: [
+        "Clay tablets in cuneiform — letters, treaties, rituals, and omens.",
+        "Stamp seals and seal impressions (bullae) with Luwian hieroglyphs.",
+        "Small bronze and silver figures of storm-gods, stags, and bulls.",
+        "Stone relief fragments from Neo-Hittite Syria — processions of gods and lions.",
+        "Rhyta (animal-shaped drinking vessels), often silver or ceramic."
+      ],
+      lingo: [
+        { t: "Hattusa", d: "The Hittite capital, near modern Boğazkale in Turkey." },
+        { t: "Tabarna / Tawananna", d: "Titles of the Hittite king and queen." },
+        { t: "Luwian", d: "A related Anatolian language written in the hieroglyphic script on monuments." },
+        { t: "Syro-Hittite", d: "Label for the post-1180 BCE successor kingdoms in Syria and southeast Turkey." },
+        { t: "Rhyton", d: "A drinking or pouring vessel shaped like an animal or animal head." }
+      ],
+      where: [
+        "Museum of Anatolian Civilizations, Ankara — the essential collection.",
+        "The Met — Ancient Near Eastern Art, Galleries 400–406.",
+        "British Museum — Room 54 (Anatolia and Urartu).",
+        "Louvre — Near Eastern antiquities, Richelieu wing."
+      ]
+    }
+  },
+
+  {
+    slug: "phoenicia",
+    name: "Phoenicians & Carthage",
+    emoji: "⛵",
+    accent: "#7e22ce",
+    group: "Ancient Mediterranean & Near East",
+    region: "Lebanese coast and colonies across the Mediterranean",
+    start: -1200,
+    end: -146,
+    spanLabel: "c. 1200 – 146 BCE",
+    tagline: "The traders who gave the world its alphabet, then built a rival to Rome on the coast of Tunisia.",
+    overview: "The Phoenicians were the merchant cities of the Lebanese coast — Byblos, Sidon, Tyre — who filled the vacuum after the Bronze Age Collapse by sailing everywhere and selling everything: cedar, purple dye, glass, ivory, and above all the alphabet, which Greeks borrowed and Europe still uses. Their western colony, Carthage, grew into an empire that fought Rome three times and lost the last one in 146 BCE. Because Rome erased Carthage and the Phoenician homeland was continuously rebuilt, museum material tends to be small and portable: glass, amulets, ivories, coins, and carved stone stelae.",
+    quick: ["Merchant city-states on the Lebanese coast: Byblos, Sidon, Tyre.", "Their 22-letter alphabet became Greek, then Latin — the one you're reading.", "Famous for Tyrian purple dye, cedar, glass, and ivory carving.", "Carthage, their western colony, fought Rome three times and was destroyed in 146 BCE."],
+    met: "Greek and Roman Art / Ancient Near Eastern Art — Phoenician glass, ivories, and Cypro-Phoenician bowls sit between the two; the Cesnola Cypriot collection (Gallery 171) is closely related.",
+    context: {
+      bigPicture: "'Phoenician' is a Greek nickname (probably from their purple dye); they called themselves Canaanites and thought of themselves as citizens of individual cities, never one nation. Their genius was logistics — harbors, ships, credit, and colonies spaced a day's sail apart from Cyprus to Cádiz. Carthage inherited that network and turned it into a state powerful enough that its defeat is the reason Latin, not Punic, became the language of the western Mediterranean.",
+      geography: "A narrow coastal strip between mountains and sea in modern Lebanon — too little farmland, superb harbors, and cedar forests behind. That geography pushed them outward: Cyprus, Sardinia, Sicily, Ibiza, North Africa, and southern Spain, with Carthage (modern Tunis) as the western hub and Gades (Cádiz) at the Atlantic edge.",
+      keyIdeas: [
+        { t: "The alphabet", d: "22 consonant signs, learnable in an afternoon — writing escapes the scribal class." },
+        { t: "Tyrian purple", d: "Dye from murex sea snails; thousands of shells per gram, hence 'royal' purple." },
+        { t: "Colonies, not conquest", d: "Trading posts and daughter-cities rather than territorial empire — until Carthage." },
+        { t: "Tophet", d: "Carthaginian precincts of urns holding infant and animal remains — still fiercely debated as sacrifice, cemetery, or both." }
+      ],
+      spotIt: [
+        { t: "Core-formed glass", d: "Tiny opaque bottles with combed zigzag threads in yellow and turquoise." },
+        { t: "Grotesque face beads", d: "Glass pendants shaped like bearded faces, worn as amulets." },
+        { t: "Sign of Tanit", d: "A triangle topped by a bar and a disc — Carthage's protective emblem." },
+        { t: "Egyptianizing motifs", d: "Sphinxes, lotus, and winged sun-discs borrowed from Egypt and resold everywhere." }
+      ]
+    },
+    periods: [
+      { name: "Phoenician cities", years: "c. 1200–800 BCE", start: -1200, end: -800, summary: "Byblos, Sidon, and Tyre rebuild trade after the collapse.", detail: "With Egypt and Hatti weakened, the Canaanite ports took over Mediterranean shipping. Hiram of Tyre supplied cedar and craftsmen for Solomon's temple in Biblical accounts. The alphabet, already used at Byblos by c. 1050 BCE, spread with the ships." },
+      { name: "Colonization", years: "c. 800–550 BCE", start: -800, end: -550, summary: "Carthage founded; the network reaches the Atlantic.", detail: "Tradition dates Carthage's founding by Tyrian settlers to 814 BCE. Phoenician colonies ring the western Mediterranean, and Greeks adopt the alphabet, adding vowels. Assyrian and then Babylonian pressure squeezed the homeland cities; Alexander stormed Tyre in 332 BCE." },
+      { name: "Carthaginian empire", years: "c. 550–264 BCE", start: -550, end: -264, summary: "A North African state with a navy, coinage, and Sicilian wars.", detail: "Carthage ruled North Africa and fought Greeks in Sicily for two centuries. It was governed by elected suffetes and a council rather than kings, minted prolific coinage, and financed a mercenary army — an approach that worked until it met a state with citizen legions." },
+      { name: "Punic Wars & after", years: "264–146 BCE", start: -264, end: -146, summary: "Three wars with Rome; Hannibal, then annihilation.", detail: "Rome and Carthage fought over Sicily (264–241), then over the western Mediterranean when Hannibal crossed the Alps and beat Rome repeatedly before losing at Zama in 202. In 146 BCE Rome razed Carthage. Punic culture survived under Roman rule for centuries; the language was still spoken in Augustine's Africa." }
+    ],
+    events: [
+      { year: -1050, label: "Alphabet at Byblos", detail: "The Ahiram sarcophagus inscription — a landmark of early alphabetic writing." },
+      { year: -814, label: "Carthage founded", detail: "Traditional date for the Tyrian colony led by Queen Elissa (Dido)." },
+      { year: -800, label: "Greeks borrow the alphabet", detail: "Greek adds vowels to the Phoenician consonant signs." },
+      { year: -332, label: "Alexander takes Tyre", detail: "A seven-month siege ends the island city's independence." },
+      { year: -264, label: "First Punic War", detail: "Rome and Carthage fight for Sicily; Rome builds its first real navy." },
+      { year: -218, label: "Hannibal crosses the Alps", detail: "The Second Punic War brings Rome closer to defeat than any other." },
+      { year: -146, label: "Carthage destroyed", detail: "Rome levels the city at the end of the Third Punic War." }
+    ],
+    museum: {
+      see: [
+        "Core-formed glass bottles and glass face-bead pendants.",
+        "Carved ivory furniture plaques (often found in Assyrian palaces as loot or tribute).",
+        "Stone stelae with the sign of Tanit from Carthage's tophet.",
+        "Anthropoid stone sarcophagi with Egyptian-style faces.",
+        "Silver and bronze coins — horses, palm trees, and the goddess Tanit.",
+        "Cypro-Phoenician metal bowls with concentric engraved friezes."
+      ],
+      lingo: [
+        { t: "Punic", d: "The Roman word for Carthaginian — Latin 'Poenus', from 'Phoenician'." },
+        { t: "Tophet", d: "An open-air precinct of urn burials at Carthage and other Punic sites." },
+        { t: "Suffete", d: "Carthage's elected chief magistrate, roughly a consul." },
+        { t: "Murex", d: "The sea snail whose glands yield Tyrian purple." },
+        { t: "Ashlar", d: "Squared masonry blocks — Phoenician harbor and wall building." }
+      ],
+      where: [
+        "Bardo National Museum, Tunis — mosaics and Punic material from Carthage.",
+        "National Museum of Beirut — the Phoenician homeland collection.",
+        "British Museum — Rooms 57–59 (Levant) and the Nimrud ivories.",
+        "The Met — Cypriot and Near Eastern galleries; Legion of Honor (SF) shows related ancient glass."
+      ]
+    }
+  },
+
+  {
+    slug: "etruscans",
+    name: "The Etruscans",
+    emoji: "🍷",
+    accent: "#be123c",
+    group: "Ancient Mediterranean & Near East",
+    region: "Tuscany, Umbria, and Lazio — central Italy",
+    start: -900,
+    end: -27,
+    spanLabel: "c. 900 – 27 BCE",
+    tagline: "Italy before Rome: banqueting couples, bronze mirrors, and a language we still can't fully read.",
+    overview: "Before Rome ruled Italy, the Etruscans did. Their twelve-city league in Tuscany got rich on iron and copper, traded hard with Greeks and Phoenicians, and produced the most cheerful funerary art in the ancient Mediterranean — married couples reclining together at eternal banquets, painted tombs full of dancers and divers. Rome absorbed them politically but kept their engineering, their gladiatorial games, their augury, and even three of its early kings. Their language, written in a Greek-derived alphabet, is readable letter by letter but only partly understood, so much of what museums display is interpreted through Roman eyes.",
+    quick: ["Central Italy's dominant culture before Rome — a league of independent cities.", "Superb bronze-workers; their alphabet became the Latin one via Rome.", "Tombs show men and women banqueting together — startling to Greek observers.", "Language written in a known alphabet but still only partly understood."],
+    met: "Greek and Roman Art — the Etruscan gallery (Gallery 170) holds the monumental bronze chariot from Monteleone, one of the Met's great objects.",
+    context: {
+      bigPicture: "The Etruscans are the missing first act of Italian history. They mined and smelted the iron of Elba and the copper hills, sold it around the Mediterranean, and imported Greek pottery in such quantity that most Athenian vases in museums today were dug out of Etruscan tombs. Rome grew up on their edge, learned from them, then conquered them city by city between 400 and 264 BCE, granting citizenship in 90 BCE and ending them as a separate people.",
+      geography: "Etruria — roughly modern Tuscany plus northern Lazio and Umbria — hills, volcanic tuff that cuts easily into chamber tombs, metal ore, and good harbors on the Tyrrhenian coast. Cities sat on defensible plateaus (Cerveteri, Tarquinia, Vulci, Veii, Orvieto), each with a vast cemetery next door, which is why we know their dead better than their living.",
+      keyIdeas: [
+        { t: "The twelve cities", d: "A religious league of independent city-states, not a unified kingdom." },
+        { t: "Etrusca disciplina", d: "A body of ritual knowledge: reading livers, lightning, and bird flight to learn the gods' will." },
+        { t: "Women in public", d: "Etruscan women were named on tombs, owned property, and dined with men — Greeks found this scandalous." },
+        { t: "Bucchero", d: "Glossy black pottery, fired without oxygen, imitating metal vessels." }
+      ],
+      spotIt: [
+        { t: "Reclining couples", d: "Terracotta sarcophagus lids with a smiling husband and wife propped on cushions." },
+        { t: "Archaic smile", d: "Wide, cheerful expressions borrowed from Greek Archaic sculpture and kept longer." },
+        { t: "Engraved mirrors", d: "Round bronze mirrors with mythological scenes scratched on the back — captioned in Etruscan." },
+        { t: "Bucchero ware", d: "Uniformly black, almost metallic ceramics." },
+        { t: "Pointed shoes", d: "Curled-toe footwear on figures, an Etruscan fashion tic." }
+      ]
+    },
+    periods: [
+      { name: "Villanovan", years: "c. 900–720 BCE", start: -900, end: -720, summary: "Iron Age villages, hut urns, and cremation.", detail: "The earliest phase, named after a site near Bologna, is known from cremation burials in biconical urns, sometimes shaped like huts or topped with helmets. Villages consolidated onto the plateaus that would become the great cities." },
+      { name: "Orientalizing", years: "c. 720–575 BCE", start: -720, end: -575, summary: "Eastern luxury floods in; princely tombs of gold and ivory.", detail: "Contact with Phoenicians and Greeks brought griffins, sphinxes, ostrich eggs, and granulated goldwork. Enormous 'princely' tombs like the Regolini-Galassi at Cerveteri show a warrior aristocracy converting metal wealth into imported glamour." },
+      { name: "Archaic", years: "c. 575–480 BCE", start: -575, end: -480, summary: "Peak power: painted tombs, temples, and Etruscan kings in Rome.", detail: "Cities rebuilt in stone with terracotta-clad temples; Tarquinia's tombs were painted with banquets, dancing, and diving. Etruscan kings — the Tarquins — ruled Rome until about 509 BCE. Etruscan fleets contested the sea with Greeks and Carthaginians." },
+      { name: "Classical & Roman", years: "c. 480–27 BCE", start: -480, end: -27, summary: "Rome swallows Etruria city by city.", detail: "Defeat at Cumae (474 BCE) broke Etruscan sea power, and Rome took Veii in 396 BCE after a long siege. Later tomb painting turns darker — demons, journeys to the underworld. Full Roman citizenship in 90 BCE completed the assimilation; by Augustus's day Etruscan was a priestly antiquarian language." }
+    ],
+    events: [
+      { year: -900, label: "Villanovan culture", detail: "Iron Age roots of Etruscan civilization in central Italy." },
+      { year: -700, label: "Orientalizing boom", detail: "Princely tombs filled with gold, ivory, and eastern imports." },
+      { year: -616, label: "Tarquinius Priscus", detail: "Traditional date for the first Etruscan king of Rome." },
+      { year: -540, label: "Battle of Alalia", detail: "Etruscans and Carthaginians check Greek expansion off Corsica." },
+      { year: -509, label: "Rome expels its kings", detail: "The Tarquins are thrown out; the Roman Republic begins." },
+      { year: -396, label: "Fall of Veii", detail: "Rome captures its nearest Etruscan rival after a decade-long siege." },
+      { year: -90, label: "Roman citizenship", detail: "The Social War settlement absorbs Etruscans into Rome." }
+    ],
+    museum: {
+      see: [
+        "Terracotta sarcophagi and cinerary urns with reclining figures on the lid.",
+        "Bronze mirrors engraved with myth scenes on the back.",
+        "Bucchero pottery — shiny black cups, jugs, and bowls.",
+        "Votive bronzes: elongated figurines, and anatomical body parts offered at sanctuaries.",
+        "Greek vases excavated from Etruscan tombs (most Athenian pots in museums came from Etruria).",
+        "Gold jewelry with granulation — thousands of tiny soldered gold spheres."
+      ],
+      lingo: [
+        { t: "Bucchero", d: "Etruscan glossy black ceramic." },
+        { t: "Haruspex", d: "A priest who read the future in a sacrificed animal's liver." },
+        { t: "Cinerary urn", d: "A container for cremated remains, often sculpted like a small sarcophagus." },
+        { t: "Tumulus", d: "A round earth mound covering one or more rock-cut chamber tombs." },
+        { t: "Antefix", d: "A decorated terracotta tile end that closes the edge of a temple roof." }
+      ],
+      where: [
+        "Museo Nazionale Etrusco di Villa Giulia, Rome — the reference collection.",
+        "The Met — Gallery 170 and the Monteleone chariot.",
+        "Vatican Museums — Museo Gregoriano Etrusco.",
+        "Legion of Honor (SF) — Etruscan and Italic pieces in the Ancient Art galleries."
+      ]
+    }
+  },
+
+  {
+    slug: "saba",
+    name: "Saba & Ancient Yemen",
+    emoji: "🌿",
+    accent: "#0f766e",
+    group: "Ancient Mediterranean & Near East",
+    region: "South Arabia — modern Yemen",
+    start: -1000,
+    end: 570,
+    spanLabel: "c. 1000 BCE – 570 CE",
+    tagline: "The incense kingdoms of South Arabia — Sheba's homeland, a great dam, and alabaster faces that stare straight through you.",
+    overview: "Ancient Yemen was 'Arabia Felix,' the fortunate Arabia: a chain of kingdoms — Saba, Ma'in, Qataban, Hadramawt, Himyar — that grew rich because frankincense and myrrh only grow there and in Somalia, and the whole classical world burned them by the ton. Saba built the Great Dam of Marib, irrigated an oasis the size of a small country, and left the queen who visits Solomon in the Bible and Qur'an. Its art is instantly recognisable: pale alabaster heads with inlaid eyes, bronze bulls and ibexes, and crisp monumental South Arabian script.",
+    quick: ["South Arabian kingdoms rich from frankincense and myrrh (c. 1000 BCE – 570 CE).", "Saba's capital Marib had a great dam that irrigated a huge oasis for 1,000+ years.", "The Queen of Sheba tradition comes from here (Sheba = Saba).", "Signature look: alabaster faces with inlaid eyes, bronze ibexes, geometric script."],
+    met: "Ancient Near Eastern Art — Galleries 400–406. South Arabian alabaster heads and inscribed stelae are displayed with the wider Arabian and Near Eastern material.",
+    context: {
+      bigPicture: "South Arabia was the far end of the incense road: caravans of camels moved resin north through Arabia to Gaza and Petra, and everyone along the route taxed it. That wealth financed monumental temples, hydraulic engineering, and literate bureaucracies whose inscriptions we can still read. When Rome learned to sail the monsoon to India, and Christianity reduced demand for temple incense, the overland economy weakened; Himyar unified the south, converted to Judaism, then fell to Aksumite and Persian intervention shortly before Islam.",
+      geography: "Mountains and highland valleys catching monsoon rain on the edge of the Empty Quarter. Seasonal floods were captured by dams and sluices — most famously at Marib — to irrigate oases. Frankincense trees grow in the arid Dhofar–Hadramawt belt; ports on the Red Sea and Indian Ocean connected the region to Egypt, Africa, and India.",
+      keyIdeas: [
+        { t: "Incense economy", d: "Frankincense and myrrh were burned in every temple from Egypt to Rome — and grew almost nowhere else." },
+        { t: "Marib Dam", d: "A sluice-and-embankment system, maintained for over a millennium; its final failure (c. 570 CE) became a proverb for lost prosperity." },
+        { t: "Musnad script", d: "The angular South Arabian alphabet, carved with almost typographic precision — ancestor of Ge'ez letters in Ethiopia." },
+        { t: "Almaqah", d: "Saba's chief god, associated with the moon and bulls; the temple Awwam at Marib was his." }
+      ],
+      spotIt: [
+        { t: "Alabaster heads", d: "Stylised faces in translucent calcite, eyes originally inlaid with lapis, shell, or paste." },
+        { t: "Bull friezes", d: "Rows of bull heads or ibex, symbols of Almaqah and of fertility." },
+        { t: "Musnad inscriptions", d: "Neat geometric letters, often boustrophedon, on stelae and building blocks." },
+        { t: "Bronze ibex plaques", d: "Curved-horn ibexes, sometimes as dedicatory or votive plaques." },
+        { t: "Funerary stelae", d: "Small rectangular slabs with a schematic face and the deceased's name." }
+      ]
+    },
+    periods: [
+      { name: "Early Saba", years: "c. 1000–400 BCE", start: -1000, end: -400, summary: "Mukarribs of Saba, the Marib dam, and the incense road.", detail: "Rulers titled mukarrib (priest-king) built the Awwam temple and the Marib dam, and pushed caravan routes north. This is the horizon behind the Queen of Sheba story — a South Arabian ruler wealthy enough to make a spectacular diplomatic gift to a distant king." },
+      { name: "Rival kingdoms", years: "c. 400 BCE – 100 CE", start: -400, end: 100, summary: "Ma'in, Qataban, and Hadramawt compete for the trade.", detail: "Power fragmented among neighbouring kingdoms, each controlling a stretch of the incense route and its own oasis system. Greek and Roman authors describe the region with a mix of accuracy and fantasy; a Roman expedition under Aelius Gallus in 26–25 BCE failed disastrously in the desert." },
+      { name: "Himyar", years: "c. 100–525 CE", start: 100, end: 525, summary: "Unification, then a Jewish kingdom in Arabia.", detail: "Himyar absorbed Saba and ruled from Zafar. Its kings adopted monotheism, and by the early 6th century the ruling house was Jewish. The persecution of Christians at Najran triggered an invasion by Christian Aksum from across the Red Sea." },
+      { name: "Aksumite & Persian rule", years: "525–570 CE", start: 525, end: 570, summary: "Foreign rule; the dam fails; Islam is a generation away.", detail: "Aksum installed a Christian viceroy, later displaced by the Sasanian Persians. The Marib dam's final breach, remembered in the Qur'an as a judgment on ingratitude, marks the end of the ancient irrigation economy — and the beginning of the world into which Muhammad was born, c. 570 CE." }
+    ],
+    events: [
+      { year: -800, label: "Marib dam built", detail: "Sabaean engineers dam the Wadi Dhana, irrigating a vast oasis." },
+      { year: -700, label: "Karib'il Watar", detail: "A Sabaean ruler whose campaigns are recorded in long musnad inscriptions." },
+      { year: -25, label: "Roman expedition fails", detail: "Aelius Gallus marches on Arabia Felix for Augustus and turns back broken." },
+      { year: 275, label: "Himyar unifies the south", detail: "Himyarite kings absorb Saba and rule most of Yemen." },
+      { year: 380, label: "Monotheism adopted", detail: "Himyarite inscriptions shift from many gods to 'the Merciful, Lord of Heaven'." },
+      { year: 525, label: "Aksum invades", detail: "Christian Aksum crosses the Red Sea and ends Himyarite independence." },
+      { year: 570, label: "The dam fails", detail: "The Marib dam breaks for the last time; the oasis economy collapses." }
+    ],
+    museum: {
+      see: [
+        "Alabaster (calcite) heads and funerary stelae with stylised faces.",
+        "Inscribed stone blocks and votive plaques in musnad script.",
+        "Bronze statuettes and ibex or bull heads.",
+        "Incense burners — cuboid altars with stepped tops.",
+        "Seal stones and small jewelry from caravan-city sites."
+      ],
+      lingo: [
+        { t: "Saba / Sheba", d: "Same kingdom; 'Sheba' is the Biblical Hebrew form." },
+        { t: "Mukarrib", d: "A South Arabian priest-king title, above 'malik' (king)." },
+        { t: "Musnad", d: "The monumental South Arabian alphabet." },
+        { t: "Arabia Felix", d: "'Fortunate Arabia' — the Roman name for the fertile, incense-rich south." },
+        { t: "Frankincense", d: "Aromatic resin tapped from Boswellia trees; myrrh comes from Commiphora." }
+      ],
+      where: [
+        "British Museum — Room 53, Ancient South Arabia.",
+        "The Met — Ancient Near Eastern Art galleries.",
+        "Louvre — Near Eastern antiquities (Yemeni alabasters).",
+        "Walters Art Museum, Baltimore; Smithsonian NMNH loans and Yemeni collections."
+      ]
+    }
+  },
+
+  {
+    slug: "aksum",
+    name: "Aksum",
+    emoji: "🗿",
+    accent: "#047857",
+    group: "Africa",
+    region: "Northern Ethiopia and Eritrea",
+    start: -100,
+    end: 940,
+    spanLabel: "c. 100 BCE – 940 CE",
+    tagline: "An African empire that minted its own gold coins, carved the tallest standing stones on earth, and became Christian before Rome finished the job.",
+    overview: "Aksum sat where the Red Sea trade met the Ethiopian highlands, and for six centuries it was one of the great powers of the ancient world — a 3rd-century Persian writer ranked it with Rome, Persia, and China. It struck gold, silver, and bronze coins in its own name, carved granite stelae up to 33 meters tall over royal tombs, and converted to Christianity under King Ezana around 340 CE, founding the church that still shapes Ethiopia. When Islam rose and trade shifted, Aksum declined but never disappeared: its successors built the rock-hewn churches of Lalibela and kept Ge'ez as a liturgical language.",
+    quick: ["Red Sea trading empire in highland Ethiopia and Eritrea.", "One of the first states anywhere to adopt Christianity (c. 340 CE, King Ezana).", "Minted its own gold coinage — rare outside Rome, Persia, and India.", "Carved giant granite stelae as tomb markers; the tallest ever raised anywhere."],
+    met: "Not a strength of the Met's collection; Aksumite coins occasionally appear in the numismatic and Byzantine displays. The Smithsonian's African Art museum and the British Museum show more.",
+    context: {
+      bigPicture: "Aksum was a bridge state. Ivory, gold, incense, and enslaved people moved from inland Africa through the port of Adulis to Rome, Arabia, and India; the empire took a cut and issued coins to lubricate it. Its Christianity came via Syrian merchants and imperial contacts, giving Ethiopia a Christian identity older than most of Europe's. Aksum also intervened across the Red Sea in Yemen, and its script, Ge'ez, developed vowels and became the writing system of Ethiopia and Eritrea today.",
+      geography: "High plateau (2,000+ m) with reliable rains, cut by escarpments, above the Red Sea coast. The port of Adulis linked highland Aksum to Indian Ocean shipping; the Nile corridor and the Sudanese lowlands linked it to Meroë, which Aksum eclipsed around 350 CE.",
+      keyIdeas: [
+        { t: "Ezana's conversion", d: "Coins show the switch: pagan disc-and-crescent gives way to the cross, c. 340 CE." },
+        { t: "Ge'ez", d: "The Aksumite language and script — a South Semitic alphabet that added vowel marks; still liturgical." },
+        { t: "Stelae as tomb markers", d: "Carved granite monoliths imitating multi-storey buildings, with false doors and windows." },
+        { t: "The Ark tradition", d: "Ethiopian tradition holds that the Ark of the Covenant rests at Aksum's church of Maryam Tsion." }
+      ],
+      spotIt: [
+        { t: "Aksumite coins", d: "Small gold or bronze coins with a crowned bust, Greek or Ge'ez legends, and often a cross." },
+        { t: "False-storey stelae", d: "Stone monoliths carved with rows of beam-ends and doors, imitating timber-and-stone palaces." },
+        { t: "Monkey-head beams", d: "Round projecting beam ends in Aksumite architecture — copied in later Ethiopian churches." },
+        { t: "Processional crosses", d: "Later Ethiopian crosses with interlaced openwork, descended from Aksumite forms." }
+      ]
+    },
+    periods: [
+      { name: "Pre-Aksumite & rise", years: "c. 400 BCE – 100 CE", start: -400, end: 100, summary: "Highland states with South Arabian links coalesce.", detail: "The earlier D'mt polity and its temples (Yeha) show strong South Arabian contact — musnad-style inscriptions, altars, and ibex motifs — atop an indigenous highland culture. By the 1st century CE, Aksum is named as a kingdom in Greek trade manuals." },
+      { name: "Imperial Aksum", years: "c. 100–350 CE", start: 100, end: 350, summary: "Coinage, stelae, and control of the Red Sea trade.", detail: "Kings issued coins in three metals and raised the great stelae over elite tombs. Adulis became a major Indian Ocean port. Around 350 CE, Ezana's forces campaigned against Meroë, hastening the end of the Kushite kingdom." },
+      { name: "Christian Aksum", years: "c. 350–630 CE", start: 350, end: 630, summary: "Conversion, church building, and intervention in Yemen.", detail: "After Ezana's conversion, church building replaced stele raising. In 525 CE Kaleb invaded Himyarite Yemen. Early Muslims fleeing Mecca were given refuge in Aksum, a fact that shaped later Muslim–Ethiopian relations." },
+      { name: "Decline & successors", years: "c. 630–940 CE", start: 630, end: 940, summary: "Trade shifts, the capital moves south, Lalibela follows.", detail: "As Islamic powers took over Red Sea trade and local soils were exhausted, Aksum shrank. The state's center moved south; the Zagwe dynasty later carved the rock churches of Lalibela, and the Solomonic dynasty from 1270 CE claimed descent from Solomon and Sheba." }
+    ],
+    events: [
+      { year: 50, label: "Adulis in the trade guides", detail: "The Periplus of the Erythraean Sea describes Aksum's port and its ivory exports." },
+      { year: 270, label: "First coinage", detail: "Aksum begins minting gold coins — a rare mark of great-power status." },
+      { year: 340, label: "Ezana converts", detail: "Christianity becomes the state religion; crosses appear on the coinage." },
+      { year: 350, label: "Meroë eclipsed", detail: "Aksumite campaigns help end the Kushite kingdom to the northwest." },
+      { year: 525, label: "Invasion of Yemen", detail: "King Kaleb crosses the Red Sea against Himyar." },
+      { year: 615, label: "Refuge for early Muslims", detail: "The Aksumite king shelters followers of Muhammad fleeing Mecca." },
+      { year: 940, label: "Decline", detail: "Traditional date for the fall of the Aksumite state; the center shifts south." }
+    ],
+    museum: {
+      see: [
+        "Aksumite gold, silver, and bronze coins with royal busts and crosses.",
+        "Ge'ez inscriptions on stone.",
+        "Later Ethiopian processional and hand crosses, and painted icons in the Aksumite tradition.",
+        "Illuminated Ge'ez gospel manuscripts on parchment.",
+        "Photographs and casts of the Aksum stelae field (the monoliths remain in Ethiopia)."
+      ],
+      lingo: [
+        { t: "Ge'ez", d: "Classical Ethiopian language and script; still the liturgical language." },
+        { t: "Stele", d: "A standing carved monolith — here, a tomb marker rather than an inscribed slab." },
+        { t: "Adulis", d: "Aksum's Red Sea port, on the coast of modern Eritrea." },
+        { t: "Negus", d: "Ethiopian title for king; 'negusa nagast' = king of kings." },
+        { t: "Zagwe", d: "The dynasty after Aksum that built the rock-hewn churches of Lalibela." }
+      ],
+      where: [
+        "National Museum of Ethiopia, Addis Ababa; the stelae field at Aksum itself.",
+        "British Museum — Room 65 (Sudan, Egypt and Nubia) and Ethiopian collections.",
+        "Smithsonian National Museum of African Art — Ethiopian Christian art.",
+        "Walters Art Museum, Baltimore — outstanding Ethiopian icons and crosses."
+      ]
+    }
+  },
+
+  {
+    slug: "chola",
+    name: "The Chola Empire",
+    emoji: "🕺",
+    accent: "#b45309",
+    group: "Asia",
+    region: "Tamil Nadu, South India",
+    start: 848,
+    end: 1279,
+    spanLabel: "848 – 1279 CE",
+    tagline: "South India's maritime empire — granite temples the size of hills and the finest bronze sculpture ever cast.",
+    overview: "The Cholas ruled the Tamil country for four centuries and did two things no one else quite matched: they built enormous granite temples (the Brihadisvara at Thanjavur, finished in 1010 CE, is still one of the largest in India), and they perfected lost-wax bronze casting to produce processional images of Shiva, Parvati, and the saints that are among the most admired sculptures in world art. They also sent fleets across the Bay of Bengal, raided Srivijaya in Sumatra, and traded with Song China. The dancing Shiva — Nataraja, in a ring of flame — is a Chola invention in the form the world knows.",
+    quick: ["Tamil dynasty ruling South India 848–1279 CE, capital at Thanjavur.", "Brihadisvara temple (1010 CE) — a granite mountain built with no mortar.", "World-class lost-wax bronzes: Nataraja, Shiva, Parvati, and the Shaiva saints.", "A naval power: raided Srivijaya (1025 CE) and traded with Song China."],
+    met: "Asian Art, South Asian galleries (Galleries 234–241). Chola bronzes — including a celebrated Shiva Nataraja — are a highlight; the Asian Art Museum in SF and the Norton Simon also hold major examples.",
+    context: {
+      bigPicture: "Chola power rested on the fertile Kaveri delta, an efficient system of local village assemblies and temple-centered economies, and command of Indian Ocean sea lanes. Temples were not only religious: they were landowners, banks, employers, and archives, and their walls carry thousands of inscriptions recording grants, disputes, and assembly elections. That is why so much of what we know about ordinary medieval South Indian life comes from temple walls.",
+      geography: "The Kaveri river delta in Tamil Nadu — rich rice country — with the Coromandel coast facing Southeast Asia. Sea routes ran east to Sumatra and China and west to Arabia. The dry interior and the Western Ghats mark the boundaries with Chalukya, Pandya, and Chera rivals.",
+      keyIdeas: [
+        { t: "Bhakti", d: "Devotional Hinduism: personal love of a god, sung by Tamil poet-saints whose hymns the Cholas canonised." },
+        { t: "Nataraja", d: "Shiva as Lord of the Dance — creation, preservation, destruction, concealment, and grace in one figure." },
+        { t: "Utsava-murti", d: "The 'festival image': a bronze made to be carried in procession, hence hollow-cast, portable, and eye-catching." },
+        { t: "Temple as institution", d: "Temples held land, employed hundreds, made loans, and recorded it all in stone inscriptions." }
+      ],
+      spotIt: [
+        { t: "Ring of flame", d: "Nataraja dances inside a circle of fire (prabhavali), on the dwarf of ignorance." },
+        { t: "Lugs and holes", d: "Bronze bases have holes or rings for the poles used to carry them in procession — a giveaway that it's a festival image." },
+        { t: "Tribhanga pose", d: "The elegant triple-bend stance of the body — hip, waist, and neck each offset." },
+        { t: "Vimana tower", d: "In South Indian temples the tallest tower rises over the sanctum, not the gateway (that's a later gopuram)." }
+      ]
+    },
+    periods: [
+      { name: "Rise", years: "848–985 CE", start: 848, end: 985, summary: "Vijayalaya takes Thanjavur; the dynasty rebuilds.", detail: "Vijayalaya Chola captured Thanjavur around 848 CE, reviving an ancient Tamil dynastic name. His successors fought the Pandyas and the Rashtrakutas; Sembiyan Mahadevi, a queen and great patron, commissioned stone temples and bronzes that set the classic style." },
+      { name: "Imperial Cholas", years: "985–1070 CE", start: 985, end: 1070, summary: "Rajaraja I and Rajendra I — temples, conquests, and a naval raid on Sumatra.", detail: "Rajaraja I (r. 985–1014) built the Brihadisvara temple and conquered Sri Lanka and the Maldives. His son Rajendra I marched north to the Ganges, took the title Gangaikonda, founded a new capital, and in 1025 CE launched a seaborne raid across the Bay of Bengal against Srivijaya's ports — the most ambitious naval operation of medieval India." },
+      { name: "Later Cholas", years: "1070–1279 CE", start: 1070, end: 1279, summary: "Wealth, embassies to China, then slow decline.", detail: "Kulottunga I merged Chola and Eastern Chalukya lines and sent embassies to Song China. Temple building continued at Darasuram and Tribhuvanam. From the late 12th century Pandya and Hoysala pressure grew; the last Chola king was overthrown in 1279 CE." }
+    ],
+    events: [
+      { year: 848, label: "Vijayalaya takes Thanjavur", detail: "The Chola dynasty re-emerges as a regional power." },
+      { year: 985, label: "Rajaraja I", detail: "The greatest Chola ruler takes the throne; conquest and temple building follow." },
+      { year: 1010, label: "Brihadisvara temple", detail: "The great granite temple at Thanjavur is completed — a UNESCO site today." },
+      { year: 1025, label: "Raid on Srivijaya", detail: "Rajendra I's fleet crosses the Bay of Bengal and strikes Sumatran ports." },
+      { year: 1077, label: "Embassy to China", detail: "A Chola mission reaches the Song court — 72 merchants strong, by Chinese record." },
+      { year: 1279, label: "End of the dynasty", detail: "The Pandyas overthrow the last Chola king." }
+    ],
+    museum: {
+      see: [
+        "Bronze Shiva Nataraja, Parvati/Uma, Vishnu, and Shaiva saints — the signature objects.",
+        "Granite temple sculpture: dvarapala guardians, dancing figures, and deity niches.",
+        "Copper-plate charters and inscription rubbings recording temple grants.",
+        "Chola coins with tiger, bow, and fish emblems (the three Tamil dynasties combined).",
+        "Ritual lamps, bells, and processional fittings."
+      ],
+      lingo: [
+        { t: "Nataraja", d: "Shiva as Lord of the Dance." },
+        { t: "Lost-wax casting", d: "A wax model is encased in clay, melted out, and replaced by molten bronze — one cast, no copies." },
+        { t: "Vimana", d: "The tower over a South Indian temple's sanctum." },
+        { t: "Gopuram", d: "The huge gateway tower — mostly later than the Cholas, added by the Pandyas and Nayakas." },
+        { t: "Prabhavali", d: "The flaming arch surrounding a bronze deity." },
+        { t: "Utsava-murti", d: "Portable festival image, as opposed to the fixed stone image in the sanctum." }
+      ],
+      where: [
+        "Government Museum, Chennai — the world's great Chola bronze collection.",
+        "The Met — South Asian galleries.",
+        "Asian Art Museum, San Francisco — South Asia gallery.",
+        "Norton Simon Museum, Pasadena — outstanding South Indian bronzes."
+      ]
+    }
+  },
+
+  {
+    slug: "srivijaya",
+    name: "Srivijaya & Majapahit",
+    emoji: "🌊",
+    accent: "#0369a1",
+    group: "Asia",
+    region: "Sumatra, Java, and the Malacca Strait",
+    start: 650,
+    end: 1527,
+    spanLabel: "c. 650 – 1527 CE",
+    tagline: "Maritime Southeast Asia's great powers — a Buddhist trade thalassocracy, then a Javanese empire of a thousand islands.",
+    overview: "Two successive maritime powers dominated island Southeast Asia. Srivijaya, based near Palembang in Sumatra from the 7th century, controlled the Malacca and Sunda straits — the choke points of the China–India trade — and was a famous center of Buddhist learning where Chinese monks stopped to study Sanskrit. Later, Majapahit in eastern Java (1293–c. 1527) built a Hindu-Buddhist empire that claimed influence across the archipelago and is still invoked in Indonesian national memory. Central Java between them produced Borobudur and Prambanan, two of the largest religious monuments on earth.",
+    quick: ["Srivijaya (c. 650–1275): Sumatran sea power controlling the Malacca Strait.", "A major Buddhist study center — Chinese pilgrims stopped there en route to India.", "Central Java built Borobudur (c. 800 CE) and Prambanan (c. 850 CE).", "Majapahit (1293–c. 1527): the Javanese empire that later Indonesia looks back to."],
+    met: "Asian Art — Southeast Asian galleries (near Gallery 249). Javanese bronzes, gold, and stone sculpture are shown alongside Khmer material.",
+    context: {
+      bigPicture: "This is trade-route history: monsoon winds meant ships had to wait months in port, so whoever controlled the good harbours controlled the wealth. Srivijaya taxed and protected that traffic, and used Buddhism as a diplomatic language with China and India. Majapahit's power was different — an agrarian Javanese core (rice, not just tolls) projecting influence outward through tribute and marriage. Both were displaced as Islam spread through the trading ports from the 13th century onward, though Bali kept the Hindu-Javanese tradition alive.",
+      geography: "Straits and volcanoes. The Malacca Strait is the only efficient sea route between the Indian Ocean and the South China Sea; Sumatra and the Malay Peninsula flank it. Java's volcanic soil is extraordinarily fertile, supporting the dense rice population that made a land empire possible there but not in Sumatra.",
+      keyIdeas: [
+        { t: "Thalassocracy", d: "An empire of sea lanes and ports rather than territory — Srivijaya's model." },
+        { t: "Mandala polity", d: "Power radiating from a center and fading with distance, with shifting allegiances rather than fixed borders." },
+        { t: "Mahayana & Vajrayana Buddhism", d: "Srivijaya and the Shailendras of Java patronised Mahayana; Borobudur is a Buddhist cosmos in stone." },
+        { t: "Hindu-Buddhist syncretism", d: "Javanese kings were identified with both Shiva and the Buddha; Majapahit's court poetry treats them as one order." }
+      ],
+      spotIt: [
+        { t: "Borobudur reliefs", d: "Terraced narrative panels leading pilgrims upward, ending in bell-shaped stupas with hidden Buddhas." },
+        { t: "Candi", d: "The Indonesian word for a temple — stepped stone structures with steep roofs, e.g. Prambanan's Shiva tower." },
+        { t: "Javanese bronzes", d: "Small, sharply detailed Buddhist and Hindu figures, often with elaborate backplates." },
+        { t: "Kris", d: "The wavy-bladed Javanese dagger with pattern-welded metal — later, but a signature of the region." },
+        { t: "Gold repoussé", d: "Thin sheet-gold ornaments, rings, and ear ornaments from Javanese hoards." }
+      ]
+    },
+    periods: [
+      { name: "Srivijaya", years: "c. 650–1275 CE", start: 650, end: 1275, summary: "Sumatran sea power and Buddhist study center.", detail: "First attested in Old Malay inscriptions of the 680s CE around Palembang. The Chinese monk Yijing spent years there studying Sanskrit before going on to India. Srivijaya's fleets policed and taxed the straits until Chola raids in 1025 CE and later Javanese and Thai pressure broke its monopoly." },
+      { name: "Central Javanese", years: "c. 732–930 CE", start: 732, end: 930, summary: "Borobudur and Prambanan; the classical age of Javanese stone.", detail: "The Buddhist Shailendra and Hindu Sanjaya lines built on the Kedu plain: Borobudur, a stepped mandala carrying 2,672 relief panels, around 800 CE, and the Shiva temples of Prambanan around 850 CE. The court then moved east, for reasons still debated (eruption, disease, politics)." },
+      { name: "East Java & Majapahit", years: "1293–1527 CE", start: 1293, end: 1527, summary: "A Javanese empire with archipelago-wide claims.", detail: "Majapahit was founded in 1293 after a Mongol invasion fleet was outmanoeuvred. Under Hayam Wuruk and his minister Gajah Mada it claimed authority over much of today's Indonesia and Malaysia. The court poem Nagarakretagama (1365) lists its dependencies. Decline came with succession wars and the rise of Muslim coastal sultanates such as Demak." }
+    ],
+    events: [
+      { year: 671, label: "Yijing stops at Srivijaya", detail: "The Chinese pilgrim studies Sanskrit in Palembang en route to India." },
+      { year: 800, label: "Borobudur", detail: "The vast Buddhist monument on the Kedu plain in central Java." },
+      { year: 850, label: "Prambanan", detail: "The great Shiva temple complex is built nearby." },
+      { year: 1025, label: "Chola raid", detail: "South Indian fleets strike Srivijayan ports, weakening the monopoly." },
+      { year: 1293, label: "Majapahit founded", detail: "Raden Wijaya turns a Mongol invasion to his advantage and founds the empire." },
+      { year: 1365, label: "Nagarakretagama", detail: "A court poem catalogues Majapahit's territories and rituals." },
+      { year: 1527, label: "Majapahit ends", detail: "Demak and other Muslim sultanates absorb the last Majapahit remnants." }
+    ],
+    museum: {
+      see: [
+        "Javanese bronze Buddhas, bodhisattvas, and Hindu deities.",
+        "Volcanic stone sculpture from candi temples — Ganesha, Durga, guardian figures.",
+        "Gold jewelry and repoussé ornaments from Javanese hoards.",
+        "Ceramics: Chinese trade wares found across the archipelago, plus local earthenware.",
+        "Kris daggers with pattern-welded blades and carved hilts (later periods)."
+      ],
+      lingo: [
+        { t: "Candi", d: "A temple or shrine structure in Indonesia." },
+        { t: "Stupa", d: "A domed Buddhist reliquary form; Borobudur's terraces are ringed with them." },
+        { t: "Shailendra", d: "The Buddhist dynasty associated with Borobudur." },
+        { t: "Mandala", d: "A cosmic diagram — and, in politics, a center-out model of power." },
+        { t: "Kala head", d: "The bulging-eyed monster mask over Javanese temple doorways." }
+      ],
+      where: [
+        "National Museum of Indonesia, Jakarta; Borobudur and Prambanan themselves.",
+        "The Met — Southeast Asian galleries.",
+        "Asian Art Museum, San Francisco — Southeast Asia gallery.",
+        "Rijksmuseum and the Wereldmuseum, Netherlands — large Javanese collections."
+      ]
+    }
+  },
+
+  {
+    slug: "mughal",
+    name: "The Mughal Empire",
+    emoji: "🕌",
+    accent: "#065f46",
+    group: "Asia",
+    region: "The Indian subcontinent",
+    start: 1526,
+    end: 1857,
+    spanLabel: "1526 – 1857 CE",
+    tagline: "Persianate emperors of India — miniature painting, inlaid marble, and the Taj Mahal.",
+    overview: "The Mughals were Central Asian Timurids who conquered northern India in 1526 and built one of the richest states in the early modern world — at its height perhaps a quarter of the global economy. Their court fused Persian, Central Asian, and Indian traditions into a distinctive style: jewel-toned miniature paintings, white marble inlaid with hardstone flowers, formal charbagh gardens, and the Taj Mahal. Akbar's experiments in religious tolerance and Aurangzeb's reversal of them still frame arguments about Indian history. British power hollowed the empire out through the 18th century; the last emperor was deposed in 1857.",
+    quick: ["Founded 1526 by Babur, a Timurid prince from Central Asia.", "Persianate court culture fused with Indian traditions — painting, gardens, architecture.", "The Taj Mahal (1632–53) was built by Shah Jahan for Mumtaz Mahal.", "Hollowed out by the 18th century; formally ended by the British in 1857."],
+    met: "Islamic Art — Galleries 450–464, including the Later South Asia galleries. Look for Mughal jades, arms, carpets, and album paintings.",
+    context: {
+      bigPicture: "The Mughals ran a cash-revenue empire: land was assessed and taxed in money, officials (mansabdars) were ranked by number and paid from assigned revenues, and the whole machine funded an enormous court and army. Culturally they were confident synthesisers — Akbar had the Sanskrit epics translated into Persian and debated theologians of every faith; Jahangir collected European prints and had his artists absorb their techniques. That openness varied by ruler and is a live historical argument.",
+      geography: "The Indo-Gangetic plain, with capitals shifting between Agra, Delhi, Fatehpur Sikri, and Lahore. Kashmir provided the mountain retreat and garden ideal; the Deccan was the endless southern war that drained the treasury; Bengal was the richest province, which is why Europeans went there first.",
+      keyIdeas: [
+        { t: "Charbagh", d: "The fourfold Persian garden divided by watercourses — paradise as a plan; the Taj sits in one." },
+        { t: "Mansabdari", d: "A ranked service nobility, paid through revenue assignments rather than hereditary fiefs." },
+        { t: "Sulh-i kul", d: "'Universal peace' — Akbar's policy of tolerance across religious communities." },
+        { t: "The album (muraqqa)", d: "Paintings and calligraphy mounted with decorated borders and bound — the main format for court painting." }
+      ],
+      spotIt: [
+        { t: "Pietra dura (parchin kari)", d: "Flowers of carnelian, jasper, and lapis inlaid into white marble." },
+        { t: "Naturalistic flowers", d: "Single flowering plants in niches or borders — a Shah Jahan-era signature." },
+        { t: "Jali screens", d: "Pierced stone lattices casting geometric shadows." },
+        { t: "Portrait profiles", d: "Emperors shown in strict profile with a halo, holding a jewel or a flower." },
+        { t: "Jade and hardstone", d: "Pale nephrite jade hilts, cups, and boxes — often with floral carving." }
+      ]
+    },
+    periods: [
+      { name: "Foundation", years: "1526–1556", start: 1526, end: 1556, summary: "Babur wins at Panipat; Humayun loses and regains the throne.", detail: "Babur, descended from Timur and Genghis Khan, defeated the Delhi Sultanate at Panipat in 1526 with artillery and mobile cavalry. His son Humayun lost India to Sher Shah Suri, spent years exiled in Safavid Persia — where he recruited the painters who would seed Mughal art — and returned in 1555, dying a year later." },
+      { name: "Akbar", years: "1556–1605", start: 1556, end: 1605, summary: "The empire is built: administration, alliance, and tolerance.", detail: "Akbar came to the throne at 13 and expanded the empire across northern India, allying with Rajput houses through marriage and service. He abolished the jizya tax on non-Muslims, hosted interfaith debates, built Fatehpur Sikri, and — though illiterate — assembled a great library and a painting workshop that illustrated histories and epics at industrial scale." },
+      { name: "Jahangir & Shah Jahan", years: "1605–1658", start: 1605, end: 1658, summary: "The aesthetic peak: painting, jade, and white marble.", detail: "Jahangir was a connoisseur who prized naturalism — his artists painted birds, animals, and portraits with startling precision. Nur Jahan, his empress, wielded real political power. Shah Jahan turned to architecture: the Taj Mahal (1632–53), the Red Fort, and the Peacock Throne. The style hardens into symmetry, marble, and inlaid flowers." },
+      { name: "Aurangzeb & decline", years: "1658–1857", start: 1658, end: 1857, summary: "Overreach in the Deccan, then fragmentation and British rule.", detail: "Aurangzeb seized power from his brothers, reimposed the jizya, and spent decades campaigning in the Deccan against the Marathas — expanding the map while exhausting the treasury. After 1707 the empire fragmented into effectively independent successor states; Nadir Shah sacked Delhi in 1739. The British East India Company became the real power after Plassey (1757), and Bahadur Shah II was exiled in 1858 after the 1857 uprising." }
+    ],
+    events: [
+      { year: 1526, label: "First Battle of Panipat", detail: "Babur defeats the Delhi Sultanate and founds the empire." },
+      { year: 1556, label: "Akbar's accession", detail: "A 13-year-old inherits a fragile state and turns it into an empire." },
+      { year: 1571, label: "Fatehpur Sikri", detail: "Akbar builds a new red sandstone capital — abandoned within 15 years." },
+      { year: 1632, label: "Taj Mahal begun", detail: "Shah Jahan's tomb for Mumtaz Mahal; largely complete by 1653." },
+      { year: 1658, label: "Aurangzeb takes power", detail: "He imprisons Shah Jahan and rules for nearly 50 years." },
+      { year: 1739, label: "Nadir Shah sacks Delhi", detail: "The Peacock Throne and the Koh-i-Noor leave India." },
+      { year: 1857, label: "The last emperor", detail: "Bahadur Shah II is deposed after the Indian Rebellion; the empire formally ends." }
+    ],
+    museum: {
+      see: [
+        "Album paintings and manuscript folios — court scenes, portraits, natural history studies.",
+        "White nephrite jade cups, dagger hilts, and boxes.",
+        "Inlaid marble panels and architectural fragments (pietra dura flowers).",
+        "Arms and armour: watered-steel blades, jewelled hilts, and shields.",
+        "Carpets and textiles, including floral millefleurs designs.",
+        "Jewelry: enamelled gold (meenakari) and kundan-set gemstones."
+      ],
+      lingo: [
+        { t: "Mughal", d: "From 'Mongol', via Persian — though the dynasty saw itself as Timurid." },
+        { t: "Parchin kari", d: "The Mughal term for hardstone inlay (Italian: pietra dura)." },
+        { t: "Muraqqa", d: "An album of paintings and calligraphy." },
+        { t: "Jali", d: "A pierced stone lattice screen." },
+        { t: "Nastaliq", d: "The flowing Persian calligraphic script used at court." },
+        { t: "Jizya", d: "A tax on non-Muslim subjects — abolished by Akbar, reimposed by Aurangzeb." }
+      ],
+      where: [
+        "The Met — Islamic Art, Galleries 450–464.",
+        "Victoria and Albert Museum, London — Mughal jades, Tipu's Tiger, and textiles.",
+        "Asian Art Museum, San Francisco — South Asian and Islamic galleries.",
+        "Smithsonian National Museum of Asian Art (Freer|Sackler) — Mughal paintings."
+      ]
+    }
+  },
+
+  {
+    slug: "ottoman",
+    name: "The Ottoman Empire",
+    emoji: "🌙",
+    accent: "#b91c1c",
+    group: "Medieval world",
+    region: "Anatolia, the Balkans, the Levant, and North Africa",
+    start: 1299,
+    end: 1922,
+    spanLabel: "c. 1299 – 1922 CE",
+    tagline: "Six centuries from a frontier principality to a world empire — Iznik blue, domed mosques, and the end of Byzantium.",
+    overview: "The Ottomans began as one of many small Turkish frontier states in northwest Anatolia and ended as the longest-lived empire of the modern era, ruling from Budapest to Basra. Mehmed II took Constantinople in 1453; Suleiman the Magnificent's architect Sinan built the domed mosques that define the Istanbul skyline; the court workshops produced Iznik pottery, silk kaftans, and the tughra, the emperor's calligraphic monogram. In museums, Ottoman material is easy to love and easy to date: the tulip-and-carnation floral vocabulary and that particular cobalt-and-tomato-red palette are unmistakable.",
+    quick: ["From a small Anatolian principality (c. 1299) to a six-century empire, ended 1922.", "Took Constantinople in 1453, ending the Byzantine Empire.", "Peak under Suleiman the Magnificent (r. 1520–1566); Sinan built its great mosques.", "Look for Iznik ceramics: cobalt blue and bole-red flowers on white."],
+    met: "Islamic Art — Galleries 450–464, especially the Ottoman gallery: Iznik ceramics, kaftans, tughras, and arms.",
+    context: {
+      bigPicture: "The Ottoman state was a machine for absorbing difference: it governed Orthodox Christians, Armenians, Jews, and Muslims through community structures, staffed its bureaucracy and army partly through the devshirme levy of Christian boys, and treated Istanbul as the successor to Rome as much as a Muslim capital. Its long 19th-century reform era, the Tanzimat, tried to rebuild it as a modern state; defeat in the First World War ended the empire, and the sultanate was abolished in 1922.",
+      geography: "Astride the straits — Bosphorus and Dardanelles — so astride the Europe/Asia and Black Sea/Mediterranean crossings. Control ran from the Balkans and Hungary through Anatolia, Syria, Egypt, and the Hejaz (giving the sultan custody of Mecca and Medina) to Algiers. That reach made the empire a Mediterranean naval power and Europe's permanent neighbour.",
+      keyIdeas: [
+        { t: "Tughra", d: "The sultan's calligraphic monogram, used to authenticate documents — an artwork in itself." },
+        { t: "Devshirme", d: "The levy of Christian boys trained for the palace service and the janissary corps." },
+        { t: "Millet system", d: "Religious communities administered their own law in personal matters under imperial oversight." },
+        { t: "Sinan's dome", d: "A great central dome buttressed by half-domes — Mimar Sinan's answer to Hagia Sophia." }
+      ],
+      spotIt: [
+        { t: "Iznik palette", d: "White ground, cobalt blue, turquoise, sage green, and a raised sealing-wax red (Armenian bole)." },
+        { t: "Saz style", d: "Long feathery serrated leaves curling among composite flowers." },
+        { t: "Four flowers", d: "Tulip, carnation, rose, and hyacinth — the standard Ottoman floral quartet." },
+        { t: "Çintamani", d: "Three balls and two wavy stripes — a good-luck pattern on textiles and ceramics." },
+        { t: "Pencil-thin minarets", d: "Slim, pointed minarets distinguish Ottoman mosques from Mamluk or Persian ones." }
+      ]
+    },
+    periods: [
+      { name: "Frontier beginnings", years: "c. 1299–1453", start: 1299, end: 1453, summary: "From a border emirate to the conquest of Constantinople.", detail: "Osman's small principality in Bithynia expanded into Byzantine territory and across into the Balkans, surviving a catastrophic defeat by Timur at Ankara in 1402 and a decade of civil war. Mehmed II took Constantinople on 29 May 1453 with enormous cannon and a portage of ships overland — and made it his capital." },
+      { name: "Classical age", years: "1453–1600", start: 1453, end: 1600, summary: "Selim I doubles the empire; Suleiman and Sinan define its look.", detail: "Selim I conquered Syria, Egypt, and the holy cities in 1516–17. Suleiman (r. 1520–66) legislated, besieged Vienna, and patronised Sinan, whose Süleymaniye and Selimiye mosques are the peak of Ottoman architecture. Court workshops standardised the floral style across ceramics, textiles, and manuscripts." },
+      { name: "Transformation", years: "1600–1800", start: 1600, end: 1800, summary: "Not simple decline — a reorganised, contested empire.", detail: "Older narratives of pure decline have been rewritten: the empire lost the second siege of Vienna in 1683 and territory thereafter, but also decentralised revenue, expanded provincial elites, and stayed a major power. The early 18th-century 'Tulip Period' brought printing, garden culture, and European exchange to Istanbul." },
+      { name: "Reform & end", years: "1800–1922", start: 1800, end: 1922, summary: "Tanzimat reforms, nationalism, war, and abolition.", detail: "The Tanzimat edicts (1839, 1856) promised legal equality and rebuilt the state on European lines; Balkan nationalisms and great-power pressure ate the map. The Armenian genocide of 1915–17 was carried out under the wartime government. Defeat in 1918 and the Turkish War of Independence led to the abolition of the sultanate in 1922 and the caliphate in 1924." }
+    ],
+    events: [
+      { year: 1299, label: "Osman's principality", detail: "Traditional founding date of the dynasty in northwest Anatolia." },
+      { year: 1453, label: "Fall of Constantinople", detail: "Mehmed II takes the city; the Byzantine Empire ends." },
+      { year: 1517, label: "Conquest of Egypt", detail: "Selim I takes Cairo and custody of Mecca and Medina." },
+      { year: 1529, label: "Siege of Vienna", detail: "Suleiman reaches the gates of Habsburg Vienna and withdraws." },
+      { year: 1557, label: "Süleymaniye Mosque", detail: "Sinan completes Suleiman's great mosque in Istanbul." },
+      { year: 1839, label: "Tanzimat begins", detail: "Reform edicts promise legal equality and a modern administration." },
+      { year: 1922, label: "Sultanate abolished", detail: "The empire ends; the Republic of Turkey is declared in 1923." }
+    ],
+    museum: {
+      see: [
+        "Iznik dishes, tiles, and mosque lamps — blue, turquoise, and raised red on white.",
+        "Silk kaftans and velvet panels with large-scale floral or çintamani patterns.",
+        "Tughras and illuminated firmans (imperial decrees).",
+        "Arms and armour: yataghans, jewelled daggers, and turban helmets.",
+        "Carpets — Ushak medallion and 'Transylvanian' prayer rugs.",
+        "Manuscript painting: sultans' portraits and campaign histories."
+      ],
+      lingo: [
+        { t: "Iznik", d: "The Anatolian town whose kilns produced the empire's finest ceramics." },
+        { t: "Tughra", d: "The sultan's calligraphic monogram." },
+        { t: "Janissary", d: "Elite infantry corps, originally recruited via the devshirme." },
+        { t: "Sublime Porte", d: "The government — from the gate of the grand vizier's offices." },
+        { t: "Kaftan", d: "The long court robe; sultans' kaftans survive in quantity at Topkapı." },
+        { t: "Saz", d: "The feathery-leaf ornamental style of the court design studio." }
+      ],
+      where: [
+        "Topkapı Palace Museum and the Turkish and Islamic Arts Museum, Istanbul.",
+        "The Met — Islamic Art, Galleries 450–464.",
+        "Victoria and Albert Museum, London — Ottoman ceramics and textiles.",
+        "Asian Art Museum, San Francisco — West Asian gallery."
+      ]
+    }
+  },
+
+  {
+    slug: "chavin",
+    name: "Chavín",
+    emoji: "🐆",
+    accent: "#78350f",
+    group: "The Americas",
+    region: "Peruvian highlands and coast",
+    start: -1200,
+    end: -200,
+    spanLabel: "c. 1200 – 200 BCE",
+    tagline: "The Andes' first great art style — jaguar fangs, hallucinogens, and an oracle inside a maze of stone galleries.",
+    overview: "Chavín de Huántar, high in the Peruvian Andes, was a pilgrimage center whose imagery spread across a huge area between roughly 900 and 200 BCE — the first time the Andean world shared one visual language. Its temple is honeycombed with dark internal galleries, at the center of which stands the Lanzón, a 4.5-meter carved shaft with fanged mouth and upswept hair of snakes. Priests appear to have used San Pedro cactus, water channels, and controlled darkness to stage transformative experiences. Everything after — Moche, Nazca, Wari, Inca — grows in soil Chavín prepared.",
+    quick: ["The Andes' first widespread art style, c. 1200–200 BCE.", "Chavín de Huántar was a pilgrimage temple with underground galleries.", "Imagery: fanged felines, raptors, and snakes, endlessly recombined.", "No writing and no clear state — influence spread by religion, not conquest."],
+    met: "Arts of the Ancient Americas, Michael C. Rockefeller Wing (reopened 2025). Chavín-style goldwork, stone, and textiles open the Andean sequence.",
+    context: {
+      bigPicture: "Chavín is a horizon, not an empire: a style and a cult that unified regions politically separate. Its spread coincided with new technologies (heddle looms, soldered gold, tapestry weaving) and with long-distance exchange in Amazonian, coastal, and highland goods. The site sits deliberately at a crossroads between coast, highlands, and the eastern jungle — which is exactly where the jaguars, caimans, and hallucinogenic plants of its art come from.",
+      geography: "Chavín de Huántar lies at about 3,180 m in the Callejón de Conchucos, between two rivers, east of the Cordillera Blanca. Routes over the mountains link the Pacific coast to the Amazon headwaters. Coastal valleys — Casma, Nepeña, Lurín — carry related monumental architecture, some of it older than Chavín itself.",
+      keyIdeas: [
+        { t: "Kenning", d: "Visual metaphor: hair drawn as snakes, a belt as a row of faces — you must learn to read the substitutions." },
+        { t: "Contour rivalry", d: "Lines that read as two different creatures depending on how you look — deliberate visual instability." },
+        { t: "San Pedro cactus", d: "A mescaline cactus shown held by a fanged figure on the Raimondi Stela and elsewhere." },
+        { t: "Pilgrimage center", d: "Offerings from distant regions suggest people travelled to the temple rather than being ruled from it." }
+      ],
+      spotIt: [
+        { t: "Fanged mouth", d: "Crossed canines, often on a human-shaped figure — the single most reliable Chavín marker." },
+        { t: "Snake hair", d: "Serpents streaming from heads and belts." },
+        { t: "Tenon heads", d: "Stone heads with a stub at the back, set into the temple's outer wall like nails." },
+        { t: "Stirrup-spout bottles", d: "Polished dark gray ceramic bottles with a looped spout — the Andean form Moche later perfected." },
+        { t: "Reversible reading", d: "Turn the image upside-down; it often becomes a different creature." }
+      ]
+    },
+    periods: [
+      { name: "Precursors", years: "c. 3000–1200 BCE", start: -3000, end: -1200, summary: "Caral and coastal mounds — monumental building before pottery.", detail: "Long before Chavín, the Norte Chico/Caral sites on the coast built platform mounds and sunken circular plazas around 3000–1800 BCE — some of the oldest monumental architecture in the Americas, and remarkably, largely without ceramics. Later coastal centers (Sechín, Cerro Sechín's grim warrior reliefs) continued the tradition." },
+      { name: "Early Chavín", years: "c. 1200–900 BCE", start: -1200, end: -900, summary: "The Old Temple and the Lanzón.", detail: "A U-shaped temple with a sunken circular plaza is built at Chavín de Huántar; the Lanzón, a fanged deity carved on a granite shaft, stands at the junction of internal galleries where only a few could see it at a time." },
+      { name: "Chavín horizon", years: "c. 900–500 BCE", start: -900, end: -500, summary: "The style spreads across Peru.", detail: "The New Temple expands the site; Chavín iconography appears on textiles at Karwa on the coast, on gold from Kuntur Wasi, and on ceramics over hundreds of kilometres. Metallurgy advances: soldering, sweat-welding, and gold-silver alloys." },
+      { name: "Decline", years: "c. 500–200 BCE", start: -500, end: -200, summary: "The cult fades; regional styles take over.", detail: "By around 500–200 BCE the pilgrimage center lost authority and the site was reoccupied by ordinary settlement. Regional cultures — Paracas on the south coast, Salinar and Gallinazo on the north — take the technologies forward, leading to Nazca and Moche." }
+    ],
+    events: [
+      { year: -1200, label: "Chavín de Huántar founded", detail: "The Old Temple and the Lanzón are built in the highlands." },
+      { year: -900, label: "Style spreads", detail: "Chavín imagery appears from the north highlands to the south coast." },
+      { year: -800, label: "Karwa textiles", detail: "Painted cotton cloths carry the cult's imagery to the coast." },
+      { year: -700, label: "Goldwork at Kuntur Wasi", detail: "Elite burials with gold crowns in Chavín style." },
+      { year: -400, label: "New Temple", detail: "The site is expanded; the Raimondi Stela and Tello Obelisk belong to this world." },
+      { year: -200, label: "Abandonment", detail: "The ceremonial center loses its authority; regional cultures rise." }
+    ],
+    museum: {
+      see: [
+        "Carved stone: tenon heads, stelae, and cornice fragments (mostly casts outside Peru).",
+        "Dark burnished stirrup-spout bottles with incised feline or raptor designs.",
+        "Hammered gold crowns, pectorals, and ear spools with repoussé fanged faces.",
+        "Painted cotton textiles from the coast in Chavín style.",
+        "Carved bone snuff spoons and tubes for hallucinogenic snuff."
+      ],
+      lingo: [
+        { t: "Horizon", d: "In Andean archaeology, a period when one style spreads over many regions." },
+        { t: "Lanzón", d: "The lance-shaped granite idol at the heart of the Old Temple." },
+        { t: "Tenon head", d: "A sculpted head with a projecting shaft, socketed into a wall." },
+        { t: "Stirrup spout", d: "A ceramic bottle with an arched tube and single vertical spout." },
+        { t: "Repoussé", d: "Hammering sheet metal from behind to raise a design." }
+      ],
+      where: [
+        "Museo Nacional de Chavín and the site itself, Peru; Museo Larco, Lima.",
+        "The Met — Arts of the Ancient Americas, Rockefeller Wing.",
+        "de Young Museum, San Francisco — Arts of the Americas.",
+        "Dumbarton Oaks, Washington DC — a superb small Pre-Columbian collection."
+      ]
+    }
+  },
+
+  {
+    slug: "nazca",
+    name: "Nazca",
+    emoji: "🐦",
+    accent: "#0d9488",
+    group: "The Americas",
+    region: "South coast of Peru",
+    start: -100,
+    end: 800,
+    spanLabel: "c. 100 BCE – 800 CE",
+    tagline: "Desert engineers who drew animals a kilometre wide and wove cloth finer than anything else in the ancient Americas.",
+    overview: "Nazca is famous for the lines — hundreds of geometric figures and around 70 animals and plants scraped into the desert floor of the Pampa de Nazca, best read from the air but almost certainly made to be walked as ritual paths. Less famous, and more impressive up close, is everything else: polychrome pottery in up to a dozen slip colors fired in one go, the astonishing embroidered textiles of the preceding Paracas culture, and the puquios — spiral-mouthed underground aqueducts that still deliver water today. The Nazca had no cities to speak of; their great center, Cahuachi, was a ceremonial place of mounds and plazas.",
+    quick: ["South-coast Peruvian culture, c. 100 BCE – 800 CE.", "The Nazca Lines: giant desert geoglyphs, made by clearing dark stones off pale ground.", "Polychrome pottery with up to 12 mineral slip colors — the ancient Americas' best.", "Puquios: spiral-access underground aqueducts, some still functioning."],
+    met: "Arts of the Ancient Americas, Michael C. Rockefeller Wing — including a gallery for light-sensitive ancient Andean textiles, the first of its kind in the US.",
+    context: {
+      bigPicture: "Nazca is a case study in surviving an extremely dry place. Rivers run underground for much of the year, so the Nazca tunnelled to reach the water table and built spiral shafts to maintain the channels. Much of their ritual life seems oriented to water and fertility, which is one reading of the lines — paths walked toward water sources, or figures addressed to the mountains that supply the rivers. Their pottery and textiles record a world of killer whales, hummingbirds, masked beings, and trophy heads.",
+      geography: "One of the driest deserts on earth, between the Pacific and the Andes, cut by a handful of seasonal rivers (Nazca, Ica, Palpa). The pampa's surface is dark oxidised stone over pale sand — scrape a line and it stays for centuries because it almost never rains and the wind is stilled by a warm ground layer.",
+      keyIdeas: [
+        { t: "Geoglyphs", d: "Made by removing dark surface stones to expose light ground below — subtraction, not construction." },
+        { t: "Puquios", d: "Filtration galleries with corkscrew access shafts (ojos) that let people clean them and let wind drive airflow." },
+        { t: "Cahuachi", d: "A vast ceremonial center of adobe mounds with little permanent residence — a pilgrimage site." },
+        { t: "Trophy heads", d: "Prepared human heads with a carrying cord through the forehead — appear constantly in the art and in burials." }
+      ],
+      spotIt: [
+        { t: "Slip polychromy", d: "Pre-fired mineral slips give reds, oranges, grays, browns, black and white on one vessel." },
+        { t: "Double-spout-and-bridge", d: "Two spouts joined by a flat handle — the classic south-coast bottle shape." },
+        { t: "Mythical Killer Whale", d: "A curved creature with a trophy head, one of the most repeated Nazca motifs." },
+        { t: "Paracas embroidery", d: "Stem-stitch figures in saturated colors on dark ground — the mantles that precede Nazca." },
+        { t: "Proliferous style", d: "Late Nazca designs get crowded, with sprouting appendages filling every gap." }
+      ]
+    },
+    periods: [
+      { name: "Paracas", years: "c. 800–100 BCE", start: -800, end: -100, summary: "The predecessor culture and its extraordinary burial mantles.", detail: "Paracas is known above all from mummy bundles wrapped in embroidered mantles on the Paracas peninsula — hundreds of figures stitched in alpaca and cotton, colors still vivid after two thousand years. Pottery is resin-painted after firing; Chavín influence is visible early on." },
+      { name: "Early Nazca", years: "c. 100 BCE – 300 CE", start: -100, end: 300, summary: "Cahuachi, fine polychrome pottery, and the first lines.", detail: "Painting moves from post-fired resin to pre-fired slips, allowing the polychrome pottery Nazca is known for. Cahuachi grows into the main ceremonial center. Many geoglyphs date to this period, overlying older Paracas figures on hillsides." },
+      { name: "Middle Nazca", years: "c. 300–500 CE", start: 300, end: 500, summary: "Peak population, puquios, and pressure from drought.", detail: "Puquio construction is generally placed here, an engineering answer to severe drought. Cahuachi's importance shifts from ceremony to burial. Iconography becomes more militarised, with more trophy heads and armed figures." },
+      { name: "Late Nazca & Wari", years: "c. 500–800 CE", start: 500, end: 800, summary: "Crowded 'proliferous' style, then absorption by Wari.", detail: "Designs grow dense and abstract. Environmental stress — deforestation of huarango trees, El Niño flooding — combined with the expansion of the Wari state from the highlands ends Nazca as a distinct culture by around 800 CE." }
+    ],
+    events: [
+      { year: -400, label: "Paracas mantles", detail: "Elaborate embroidered burial textiles on the Paracas peninsula." },
+      { year: -100, label: "Nazca emerges", detail: "Slip-painted polychrome pottery replaces post-fired resin painting." },
+      { year: 1, label: "Cahuachi grows", detail: "The adobe mound-and-plaza ceremonial center reaches its height." },
+      { year: 200, label: "The great geoglyphs", detail: "Hummingbird, monkey, spider, and the long straight lines are laid out." },
+      { year: 400, label: "Puquios dug", detail: "Underground aqueducts tap groundwater during severe drought." },
+      { year: 750, label: "Wari expansion", detail: "Highland Wari influence spreads over the south coast." },
+      { year: 800, label: "Nazca ends", detail: "The distinctive culture disappears; its water systems outlive it." }
+    ],
+    museum: {
+      see: [
+        "Polychrome bowls, bottles, and effigy vessels with hummingbirds, whales, and masked beings.",
+        "Double-spout-and-bridge bottles.",
+        "Paracas embroidered mantles and Nazca woven and painted textiles (shown in low light).",
+        "Featherwork panels — brilliant macaw and parrot feathers stitched to cotton.",
+        "Gold mouth-masks and forehead ornaments.",
+        "Panpipes (antaras) and ceramic drums."
+      ],
+      lingo: [
+        { t: "Geoglyph", d: "A large design made on the ground surface." },
+        { t: "Slip", d: "Liquid clay colored with minerals, painted on before firing." },
+        { t: "Puquio", d: "A subterranean aqueduct with spiral access shafts." },
+        { t: "Mantle", d: "A large rectangular cloth wrapped around a mummy bundle." },
+        { t: "Trophy head", d: "A prepared human head, usually with a cord hole in the forehead." },
+        { t: "Antara", d: "An Andean panpipe, often ceramic in Nazca contexts." }
+      ],
+      where: [
+        "Museo Larco and the Museo Nacional de Arqueología, Lima; the Maria Reiche sites at Nazca.",
+        "The Met — Arts of the Ancient Americas, including the Andean textile gallery.",
+        "de Young Museum, San Francisco — Arts of the Americas and its textile holdings.",
+        "American Museum of Natural History, New York — large Peruvian collections."
+      ]
+    }
+  },
+
+  {
+    slug: "chimu",
+    name: "Chimú",
+    emoji: "🏜️",
+    accent: "#525252",
+    group: "The Americas",
+    region: "North coast of Peru",
+    start: 900,
+    end: 1470,
+    spanLabel: "c. 900 – 1470 CE",
+    tagline: "The Inca's only real rival — a coastal empire ruled from Chan Chan, the largest adobe city ever built.",
+    overview: "Chimor, the Chimú kingdom, ruled a thousand kilometres of the Peruvian desert coast from Chan Chan, a city of nine or ten walled royal compounds covering some 20 square kilometres — the largest mud-brick city in the world. The Chimú inherited Moche territory and Moche skill, industrialised it, and produced blackware ceramics from moulds and staggering quantities of hammered gold and silver. When the Inca conquered them around 1470 they deported Chimú goldsmiths to Cusco, which is why much 'Inca' metalwork is Chimú craft.",
+    quick: ["Coastal empire from c. 900 to 1470 CE, capital Chan Chan near modern Trujillo.", "Chan Chan: ten walled royal citadels, the largest adobe city on earth.", "Signature: matte black moulded pottery and vast amounts of sheet gold and silver.", "Conquered by the Inca c. 1470; its goldsmiths were moved to Cusco."],
+    met: "Arts of the Ancient Americas, Michael C. Rockefeller Wing — Chimú gold, silver, and blackware alongside Moche and Inca material.",
+    context: {
+      bigPicture: "Chimor was an irrigation state. Enormous canals moved water between river valleys to farm the desert, and the labour to build and maintain them was the kingdom's real infrastructure. Rule seems to have worked by split inheritance: each dead king's compound and estate kept supporting his cult, so each new king had to build his own — which explains why Chan Chan has ten palaces rather than one. The kingdom's fatal weakness was that same water system: the Inca took the canals and Chimor had no answer.",
+      geography: "The Moche and Chicama valleys and eventually the whole north coast from Tumbes to near Lima. Rainless desert with rivers descending from the Andes; the cold Humboldt current makes the sea extraordinarily rich in fish, and El Niño events periodically wreck both the fishery and the canals.",
+      keyIdeas: [
+        { t: "Ciudadela", d: "A walled royal compound at Chan Chan with plazas, storerooms, a well, and a burial platform." },
+        { t: "Split inheritance", d: "A dead ruler's property stayed his; successors built anew — the engine behind Chan Chan's growth." },
+        { t: "Mass production", d: "Mould-made ceramics in huge numbers — quantity where Moche prized individuality." },
+        { t: "Reduction firing", d: "Sealing the kiln starves it of oxygen and turns the clay matte black — the Chimú look." }
+      ],
+      spotIt: [
+        { t: "Blackware", d: "Matte or burnished black pottery, often with small modeled animals or figures on the spout bridge." },
+        { t: "Stirrup spouts with a monkey", d: "A tiny sculpted animal perched where the spout meets the arch." },
+        { t: "Adobe friezes", d: "Repeating relief patterns of fish, waves, seabirds, and nets moulded into mud-brick walls." },
+        { t: "Sheet-gold beakers", d: "Tall flaring cups (keros) with repoussé faces." },
+        { t: "Tumi knives", d: "Crescent-bladed ceremonial knives with a figure on top — the icon of Peruvian metalwork." }
+      ]
+    },
+    periods: [
+      { name: "Early Chimor", years: "c. 900–1100 CE", start: 900, end: 1100, summary: "After Moche and Wari, a new state forms in the Moche valley.", detail: "Tradition names Taycanamu as the founder, arriving by sea on a balsa raft. The kingdom grows out of the Lambayeque/Sicán and late Moche worlds, taking over their canal systems and metallurgy." },
+      { name: "Expansion", years: "c. 1100–1350 CE", start: 1100, end: 1350, summary: "Chan Chan grows; the coast is unified valley by valley.", detail: "Successive rulers annex neighbouring valleys, extend intervalley canals, and add ciudadelas at Chan Chan. Provincial administrative centers like Farfán and Manchan mirror the capital's plan on a smaller scale." },
+      { name: "Peak", years: "c. 1350–1470 CE", start: 1350, end: 1470, summary: "A thousand kilometres of coast under one king.", detail: "Under Minchançaman the kingdom reaches its greatest extent. Craft production is concentrated in workshops at the capital; tens of thousands of people live in Chan Chan's dense artisan quarters." },
+      { name: "Inca conquest", years: "1470–1532 CE", start: 1470, end: 1532, summary: "Absorbed by the Inca — and its craftsmen relocated.", detail: "The Inca under Tupac Yupanqui cut the canals and took the kingdom around 1470. Minchançaman was taken to Cusco, and Chimú metalworkers were resettled there. Chan Chan was stripped, and its blackware and goldsmithing traditions continued under Inca and then Spanish rule." }
+    ],
+    events: [
+      { year: 900, label: "Chimor founded", detail: "The kingdom emerges in the Moche valley after the Moche and Wari collapse." },
+      { year: 1100, label: "Chan Chan grows", detail: "The great adobe capital expands compound by compound." },
+      { year: 1200, label: "Intervalley canals", detail: "Enormous engineering projects move water between river valleys." },
+      { year: 1350, label: "Coastal empire", detail: "Chimor controls the north coast from Tumbes toward Lima." },
+      { year: 1470, label: "Inca conquest", detail: "Tupac Yupanqui takes Chimor; its goldsmiths are moved to Cusco." },
+      { year: 1532, label: "Spanish arrival", detail: "Chan Chan is looted for gold in the colonial period." }
+    ],
+    museum: {
+      see: [
+        "Matte black moulded pottery — stirrup-spout bottles, often with small animals.",
+        "Hammered gold and silver beakers, masks, ear spools, and tumi knives.",
+        "Feathered panels and tunics.",
+        "Textiles: tapestry and painted cotton with repeating bird and wave motifs.",
+        "Wooden funerary figures and models from Chan Chan's compounds."
+      ],
+      lingo: [
+        { t: "Chimor", d: "The kingdom's own name; 'Chimú' is the adjective usually used for the culture." },
+        { t: "Ciudadela", d: "A walled royal compound at Chan Chan." },
+        { t: "Tumi", d: "A ceremonial knife with a crescent blade." },
+        { t: "Kero", d: "A flaring beaker — in metal here, in wood among the Inca." },
+        { t: "Reduction-fired", d: "Fired with restricted oxygen, producing black ceramics." },
+        { t: "Huaca", d: "A sacred place or monument; also used for the big adobe mounds on the coast." }
+      ],
+      where: [
+        "Chan Chan and the Museo Chan Chan, Trujillo; Museo Larco, Lima.",
+        "The Met — Arts of the Ancient Americas, Rockefeller Wing.",
+        "de Young Museum, San Francisco — Arts of the Americas.",
+        "Dumbarton Oaks, Washington DC."
+      ]
+    }
+  },
+
+  {
+    slug: "taino",
+    name: "The Taíno",
+    emoji: "🐚",
+    accent: "#0e7490",
+    group: "The Americas",
+    region: "The Greater Antilles — Cuba, Hispaniola, Puerto Rico, Jamaica",
+    start: 600,
+    end: 1550,
+    spanLabel: "c. 600 – 1550 CE",
+    tagline: "The Caribbean people Columbus met first — chiefdoms, ball courts, and carved zemís, and descendants who never actually disappeared.",
+    overview: "The Taíno were the dominant people of the Greater Antilles when Europeans arrived in 1492 — Arawak-speaking farmers and seafarers organized into chiefdoms under caciques, with plazas and ball courts, elaborate wood and stone carving, and a cosmology of zemís, spirit beings given physical form. Contact was catastrophic: disease, forced labour, and violence collapsed the population within decades, and Taíno were long described as 'extinct.' Genetics and living Caribbean culture say otherwise — Taíno ancestry, words (hurricane, hammock, barbecue, canoe, tobacco), and foods persist throughout the region.",
+    quick: ["Arawak-speaking people of Cuba, Hispaniola, Puerto Rico, and Jamaica.", "Organized into chiefdoms (cacicazgos) with plazas and stone-lined ball courts.", "Zemís: carved spirit figures in wood, stone, cotton, and shell.", "Devastated after 1492 — but Taíno ancestry and words survive across the Caribbean."],
+    met: "Arts of the Ancient Americas, Michael C. Rockefeller Wing — Caribbean material including Taíno wood and stone carving.",
+    context: {
+      bigPicture: "Taíno society was hierarchical and productive: cassava agriculture on raised mounds (conucos), large canoes for inter-island travel and trade, and chiefs whose authority was religious as much as political. The zemí was the hinge — an object housing a spirit, fed, consulted, and inherited. Because so much of it was wood, cotton, and basketry, most of what survives is stone; and because the collapse was so fast, much of what we know comes from a handful of early Spanish accounts, notably Ramón Pané's, written in the 1490s.",
+      geography: "The Greater Antilles: large, mountainous, well-watered islands with fertile valleys and coral coasts. Sea travel by dugout canoe linked islands and reached the mainland. Neighbouring peoples included the Island Caribs to the southeast and the Guanahatabey in western Cuba.",
+      keyIdeas: [
+        { t: "Zemí (cemí)", d: "A spirit and the object embodying it — often a three-pointed stone, or a carved wooden figure." },
+        { t: "Cacique", d: "A chief; the word entered Spanish and then English from Taíno." },
+        { t: "Batey", d: "The plaza or ball court, often lined with carved stone slabs, where a rubber-ball game was played." },
+        { t: "Cohoba", d: "A hallucinogenic snuff taken through a forked tube for consultation with the zemís." },
+        { t: "Areíto", d: "A communal song-and-dance ceremony that carried history and genealogy." }
+      ],
+      spotIt: [
+        { t: "Three-pointer stones", d: "Triangular stone zemís, often with a face on one point and legs on another." },
+        { t: "Duho", d: "A low ceremonial seat carved from wood or stone, with a high back and an animal face." },
+        { t: "Wide-eyed faces", d: "Round eyes, bared teeth, and a broad grimace — the standard Taíno face." },
+        { t: "Stone collars & elbow stones", d: "Heavy carved rings and angled stones associated with the ball game." },
+        { t: "Shell and bone inlay", d: "Eyes and mouths inlaid with shell in wooden figures." }
+      ]
+    },
+    periods: [
+      { name: "Saladoid roots", years: "c. 500 BCE – 600 CE", start: -500, end: 600, summary: "Arawak-speaking migrants move up the island chain from South America.", detail: "Farming, pottery-making people from the Orinoco region settled the Antilles over centuries, bringing cassava, ceramics with white-on-red painting, and inter-island exchange in stone and shell." },
+      { name: "Ostionoid & early Taíno", years: "c. 600–1200 CE", start: 600, end: 1200, summary: "Distinct island societies emerge with plazas and chiefs.", detail: "Populations grow, villages become larger and more planned, and the first ball courts and ceremonial plazas appear. Regional styles diverge across Puerto Rico, Hispaniola, and eastern Cuba." },
+      { name: "Classic Taíno", years: "c. 1200–1492 CE", start: 1200, end: 1492, summary: "Chiefdoms, monumental plazas, and the peak of carving.", detail: "Large cacicazgos control whole regions of Hispaniola and Puerto Rico. Sites like Caguana in Puerto Rico have multiple stone-lined courts with petroglyphs. Wood carving — duhos, zemís, and vomiting spatulas — reaches its finest quality." },
+      { name: "Contact & after", years: "1492–1550 CE", start: 1492, end: 1550, summary: "Catastrophe, resistance, and survival in altered form.", detail: "Columbus landed in 1492; encomienda labour, smallpox, and violence caused a demographic collapse. Resistance leaders — Hatuey in Cuba, Enriquillo in Hispaniola — fought for decades. Colonial censuses declared the Taíno gone, but communities persisted through intermarriage; modern genetic studies find substantial Indigenous ancestry across the Caribbean." }
+    ],
+    events: [
+      { year: 600, label: "Island societies form", detail: "Distinct Antillean cultures develop out of Saladoid roots." },
+      { year: 1200, label: "Classic Taíno period", detail: "Large chiefdoms, plazas, and ball courts across the Greater Antilles." },
+      { year: 1300, label: "Caguana ceremonial center", detail: "The great plaza complex in Puerto Rico is in use." },
+      { year: 1492, label: "Columbus lands", detail: "First contact in the Bahamas, then Hispaniola and Cuba." },
+      { year: 1498, label: "Pané's account", detail: "The first ethnography written in the Americas records Taíno beliefs." },
+      { year: 1511, label: "Hatuey's resistance", detail: "The Taíno leader fights the Spanish in Cuba and is executed." },
+      { year: 1533, label: "Enriquillo's treaty", detail: "A 14-year revolt in Hispaniola ends with a negotiated settlement." }
+    ],
+    museum: {
+      see: [
+        "Three-pointed stone zemís.",
+        "Carved wooden duhos (ceremonial seats), sometimes with gold or shell inlay.",
+        "Stone collars, elbow stones, and ball-court markers.",
+        "Ceramic vessels and adornos (modeled clay heads applied to pot rims).",
+        "Shell and bone carvings, including snuff tubes and spatulas.",
+        "Cotton zemí figures — extremely rare, only a handful survive."
+      ],
+      lingo: [
+        { t: "Zemí / cemí", d: "A spirit or the object embodying it." },
+        { t: "Cacique", d: "Chief; cacicazgo = chiefdom." },
+        { t: "Batey", d: "Ball court or plaza; also the ball game itself." },
+        { t: "Duho", d: "A carved ceremonial seat used by chiefs and shamans." },
+        { t: "Behique", d: "A shaman or healer." },
+        { t: "Conuco", d: "A raised planting mound used for cassava and other crops." }
+      ],
+      where: [
+        "Museo del Hombre Dominicano, Santo Domingo; Centro Ceremonial Indígena de Caguana, Puerto Rico.",
+        "The Met — Arts of the Ancient Americas, Rockefeller Wing.",
+        "Smithsonian National Museum of the American Indian — Caribbean collections.",
+        "British Museum — Room 27 and Caribbean holdings, including a cotton zemí."
+      ]
+    }
+  },
+
+  {
+    slug: "igbo-ukwu",
+    name: "Igbo-Ukwu",
+    emoji: "🫙",
+    accent: "#0f766e",
+    group: "Africa",
+    region: "Southeastern Nigeria — Igboland",
+    start: 800,
+    end: 1000,
+    spanLabel: "c. 9th–10th century CE",
+    tagline: "A Nigerian village that turned out to hold the most technically astonishing bronze casting in Africa — three centuries before Ife.",
+    overview: "In 1938 a man digging a cistern in the village of Igbo-Ukwu hit bronzes. Excavation revealed three sites: a burial chamber of a high-status man seated in regalia, a storehouse of ritual objects, and a pit of discarded ceremonial goods. Radiocarbon put them in the 9th–10th centuries CE — far earlier than anyone expected — and the castings turned out to be extraordinary: leaded bronze surfaces imitating woven rope, insects, and beadwork, made by lost-wax casting with a local alloy and no evident outside models. Thousands of glass and carnelian beads show long-distance trade reached this forest region a thousand years ago.",
+    quick: ["Three 9th–10th century CE sites in southeastern Nigeria, found from 1938.", "Lost-wax bronzes of extreme technical refinement — rope, insects, granulation.", "A rich burial: a seated dignitary with copper regalia and 100,000+ beads.", "Predates Ife and Benin casting by centuries; no known predecessor tradition."],
+    met: "Arts of Africa, Michael C. Rockefeller Wing (reopened 2025). Igbo-Ukwu material is rare outside Nigeria; the Met shows related Igbo works and the wider Nigerian sequence.",
+    context: {
+      bigPicture: "Igbo-Ukwu upended assumptions twice: first about date — the metalwork is centuries older than the famous Ife and Benin traditions — and second about hierarchy, since Igbo society is often described as famously non-centralised, yet the burial shows a person of enormous ritual status, probably an eze nri, a priest-king of the Nri religious system. The bead and copper evidence also shows trans-Saharan and Indian Ocean trade goods reaching the West African forest much earlier than expected.",
+      geography: "The forested Anambra region east of the Niger, in what is now Anambra State, Nigeria. Not a trade-route city, not a coastal port — an inland community whose access to copper and glass beads implies long chains of exchange running north to the Sahara and beyond.",
+      keyIdeas: [
+        { t: "Eze Nri", d: "A ritual priest-king whose authority was religious rather than military, in the Nri system of the Igbo." },
+        { t: "Lost-wax mastery", d: "Castings so thin and detailed that some scholars first doubted the dates rather than the skill." },
+        { t: "Leaded bronze", d: "Analysis shows a distinctive local alloy — evidence of an independent tradition, not imports." },
+        { t: "Three sites", d: "Igbo Isaiah (a shrine store), Igbo Richard (the burial), Igbo Jonah (a disposal pit)." }
+      ],
+      spotIt: [
+        { t: "Rope and mesh texture", d: "Cast surfaces that imitate knotted cord wrapped around a vessel." },
+        { t: "Insects and small creatures", d: "Flies, crickets, snails, and frogs perched on rims and handles." },
+        { t: "Granulated bosses", d: "Fields of tiny raised dots imitating beadwork, cast rather than applied." },
+        { t: "Roped pot on a stand", d: "The signature object: a ceramic-shaped bronze vessel inside a cast net of rope." }
+      ]
+    },
+    periods: [
+      { name: "Igbo-Ukwu", years: "c. 800–1000 CE", start: 800, end: 1000, summary: "The bronzes, the burial, and long-distance beads.", detail: "Radiocarbon dates cluster in the 9th–10th centuries CE. The burial held a seated man with a copper crown, pectoral, fly-whisk handle, and beaded regalia; the shrine store held elaborate cast vessels and staff ornaments. Over 165,000 beads of glass and carnelian came from the sites, implying trade links across the Sahara and possibly to South Asia." },
+      { name: "Nri hegemony", years: "c. 1000–1911 CE", start: 1000, end: 1911, summary: "A religious kingdom without an army.", detail: "The Kingdom of Nri, centered nearby, exercised ritual authority across Igboland through priests who cleansed taboos and crowned local titleholders rather than through conquest. It was ended in 1911 under British colonial pressure — the eze Nri was forced to renounce ritual power." },
+      { name: "Rediscovery", years: "1938–1960s", start: 1938, end: 1970, summary: "Excavation, radiocarbon dates, and a rewritten chronology.", detail: "Isaiah Anozie's cistern digging in 1938 exposed the first bronzes. Thurstan Shaw's excavations in 1959–64 established the context and the dates. The early dates were controversial for decades, but have held up." }
+    ],
+    events: [
+      { year: 850, label: "The bronzes cast", detail: "Lost-wax vessels, staff heads, and pendants made with a distinctive leaded alloy." },
+      { year: 900, label: "The burial", detail: "A dignitary interred seated with crown, pectoral, and beaded regalia." },
+      { year: 1000, label: "Nri tradition", detail: "The ritual kingdom of Nri develops in the same region." },
+      { year: 1938, label: "First finds", detail: "Isaiah Anozie uncovers bronzes while digging a cistern." },
+      { year: 1959, label: "Shaw's excavation", detail: "Systematic excavation begins; radiocarbon dating follows." },
+      { year: 1970, label: "Chronology accepted", detail: "The 9th–10th century dates reshape West African art history." }
+    ],
+    museum: {
+      see: [
+        "Cast bronze vessels with rope, mesh, and insect detail (mostly in Nigeria; casts elsewhere).",
+        "Bronze staff and fly-whisk ornaments.",
+        "Glass and carnelian beads from the burial.",
+        "Related Igbo material: ikenga figures, mbari shrine sculpture, and masquerade masks.",
+        "Photographs and reconstructions of the burial chamber."
+      ],
+      lingo: [
+        { t: "Igbo-Ukwu", d: "The village in Anambra State where the finds were made — 'great Igbo'." },
+        { t: "Eze Nri", d: "The priest-king of the Nri ritual system." },
+        { t: "Ikenga", d: "A personal shrine figure of achievement, usually horned — a common later Igbo form." },
+        { t: "Lost wax", d: "Cire perdue casting: a wax model is melted out of a clay mould and replaced by metal." },
+        { t: "Leaded bronze", d: "Copper alloyed with tin and lead, easier to cast in fine detail." }
+      ],
+      where: [
+        "National Museum, Lagos, and the Nigerian National Museum system — the primary collections.",
+        "The Met — Arts of Africa, Rockefeller Wing.",
+        "British Museum — Room 25 (Africa).",
+        "Smithsonian National Museum of African Art."
+      ]
+    }
+  },
+
+  {
+    slug: "bamana",
+    name: "The Bamana",
+    emoji: "🐐",
+    accent: "#a16207",
+    group: "Africa",
+    region: "Mali — the middle Niger",
+    start: 1712,
+    end: 2025,
+    spanLabel: "1712 CE – present",
+    tagline: "Mali's largest people — the antelope headdresses that taught farming, and initiation societies that taught everything else.",
+    overview: "The Bamana (Bambara) built the Segou and Kaarta kingdoms on the middle Niger in the 18th century and remain Mali's largest ethnic group. Their art is organized around initiation associations — Ntomo, Komo, Chi Wara, Jo — each with its own masks, figures, and body of knowledge revealed step by step over years. The most famous object in world art terms is the Chi Wara: a stylised antelope headdress danced in male–female pairs to honour the mythical being who taught people to farm. Its slender, sweeping horns became a modernist icon in Europe, usually stripped of everything that made it meaningful.",
+    quick: ["Mali's largest ethnic group; the Segou kingdom ran the middle Niger from 1712.", "Art belongs to initiation societies — Ntomo, Komo, Chi Wara, Jo.", "Chi Wara antelope headdresses honour the being who taught agriculture.", "Boliw: crusted, encrusted power objects, deliberately unbeautiful and highly charged."],
+    met: "Arts of Africa, Michael C. Rockefeller Wing — Chi Wara headdresses, Ntomo masks, and Jonyeleni figures; the de Young and the Smithsonian's African Art museum also hold strong Bamana groups.",
+    context: {
+      bigPicture: "Bamana art is best understood as pedagogy: objects are teaching instruments used by associations that structure a person's life. What a mask means depends on which grade of knowledge you have reached, so a single object carries several meanings at once. Bamana society coexisted for centuries with Islam along the Niger — many Bamana are Muslim today — and the associations adapted rather than vanished, which is why Chi Wara continues to be danced.",
+      geography: "The savanna and floodplain of the middle Niger around Segou, Bamako, and Kaarta in present-day Mali — millet and sorghum country where the timing of rain decides everything, hence the agricultural focus of the Chi Wara. Neighbours include the Dogon on the Bandiagara escarpment and the Fulani herders.",
+      keyIdeas: [
+        { t: "Jow (associations)", d: "Initiation societies, each with graded knowledge, its own masks, songs, and obligations." },
+        { t: "Nyama", d: "Vital force present in people, animals, and materials; dangerous, and managed by specialists." },
+        { t: "Numu", d: "Blacksmith-sculptors, an endogamous group who work both iron and wood and handle nyama safely." },
+        { t: "Boli", d: "A power object built up from clay, blood, and other materials into an abstract animal-like mass." }
+      ],
+      spotIt: [
+        { t: "Chi Wara", d: "Antelope headdress — vertical (male, with openwork zigzag mane) or horizontal styles by region." },
+        { t: "Male/female pairs", d: "Chi Wara dance in pairs; the female carries a fawn on her back." },
+        { t: "Ntomo masks", d: "Faces topped with a row of vertical horns — the number encodes gender categories." },
+        { t: "Komo helmet masks", d: "Elongated animal forms crusted with sacrificial material, horns, and quills." },
+        { t: "Jonyeleni figures", d: "Standing female figures with pointed breasts and scarification, used by the Jo association." }
+      ]
+    },
+    periods: [
+      { name: "Before Segou", years: "c. 1200–1700 CE", start: 1200, end: 1700, summary: "Mande world after Mali; villages, smiths, and associations.", detail: "The Bamana emerge within the wider Mande cultural world that produced the Mali Empire, sharing language roots and craft-caste structures with the Malinke and Soninke, while remaining largely outside centralised Islamic states." },
+      { name: "Segou & Kaarta kingdoms", years: "1712–1861", start: 1712, end: 1861, summary: "Biton Coulibaly builds a state on the Niger.", detail: "Biton Coulibaly turned a youth association into an army and founded the Segou kingdom around 1712; a rival Bamana kingdom formed at Kaarta. Both were warrior states with slave armies (the ton-jon), profiting from riverine trade, and both resisted Islamic reform movements — until the Fulani jihad state of Macina and then al-Hajj Umar Tall's forces overran them in 1861." },
+      { name: "Colonial period", years: "1861–1960", start: 1861, end: 1960, summary: "French rule; masks reach Paris and change art history.", detail: "French conquest incorporated the region into Soudan Français. Bamana sculpture arrived in European collections and studios in the early 20th century; Chi Wara silhouettes influenced modernist sculptors, generally with no reference to their agricultural meaning." },
+      { name: "Mali today", years: "1960–present", start: 1960, end: 2025, summary: "Living practice alongside a global market.", detail: "Chi Wara are still danced at farming competitions and festivals; associations persist, and contemporary Malian artists reference them directly. Museums increasingly show provenance and the circumstances of collection alongside the objects." }
+    ],
+    events: [
+      { year: 1712, label: "Segou kingdom founded", detail: "Biton Coulibaly establishes Bamana power on the middle Niger." },
+      { year: 1754, label: "Kaarta rivalry", detail: "A second Bamana kingdom competes with Segou to the northwest." },
+      { year: 1796, label: "Mungo Park at Segou", detail: "The Scottish explorer describes the city and the Niger." },
+      { year: 1861, label: "Segou falls", detail: "Al-Hajj Umar Tall's forces take the Bamana capital." },
+      { year: 1892, label: "French conquest", detail: "The region is absorbed into French Soudan." },
+      { year: 1907, label: "Chi Wara in Europe", detail: "Bamana sculpture enters Paris collections and influences modernist artists." },
+      { year: 1960, label: "Mali independent", detail: "The Republic of Mali takes its name from the medieval empire." }
+    ],
+    museum: {
+      see: [
+        "Chi Wara antelope headdresses (vertical, horizontal, and abstract regional styles).",
+        "Ntomo masks with rows of horns above a narrow face.",
+        "Komo and Kono power masks, thickly encrusted.",
+        "Jonyeleni standing female figures.",
+        "Boliw — encrusted power objects (rarely displayed, sometimes restricted).",
+        "Bogolanfini mud cloth: cotton strips dyed with fermented mud in geometric patterns."
+      ],
+      lingo: [
+        { t: "Bamana / Bambara", d: "Same people; 'Bambara' is the older colonial spelling." },
+        { t: "Chi Wara (Ci Wara)", d: "The mythical being who taught farming, and the headdress representing it." },
+        { t: "Jo / jow", d: "An initiation association (plural)." },
+        { t: "Nyama", d: "Occult vital energy released by action, requiring ritual management." },
+        { t: "Numu", d: "Blacksmith-sculptor caste." },
+        { t: "Bogolanfini", d: "Mud cloth — cotton dyed with iron-rich mud." }
+      ],
+      where: [
+        "Musée National du Mali, Bamako.",
+        "The Met — Arts of Africa, Rockefeller Wing.",
+        "de Young Museum, San Francisco — Arts of Africa.",
+        "Smithsonian National Museum of African Art; Musée du quai Branly, Paris."
+      ]
+    }
+  },
+
+  {
+    slug: "senufo",
+    name: "The Senufo",
+    emoji: "🦅",
+    accent: "#7c2d12",
+    group: "Africa",
+    region: "Côte d'Ivoire, Mali, and Burkina Faso",
+    start: 1400,
+    end: 2025,
+    spanLabel: "c. 1400 CE – present",
+    tagline: "Poro society sculpture from the West African savanna — hornbills taller than people, and masks that are two animals at once.",
+    overview: "The Senufo live across the borderlands of northern Côte d'Ivoire, southern Mali, and western Burkina Faso, in dozens of related subgroups without a single centralised state. Their art belongs largely to Poro, the men's initiation society that educates in stages across decades, and to Sandogo, the women's divination association. The best-known works are the rhythm pounder figures, the great carved hornbills (porpianong), and the firespitter helmet masks that combine antelope horns, warthog tusks, hyena jaws, and a chameleon into a single controlled composite.",
+    quick: ["A cluster of related peoples in Côte d'Ivoire, Mali, and Burkina Faso.", "Art centers on the men's Poro society and the women's Sandogo divination association.", "Signature works: hornbill sculptures, rhythm pounders, and composite firespitter masks.", "Carving is done by specialist artisans (kule) within a system of occupational groups."],
+    met: "Arts of Africa, Michael C. Rockefeller Wing — Senufo hornbills, kpelie face masks, and helmet masks. The de Young also holds significant Senufo works.",
+    context: {
+      bigPicture: "Senufo objects are tools of an educational system. Poro takes decades and several grades; sculpture appears at particular moments — initiation, funerals, the passage of elders — and is often kept in the sacred grove rather than displayed. Sandogo diviners, mostly women, work with small figures and objects to diagnose problems with ancestors or bush spirits. Because Senufo territory spans three modern countries and many dialects, style varies sharply between regions, and 'Senufo' is partly a colonial-era umbrella term.",
+      geography: "Wooded savanna between the Sahel and the forest, around Korhogo (Côte d'Ivoire), Sikasso (Mali), and Banfora (Burkina Faso). Farming country — yams, millet, cotton — with sacred groves (sinzanga) outside villages where initiation takes place.",
+      keyIdeas: [
+        { t: "Poro", d: "The men's initiation society; several grades over roughly 21 years, organized in seven-year cycles." },
+        { t: "Sandogo", d: "The women's divination association, tied to matrilineal descent groups." },
+        { t: "Ancient Mother", d: "The senior female spiritual authority behind Poro — often what a large female figure represents." },
+        { t: "Kule", d: "Specialist woodcarvers within the Senufo occupational structure; smiths and brasscasters are separate." }
+      ],
+      spotIt: [
+        { t: "Hornbill (porpianong)", d: "A tall bird with a long down-curving beak touching a swollen belly — a primordial creature." },
+        { t: "Rhythm pounder (deble)", d: "A standing figure with a heavy base, pounded on the ground to mark time at funerals." },
+        { t: "Kpelie mask", d: "A delicate face mask with side flanges ('legs'), a small crest, and scarification marks." },
+        { t: "Firespitter mask", d: "A horizontal helmet with antelope horns, tusks, open jaws, and often a chameleon or hornbill on top." },
+        { t: "Legs and 'wings'", d: "Small projecting flanges at the cheeks are a Senufo signature on face masks." }
+      ]
+    },
+    periods: [
+      { name: "Formation", years: "c. 1400–1600 CE", start: 1400, end: 1600, summary: "Senufo-speaking communities settle the savanna borderlands.", detail: "Gur-speaking farming populations consolidated in the region between the Mali and later Kong trade networks, developing the village-based, association-governed structure that persists." },
+      { name: "Trade & upheaval", years: "1600–1898", start: 1600, end: 1898, summary: "Kong, Dyula merchants, and the wars of Samori Touré.", detail: "The Muslim merchant town of Kong and Dyula trading networks tied the region to long-distance commerce. In the 1890s Samori Touré's campaigns devastated Senufo country, notably Korhogo's region — a rupture remembered in oral history and reflected in shifts in artistic patronage." },
+      { name: "Colonial period", years: "1898–1960", start: 1898, end: 1960, summary: "French rule; Senufo sculpture reaches Western museums.", detail: "Under French administration, cotton production expanded and labour migration grew. Collectors and colonial officers removed large quantities of sculpture, and Senufo works became canonical examples of 'African art' in Europe and America." },
+      { name: "Contemporary", years: "1960–present", start: 1960, end: 2025, summary: "Poro continues; a busy market in new carving.", detail: "Poro remains active in many villages alongside Islam and Christianity. Korhogo is also a center for painted mud cloth and for carving made for sale — recent works are often stylistically excellent, so provenance and use-wear matter when reading a label." }
+    ],
+    events: [
+      { year: 1400, label: "Senufo communities form", detail: "Gur-speaking farmers settle the savanna borderlands." },
+      { year: 1700, label: "Kong and Dyula trade", detail: "Muslim merchant networks link the region to long-distance commerce." },
+      { year: 1893, label: "Samori's campaigns", detail: "War devastates Senufo country in the late 19th century." },
+      { year: 1898, label: "French conquest", detail: "The region enters the French colonial system." },
+      { year: 1935, label: "Collecting boom", detail: "Senufo sculpture becomes a staple of Western collections of African art." },
+      { year: 1960, label: "Independence", detail: "Côte d'Ivoire, Mali, and Upper Volta (Burkina Faso) become independent." }
+    ],
+    museum: {
+      see: [
+        "Large hornbill figures (porpianong).",
+        "Rhythm pounders — standing male and female figures with heavy cylindrical bases.",
+        "Kpelie face masks with cheek flanges.",
+        "Helmet 'firespitter' masks combining several animals.",
+        "Divination figures and small brass castings for Sandogo.",
+        "Korhogo cloth: figures painted in mud pigment on rough cotton."
+      ],
+      lingo: [
+        { t: "Poro", d: "The men's initiation society." },
+        { t: "Sandogo", d: "The women's divination association." },
+        { t: "Deble", d: "Rhythm pounder figure." },
+        { t: "Kpelie", d: "The classic Senufo face mask type." },
+        { t: "Sinzanga", d: "The sacred grove where Poro initiation takes place." },
+        { t: "Kule", d: "Woodcarver." }
+      ],
+      where: [
+        "Musée des Civilisations de Côte d'Ivoire, Abidjan.",
+        "The Met — Arts of Africa, Rockefeller Wing.",
+        "de Young Museum, San Francisco — Arts of Africa.",
+        "Art Institute of Chicago; Musée du quai Branly, Paris."
+      ]
+    }
+  },
+
+  {
+    slug: "chokwe",
+    name: "The Chokwe",
+    emoji: "👑",
+    accent: "#9f1239",
+    group: "Africa",
+    region: "Angola, Democratic Republic of Congo, and Zambia",
+    start: 1600,
+    end: 2025,
+    spanLabel: "c. 1600 CE – present",
+    tagline: "Central Africa's court carvers — thrones, chief's portraits with enormous hands, and the masked woman who is the ideal ancestor.",
+    overview: "The Chokwe expanded from an Angolan heartland into a vast area of Central Africa in the 19th century on the back of the ivory, wax, and rubber trades, and their art travelled with them. Chokwe sculpture is courtly and confident: seated chiefs (Chibinda Ilunga, the culture-hero hunter) with oversized hands and feet and elaborate swept-back coiffures; thrones studded with brass tacks and carved with scenes of village life; and the mwana pwo mask, a serene female face danced by men at the end of boys' initiation. They also practiced sona, geometric sand drawings traced in one continuous line.",
+    quick: ["Angola, DR Congo, and Zambia; expanded rapidly in the 19th century.", "Famous for chief's figures, thrones, and finely carved staffs and combs.", "Mwana pwo: an idealised female face mask danced by men.", "Sona: mathematical sand drawings executed in a single unbroken line."],
+    met: "Arts of Africa, Michael C. Rockefeller Wing — Chokwe chairs, staffs, and masks. Strong Chokwe holdings are also at the Smithsonian's African Art museum and the Africa Museum in Tervuren, Belgium.",
+    context: {
+      bigPicture: "Chokwe art is about legitimate authority. The hero Chibinda Ilunga — a Luba hunter-prince who married the Lunda queen Lweji — is the founding charter of Chokwe chieftaincy, and figures of him carry hunting equipment, a chief's headdress, and hands large enough to signal generosity and capability. In the 19th century the Chokwe became commercial powers, hunting elephants and taxing caravans; their success brought both a burst of artistic patronage and a violent expansion that displaced Lunda authority.",
+      geography: "The upper Kasai and Kwango headwaters in northeastern Angola, spreading north into Congo and east into Zambia. Woodland savanna with rivers running north to the Congo basin — good elephant country, and the corridor along which Atlantic and Indian Ocean trade goods met.",
+      keyIdeas: [
+        { t: "Chibinda Ilunga", d: "The hunter-hero whose marriage to Lweji founds Chokwe/Lunda royal legitimacy." },
+        { t: "Mukanda", d: "The boys' initiation camp; masks appear at its opening and closing." },
+        { t: "Mwana pwo", d: "The 'young woman' mask — an ancestral ideal of beauty and fertility, danced by a man." },
+        { t: "Sona", d: "Sand drawings traced in a continuous line, used in storytelling and instruction — studied today as ethnomathematics." }
+      ],
+      spotIt: [
+        { t: "Swept-back coiffure", d: "A large winged or fanned headdress carved as flaring hair — the Chokwe silhouette." },
+        { t: "Oversized hands and feet", d: "Deliberate proportional emphasis in chiefly figures." },
+        { t: "Cross-hatched borders", d: "Bands of fine triangular or hatched pattern framing faces and edges." },
+        { t: "Brass tacks", d: "Trade tacks studded into thrones and figures as prestige decoration." },
+        { t: "Cikungu / cihongo", d: "Male masks of chiefly power and wealth, with a broad flat beard-plate." }
+      ]
+    },
+    periods: [
+      { name: "Origins", years: "c. 1600–1800", start: 1600, end: 1800, summary: "Chokwe chiefdoms form in the Angolan highlands under Lunda influence.", detail: "Chokwe polities emerged in the Lunda commonwealth's orbit, taking royal titles and the Chibinda Ilunga charter from Lunda tradition while remaining decentralised — many chiefs rather than one king." },
+      { name: "Commercial expansion", years: "1800–1900", start: 1800, end: 1900, summary: "Ivory, wax, and rubber fuel a dramatic expansion.", detail: "Chokwe hunters and traders moved north and east, supplying Atlantic and later Indian Ocean markets. Their wealth bought guns and attracted followers; by the 1880s they had overrun the Lunda capital. This is the great period of Chokwe court carving." },
+      { name: "Colonial rule", years: "1900–1960s", start: 1900, end: 1965, summary: "Portuguese and Belgian administration; rubber and forced labour.", detail: "Colonial borders cut Chokwe country three ways. Rubber collection and forced labour disrupted the chieftaincies that had patronised sculpture, and large quantities of art were collected — Tervuren's Congo collections date largely from this period." },
+      { name: "Modern", years: "1960s–present", start: 1965, end: 2025, summary: "War, displacement, and continuing masquerade.", detail: "Angola's long civil war (1975–2002) displaced many Chokwe communities. Mukanda and mask performance continue in Angola, Zambia, and Congo, and Chokwe forms have a large presence in the international art market — with all the attribution and provenance problems that implies." }
+    ],
+    events: [
+      { year: 1600, label: "Chokwe chiefdoms", detail: "Polities form in the Angolan highlands within the Lunda orbit." },
+      { year: 1750, label: "Chibinda Ilunga tradition", detail: "The hunter-hero charter underpins chiefly legitimacy." },
+      { year: 1850, label: "Ivory and wax boom", detail: "Chokwe traders expand north and east; court art flourishes." },
+      { year: 1885, label: "Lunda capital taken", detail: "Chokwe forces overrun the Lunda Mwata Yamvo's court." },
+      { year: 1900, label: "Colonial partition", detail: "Portuguese, Belgian, and British rule divide Chokwe territory." },
+      { year: 1975, label: "Angolan civil war", detail: "Decades of conflict displace communities across the heartland." }
+    ],
+    museum: {
+      see: [
+        "Seated or standing chief figures, especially Chibinda Ilunga with hunting gear.",
+        "Chairs and thrones with figural rungs and brass tacks (based on European forms, wholly Chokwe in treatment).",
+        "Mwana pwo and cihongo masks; resin-and-fibre mask constructions.",
+        "Staffs, scepters, combs, snuff mortars, and tobacco containers.",
+        "Divination baskets (ngombo) full of small symbolic objects."
+      ],
+      lingo: [
+        { t: "Chokwe", d: "Also spelled Cokwe, Tshokwe, Quioco." },
+        { t: "Chibinda Ilunga", d: "The hunter-prince culture hero." },
+        { t: "Mukanda", d: "Boys' initiation and its camp." },
+        { t: "Mwana pwo", d: "The idealised young woman mask." },
+        { t: "Ngombo", d: "A diviner's basket of objects, read by shaking." },
+        { t: "Sona", d: "Continuous-line sand drawings." }
+      ],
+      where: [
+        "Museu Nacional de Antropologia, Luanda; Africa Museum, Tervuren, Belgium.",
+        "The Met — Arts of Africa, Rockefeller Wing.",
+        "Smithsonian National Museum of African Art.",
+        "de Young Museum, San Francisco — Arts of Africa."
+      ]
+    }
+  },
+
+  {
+    slug: "rapanui",
+    name: "Rapa Nui (Easter Island)",
+    emoji: "🗿",
+    accent: "#57534e",
+    group: "Oceania",
+    region: "Rapa Nui — southeastern Polynesia",
+    start: 1150,
+    end: 1888,
+    spanLabel: "c. 1150 – 1888 CE",
+    tagline: "The most remote inhabited place on earth, and the thousand stone ancestors its people carved and moved without wheels or draft animals.",
+    overview: "Rapa Nui is a volcanic triangle 3,500 km off Chile, settled by Polynesian voyagers around 1150–1200 CE. Its people carved nearly a thousand moai — ancestor figures with heavy brows and long ears, most between 4 and 10 meters — quarried them at Rano Raraku, and moved them kilometres to coastal platforms (ahu), where they stood facing inland to watch over the living. Experiments show they were probably 'walked' upright with ropes. The old story of ecological suicide has been substantially revised: deforestation was real, aided by rats eating palm seeds, but the population catastrophe came from Peruvian slave raids and epidemics in the 1860s.",
+    quick: ["Settled by Polynesians c. 1150–1200 CE; the most isolated inhabited island on earth.", "Nearly 1,000 moai — ancestor figures — quarried at Rano Raraku and moved to coastal ahu.", "Rongorongo: a unique script (or proto-script) still undeciphered.", "Collapse narratives are outdated: 1860s slave raiding and disease did the worst damage."],
+    met: "Arts of Oceania, Michael C. Rockefeller Wing — Polynesian material including Rapa Nui carving. The best-known moai abroad, Hoa Hakananai'a, is in the British Museum (Room 24).",
+    context: {
+      bigPicture: "Rapa Nui is the ultimate test case for what a small, isolated society can build. With no metal, no wheels, no draft animals, and around 15,000 people at most, the islanders produced monumental sculpture on a scale that embarrassed 18th-century Europeans into inventing outside explanations. The moai are ancestors: each ahu belonged to a lineage, and the statues faced inland to protect their descendants. When ancestral authority failed, statues were toppled and a new competitive institution — the birdman cult at Orongo — took over.",
+      geography: "163 km² of volcanic island with three craters, no permanent streams, and no reef. Nearest inhabited neighbour: Pitcairn, 2,000 km away. Rano Raraku's compacted volcanic tuff is soft enough to carve with basalt picks; Puna Pau supplied the red scoria for topknots (pukao).",
+      keyIdeas: [
+        { t: "Moai", d: "Ancestor figures, deliberately not portraits — stylised, frontal, with prominent brows and long earlobes." },
+        { t: "Ahu", d: "The stone platform a moai stands on; ahu are lineage monuments and often contain burials." },
+        { t: "Mana", d: "Ancestral power, thought to flow to descendants through the statues' gaze." },
+        { t: "Tangata manu", d: "The birdman competition at Orongo: swimming to a nearby islet for the first sooty tern egg won a year of ritual primacy." }
+      ],
+      spotIt: [
+        { t: "Heavy brow, thin lips", d: "The moai face: straight nose, jutting chin, deep-set eyes, elongated ears." },
+        { t: "Coral eyes", d: "Standing moai originally had inset white coral and obsidian or red scoria eyes, added on erection." },
+        { t: "Pukao", d: "Red scoria topknots or headdresses placed on some statues." },
+        { t: "Moai kavakava", d: "Small wooden figures of emaciated men with visible ribs and spine — the classic portable Rapa Nui carving." },
+        { t: "Rongorongo", d: "Rows of tiny incised glyphs on wooden tablets, read in reverse boustrophedon; undeciphered." }
+      ]
+    },
+    periods: [
+      { name: "Settlement", years: "c. 1150–1250 CE", start: 1150, end: 1250, summary: "Polynesian voyagers arrive and establish lineages.", detail: "Radiocarbon evidence points to settlement around 1150–1200 CE from East Polynesia, bringing chickens, taro, sweet potato, and the Pacific rat. Oral tradition names the founding chief Hotu Matu'a." },
+      { name: "Statue period", years: "c. 1250–1600 CE", start: 1250, end: 1600, summary: "Nearly a thousand moai carved, moved, and raised.", detail: "Lineages competed in monument building. Quarrying at Rano Raraku left almost 400 statues unfinished, including one 21 meters long still attached to bedrock. Transport most likely used ropes to rock statues forward upright — 'walking' them, as the oral tradition says. Palm forest was cleared for gardening and transport; rats ate the seeds, preventing regrowth." },
+      { name: "Birdman era", years: "c. 1600–1860", start: 1600, end: 1860, summary: "Statues toppled; the Orongo competition replaces them.", detail: "Moai were pushed over — probably by rivals over time rather than in one event — and ritual authority shifted to the annual tangata manu competition at Orongo. Europeans arrived in 1722 (Roggeveen, on Easter Sunday), and Cook in 1774 found statues already fallen." },
+      { name: "Catastrophe & revival", years: "1862–present", start: 1862, end: 1888, summary: "Slave raids, epidemics, annexation — and cultural resurgence.", detail: "Peruvian slave raids in 1862–63 took perhaps 1,500 people, including the last rongorongo readers; returning survivors brought smallpox. By 1877 around 110 islanders remained. Chile annexed the island in 1888 and leased it as a sheep ranch for decades. Today Rapa Nui people are a majority again on the island, and repatriation of moai is an active issue." }
+    ],
+    events: [
+      { year: 1200, label: "Settlement", detail: "Polynesian voyagers reach the island and establish lineages." },
+      { year: 1300, label: "Moai carving peaks", detail: "Statue production at Rano Raraku accelerates." },
+      { year: 1600, label: "Statues toppled", detail: "Monument building ends; the birdman cult rises at Orongo." },
+      { year: 1722, label: "Roggeveen lands", detail: "The first European visit, on Easter Sunday — hence the European name." },
+      { year: 1862, label: "Slave raids", detail: "Peruvian raiders abduct much of the population; disease follows." },
+      { year: 1868, label: "Hoa Hakananai'a removed", detail: "A British ship takes the basalt moai now in the British Museum." },
+      { year: 1888, label: "Chilean annexation", detail: "Rapa Nui is annexed by Chile." }
+    ],
+    museum: {
+      see: [
+        "Moai kavakava — wooden male figures with exposed ribs.",
+        "Moai papa — flat female figures.",
+        "Rei miro: crescent wooden pectorals, sometimes with rongorongo glyphs.",
+        "Rongorongo tablets (about two dozen survive worldwide).",
+        "Basalt and obsidian tools; mata'a obsidian blades.",
+        "Birdman (tangata manu) carvings and Orongo petroglyph casts."
+      ],
+      lingo: [
+        { t: "Rapa Nui", d: "The island, its people, and their language; 'Easter Island' is the European name." },
+        { t: "Moai", d: "The monolithic ancestor figure." },
+        { t: "Ahu", d: "The ceremonial stone platform." },
+        { t: "Pukao", d: "The red scoria topknot." },
+        { t: "Rongorongo", d: "The island's undeciphered glyph system." },
+        { t: "Tangata manu", d: "Birdman — the ritual competition at Orongo." }
+      ],
+      where: [
+        "Museo Antropológico Sebastián Englert, Rapa Nui.",
+        "British Museum — Room 24 (Hoa Hakananai'a).",
+        "The Met — Arts of Oceania, Rockefeller Wing.",
+        "de Young Museum, San Francisco — Oceanic art."
+      ]
+    }
+  },
+
+  {
+    slug: "tonga",
+    name: "Tonga & West Polynesia",
+    emoji: "🛶",
+    accent: "#b91c1c",
+    group: "Oceania",
+    region: "Tonga, Sāmoa, and Fiji",
+    start: -900,
+    end: 1900,
+    spanLabel: "c. 900 BCE – 1900 CE",
+    tagline: "The Pacific's oldest kingdom — a maritime empire of double-hulled canoes, barkcloth by the hundred meters, and a stone trilithon.",
+    overview: "West Polynesia is where Polynesian culture formed: Lapita voyagers reached Tonga and Sāmoa around 900–800 BCE, and after centuries of relative isolation the distinct Polynesian language, social order, and art emerged there before spreading east. Tonga went further and built the Tuʻi Tonga maritime chiefdom, whose influence reached Sāmoa, Fiji, Futuna, and beyond from roughly 1200 to 1500 CE. Its monuments — the Haʻamonga ʻa Maui trilithon, the stepped langi tombs at Lapaha — and its exchange in fine mats, barkcloth, whale ivory, and red feathers held that world together. Tonga is also the only Pacific nation never formally colonised.",
+    quick: ["Lapita voyagers reach Tonga and Sāmoa c. 900–800 BCE — the Polynesian homeland.", "The Tuʻi Tonga maritime chiefdom dominated West Polynesia c. 1200–1500 CE.", "Monuments: the Haʻamonga ʻa Maui trilithon and the stone-faced langi royal tombs.", "Valuables were textiles: fine mats (ʻie tōga) and barkcloth (ngatu / siapo / masi)."],
+    met: "Arts of Oceania, Michael C. Rockefeller Wing — Polynesian clubs, barkcloth, and ivory ornaments; the de Young's Oceania galleries also hold Polynesian material.",
+    context: {
+      bigPicture: "West Polynesian wealth was made, not mined: the highest-value objects were textiles produced by women — fine mats with a genealogy of their own, and vast sheets of barkcloth — exchanged at marriages, funerals, and investitures. Tongan chiefs layered a sacred paramount (the Tuʻi Tonga) over secular executive lines, a division that let the system survive stress. Fiji supplied the great voyaging canoes and sandalwood; Sāmoa supplied fine mats and marriage alliances. The three archipelagos should be read as one interacting system, not three isolated cultures.",
+      geography: "Volcanic and coral islands in the central South Pacific: Tonga's north–south chain, Sāmoa to the northeast, and Fiji's larger islands to the west. Reliable trade winds and deliberate windward voyaging skill made regular inter-archipelago travel possible in double-hulled canoes (kalia/drua) that could carry a hundred people.",
+      keyIdeas: [
+        { t: "Tuʻi Tonga", d: "The sacred paramount title, traced back to a divine ancestor; by tradition founded in the 10th century CE." },
+        { t: "Mana and tapu", d: "Sacred power and restriction — the Polynesian pair that regulates rank and access; 'taboo' is the Tongan word." },
+        { t: "Koloa", d: "Women's wealth: fine mats and barkcloth, the objects that make marriages and funerals valid." },
+        { t: "Kava", d: "A ceremonial drink from Piper methysticum, served in ranked order — the core political ritual." }
+      ],
+      spotIt: [
+        { t: "Ngatu / siapo / masi", d: "Barkcloth: beaten mulberry bark, rubbed over a design tablet, painted in browns and blacks (Tonga/Sāmoa/Fiji names)." },
+        { t: "Fijian clubs", d: "Hardwood clubs — gunstock, pineapple, and lotus forms — often with fine chip-carved surfaces." },
+        { t: "Whale ivory", d: "Tabua (presentation whale teeth) in Fiji; ivory breast ornaments and beads in Tonga." },
+        { t: "Trilithon and langi", d: "Coral-limestone monuments: the Haʻamonga gate and stepped, faced royal tombs." },
+        { t: "Sennit binding", d: "Coconut-fibre cord lashed in geometric patterns — structural and decorative across the region." }
+      ]
+    },
+    periods: [
+      { name: "Lapita", years: "c. 900–500 BCE", start: -900, end: -500, summary: "The founding voyagers and their dentate-stamped pottery.", detail: "Lapita people, ancestors of Polynesians, spread rapidly from the Bismarck Archipelago to Tonga and Sāmoa, carrying pigs, dogs, chickens, and a distinctive pottery stamped with fine toothed combs. Their designs are the deep ancestor of later Polynesian tattoo and barkcloth motifs." },
+      { name: "Ancestral Polynesia", years: "c. 500 BCE – 900 CE", start: -500, end: 900, summary: "A distinct Polynesian culture forms in Tonga and Sāmoa.", detail: "After long-distance contact thinned, communities in the Tonga–Sāmoa region developed the ancestral Polynesian language, social ranking, and material culture. Pottery was gradually abandoned. From here, later voyages settled the Society Islands, Hawaiʻi, Rapa Nui, and Aotearoa." },
+      { name: "The Tuʻi Tonga maritime chiefdom", years: "c. 900–1500 CE", start: 900, end: 1500, summary: "Tonga projects power across the region.", detail: "The Tuʻi Tonga line, based at Heketā and then Lapaha on Tongatapu, drew tribute and marriage alliances from Sāmoa, Fiji, Futuna, and Uvea. The langi tombs and the Haʻamonga ʻa Maui date to this era. Around 1470 the sacred title was split from executive power to protect it from assassination." },
+      { name: "Contact & the modern kingdom", years: "1616–1900", start: 1616, end: 1900, summary: "Europeans arrive; Tonga unifies as a Christian kingdom.", detail: "Dutch and then British visits (Cook called Tonga the 'Friendly Islands') were followed by missionaries and civil war. Taufaʻahau unified Tonga as King George Tupou I, issued a constitution in 1875, and kept Tonga's sovereignty — it became a protected state in 1900 but was never a colony, and remains a kingdom today." }
+    ],
+    events: [
+      { year: -880, label: "Lapita reaches Tonga", detail: "The first settlers arrive with dentate-stamped pottery." },
+      { year: 950, label: "First Tuʻi Tonga", detail: "Traditional founding of the sacred paramount line, ʻAhoʻeitu." },
+      { year: 1200, label: "Maritime chiefdom peaks", detail: "Tongan influence spreads across Fiji, Sāmoa, and Futuna." },
+      { year: 1200, label: "Haʻamonga ʻa Maui", detail: "The great coral-limestone trilithon is raised on Tongatapu." },
+      { year: 1470, label: "Titles split", detail: "Executive power devolves to the Tuʻi Haʻatakalaua line." },
+      { year: 1773, label: "Cook visits", detail: "Cook names Tonga the Friendly Islands." },
+      { year: 1875, label: "Tongan constitution", detail: "King George Tupou I promulgates a constitution; Tonga stays sovereign." }
+    ],
+    museum: {
+      see: [
+        "Barkcloth: large decorated ngatu (Tonga), siapo (Sāmoa), masi (Fiji).",
+        "Fijian and Tongan war clubs with dense chip-carved surfaces.",
+        "Whale-ivory ornaments and tabua presentation teeth.",
+        "Fine mats and plaited fibre work (rarely displayed — light-sensitive).",
+        "Kava bowls (tanoa/kumete) with many legs, and coconut-fibre strainers.",
+        "Lapita pottery sherds with dentate-stamped geometric designs."
+      ],
+      lingo: [
+        { t: "Tapu", d: "Sacred restriction — the origin of the English word 'taboo'." },
+        { t: "Koloa", d: "Women's textile wealth in Tonga." },
+        { t: "Ngatu / siapo / masi", d: "Barkcloth in Tongan, Samoan, and Fijian." },
+        { t: "Tabua", d: "A polished sperm-whale tooth on a cord — the supreme Fijian presentation valuable." },
+        { t: "Langi", d: "A stepped, stone-faced Tongan royal tomb." },
+        { t: "Kalia / drua", d: "The great Tongan and Fijian double-hulled voyaging canoes." }
+      ],
+      where: [
+        "Tonga National Museum, Nukuʻalofa; Fiji Museum, Suva; Museum of Sāmoa, Apia.",
+        "The Met — Arts of Oceania, Rockefeller Wing.",
+        "de Young Museum, San Francisco — Oceanic art.",
+        "British Museum — Room 24 and the Oceania collections; Te Papa, Wellington."
+      ]
+    }
+  },
+
+  {
+    slug: "aboriginal-australia",
+    name: "Aboriginal Australia",
+    emoji: "🪃",
+    accent: "#c2410c",
+    group: "Oceania",
+    region: "The Australian continent and the Torres Strait",
+    start: -65000,
+    end: 2025,
+    spanLabel: "c. 65,000 years ago – present",
+    tagline: "The world's oldest continuous living cultures — and an art tradition that runs unbroken from ochre on rock to acrylic on canvas.",
+    overview: "Aboriginal and Torres Strait Islander peoples have lived in Australia for at least 65,000 years — hundreds of distinct nations, each with its own language, Country, and law. Their art is not one style but many: the X-ray paintings and Mimih figures of Arnhem Land rock shelters, the Wandjina of the Kimberley, engraved and painted rock across the continent, carved and painted bark, and — from Papunya in 1971 — the acrylic dot paintings that made Western Desert art internationally famous. These are maps, title deeds, and law as much as pictures: an artist paints the Country and the ancestral journeys they have the right to paint.",
+    quick: ["At least 65,000 years of continuous occupation — the world's oldest living cultures.", "Hundreds of nations and languages, not one 'Aboriginal culture'.", "The Dreaming: ancestral beings whose journeys created and still hold the land.", "Western Desert acrylic painting began at Papunya in 1971 and transformed the art world."],
+    met: "Arts of Oceania, Michael C. Rockefeller Wing — the 2025 reinstallation expanded Australian holdings, including fibre work by senior women artists. Australian institutions hold far more.",
+    context: {
+      bigPicture: "The central concept usually translated as 'the Dreaming' (Jukurrpa, Tjukurpa, Altyerre, and many other names) is not a mythic past but an ongoing reality: ancestral beings travelled, made the land's features, left law, and remain present in places. Rights to paint, sing, or dance a story belong to particular people through kinship and Country. This is why provenance, permission, and 'cultural warnings' on labels are not decoration — they are the framework the art actually operates in. Museum practice has changed sharply on this, including the repatriation of ancestral remains and secret-sacred objects.",
+      geography: "An entire continent — tropical north, central deserts, temperate southeast, and the Torres Strait islands between Australia and New Guinea. Sea levels were lower for most of human occupation: Australia and New Guinea formed one landmass (Sahul), and the drowned coasts hold sites now underwater. Country is specific: each group's identity is tied to defined land and waters.",
+      keyIdeas: [
+        { t: "The Dreaming", d: "Ancestral creation that is continuous, not past — law, land, and identity in one system." },
+        { t: "Country", d: "Not scenery: a living entity that people belong to and are responsible for." },
+        { t: "Songlines", d: "Ancestral tracks across the land, encoded in song cycles that also work as navigation." },
+        { t: "Fire-stick farming", d: "Systematic mosaic burning to manage vegetation and game over tens of thousands of years." }
+      ],
+      spotIt: [
+        { t: "X-ray art", d: "Arnhem Land bark and rock painting showing bones and internal organs of fish and animals." },
+        { t: "Rarrk", d: "Fine cross-hatching in Arnhem Land painting; the shimmer itself carries ancestral power." },
+        { t: "Wandjina", d: "Kimberley rock figures with large eyes, no mouth, and a haloed head." },
+        { t: "Dot fields", d: "Western Desert acrylic: dots partly derive from ground-painting practice and can conceal restricted content." },
+        { t: "Aerial perspective", d: "Many desert paintings are read as maps from above — concentric circles are sites, lines are journeys." }
+      ]
+    },
+    periods: [
+      { name: "Deep time", years: "c. 65,000–12,000 years ago", start: -65000, end: -10000, summary: "Continental settlement, megafauna, and the oldest art.", detail: "People reached Sahul by sea at least 65,000 years ago (Madjedbebe in Arnhem Land). Ochre use, grindstones, and rock art follow; Lake Mungo burials, around 42,000 years old, include the world's earliest known cremation. Sites record ice-age climate swings and the drowning of coastlines at the end of the last glacial period." },
+      { name: "Holocene", years: "c. 10,000 BCE – 1788 CE", start: -10000, end: 1788, summary: "Sea levels rise, populations grow, regional styles diverge.", detail: "Rising seas cut Tasmania and the Torres Strait off. Language families diversify; complex fish trap systems (Brewarrina, Budj Bim's eel channels — some of the world's oldest aquaculture) and grain harvesting appear. Trade routes move ochre, pearl shell, and stone thousands of kilometres. Makassan traders from Sulawesi visit the north coast for trepang from at least the 1700s." },
+      { name: "Invasion & survival", years: "1788–1970", start: 1788, end: 1970, summary: "Dispossession, frontier violence, and the Stolen Generations.", detail: "British colonisation from 1788 brought epidemics, massacres, and dispossession; children were forcibly removed from families well into the 1970s. Aboriginal people were not counted in the census as part of the population until the 1967 referendum. Art continued throughout — bark painting, carving, and rock art — often through mission and pastoral contexts." },
+      { name: "Renaissance & rights", years: "1971–present", start: 1971, end: 2025, summary: "Papunya, land rights, and global recognition.", detail: "In 1971 at Papunya, senior men began painting ceremonial designs with acrylic on board with teacher Geoffrey Bardon — the start of the Western Desert movement and of Aboriginal-owned art centers. Land rights legislation (1976), the Mabo decision overturning terra nullius (1992), and the 2008 apology followed. Artists including Emily Kame Kngwarreye, Rover Thomas, and Sally Gabori are now central to Australian art history." }
+    ],
+    events: [
+      { year: -65000, label: "Madjedbebe", detail: "Evidence of occupation in Arnhem Land at least 65,000 years ago." },
+      { year: -42000, label: "Lake Mungo burials", detail: "Ceremonial burial and the earliest known cremation." },
+      { year: -6600, label: "Budj Bim eel systems", detail: "Gunditjmara stone channels and traps — among the oldest aquaculture known." },
+      { year: 1788, label: "British invasion", detail: "The First Fleet lands; dispossession and epidemics follow." },
+      { year: 1967, label: "Referendum", detail: "Over 90% vote to count Aboriginal people in the census and let the Commonwealth legislate for them." },
+      { year: 1971, label: "Papunya Tula", detail: "The Western Desert acrylic painting movement begins." },
+      { year: 1992, label: "Mabo decision", detail: "The High Court rejects terra nullius and recognises native title." }
+    ],
+    museum: {
+      see: [
+        "Bark paintings from Arnhem Land — X-ray fish, Mimih spirits, and rarrk cross-hatching.",
+        "Western Desert acrylic paintings on canvas and board.",
+        "Carved and painted hollow-log coffins (larrakitj / dupun).",
+        "Fibre work: pandanus baskets, dilly bags, and fish traps — increasingly foregrounded.",
+        "Boomerangs, shields, and clubs with incised regional patterns.",
+        "Torres Strait Islander turtleshell masks and headdresses (dhoeri)."
+      ],
+      lingo: [
+        { t: "Country", d: "The land and waters a group belongs to, capitalised for that reason." },
+        { t: "The Dreaming", d: "An English gloss for many different words describing ancestral law and creation." },
+        { t: "Rarrk", d: "Cross-hatching in Arnhem Land art." },
+        { t: "Larrakitj", d: "A hollow-log memorial pole from northeast Arnhem Land." },
+        { t: "Art center", d: "A community-owned organization that supports artists and handles sales — the ethical supply chain." },
+        { t: "Cultural warning", d: "A notice that a display may contain images or names of deceased people." }
+      ],
+      where: [
+        "National Museum of Australia and the National Gallery of Australia, Canberra; Art Gallery of NSW; Museum and Art Gallery of the NT, Darwin.",
+        "The Met — Arts of Oceania, Rockefeller Wing.",
+        "British Museum — Room 24 and the Oceania collections.",
+        "de Young Museum, San Francisco — Oceanic art."
+      ]
+    }
+  },
+
+  {
+    slug: "sepik",
+    name: "Sepik River Peoples",
+    emoji: "🐊",
+    accent: "#4d7c0f",
+    group: "Oceania",
+    region: "The Sepik basin, northern Papua New Guinea",
+    start: 1700,
+    end: 2025,
+    spanLabel: "c. 1700 CE – present",
+    tagline: "The densest concentration of carving traditions on earth — crocodile ancestors, towering spirit houses, and hooked figures with impossible noses.",
+    overview: "The Sepik River winds 1,100 km through northern Papua New Guinea, and the villages along it and its tributaries produce some of the most inventive sculpture anywhere: massive haus tambaran (spirit houses) with painted façades and soaring gables, ancestor figures, hook figures, canoe prows, slit gongs, shell-inlaid masks, and orator's stools. The crocodile is everywhere — an ancestral being whose skin pattern is cut into the backs of initiates in scarification that leaves permanent raised welts. Neighbouring villages speak different languages and carve in visibly different styles, which is why 'Sepik art' is a region, not a style.",
+    quick: ["The Sepik basin in northern Papua New Guinea — hundreds of languages, dozens of carving styles.", "Haus tambaran: spirit houses with huge painted gables, the center of men's ritual life.", "The crocodile is a key ancestral being; initiation scarification imitates its skin.", "Different villages a few kilometres apart carve in immediately distinguishable styles."],
+    met: "Arts of Oceania, Michael C. Rockefeller Wing — New Guinea material, including works collected by Michael C. Rockefeller. The de Young's Jolika Collection is one of the world's great New Guinea holdings.",
+    context: {
+      bigPicture: "Sepik carving is inseparable from initiation and from the men's house. Objects are not decoration but participants: a flute is a voice, a hook figure holds ritual offerings and ancestral presence, a slit gong speaks in named rhythms. The famously extreme stylistic variation between villages is partly a product of that intensity — each community asserting its identity through form — and partly of the trade networks that moved shell, stone, and pots up and down the river. The Iatmul, Abelam, Kwoma, Sawos, and Chambri are among the best-known groups.",
+      geography: "A vast, flat, seasonally flooded river basin, with grassland, swamp, and forest, backed by the Prince Alexander and Torricelli ranges. The river is the highway; villages sit on levees and lakes. Extreme linguistic density — hundreds of languages, many unrelated — reflects long settlement in a fragmented, water-divided landscape.",
+      keyIdeas: [
+        { t: "Haus tambaran", d: "The men's spirit house: a huge structure whose interior holds flutes, figures, and restricted knowledge." },
+        { t: "Initiation", d: "Long, staged, and physically demanding; crocodile scarification marks a man's rebirth from the ancestor." },
+        { t: "Sacred flutes", d: "Paired bamboo flutes played out of sight, understood as ancestral voices." },
+        { t: "Yam cults", d: "Among the Abelam, enormous ceremonial yams are grown, decorated with masks, and displayed competitively." }
+      ],
+      spotIt: [
+        { t: "Long hooked noses", d: "Iatmul and related figures with a nose extended into a hook or joined to the chin." },
+        { t: "Shell inlay", d: "Cowrie or nassa shells set into wood for eyes and patterning." },
+        { t: "Crocodile forms", d: "Slit gongs, canoe prows, and initiation designs carrying crocodile identity." },
+        { t: "Painted gable faces", d: "Abelam spirit-house façades painted with rows of ancestral faces in ochre, white, and black." },
+        { t: "Hook figures (yipwon)", d: "Flat openwork figures of stacked hooks with a single leg — from the Karawari, southeast of the Sepik." }
+      ]
+    },
+    periods: [
+      { name: "Before contact", years: "c. 1700–1885", start: 1700, end: 1885, summary: "Village networks, trade, and ritual competition.", detail: "Sepik societies traded pottery, shell, stone, and sago along the river and with coastal peoples, and raided one another. Because wood rots quickly in the tropics, almost no surviving carvings predate the 19th century — the tradition is far older than the objects." },
+      { name: "German & Australian rule", years: "1885–1975", start: 1885, end: 1975, summary: "Colonial administration and the great collecting expeditions.", detail: "German New Guinea claimed the north coast in 1885; expeditions in 1912–13 removed thousands of objects to Berlin and elsewhere. Australia administered the territory after the First World War. Missionisation, the Pacific War, and cash cropping changed ritual life, though many practices continued or were revived." },
+      { name: "The Rockefeller era", years: "1957–1961", start: 1957, end: 1961, summary: "New Guinea art enters the Western canon.", detail: "Michael C. Rockefeller collected in New Guinea, most famously among the Asmat to the west, and disappeared there in 1961. The Met's Rockefeller Wing, opened in 1982 and reinstalled in 2025, is named for him — a reminder that the display history of Oceanic art in the US is entangled with a specific mid-century collecting moment." },
+      { name: "Papua New Guinea", years: "1975–present", start: 1975, end: 2025, summary: "Independence, tourism, and living carving traditions.", detail: "PNG became independent in 1975. Spirit houses are still built, initiations still held, and carving continues both for ritual use and for sale. Sepik artists work in a market that ranges from village commissions to international galleries." }
+    ],
+    events: [
+      { year: 1885, label: "German New Guinea", detail: "Colonial claim on the north coast of New Guinea." },
+      { year: 1886, label: "First Sepik expedition", detail: "Europeans travel up the river and begin collecting." },
+      { year: 1913, label: "Kaiserin-Augusta-Fluss expedition", detail: "A German expedition removes thousands of objects to Berlin." },
+      { year: 1938, label: "Highlands contact", detail: "Expeditions reveal dense populations in the interior — a shock to administrators." },
+      { year: 1961, label: "Michael Rockefeller disappears", detail: "Collecting in Asmat country, west of the Sepik." },
+      { year: 1975, label: "Independence", detail: "Papua New Guinea becomes independent." },
+      { year: 2005, label: "Jolika Collection", detail: "The de Young opens its major New Guinea galleries in San Francisco." }
+    ],
+    museum: {
+      see: [
+        "Ancestor figures and hook figures (yipwon).",
+        "Masks: wood with shell inlay, and basketry-and-clay 'over-modeled' forms.",
+        "Slit gongs (garamut) and hand drums (kundu) with carved handles.",
+        "Canoe prows and house posts with crocodile and bird forms.",
+        "Orator's stools, food hooks, and suspension hooks.",
+        "Painted sago-spathe panels from spirit-house ceilings."
+      ],
+      lingo: [
+        { t: "Haus tambaran", d: "Tok Pisin for the men's spirit house." },
+        { t: "Garamut", d: "A slit drum carved from a log." },
+        { t: "Iatmul, Abelam, Kwoma, Sawos", d: "Major Sepik groups, each with distinct carving styles." },
+        { t: "Over-modeled skull", d: "An ancestral skull rebuilt with clay and shell into a portrait face." },
+        { t: "Yipwon", d: "A hook figure from the Karawari region." },
+        { t: "Tok Pisin", d: "PNG's creole lingua franca — the source of many terms on museum labels." }
+      ],
+      where: [
+        "Papua New Guinea National Museum and Art Gallery, Port Moresby.",
+        "de Young Museum, San Francisco — the Jolika Collection of New Guinea Art.",
+        "The Met — Arts of Oceania, Rockefeller Wing.",
+        "Ethnologisches Museum, Berlin (Humboldt Forum); Musée du quai Branly, Paris."
+      ]
+    }
+  },
 ];
 
 /* Met floor-by-floor route: galleries → civilizations.
@@ -2246,21 +3726,21 @@ const MUSEUMS = [
         note: "Enter through the Great Hall on Fifth Avenue.",
         areas: [
           { id: "met-egypt", name: "Egyptian Art", galleries: "Galleries 100–138", note: "North end — don't miss the Temple of Dendur in Gallery 131.", civs: ["egypt", "nubia"] },
-          { id: "met-neareast", name: "Ancient Near Eastern Art", galleries: "Galleries 400–406", note: "Assyrian reliefs and lamassu in Gallery 400.", civs: ["mesopotamia", "persia"] },
-          { id: "met-greek", name: "Greek and Roman Art", galleries: "Galleries 150–176", note: "The Leon Levy and Shelby White Court.", civs: ["greece", "rome", "minoan"] },
+          { id: "met-neareast", name: "Ancient Near Eastern Art", galleries: "Galleries 400–406", note: "Assyrian reliefs and lamassu in Gallery 400; Anatolian, Phoenician, and South Arabian material sits alongside.", civs: ["mesopotamia", "persia", "hittites", "phoenicia", "saba"] },
+          { id: "met-greek", name: "Greek and Roman Art", galleries: "Galleries 150–176", note: "The Leon Levy and Shelby White Court; the Etruscan gallery (170) holds the Monteleone chariot.", civs: ["greece", "rome", "minoan", "etruscans", "phoenicia"] },
           { id: "met-arms", name: "Arms and Armor", galleries: "Galleries 371–380", note: "Suits of armor and blades.", civs: ["vikings", "medieval-europe"] },
-          { id: "met-africa", name: "Arts of Africa", galleries: "Rockefeller Wing", note: "Benin plaques, Ife heads, Kongo power figures, Asante gold, Dogon and Fang sculpture.", civs: ["benin", "mali", "yoruba", "ewe", "asante", "dogon", "fang", "kongo"] },
-          { id: "met-americas", name: "Arts of the Ancient Americas", galleries: "Rockefeller Wing", note: "Olmec jade, Maya stelae, Aztec stone, Inca textiles, Moche ceramics.", civs: ["olmec", "maya", "aztec", "inca", "moche"] },
-          { id: "met-oceania", name: "Arts of Oceania", galleries: "Rockefeller Wing", note: "Māori meeting-house carvings and the Asmat collection of Michael C. Rockefeller.", civs: ["maori", "asmat"] }
+          { id: "met-africa", name: "Arts of Africa", galleries: "Rockefeller Wing (reopened 2025)", note: "Benin plaques, Ife heads, Kongo power figures, Asante gold, Dogon, Bamana, Senufo, Chokwe, and Fang sculpture.", civs: ["benin", "mali", "yoruba", "ewe", "asante", "dogon", "fang", "kongo", "bamana", "senufo", "chokwe", "igbo-ukwu", "aksum"] },
+          { id: "met-americas", name: "Arts of the Ancient Americas", galleries: "Rockefeller Wing (reopened 2025)", note: "Olmec jade, Maya stelae, Aztec stone, Inca and Nazca textiles, Moche and Chimú metalwork. Includes the first US gallery for light-sensitive Andean textiles.", civs: ["olmec", "maya", "aztec", "inca", "moche", "chavin", "nazca", "chimu", "taino"] },
+          { id: "met-oceania", name: "Arts of Oceania", galleries: "Rockefeller Wing (reopened 2025)", note: "Māori carving, the Asmat collection of Michael C. Rockefeller, Sepik and Polynesian works, and fibre work by senior Australian and New Guinean women artists.", civs: ["maori", "asmat", "sepik", "rapanui", "tonga", "aboriginal-australia"] }
         ]
       },
       {
         id: "met-second", name: "Second floor",
         note: "Stairs and elevators up from the Great Hall.",
         areas: [
-          { id: "met-asian", name: "Asian Art", galleries: "Galleries 200–253", note: "Arts of Japan 223–232 · Arts of Korea adjacent · South & Southeast Asia incl. Gallery 249 (Khmer).", civs: ["china", "japan", "korea", "indus", "gupta", "khmer"] },
+          { id: "met-asian", name: "Asian Art", galleries: "Galleries 200–253", note: "Arts of Japan 223–232 · Arts of Korea adjacent · South & Southeast Asia incl. Gallery 249 (Khmer) and the Chola bronzes.", civs: ["china", "japan", "korea", "indus", "gupta", "khmer", "chola", "srivijaya"] },
           { id: "met-medieval", name: "Medieval Art", galleries: "Galleries 300–305", note: "Includes the Jaharis Galleries for Byzantine Art.", civs: ["byzantium", "medieval-europe", "vikings"] },
-          { id: "met-islamic", name: "Islamic Art", galleries: "Galleries 450–464", note: "Art of the Arab Lands, Turkey, Iran, Central Asia, and Later South Asia.", civs: ["islamic"] }
+          { id: "met-islamic", name: "Islamic Art", galleries: "Galleries 450–464", note: "Art of the Arab Lands, Turkey, Iran, Central Asia, and Later South Asia — Iznik, Ottoman kaftans, and Mughal jades.", civs: ["islamic", "ottoman", "mughal", "persia"] }
         ]
       },
       {
@@ -2285,9 +3765,9 @@ const MUSEUMS = [
         id: "deyoung-galleries", name: "Permanent galleries",
         note: "The de Young's strengths: the Americas, Africa, Oceania, and textiles.",
         areas: [
-          { id: "deyoung-americas", name: "Arts of the Americas", galleries: "Upper level", note: "Pre-Columbian and Native American art — Olmec to Inca.", civs: ["olmec", "maya", "aztec", "inca", "moche"] },
-          { id: "deyoung-africa", name: "Arts of Africa", galleries: "Upper level", note: "West and Central African sculpture, masks, and figures.", civs: ["benin", "yoruba", "ewe", "asante", "dogon", "fang", "kongo", "mali"] },
-          { id: "deyoung-oceania", name: "Arts of Oceania", galleries: "Upper level", note: "The Jolika collection of New Guinea art, plus Māori carving.", civs: ["maori", "asmat"] },
+          { id: "deyoung-americas", name: "Arts of the Americas", galleries: "Upper level", note: "Pre-Columbian and Native American art — Olmec to Inca, plus Andean textiles and ceramics.", civs: ["olmec", "maya", "aztec", "inca", "moche", "chavin", "nazca", "chimu"] },
+          { id: "deyoung-africa", name: "Arts of Africa", galleries: "Upper level", note: "West and Central African sculpture, masks, and figures — often titled with no date, which is what the readers are for.", civs: ["benin", "yoruba", "ewe", "asante", "dogon", "fang", "kongo", "mali", "bamana", "senufo", "chokwe"] },
+          { id: "deyoung-oceania", name: "Arts of Oceania", galleries: "Upper level", note: "The Jolika Collection of New Guinea art — one of the best anywhere — plus Polynesian and Māori work.", civs: ["maori", "asmat", "sepik", "tonga", "rapanui", "aboriginal-australia"] },
           { id: "deyoung-jade", name: "Jade collection", galleries: "Sculpture garden level", note: "One of the world's best Mesoamerican jade displays.", civs: ["olmec", "maya", "china"] }
         ]
       }
@@ -2306,7 +3786,7 @@ const MUSEUMS = [
         id: "legion-galleries", name: "Permanent galleries",
         note: "The Legion of Honor holds the Bay Area's deepest ancient art galleries.",
         areas: [
-          { id: "legion-ancient", name: "Ancient Art", galleries: "Ground floor", note: "Egyptian, Near Eastern, Greek, and Roman antiquities.", civs: ["egypt", "nubia", "mesopotamia", "persia", "greece", "rome", "minoan", "byzantium"] },
+          { id: "legion-ancient", name: "Ancient Art", galleries: "Ground floor", note: "Egyptian, Near Eastern, Greek, Etruscan, and Roman antiquities, plus ancient glass.", civs: ["egypt", "nubia", "mesopotamia", "persia", "greece", "rome", "minoan", "byzantium", "etruscans", "phoenicia"] },
           { id: "legion-european", name: "European art", galleries: "Various", note: "Medieval and later European painting and sculpture.", civs: ["medieval-europe", "byzantium", "vikings"] }
         ]
       }
@@ -2325,9 +3805,9 @@ const MUSEUMS = [
         id: "aam-galleries", name: "Collection galleries",
         note: "A geographic walk through Asia.",
         areas: [
-          { id: "aam-south", name: "South Asia", galleries: "Gallery level", note: "Indus seals, Gupta sculpture, and Buddhist art.", civs: ["indus", "gupta"] },
-          { id: "aam-southeast", name: "Southeast Asia", galleries: "Gallery level", note: "Khmer and related sculpture.", civs: ["khmer"] },
-          { id: "aam-west", name: "West Asia & Islamic world", galleries: "Gallery level", note: "Persian and Islamic art.", civs: ["islamic", "persia", "mesopotamia"] },
+          { id: "aam-south", name: "South Asia", galleries: "Gallery level", note: "Indus seals, Gupta sculpture, Chola bronzes, and Mughal painting.", civs: ["indus", "gupta", "chola", "mughal"] },
+          { id: "aam-southeast", name: "Southeast Asia", galleries: "Gallery level", note: "Khmer sculpture plus Javanese and Indonesian material.", civs: ["khmer", "srivijaya"] },
+          { id: "aam-west", name: "West Asia & Islamic world", galleries: "Gallery level", note: "Persian, Ottoman, and wider Islamic art.", civs: ["islamic", "persia", "mesopotamia", "ottoman"] },
           { id: "aam-china", name: "China", galleries: "Gallery level", note: "Bronzes, jade, and ceramics.", civs: ["china"] },
           { id: "aam-japan", name: "Japan", galleries: "Gallery level", note: "Screens, lacquer, and prints.", civs: ["japan"] },
           { id: "aam-korea", name: "Korea", galleries: "Gallery level", note: "Celadon and Buddhist art.", civs: ["korea"] }
@@ -2348,7 +3828,7 @@ const MUSEUMS = [
         id: "rosicrucian-galleries", name: "Permanent galleries",
         note: "Egyptian and Nubian antiquities, plus a replica rock-cut tomb.",
         areas: [
-          { id: "rosicrucian-egypt", name: "Ancient Egypt & Nubia", galleries: "Whole museum", note: "Mummies, coffins, and daily-life objects.", civs: ["egypt", "nubia"] }
+          { id: "rosicrucian-egypt", name: "Ancient Egypt & Nubia", galleries: "Whole museum", note: "Mummies, coffins, daily-life objects, and a replica rock-cut tomb.", civs: ["egypt", "nubia", "mesopotamia"] }
         ]
       }
     ]
@@ -2367,7 +3847,7 @@ const MUSEUMS = [
         note: "Anthropology halls on the first floor.",
         areas: [
           { id: "nmnh-egypt", name: "Eternal Life in Ancient Egypt", galleries: "First floor", note: "Mummies, coffins, and the afterlife.", civs: ["egypt", "nubia"] },
-          { id: "nmnh-africa", name: "African Voices", galleries: "First floor", note: "Living cultures and kingdoms of Africa.", civs: ["benin", "yoruba", "ewe", "asante", "dogon", "fang", "kongo", "mali"] }
+          { id: "nmnh-africa", name: "African Voices", galleries: "First floor", note: "Living cultures and historic kingdoms across the continent.", civs: ["benin", "yoruba", "ewe", "asante", "dogon", "fang", "kongo", "mali", "bamana", "aksum"] }
         ]
       }
     ]
@@ -2385,12 +3865,12 @@ const MUSEUMS = [
         id: "faaa-galleries", name: "Galleries",
         note: "Two connected buildings on the National Mall.",
         areas: [
-          { id: "faaa-south", name: "South & Southeast Asia", galleries: "Sackler", note: "Indus to Gupta to Khmer.", civs: ["indus", "gupta", "khmer"] },
+          { id: "faaa-south", name: "South & Southeast Asia", galleries: "Sackler", note: "Indus to Gupta to Chola to Khmer, plus Mughal painting.", civs: ["indus", "gupta", "khmer", "chola", "mughal", "srivijaya"] },
           { id: "faaa-china", name: "China", galleries: "Freer + Sackler", note: "Bronzes, jade, and painting.", civs: ["china"] },
           { id: "faaa-japan", name: "Japan", galleries: "Freer", note: "Screens, scrolls, and lacquer.", civs: ["japan"] },
           { id: "faaa-korea", name: "Korea", galleries: "Freer", note: "Celadon and Buddhist art.", civs: ["korea"] },
-          { id: "faaa-islamic", name: "Islamic world", galleries: "Freer + Sackler", note: "Manuscripts, ceramics, and metalwork.", civs: ["islamic", "persia"] },
-          { id: "faaa-neareast", name: "Ancient Near East", galleries: "Freer", note: "Mesopotamian and Persian antiquities.", civs: ["mesopotamia", "persia"] }
+          { id: "faaa-islamic", name: "Islamic world", galleries: "Freer + Sackler", note: "Manuscripts, ceramics, and metalwork from Iran, Turkey, and India.", civs: ["islamic", "persia", "ottoman", "mughal"] },
+          { id: "faaa-neareast", name: "Ancient Near East", galleries: "Freer", note: "Mesopotamian, Persian, and South Arabian antiquities.", civs: ["mesopotamia", "persia", "saba"] }
         ]
       }
     ]
@@ -2408,7 +3888,7 @@ const MUSEUMS = [
         id: "nmafa-galleries", name: "Galleries",
         note: "Sub-Saharan African art, traditional and modern.",
         areas: [
-          { id: "nmafa-africa", name: "Arts of Africa", galleries: "National Mall", note: "Benin, Yoruba, Kongo, Dogon, Fang, and Asante works.", civs: ["benin", "yoruba", "ewe", "asante", "dogon", "fang", "kongo", "mali"] }
+          { id: "nmafa-africa", name: "Arts of Africa", galleries: "National Mall (Quadrangle, mostly underground)", note: "Benin, Yoruba, Kongo, Dogon, Fang, Bamana, Senufo, and Chokwe works, plus Ethiopian Christian art.", civs: ["benin", "yoruba", "ewe", "asante", "dogon", "fang", "kongo", "mali", "bamana", "senufo", "chokwe", "igbo-ukwu", "aksum"] }
         ]
       }
     ]
@@ -2426,37 +3906,259 @@ const MUSEUMS = [
         id: "nmai-halls", name: "Galleries",
         note: "Objects from across North, Central, and South America.",
         areas: [
-          { id: "nmai-americas", name: "Native peoples of the Americas", galleries: "National Mall", note: "Ancient to living traditions — Olmec through Inca.", civs: ["olmec", "maya", "aztec", "inca", "moche"] }
+          { id: "nmai-americas", name: "Native peoples of the Americas", galleries: "National Mall", note: "Ancient to living traditions — Olmec through Inca, plus Caribbean and Andean collections.", civs: ["olmec", "maya", "aztec", "inca", "moche", "taino", "chavin", "nazca", "chimu"] }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "britishmuseum",
+    name: "The British Museum",
+    city: "London",
+    emoji: "🇬🇧",
+    tagline: "Free, enormous, and organized by room number — the most navigable encyclopedic museum in the world.",
+    note: "Rooms close at short notice; check the closures board in the Great Court. Several collections here are subject to active repatriation claims.",
+    floors: [
+      {
+        id: "bm-ground", name: "Ground floor",
+        note: "Enter through the Great Court. Room numbers run roughly anticlockwise.",
+        areas: [
+          { id: "bm-egypt-sculpture", name: "Egyptian Sculpture", galleries: "Room 4", note: "The Rosetta Stone and the colossal 'Younger Memnon' Ramesses II.", civs: ["egypt", "nubia"] },
+          { id: "bm-assyria", name: "Assyria", galleries: "Rooms 6–10, 19–20", note: "Balawat Gates, Nimrud lamassu, and the Lion Hunt of Ashurbanipal in Room 10.", civs: ["mesopotamia"] },
+          { id: "bm-parthenon", name: "Greece: the Parthenon Sculptures", galleries: "Room 18 (Duveen Gallery)", note: "Pediments, metopes, and frieze. Greece has requested their return since 1983.", civs: ["greece"] },
+          { id: "bm-greek-roman", name: "Greek and Roman sculpture", galleries: "Rooms 21–23", note: "Mausoleum of Halikarnassos, the world of Alexander, and Roman copies.", civs: ["greece", "rome", "etruscans"] },
+          { id: "bm-americas-oceania", name: "Living and Dying · North America · Mexico", galleries: "Rooms 24, 26, 27", note: "Hoa Hakananai'a (Room 24), the turquoise double-headed serpent and Maya lintels (Room 27).", civs: ["rapanui", "maori", "aztec", "maya", "olmec", "taino"] },
+          { id: "bm-africa", name: "Africa", galleries: "Room 25 (Sainsbury Galleries, lower floor)", note: "Benin plaques and brass heads, Asante goldweights, Kongo and Yoruba sculpture.", civs: ["benin", "yoruba", "asante", "kongo", "mali", "igbo-ukwu", "bamana", "senufo", "chokwe"] },
+          { id: "bm-china-southasia", name: "China and South Asia", galleries: "Rooms 33, 33a", note: "The Sir Joseph Hotung Gallery — including the Chola bronze Shiva Nataraja.", civs: ["china", "gupta", "chola", "indus"] }
+        ]
+      },
+      {
+        id: "bm-upper", name: "Upper floors",
+        note: "Stairs from the Great Court; the upper rooms are smaller and much quieter.",
+        areas: [
+          { id: "bm-europe-medieval", name: "Medieval Europe · Sutton Hoo", galleries: "Rooms 40–41", note: "The Lewis Chessmen (40) and the Sutton Hoo ship burial (41).", civs: ["medieval-europe", "vikings", "byzantium"] },
+          { id: "bm-mesopotamia-upper", name: "Ancient Iran · Mesopotamia", galleries: "Rooms 52, 55–56", note: "The Oxus Treasure (52) and the Standard of Ur with the Royal Cemetery gold (56).", civs: ["persia", "mesopotamia"] },
+          { id: "bm-levant-arabia", name: "The Levant · Ancient South Arabia", galleries: "Rooms 53, 57–59", note: "Room 53 covers Saba and the incense kingdoms; 57–59 cover Phoenicia and the Levant.", civs: ["saba", "phoenicia", "hittites"] },
+          { id: "bm-anatolia-ethiopia", name: "Anatolia and Urartu · Ethiopia and Coptic Egypt", galleries: "Rooms 54, 66", note: "Hittite and Anatolian material; Aksumite and Ethiopian Christian art.", civs: ["hittites", "aksum"] },
+          { id: "bm-egypt-mummies", name: "Egyptian death and afterlife", galleries: "Rooms 62–63", note: "Mummies, coffins, and funerary equipment — always crowded.", civs: ["egypt"] },
+          { id: "bm-islamic", name: "Islamic world", galleries: "Room 42–43 (Albukhary Gallery)", note: "Ceramics, metalwork, and Iznik from across the Islamic world.", civs: ["islamic", "ottoman", "mughal", "persia"] },
+          { id: "bm-japan-korea", name: "Japan and Korea", galleries: "Rooms 67, 92–94", note: "Korean gallery (67) and the Mitsubishi Corporation Japanese Galleries.", civs: ["japan", "korea"] }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "louvre",
+    name: "Musée du Louvre",
+    city: "Paris",
+    emoji: "🇫🇷",
+    tagline: "Three wings around a courtyard — and the largest Egyptian collection outside Cairo.",
+    note: "Wings: Denon (south), Sully (east), Richelieu (north). Room numbers are on the door frames; each wing has its own map color.",
+    floors: [
+      {
+        id: "louvre-sully", name: "Sully wing (east)",
+        note: "The quietest of the three for antiquities. Enter via the Cour Carrée side.",
+        areas: [
+          { id: "louvre-egypt", name: "Egyptian antiquities", galleries: "Sully, levels 0 and 1", note: "The Seated Scribe, the Great Sphinx of Tanis, and the mastaba of Akhethetep.", civs: ["egypt", "nubia"] },
+          { id: "louvre-greek", name: "Greek antiquities", galleries: "Sully level 0 (Venus de Milo, Room 346)", note: "The Winged Victory of Samothrace stands on the Daru staircase at the Denon junction.", civs: ["greece", "minoan"] },
+          { id: "louvre-medieval-louvre", name: "The medieval Louvre", galleries: "Sully, level −1", note: "The 12th-century fortress foundations under the museum.", civs: ["medieval-europe"] }
+        ]
+      },
+      {
+        id: "louvre-richelieu", name: "Richelieu wing (north)",
+        note: "The quietest wing overall — excellent in the afternoon.",
+        areas: [
+          { id: "louvre-neareast", name: "Near Eastern antiquities", galleries: "Richelieu, level 0 (Code of Hammurabi, Room 227)", note: "The Khorsabad courtyard lamassu and the glazed Archers of Darius from Susa.", civs: ["mesopotamia", "persia", "phoenicia", "hittites"] }
+        ]
+      },
+      {
+        id: "louvre-denon", name: "Denon wing (south)",
+        note: "The busy one — the Mona Lisa is in Room 711 on level 1.",
+        areas: [
+          { id: "louvre-etruscan-roman", name: "Etruscan and Roman antiquities", galleries: "Denon, level 0", note: "The Sarcophagus of the Spouses from Cerveteri is the highlight.", civs: ["etruscans", "rome"] },
+          { id: "louvre-islamic", name: "Islamic art", galleries: "Cour Visconti, Denon levels 0 and -1", note: "Under the golden wave roof; the Baptistère de Saint Louis is here.", civs: ["islamic", "persia", "ottoman", "mughal"] },
+          { id: "louvre-sessions", name: "Pavillon des Sessions", galleries: "Denon, level 0 (Porte des Lions)", note: "A long-term loan from the Musée du quai Branly — Africa, Asia, Oceania, and the Americas.", civs: ["dogon", "fang", "kongo", "maori", "asmat", "sepik", "taino", "chokwe"] }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "berlin",
+    name: "Museum Island (Staatliche Museen zu Berlin)",
+    city: "Berlin",
+    emoji: "🇩🇪",
+    tagline: "Five museums on one island, plus the Humboldt Forum across the water.",
+    note: "The Pergamonmuseum is fully closed for renovation. Its north wing reopens 4 June 2027; the south wing — with the Ishtar Gate — is not expected back until around 2037.",
+    floors: [
+      {
+        id: "berlin-island", name: "Museum Island",
+        note: "Neues Museum, Altes Museum, Bode-Museum, and the Alte Nationalgalerie are open; the Pergamonmuseum is not.",
+        areas: [
+          { id: "berlin-neues", name: "Neues Museum — Egyptian and prehistory", galleries: "Neues Museum", note: "The bust of Nefertiti, the Berlin Green Head, and the Egyptian collection.", civs: ["egypt", "nubia"] },
+          { id: "berlin-altes", name: "Altes Museum — Greek, Etruscan, Roman", galleries: "Altes Museum", note: "The Antikensammlung's classical collection, plus Etruscan material.", civs: ["greece", "rome", "etruscans", "minoan"] },
+          { id: "berlin-bode", name: "Bode-Museum — Byzantine art and sculpture", galleries: "Bode-Museum", note: "One of the world's best Byzantine collections, plus the coin cabinet.", civs: ["byzantium", "medieval-europe"] },
+          { id: "berlin-pergamon", name: "Pergamonmuseum — CLOSED", galleries: "Closed until 2027 (north wing) / c. 2037 (south wing)", note: "The Ishtar Gate, the Processional Way, the Pergamon Altar, and the Museum für Islamische Kunst. Check before you plan around it.", civs: ["mesopotamia", "persia", "greece", "islamic", "hittites"] }
+        ]
+      },
+      {
+        id: "berlin-humboldt", name: "Humboldt Forum",
+        note: "Across the Spree in the rebuilt palace — the ethnological and Asian collections.",
+        areas: [
+          { id: "berlin-ethnologisches", name: "Ethnologisches Museum", galleries: "Humboldt Forum, floors 2–3", note: "Oceania (including a Luf boat), the Americas, and Africa. Benin holdings were transferred to Nigerian ownership from 2022.", civs: ["sepik", "asmat", "maori", "benin", "kongo", "chokwe", "olmec", "maya", "inca", "moche"] },
+          { id: "berlin-asian", name: "Museum für Asiatische Kunst", galleries: "Humboldt Forum, floor 3", note: "Chinese, Japanese, Korean, and South and Southeast Asian art.", civs: ["china", "japan", "korea", "gupta", "khmer", "srivijaya"] }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: "template",
+    name: "Any encyclopedic museum",
+    city: "A template you can copy",
+    emoji: "🧭",
+    tagline: "A generic wing-by-wing skeleton — use it to map a museum this guide doesn't cover yet.",
+    note: "Copy this block in data.js, change the id, name, and city, and replace the gallery names with the ones on your museum's map. Nothing else in the site needs editing — the graph, the tours, and the route pages pick it up automatically.",
+    floors: [
+      {
+        id: "tmpl-antiquities", name: "Antiquities wing",
+        note: "Almost every encyclopedic museum groups the ancient Mediterranean and Near East together.",
+        areas: [
+          { id: "tmpl-egypt", name: "Egypt and Nubia", galleries: "— fill in —", note: "Coffins, shabtis, stelae, and hard-stone statuary. Nubian material is usually adjacent.", civs: ["egypt", "nubia", "aksum", "saba"] },
+          { id: "tmpl-neareast", name: "Ancient Near East", galleries: "— fill in —", note: "Cuneiform tablets, cylinder seals, Assyrian relief fragments, Achaemenid metalwork.", civs: ["mesopotamia", "persia", "hittites", "phoenicia"] },
+          { id: "tmpl-classical", name: "Greece, Etruria, and Rome", galleries: "— fill in —", note: "Vases, marble sculpture (usually Roman copies of Greek originals), and portrait busts.", civs: ["greece", "rome", "etruscans", "minoan"] }
+        ]
+      },
+      {
+        id: "tmpl-world", name: "Africa, Americas, and Oceania",
+        note: "Often one combined wing, and often the one with the thinnest labels.",
+        areas: [
+          { id: "tmpl-africa", name: "Arts of Africa", galleries: "— fill in —", note: "Masks and figures grouped by people rather than date; check the acquisition line.", civs: ["benin", "yoruba", "asante", "dogon", "fang", "kongo", "mali", "bamana", "senufo", "chokwe", "igbo-ukwu", "ewe"] },
+          { id: "tmpl-americas", name: "Ancient Americas", galleries: "— fill in —", note: "Usually split Mesoamerica / Andes; look for the ceramic sequence to orient yourself.", civs: ["olmec", "maya", "aztec", "inca", "moche", "chavin", "nazca", "chimu", "taino"] },
+          { id: "tmpl-oceania", name: "Oceania", galleries: "— fill in —", note: "Melanesian carving, Polynesian barkcloth and clubs, Aboriginal Australian painting.", civs: ["maori", "asmat", "sepik", "rapanui", "tonga", "aboriginal-australia"] }
+        ]
+      },
+      {
+        id: "tmpl-asia", name: "Asian art",
+        note: "Usually organized by country, then by dynasty.",
+        areas: [
+          { id: "tmpl-eastasia", name: "China, Japan, Korea", galleries: "— fill in —", note: "Bronzes, ceramics, screens, and Buddhist sculpture.", civs: ["china", "japan", "korea"] },
+          { id: "tmpl-southasia", name: "South and Southeast Asia", galleries: "— fill in —", note: "Stone and bronze sculpture; Khmer and Javanese material sits here too.", civs: ["indus", "gupta", "chola", "khmer", "srivijaya", "mughal"] },
+          { id: "tmpl-islamic", name: "Islamic world", galleries: "— fill in —", note: "Ceramics, manuscripts, carpets, and metalwork across a millennium.", civs: ["islamic", "ottoman", "mughal", "persia"] }
+        ]
+      },
+      {
+        id: "tmpl-medieval", name: "Medieval and Byzantine",
+        note: "Sometimes folded into European painting, sometimes its own wing.",
+        areas: [
+          { id: "tmpl-medieval-eu", name: "Medieval Europe and Byzantium", galleries: "— fill in —", note: "Ivories, reliquaries, manuscripts, and stained glass.", civs: ["medieval-europe", "byzantium", "vikings"] }
         ]
       }
     ]
   }
 ];
 
-/* Relationship edges between civilizations (for the visual graph). */
+/* ---------------------------------------------------------------------------
+ * RELATIONSHIP EDGES between civilizations (for the visual graph).
+ *
+ * type — what kind of connection:
+ *   neighbor      shared a border
+ *   contemporary  existed at the same time (no strong direct link implied)
+ *   successor     A was succeeded by B
+ *   predecessor   A preceded B
+ *   influenced    A shaped B's art, ideas, or institutions
+ *   region        same cultural region
+ *   trade         goods moved between them
+ *   script        writing system passed from A to B
+ *   conquest      A conquered or invaded B
+ *   religion      a religion spread from A to B
+ *
+ * note — optional one-line explanation, shown when you tap the edge.
+ * ------------------------------------------------------------------------- */
 const CIV_RELATIONS = [
-  { from: "egypt", to: "nubia", type: "neighbor" },
-  { from: "egypt", to: "mesopotamia", type: "contemporary" },
-  { from: "egypt", to: "indus", type: "contemporary" },
-  { from: "mesopotamia", to: "indus", type: "contemporary" },
-  { from: "mesopotamia", to: "persia", type: "successor" },
-  { from: "minoan", to: "greece", type: "predecessor" },
-  { from: "greece", to: "rome", type: "influenced" },
-  { from: "rome", to: "byzantium", type: "successor" },
-  { from: "persia", to: "islamic", type: "region" },
-  { from: "byzantium", to: "islamic", type: "contemporary" },
-  { from: "vikings", to: "medieval-europe", type: "contemporary" },
-  { from: "islamic", to: "mali", type: "influenced" },
-  { from: "china", to: "japan", type: "influenced" },
-  { from: "china", to: "korea", type: "influenced" },
-  { from: "korea", to: "japan", type: "influenced" },
-  { from: "indus", to: "gupta", type: "successor" },
-  { from: "gupta", to: "khmer", type: "influenced" },
-  { from: "olmec", to: "maya", type: "influenced" },
-  { from: "maya", to: "aztec", type: "influenced" },
-  { from: "moche", to: "inca", type: "predecessor" },
-  { from: "yoruba", to: "benin", type: "influenced" },
-  { from: "maori", to: "asmat", type: "region" }
+  /* --- Mediterranean & Near East --- */
+  { from: "egypt", to: "nubia", type: "neighbor", note: "Upstream neighbours for 3,000 years; Kush ruled Egypt as the 25th Dynasty." },
+  { from: "egypt", to: "mesopotamia", type: "contemporary", note: "The two original river civilizations, developing writing within a century of each other." },
+  { from: "egypt", to: "indus", type: "contemporary", note: "Bronze Age contemporaries, linked indirectly through Mesopotamian middlemen." },
+  { from: "egypt", to: "hittites", type: "neighbor", note: "Fought at Kadesh in 1274 BCE, then signed the first surviving peace treaty." },
+  { from: "mesopotamia", to: "indus", type: "trade", note: "Meluhha in Mesopotamian texts is probably the Indus; Indus seals turn up in Ur." },
+  { from: "mesopotamia", to: "persia", type: "successor", note: "Cyrus took Babylon in 539 BCE; Persia inherited the Mesopotamian world." },
+  { from: "mesopotamia", to: "hittites", type: "script", note: "The Hittites wrote their Indo-European language in Mesopotamian cuneiform." },
+  { from: "hittites", to: "phoenicia", type: "contemporary", note: "Hatti's collapse c. 1180 BCE opened the sea lanes the Phoenicians took over." },
+  { from: "phoenicia", to: "greece", type: "script", note: "Greeks borrowed the Phoenician alphabet c. 800 BCE and added vowels." },
+  { from: "phoenicia", to: "etruscans", type: "trade", note: "Phoenician traders supplied the eastern luxuries of the Orientalizing period." },
+  { from: "greece", to: "etruscans", type: "influenced", note: "Etruscans imported Athenian pottery by the shipload and adapted Greek myth." },
+  { from: "etruscans", to: "rome", type: "predecessor", note: "Rome's early kings, engineering, augury, and alphabet all came via Etruria." },
+  { from: "phoenicia", to: "rome", type: "conquest", note: "Rome destroyed Carthage in 146 BCE after three Punic Wars." },
+  { from: "minoan", to: "greece", type: "predecessor", note: "Mycenaean Greeks took over Crete and adapted Linear A into Linear B." },
+  { from: "greece", to: "rome", type: "influenced", note: "'Captive Greece took captive her savage conqueror' — Horace." },
+  { from: "rome", to: "byzantium", type: "successor", note: "Byzantium is the Roman Empire, continuing east from Constantinople." },
+  { from: "persia", to: "egypt", type: "conquest", note: "Cambyses II conquered Egypt in 525 BCE; Persia ruled it as a satrapy." },
+  { from: "persia", to: "gupta", type: "trade", note: "The overland routes linking Iran to northern India carried goods and motifs both ways." },
+  { from: "persia", to: "islamic", type: "region", note: "Persian administration, poetry, and design shaped the Islamic world after 651 CE." },
+  { from: "byzantium", to: "islamic", type: "contemporary", note: "Neighbours, rivals, and constant borrowers of each other's craft." },
+  { from: "byzantium", to: "vikings", type: "trade", note: "Rus traders sailed the rivers to Constantinople; some served in the Varangian Guard." },
+  { from: "byzantium", to: "ottoman", type: "conquest", note: "Mehmed II took Constantinople in 1453, ending the Roman Empire." },
+  { from: "saba", to: "egypt", type: "trade", note: "Frankincense and myrrh from South Arabia burned in Egyptian and Mediterranean temples." },
+  { from: "saba", to: "aksum", type: "influenced", note: "South Arabian script, temple forms, and motifs cross the Red Sea into Ethiopia." },
+  { from: "aksum", to: "nubia", type: "conquest", note: "Aksumite campaigns around 350 CE helped end the kingdom of Meroë." },
+  { from: "aksum", to: "saba", type: "conquest", note: "Kaleb of Aksum invaded Himyarite Yemen in 525 CE." },
+
+  /* --- Medieval world --- */
+  { from: "vikings", to: "medieval-europe", type: "contemporary", note: "Raiders, then settlers, then Normans — the Vikings became medieval Europe." },
+  { from: "islamic", to: "medieval-europe", type: "influenced", note: "Paper, algebra, Aristotle, and lustreware reached Europe through al-Andalus and Sicily." },
+  { from: "islamic", to: "mali", type: "religion", note: "Islam travelled the trans-Saharan trade routes into the Sahel." },
+  { from: "islamic", to: "ottoman", type: "predecessor", note: "The Ottomans inherited the caliphal role after taking Cairo in 1517." },
+  { from: "islamic", to: "mughal", type: "religion", note: "Persianate Islam is the Mughal court's language, faith, and aesthetic frame." },
+  { from: "ottoman", to: "medieval-europe", type: "contemporary", note: "Europe's permanent neighbour and rival from 1453 onward." },
+  { from: "mali", to: "islamic", type: "trade", note: "West African gold financed Mediterranean and Middle Eastern economies." },
+
+  /* --- Asia --- */
+  { from: "china", to: "japan", type: "influenced", note: "Writing, Buddhism, and city planning reached Japan largely via Korea." },
+  { from: "china", to: "korea", type: "influenced", note: "Chinese characters, Confucian statecraft, and Buddhism entered Korea first." },
+  { from: "china", to: "japan", type: "script", note: "Japanese kanji are Chinese characters, adopted from about the 5th century CE." },
+  { from: "korea", to: "japan", type: "influenced", note: "Korean craftsmen and monks carried continental culture across the strait." },
+  { from: "china", to: "srivijaya", type: "trade", note: "Chinese pilgrims and merchants stopped in Sumatra en route to India." },
+  { from: "indus", to: "gupta", type: "successor", note: "A gap of a millennium, but the same subcontinental thread." },
+  { from: "gupta", to: "khmer", type: "religion", note: "Hinduism and Buddhism, Sanskrit, and temple form travelled to Southeast Asia." },
+  { from: "gupta", to: "srivijaya", type: "religion", note: "Indian Buddhism made Srivijaya a study center for Chinese pilgrims." },
+  { from: "gupta", to: "chola", type: "predecessor", note: "The Gupta-era synthesis of Hindu temple and image underlies South Indian practice." },
+  { from: "chola", to: "srivijaya", type: "conquest", note: "Rajendra I's fleet raided Srivijayan ports in 1025 CE." },
+  { from: "chola", to: "khmer", type: "trade", note: "Bay of Bengal trade linked Tamil merchant guilds to mainland Southeast Asia." },
+  { from: "mughal", to: "chola", type: "region", note: "Mughal power never fully held the Tamil south the Cholas had ruled." },
+  { from: "persia", to: "mughal", type: "influenced", note: "Humayun's exile in Safavid Iran brought Persian painters to India." },
+
+  /* --- Africa --- */
+  { from: "yoruba", to: "benin", type: "influenced", note: "Benin tradition holds that Ife sent the first oba and taught bronze casting." },
+  { from: "igbo-ukwu", to: "benin", type: "predecessor", note: "Nigerian lost-wax casting three centuries before Ife or Benin." },
+  { from: "mali", to: "bamana", type: "predecessor", note: "Both belong to the Mande world of the middle Niger." },
+  { from: "bamana", to: "dogon", type: "neighbor", note: "Neighbours in Mali, with overlapping smiths, markets, and mask traditions." },
+  { from: "bamana", to: "senufo", type: "region", note: "Savanna neighbours with comparable initiation-society structures." },
+  { from: "senufo", to: "asante", type: "trade", note: "Both sat on the kola and gold routes between forest and Sahel." },
+  { from: "chokwe", to: "kongo", type: "region", note: "Central African neighbours in the Congo basin trade system." },
+  { from: "chokwe", to: "fang", type: "region", note: "Both are Central African carving traditions collected heavily around 1900." },
+  { from: "nubia", to: "aksum", type: "neighbor", note: "Successive Nile-corridor and Red Sea powers." },
+
+  /* --- The Americas --- */
+  { from: "olmec", to: "maya", type: "influenced", note: "Calendar, ballgame, and colossal sculpture begin with the Olmec." },
+  { from: "maya", to: "aztec", type: "influenced", note: "The Aztecs revered Teotihuacan and inherited a shared Mesoamerican tradition." },
+  { from: "chavin", to: "moche", type: "predecessor", note: "Chavín's fanged deities and metallurgy underlie all later Andean art." },
+  { from: "chavin", to: "nazca", type: "predecessor", note: "Paracas, Nazca's ancestor, grew directly out of the Chavín horizon." },
+  { from: "moche", to: "chimu", type: "predecessor", note: "Chimor took over Moche valleys, canals, and metalworking traditions." },
+  { from: "nazca", to: "inca", type: "predecessor", note: "The Wari, then the Inca, absorbed the south coast." },
+  { from: "chimu", to: "inca", type: "conquest", note: "The Inca took Chimor c. 1470 and moved its goldsmiths to Cusco." },
+  { from: "moche", to: "inca", type: "predecessor", note: "A long north-coast tradition eventually folded into Tawantinsuyu." },
+  { from: "taino", to: "maya", type: "contemporary", note: "Caribbean and Mesoamerican worlds, in contact only indirectly." },
+
+  /* --- Oceania --- */
+  { from: "tonga", to: "maori", type: "predecessor", note: "West Polynesia is the homeland from which Aotearoa was settled." },
+  { from: "tonga", to: "rapanui", type: "predecessor", note: "Eastern Polynesian voyagers ultimately came out of the West Polynesian homeland." },
+  { from: "rapanui", to: "maori", type: "region", note: "Both East Polynesian: related languages, related carving logic." },
+  { from: "sepik", to: "asmat", type: "region", note: "New Guinea carving traditions, on opposite sides of the island." },
+  { from: "aboriginal-australia", to: "sepik", type: "neighbor", note: "Australia and New Guinea were one landmass (Sahul) until c. 8,000 years ago." },
+  { from: "maori", to: "asmat", type: "region", note: "Both are Oceanic carving traditions, but a world apart culturally." }
 ];
 
 const REL_LABELS = {
@@ -2465,6 +4167,281 @@ const REL_LABELS = {
   successor: "succeeded by",
   predecessor: "preceded by",
   influenced: "influenced",
-  region: "same region"
+  region: "same region",
+  trade: "traded with",
+  script: "script passed to",
+  conquest: "conquered",
+  religion: "religion spread to"
 };
 
+/* ---------------------------------------------------------------------------
+ * MASTERPIECES — one iconic object per civilization, as a 60-second read.
+ * These become "object" nodes in the graph and cards in the readers.
+ * civ = the civilization slug it belongs to.
+ * ------------------------------------------------------------------------- */
+const MASTERPIECES = [
+  {
+    id: "rosetta-stone", civ: "egypt", name: "The Rosetta Stone", emoji: "🪨",
+    date: "196 BCE", material: "Granodiorite, 112 × 76 cm",
+    where: "British Museum, Room 4",
+    hook: "One boring tax decree, written three times — and suddenly 3,000 years of Egyptian could be read again.",
+    read: "It is a priestly decree honouring Ptolemy V, cut in hieroglyphic, Demotic, and Greek. Nobody cared about the content; what mattered was that scholars could read the Greek. Working from the Greek and from Coptic, Thomas Young and then Jean-François Champollion cracked the hieroglyphic system by 1822, proving it recorded sounds and not just ideas. Found by French soldiers at el-Rashid in 1799 and handed to Britain under the 1801 Capitulation of Alexandria, it has been on display in London since 1802 and is the subject of long-standing Egyptian repatriation requests.",
+    lookFor: ["Three scripts stacked in bands — hieroglyphs on top, Demotic, then Greek.", "Cartouches: the oval rings around 'Ptolemy' were Champollion's way in.", "The broken top-left corner — the hieroglyphic section is the most damaged.", "White infill in the letters is 20th-century; it was cleaned back in 1999."]
+  },
+  {
+    id: "ishtar-gate", civ: "mesopotamia", name: "The Ishtar Gate", emoji: "🐉",
+    date: "c. 575 BCE", material: "Glazed brick",
+    where: "Pergamonmuseum, Berlin (South Wing closed for renovation until c. 2037)",
+    hook: "Nebuchadnezzar's front door: a wall of cobalt-glazed brick covered in dragons and bulls, rebuilt inside a Berlin museum.",
+    read: "The gate was the ceremonial entrance to Babylon on the Processional Way, faced with bricks glazed a deep lapis blue and stamped with alternating rows of aurochs (for the storm god Adad) and mušḫuššu dragons (for Marduk, Babylon's own god). Robert Koldewey's excavations of 1899–1917 shipped the fragments to Berlin, where the smaller front gate was reconstructed from them. It is a reminder that Babylonian monumentality is a matter of color and repetition rather than carved stone — there is very little good building stone in Mesopotamia, so they baked their architecture.",
+    lookFor: ["Two animals only: horned aurochs and the scaly, eagle-footed mušḫuššu dragon.", "Each animal is assembled from dozens of individually moulded bricks.", "The blue is a copper-based glaze, still saturated after 2,500 years.", "The reconstruction is the smaller gate — the larger one is too big for the hall."]
+  },
+  {
+    id: "benin-plaques", civ: "benin", name: "The Benin Plaques", emoji: "🛡️",
+    date: "16th–17th century CE", material: "Brass, lost-wax cast",
+    where: "British Museum (Room 25), the Met, and a growing number back in Nigeria",
+    hook: "A palace clad in brass photographs — and the most contested objects in any Western museum.",
+    read: "Around a thousand rectangular brass plaques once covered the wooden pillars of the oba's palace in Benin City, recording court ritual, warriors, Portuguese traders, and the king himself in high relief. They were looted in the British punitive expedition of 1897, which burned the city and sold the objects to fund the campaign. That provenance is now the center of the restitution debate: Germany transferred ownership of over a thousand Benin objects to Nigeria from 2022, and other institutions have followed. When you read a Benin label, read the acquisition line too — it is part of the object.",
+    lookFor: ["Hierarchical scale: the oba is largest, attendants smaller.", "River-leaf background pattern filling every empty space.", "Coral-bead regalia — collars, crowns, and strands marking rank.", "Portuguese figures with long hair and matchlocks, shown as exotic outsiders.", "Two nail holes at the corners, from mounting on palace pillars."]
+  },
+  {
+    id: "yaxchilan-lintel", civ: "maya", name: "Yaxchilán Lintel 24", emoji: "🩸",
+    date: "c. 725 CE", material: "Limestone relief",
+    where: "British Museum, Room 27 (Mexico)",
+    hook: "A queen pulls a rope of thorns through her tongue — and it is carved with the delicacy of a jewel.",
+    read: "Lady K'ab'al Xook kneels before her husband Shield Jaguar II, who holds a torch, and draws a thorn-studded cord through her pierced tongue into a basket of bark paper below. This is bloodletting: royal blood, burned as offering, produced visions of ancestors. The relief is one of the finest surviving Maya carvings, and the detail — the woven textile, the individual thorns, the glyph block dating the event to 28 October 709 CE — shows what Maya sculptors could do at their peak. It also flatly contradicts the old idea that Maya art is impersonal: this is a named woman on a named day.",
+    lookFor: ["The thorn rope and the basket of spotted bark paper beneath.", "Her huipil's woven diamond pattern, rendered thread by thread.", "Traces of the original red and blue-green pigment.", "Glyph blocks giving the exact date and both participants' names."]
+  },
+  {
+    id: "nataraja", civ: "chola", name: "Shiva Nataraja", emoji: "🔥",
+    date: "c. 11th century CE", material: "Bronze, lost-wax cast",
+    where: "The Met (Asian Art), Government Museum Chennai, and many major collections",
+    hook: "The universe destroyed and remade in one dance, solved as a problem in bronze casting.",
+    read: "Shiva dances the tandava inside a ring of flame: the drum in his upper right hand beats creation, the fire in his upper left ends it, the lower right hand says 'do not be afraid', and the lower left points to his raised foot — refuge. Under his other foot lies Apasmara, the dwarf of ignorance. Each of these was cast in a single pour of bronze around a wax model that had to be destroyed to release it, and each was made to be dressed, garlanded, and carried through the streets. The form is a Chola invention that became, via Rodin's admiration and a thousand posters, the most reproduced image in Indian art.",
+    lookFor: ["The prabhavali — the ring of flame — often cast separately and slotted in.", "Ganga, the river goddess, as a tiny figure in his flying hair.", "The dwarf Apasmara under the planted right foot.", "Lugs or holes in the base for the carrying poles of a procession."]
+  },
+  {
+    id: "moai", civ: "rapanui", name: "Hoa Hakananai'a", emoji: "🗿",
+    date: "c. 1000–1200 CE", material: "Basalt, 2.42 m",
+    where: "British Museum, Room 24",
+    hook: "An ancestor taken from a house at Orongo in 1868 — and carved on the back with the birdman cult that replaced him.",
+    read: "Most moai are soft volcanic tuff; this one is hard basalt, which is why the carving is so crisp. Its name is usually translated 'lost or stolen friend'. What makes it exceptional is the back: after the statue era ended, its rear was carved with birdman (tangata manu) reliefs, two frigate-bird-headed men facing each other, plus vulva symbols and a dance paddle. So one object records both religious systems, before and after. It was removed by the crew of HMS Topaze in 1868; the Rapa Nui community has formally requested its return.",
+    lookFor: ["The heavy overhanging brow and the long, straight nose.", "Elongated earlobes and the thin, tight line of the mouth.", "The birdman reliefs on the back and top of the head — the reason to walk around it.", "Empty eye sockets: the white coral eyes were inserted only when a moai was raised."]
+  },
+  {
+    id: "standard-of-ur", civ: "mesopotamia", name: "The Standard of Ur", emoji: "🐚",
+    date: "c. 2500 BCE", material: "Shell, lapis lazuli, and red limestone in bitumen",
+    where: "British Museum, Room 56",
+    hook: "War on one side, a banquet on the other — the oldest comic strip about power.",
+    read: "A hollow wooden box, found crushed in a royal grave at Ur, inlaid on both long sides in three registers. On the 'War' side, chariots roll over enemies, prisoners are stripped and paraded before the king, who is drawn larger than everyone. On the 'Peace' side, animals and goods are brought to a seated banquet with a lyre player. Nobody knows what it actually was — Leonard Woolley guessed a standard carried on a pole. What it certainly is: an argument that Sumerian kingship rests on victory and on the redistribution of plenty.",
+    lookFor: ["Read each side bottom to top, like a comic page.", "The king breaking the register line — larger and taller than his court.", "Lapis lazuli, imported over 2,500 km from Afghanistan.", "Solid-wheeled chariots pulled by onagers, not horses."]
+  },
+  {
+    id: "terracotta-army", civ: "china", name: "The Terracotta Army", emoji: "🏺",
+    date: "c. 210 BCE", material: "Terracotta, life-size",
+    where: "Xi'an, China; individual figures travel on loan worldwide",
+    hook: "Eight thousand soldiers, mass-produced from moulded parts, each finished with a different face.",
+    read: "Qin Shi Huang, who unified China in 221 BCE, was buried with an army to serve him in the afterlife: infantry, archers, cavalry, chariots, and officers, arranged in battle formation in pits east of his tomb mound. The bodies were made from standardised moulded components — legs, torsos, arms — then heads and details were individualized and the whole thing painted in bright colors that mostly flaked off within minutes of excavation. It is simultaneously the greatest surviving expression of Chinese imperial ambition and a case study in assembly-line manufacture 2,000 years before Ford.",
+    lookFor: ["Rank shown by armour, hairstyle, and height — generals are tallest.", "Traces of pigment in crevices; they were once fully polychrome.", "Mould seams where standard components were joined.", "Workshop marks stamped or incised in the clay — the foreman's quality control."]
+  },
+  {
+    id: "sutton-hoo-helmet", civ: "medieval-europe", name: "The Sutton Hoo Helmet", emoji: "⚔️",
+    date: "Early 7th century CE", material: "Iron, tinned bronze, and garnet",
+    where: "British Museum, Room 41",
+    hook: "A face made of a dragon: the moustache is the beast's tail, the nose its body, the eyebrows its wings.",
+    read: "Found in 1939 in a buried ship at Sutton Hoo, Suffolk, probably the grave of King Rædwald of East Anglia. It came out of the ground in hundreds of fragments and has been reconstructed twice. The mask has a hidden joke in metal: the nose, moustache, and eyebrows together form a flying dragon whose head meets a second animal head above. Garnets glitter in the eyebrows, and one eyebrow's garnets have no foil behind them — so in firelight one eye would flash and the other would go dark. The burial dates the Anglo-Saxon world firmly to a rich, connected, Scandinavian-facing Europe rather than a dark age.",
+    lookFor: ["The dragon hidden in the face — trace nose, moustache, and eyebrows as one animal.", "Panels of stamped tinned-bronze foil with warriors and dancers.", "Garnet inlays in the eyebrows; look for the asymmetry.", "The 1971 reconstruction is next to the original in most displays."]
+  },
+  {
+    id: "temple-of-dendur", civ: "egypt", name: "The Temple of Dendur", emoji: "🏛️",
+    date: "c. 10 BCE", material: "Aeolian sandstone",
+    where: "The Met, Gallery 131 (the Sackler Wing)",
+    hook: "An entire Roman-era Egyptian temple, rescued from a rising lake and rebuilt beside a wall of glass in New York.",
+    read: "Built under Augustus for the goddess Isis and two deified local brothers, Pediese and Pihor, drowned sons of a Nubian chief. When the Aswan High Dam flooded Lower Nubia in the 1960s, UNESCO coordinated the rescue of the monuments; Egypt gave Dendur to the United States in 1965 and the Met won it in 1967. It is Egyptian in form but Roman in date: Augustus appears on the walls dressed as a pharaoh making offerings, which is exactly how Roman rule presented itself locally. The 19th-century graffiti on the walls are now historic in their own right.",
+    lookFor: ["Augustus in pharaonic dress making offerings — check the cartouches.", "Papyrus and lotus columns at the entrance, symbolising Lower and Upper Egypt.", "Graffiti from European travellers, one dated 1820.", "Water in front of the temple, staged to stand in for the Nile."]
+  },
+  {
+    id: "mask-of-agamemnon", civ: "greece", name: "The Mask of Agamemnon", emoji: "🎭",
+    date: "c. 1550–1500 BCE", material: "Hammered gold",
+    where: "National Archaeological Museum, Athens",
+    hook: "'I have gazed upon the face of Agamemnon' — a great line, and almost certainly wrong by three centuries.",
+    read: "Heinrich Schliemann found this gold funerary mask in Grave Circle A at Mycenae in 1876 and immediately attached it to Homer's king. The date is roughly 1550–1500 BCE, some 300 years before any plausible Trojan War, so the identification is fiction. What it really shows is Mycenaean elite burial: sheet gold hammered over a wooden form and pressed onto the face of a dead man, alongside others in the same grave circle. Its authenticity has occasionally been questioned — the handlebar moustache and ear cutouts are unusual — but the consensus is that it is genuine.",
+    lookFor: ["Beaten sheet gold, not cast: you can see the thinness at the edges.", "Closed eyes with an incised eyelid line — a death mask convention.", "Ears cut free of the sheet, unlike the other masks from the same graves.", "Compare it to the plainer masks nearby; this one is the outlier."]
+  },
+  {
+    id: "moche-lord-of-sipan", civ: "moche", name: "The Lord of Sipán", emoji: "👑",
+    date: "c. 250 CE", material: "Gold, silver, copper, turquoise, shell",
+    where: "Museo Tumbas Reales de Sipán, Lambayeque, Peru",
+    hook: "An unlooted royal Moche tomb — and the man inside turned out to be the figure painted on the pots.",
+    read: "In 1987 Walter Alva raced looters to a mud-brick platform at Sipán and found an intact burial: a man in his late 30s wearing gold and turquoise ear ornaments, a gold-and-silver back-flap, crescent headdress, and hundreds of shell beads, accompanied by attendants, a dog, and llamas. Crucially, his regalia match the figure known from Moche painted ceramics as the Warrior Priest, who presides over the Sacrifice Ceremony — so the imagery on the pots turned out to record real people performing real rituals. It is the richest undisturbed tomb ever excavated in the Americas.",
+    lookFor: ["Paired gold and silver — the Moche split ornaments left/right by metal.", "Turquoise-and-gold mosaic ear ornaments with tiny warrior figures.", "The crescent-shaped nose ornament and back-flap, both signs of rank.", "Peanut-shaped beads: ten of gold, ten of silver."]
+  }
+];
+
+/* ---------------------------------------------------------------------------
+ * TOURS — "start here" routes through a museum, timed for a real visit.
+ * Each stop points at a gallery area (from MUSEUMS) and/or a civ reader.
+ * ------------------------------------------------------------------------- */
+const TOURS = [
+  {
+    id: "met-90",
+    museum: "met",
+    name: "The Met in 90 minutes",
+    minutes: 90,
+    blurb: "One loop of the ground floor plus a short climb, hitting five continents without doubling back. Enter from Fifth Avenue.",
+    stops: [
+      { minutes: 20, area: "met-egypt", title: "Egypt → the Temple of Dendur", civs: ["egypt", "nubia"], what: "Walk the Egyptian galleries north in date order and finish in the glass-walled Dendur room (Gallery 131). Don't stop at every case — look for one Old Kingdom statue, one Middle Kingdom face, and one New Kingdom coffin.", why: "It sets a 3,000-year baseline you'll measure everything else against." },
+      { minutes: 12, area: "met-neareast", title: "Assyria and the lamassu", civs: ["mesopotamia", "persia"], what: "Gallery 400: the human-headed winged bulls and the palace reliefs from Nimrud.", why: "The other river civilization — and the one that invented the propaganda relief." },
+      { minutes: 18, area: "met-greek", title: "Greece and Rome", civs: ["greece", "rome", "etruscans"], what: "Cut through the Greek and Roman court. Find one kouros, one red-figure vase, and one Roman portrait bust; the Etruscan chariot is in Gallery 170.", why: "You can watch sculpture learn to move, then learn to look like a specific person." },
+      { minutes: 22, area: "met-africa", title: "The Rockefeller Wing", civs: ["benin", "yoruba", "kongo", "olmec", "maya", "maori", "asmat"], what: "Reopened in 2025 and split into three: Arts of Africa, the Ancient Americas, and Oceania. Do all three quickly rather than one slowly.", why: "It's the best single hour of world art in the building, and the Andean textile gallery is unique in the US." },
+      { minutes: 18, area: "met-asian", title: "Asian Art upstairs", civs: ["china", "japan", "korea", "gupta", "khmer", "chola"], what: "Up to the second floor: the Astor Court, Chinese Buddhist sculpture, the Japanese screens, and the South Asian bronzes.", why: "The Nataraja and the Khmer sculpture are worth the stairs on their own." }
+    ],
+    tips: ["Fifth Avenue entrance is busiest at 11am; the 81st Street entrance is usually faster.", "The Cloisters is a separate building uptown — don't try to add it to this.", "Every gallery number here can change with a reinstall. Check the Met app map."]
+  },
+  {
+    id: "deyoung-75",
+    museum: "deyoung",
+    name: "de Young in 75 minutes",
+    minutes: 75,
+    blurb: "The de Young's real strengths are Oceania, Africa, and the Americas — this route skips the temporary shows entirely.",
+    stops: [
+      { minutes: 25, area: "deyoung-oceania", title: "The Jolika Collection", civs: ["sepik", "asmat", "maori"], what: "New Guinea art on a scale you won't see elsewhere in the US: spirit-house figures, masks, hook figures, and shields.", why: "This is the collection that justifies the museum. Give it the most time." },
+      { minutes: 20, area: "deyoung-africa", title: "Arts of Africa", civs: ["benin", "yoruba", "bamana", "senufo", "dogon", "kongo", "chokwe"], what: "Masks and figures from West and Central Africa. Look for the differences between a Bamana Chi Wara, a Senufo kpelie, and a Dogon mask — three savanna traditions, three logics.", why: "Labels here are often minimal. This is where a reader earns its keep." },
+      { minutes: 20, area: "deyoung-americas", title: "Arts of the Americas", civs: ["olmec", "maya", "aztec", "moche", "nazca", "chimu"], what: "Pre-Columbian ceramics, gold, and stone, plus Native American basketry and textiles.", why: "The Andean and Mesoamerican sequences are easy to confuse; the readers separate them." },
+      { minutes: 10, area: "deyoung-jade", title: "The jade room", civs: ["olmec", "maya", "china"], what: "One of the world's best Mesoamerican jade displays, on the sculpture garden level.", why: "Olmec jade is where Mesoamerican art starts — small, dense, and easy to miss." }
+    ],
+    tips: ["The de Young frequently gives objects a title and no date. Open the reader for the culture and use its timeline.", "Free days and the Hamon Tower observation deck are worth checking on the way in.", "Golden Gate Park parking fills by 11am on weekends; the N Judah plus a walk is faster."]
+  },
+  {
+    id: "smithsonian-120",
+    museum: "nmnh",
+    name: "Smithsonian ancient-world crawl (2 hours)",
+    minutes: 120,
+    blurb: "Three free museums within a five-minute walk on the National Mall. This is the ancient and non-Western route, not the US history one.",
+    stops: [
+      { minutes: 30, area: "nmnh-egypt", title: "Natural History: Eternal Life in Ancient Egypt", civs: ["egypt", "nubia"], what: "Mummies, coffins, and the mechanics of the afterlife, on the first floor.", why: "Compact and well-labelled — a good warm-up." },
+      { minutes: 25, area: "nmnh-africa", title: "Natural History: African Voices", civs: ["mali", "benin", "yoruba", "asante"], what: "Living cultures and historic kingdoms across the continent.", why: "Frames Africa as present-tense rather than as a set of artifacts." },
+      { minutes: 30, area: "nmafa-africa", title: "National Museum of African Art", civs: ["benin", "yoruba", "kongo", "bamana", "senufo", "chokwe", "igbo-ukwu"], what: "Cross the Mall to the Quadrangle building — it's mostly underground.", why: "The deepest African art collection in the country, and rarely crowded." },
+      { minutes: 35, area: "faaa-china", title: "National Museum of Asian Art (Freer + Sackler)", civs: ["china", "japan", "korea", "gupta", "khmer", "islamic", "persia", "mughal"], what: "Two connected buildings: Chinese bronzes and painting, Japanese screens, South Asian sculpture, and Islamic manuscripts.", why: "The Freer's Peacock Room alone is worth the last half hour." }
+    ],
+    tips: ["All Smithsonian museums are free and have security lines — go early.", "The African Art and Asian Art museums are largely underground and connected via the Quadrangle.", "The American History museum is excellent but has almost no ancient material."]
+  },
+  {
+    id: "britishmuseum-90",
+    museum: "britishmuseum",
+    name: "British Museum in 90 minutes",
+    minutes: 90,
+    blurb: "The classic anchor-object route: ground floor west to east, then upstairs for the small, dense rooms.",
+    stops: [
+      { minutes: 15, area: "bm-egypt-sculpture", title: "Room 4: Rosetta Stone and Egyptian sculpture", civs: ["egypt"], what: "The Rosetta Stone is immediately left of the Great Court entrance and always crowded — go straight there, then walk the colossal sculpture gallery, including the 'Younger Memnon' Ramesses II.", why: "One stone that made an entire civilization readable again." },
+      { minutes: 15, area: "bm-assyria", title: "Rooms 6–10: Assyria", civs: ["mesopotamia"], what: "The Balawat Gates, the Nimrud lamassu, and — in Room 10 — the Lion Hunt of Ashurbanipal.", why: "The Lion Hunt reliefs are arguably the finest narrative carving of the ancient Near East." },
+      { minutes: 20, area: "bm-parthenon", title: "Room 18: the Parthenon Sculptures", civs: ["greece"], what: "The Duveen Gallery: pediment figures, metopes, and the frieze.", why: "Also the single most contested display in any museum — Greece has requested their return since 1983." },
+      { minutes: 10, area: "bm-americas-oceania", title: "Rooms 24 and 27: Hoa Hakananai'a and Mexico", civs: ["rapanui", "aztec", "maya", "taino"], what: "The moai stands in Room 24 (Living and Dying); Room 27 has the turquoise double-headed serpent and Maya lintels.", why: "Walk behind the moai — the birdman carvings on its back are the real story." },
+      { minutes: 15, area: "bm-europe-medieval", title: "Rooms 40–41: Lewis Chessmen and Sutton Hoo", civs: ["medieval-europe", "vikings"], what: "Upstairs. The chess pieces are in Room 40, the Sutton Hoo ship burial in Room 41.", why: "The helmet is the best object in the building for two minutes of close looking." },
+      { minutes: 15, area: "bm-mesopotamia-upper", title: "Rooms 52 and 56: Oxus Treasure and the Standard of Ur", civs: ["persia", "mesopotamia"], what: "Room 56 has the Standard of Ur and the Royal Cemetery gold; Room 52 has the Achaemenid Oxus Treasure.", why: "Small rooms, enormous objects — and usually much quieter than downstairs." }
+    ],
+    tips: ["Entry is free but timed tickets help at peak times; the Montague Place entrance has shorter queues than Great Russell Street.", "Rooms close at short notice for staffing — check the closures list at the door.", "Egyptian mummies (Rooms 62–63) are a 20-minute detour if you have time."]
+  },
+  {
+    id: "louvre-120",
+    museum: "louvre",
+    name: "Louvre ancient world (2 hours)",
+    minutes: 120,
+    blurb: "Skip the Mona Lisa scrum entirely. This is the antiquities route through Sully and Richelieu, which are the quiet wings.",
+    stops: [
+      { minutes: 30, area: "louvre-egypt", title: "Sully: Egyptian antiquities", civs: ["egypt", "nubia"], what: "The largest Egyptian collection outside Cairo. Find the Seated Scribe, the Great Sphinx of Tanis, and the mastaba of Akhethetep.", why: "The Seated Scribe's inlaid rock-crystal eyes are worth the trip on their own." },
+      { minutes: 25, area: "louvre-neareast", title: "Richelieu: Near Eastern antiquities", civs: ["mesopotamia", "persia", "phoenicia"], what: "The Code of Hammurabi (Room 227), the Khorsabad courtyard with its lamassu, and the glazed-brick Archers of Darius from Susa.", why: "The Hammurabi stele is the oldest substantial law code you can stand in front of." },
+      { minutes: 25, area: "louvre-greek", title: "Sully & Denon: Greek and Roman", civs: ["greece", "rome", "etruscans"], what: "Venus de Milo on level 0 of Sully, the Winged Victory of Samothrace on the Daru staircase, and the Etruscan Sarcophagus of the Spouses in Denon.", why: "The Sarcophagus of the Spouses is the single best Etruscan object anywhere." },
+      { minutes: 20, area: "louvre-islamic", title: "Islamic art in the Cour Visconti", civs: ["islamic", "persia", "ottoman", "mughal"], what: "Under the golden wave roof in the Visconti courtyard — ceramics, metalwork, and the Baptistère de Saint Louis.", why: "A superb, purpose-built gallery that most visitors never find." },
+      { minutes: 20, area: "louvre-sessions", title: "Pavillon des Sessions", civs: ["dogon", "maori", "asmat", "sepik", "taino"], what: "A hundred or so works from Africa, Asia, Oceania, and the Americas, on long-term loan from the quai Branly, near the Porte des Lions.", why: "Very few people go, and the installation is unusually generous with space." }
+    ],
+    tips: ["Enter via the Carrousel du Louvre or Porte des Lions instead of the Pyramid — the queue is a fraction of the size.", "Most tickets do not allow re-entry, so eat inside or do one continuous visit.", "Wednesday and Friday evenings are the quietest hours of the week."]
+  }
+];
+
+/* ---------------------------------------------------------------------------
+ * RESOURCES — where to check a fact, look up an object, or read more.
+ * Everything here is free unless marked otherwise.
+ * ------------------------------------------------------------------------- */
+const RESOURCES = [
+  {
+    group: "Look up an object you're standing in front of",
+    items: [
+      { name: "The Met Collection", url: "https://www.metmuseum.org/art/collection", what: "490,000+ objects, most with a full catalogue entry. Search the accession number on the label and you usually get provenance, bibliography, and a zoomable photo." },
+      { name: "British Museum Collection Online", url: "https://www.britishmuseum.org/collection", what: "Around 4.5 million records. Also the fastest way to check which room something is actually in today." },
+      { name: "Google Arts & Culture", url: "https://artsandculture.google.com/", what: "Gigapixel images from hundreds of museums — good for looking at brushwork or tool marks you can't get close enough to see in person." },
+      { name: "Smithsonian Open Access", url: "https://www.si.edu/openaccess", what: "Millions of images released into the public domain, including 3D scans." },
+      { name: "Europeana", url: "https://www.europeana.eu/", what: "Aggregates collections from thousands of European institutions in one search." }
+    ]
+  },
+  {
+    group: "Reliable background reading (free)",
+    items: [
+      { name: "Heilbrunn Timeline of Art History", url: "https://www.metmuseum.org/toah", what: "The Met's essay series organized by region and period. The single best free resource for exactly the kind of context a museum label omits." },
+      { name: "Smarthistory", url: "https://smarthistory.org/", what: "Short, scholar-written essays and videos on individual objects. Excellent for 'what am I looking at' at gallery speed." },
+      { name: "Khan Academy — Art History", url: "https://www.khanacademy.org/humanities/art-history", what: "Built largely on Smarthistory content, organized as a course if you want a sequence." },
+      { name: "World History Encyclopedia", url: "https://www.worldhistory.org/", what: "Peer-reviewed articles, maps, and timelines. Good on civilizations that get thin coverage elsewhere." },
+      { name: "Ancient Near East Today (ASOR)", url: "https://www.asor.org/anetoday/", what: "Working archaeologists writing for non-specialists about current Near Eastern research." },
+      { name: "Perseus Digital Library", url: "https://www.perseus.tufts.edu/hopper/", what: "Greek and Roman primary texts in the original and in translation, all cross-linked." }
+    ]
+  },
+  {
+    group: "Maps, chronology, and 'where was this?'",
+    items: [
+      { name: "ORBIS (Stanford)", url: "https://orbis.stanford.edu/", what: "A route planner for the Roman world — travel times and costs by season. Weirdly delightful." },
+      { name: "Pleiades", url: "https://pleiades.stoa.org/", what: "A gazetteer of ancient places with coordinates; the reference database behind most digital classics work." },
+      { name: "Digital Atlas of the Roman Empire", url: "https://dare.ht.lu.se/", what: "Ancient sites plotted on a modern map." },
+      { name: "Running Reality", url: "https://www.runningreality.org/", what: "A model of world political borders you can scrub through year by year." }
+    ]
+  },
+  {
+    group: "Provenance, restitution, and reading the acquisition line",
+    items: [
+      { name: "Digital Benin", url: "https://digitalbenin.org/", what: "Every known Benin object in Western collections, in one searchable database, with Edo-language names." },
+      { name: "Returning Heritage", url: "https://www.returningheritage.com/", what: "A running news record of restitution cases and museum policy changes." },
+      { name: "Museum provenance research guides (AAMD)", url: "https://aamd.org/object-registry", what: "Object registries for works with gaps in their ownership history." }
+    ]
+  },
+  {
+    group: "Listen and watch",
+    items: [
+      { name: "A History of the World in 100 Objects (BBC/British Museum)", url: "https://www.bbc.co.uk/programmes/b00nrtd2", what: "100 fifteen-minute episodes, each on one object. Still the best museum audio ever made." },
+      { name: "The Met's Audio Guide", url: "https://www.metmuseum.org/visit/audio-guide", what: "Free in the Met app, works on your own headphones." },
+      { name: "Smarthistory YouTube", url: "https://www.youtube.com/@smarthistoryvideos", what: "Two people looking hard at one object and arguing about it, which is the correct way to do this." }
+    ]
+  },
+  {
+    group: "Practical, in the building",
+    items: [
+      { name: "Bay Area Museums & Pass Guide", url: "/museums/", what: "This site: 70 Bay Area museums with NARM/ROAM reciprocity, free days, and entry-card info." },
+      { name: "Museum reciprocal programs (NARM)", url: "https://narmassociation.org/", what: "One membership, free admission at 1,300+ institutions. Pays for itself in two trips." },
+      { name: "Bloomberg Connects", url: "https://www.bloombergconnects.org/", what: "Free digital guides for hundreds of museums in one app — often better than the museum's own signage." }
+    ]
+  }
+];
+
+/* ---------------------------------------------------------------------------
+ * GLOSSARY — label vocabulary that shows up across many civilizations.
+ * ------------------------------------------------------------------------- */
+const GLOSSARY = [
+  { t: "c. / ca.", d: "Circa — 'about'. On a label it means the date is an estimate, often ±50 years or more." },
+  { t: "BCE / CE", d: "Before Common Era / Common Era. Numerically identical to BC/AD." },
+  { t: "BP", d: "'Before Present', counted from 1950. Used for radiocarbon dates, so 5,000 BP ≈ 3050 BCE." },
+  { t: "Attributed to", d: "The museum thinks this artist made it but can't prove it. 'Workshop of' is weaker; 'circle of' or 'follower of' weaker still." },
+  { t: "Provenance", d: "The ownership history of an object. Gaps between 1933 and 1945, or a colonial-era military expedition, are the ones to notice." },
+  { t: "Accession number", d: "The catalogue number, usually formatted year.lot.item (e.g. 1979.206.121). Search it on the museum's site for the full record." },
+  { t: "Gift of / Bequest of", d: "How the museum got it. 'Purchase, [name] Gift' means money from a donor rather than the object itself." },
+  { t: "Polychrome", d: "Painted in several colors. Most ancient stone sculpture was polychrome; the white marble look is loss, not taste." },
+  { t: "In situ", d: "Found in its original position — which makes its context, and therefore its meaning, far more reliable." },
+  { t: "Repoussé", d: "Sheet metal hammered from behind to raise a design; chasing is the same from the front." },
+  { t: "Lost-wax casting", d: "A wax model is coated in clay, melted out, and replaced with molten metal. Each cast destroys its model." },
+  { t: "Slip", d: "Liquid clay, often colored, painted onto pottery before firing." },
+  { t: "Faience", d: "Not clay: a glazed silica paste, usually blue-green. Common in Egypt and the Near East." },
+  { t: "Terracotta", d: "Fired clay, unglazed." },
+  { t: "Stela / stele", d: "An upright stone slab with carving or inscription." },
+  { t: "Relief", d: "Carving raised from a background. High relief projects a lot; sunk relief is cut into the surface (an Egyptian speciality)." },
+  { t: "Votive", d: "Given to a deity as an offering or in fulfilment of a vow — not made to be used." },
+  { t: "Funerary", d: "Made for burial. A huge share of what survives from any ancient culture is funerary, which skews what we think they cared about." },
+  { t: "Ex-collection", d: "Previously owned by a named collector — often a clue to when and how it left its country of origin." },
+  { t: "Reconstructed / composite", d: "Assembled from fragments, sometimes from more than one object. Worth knowing before you admire the symmetry." }
+];

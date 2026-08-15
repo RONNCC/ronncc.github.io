@@ -752,7 +752,40 @@ details.period .p-body .p-summary-mobile {
   font-weight: 800;
   color: var(--accent);
   margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
+
+/* ---------- listen (text-to-speech) ---------- */
+.listen-btn {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 5px 13px 5px 10px;
+  font: inherit;
+  font-size: .74rem;
+  letter-spacing: .06em;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft, rgba(0, 0, 0, .05));
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+.listen-btn:hover { background: var(--accent); color: #fff; }
+.listen-btn.is-speaking { background: var(--accent); color: #fff; }
+.listen-btn .listen-icon { font-size: .7em; line-height: 1; }
+.listen-btn.is-speaking .listen-icon { animation: listen-pulse 1.1s ease-in-out infinite; }
+@keyframes listen-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+@media (pointer: coarse) { .listen-btn { min-height: 40px; padding: 6px 16px 6px 13px; } }
+@media (prefers-reduced-motion: reduce) { .listen-btn.is-speaking .listen-icon { animation: none; } }
+@media print { .listen-btn { display: none; } }
 .quick ul {
   margin: 0;
   padding: 0;
@@ -826,3 +859,628 @@ html[data-theme="dark"] .world-anchor { fill: #66707f; }
 html[data-theme="dark"] .mt-grid { stroke: #232834; }
 html[data-theme="dark"] .mt-grid.major { stroke: #303848; }
 html[data-theme="dark"] .tl-dot { stroke: #181c24; }
+
+/* ===========================================================================
+ * MOBILE-FIRST ADDITIONS
+ * This guide is used one-handed, standing up, in a dim gallery, often with
+ * no signal. Everything below optimises for that: 44px tap targets, no
+ * hover-only affordances, safe-area padding, and readable type at arm's length.
+ * ========================================================================= */
+
+:root {
+  --nav-h: 58px;
+  --tap: 44px;
+}
+
+/* Never let a long word or a wide table force a horizontal page scroll. */
+html, body { overflow-x: hidden; }
+img, svg { max-width: 100%; }
+
+/* ---------- bottom tab bar (phones) / top bar (desktop) ---------- */
+.site-nav {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 70;
+  display: flex;
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  box-shadow: 0 -2px 16px -8px rgba(16, 24, 40, .22);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+.site-nav .nav-item {
+  flex: 1;
+  min-height: var(--nav-h);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 6px 2px;
+  color: var(--ink-faint);
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .01em;
+  -webkit-tap-highlight-color: transparent;
+}
+.site-nav .nav-item:hover { text-decoration: none; color: var(--accent); }
+.site-nav .nav-item.on { color: var(--accent); }
+.site-nav .nav-ico { font-size: 19px; line-height: 1; }
+.site-nav .nav-item.on .nav-ico { transform: translateY(-1px); }
+body.has-nav { padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px) + 8px); }
+
+@media (min-width: 861px) {
+  .site-nav {
+    top: 0; bottom: auto;
+    border-top: 0;
+    border-bottom: 1px solid var(--line);
+    box-shadow: var(--shadow-sm);
+    justify-content: center;
+    gap: 4px;
+    padding: 6px 12px;
+    backdrop-filter: saturate(1.4) blur(8px);
+  }
+  .site-nav .nav-item {
+    flex: 0 0 auto;
+    flex-direction: row;
+    gap: 7px;
+    min-height: 38px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 14px;
+  }
+  .site-nav .nav-item.on { background: var(--accent-soft); }
+  .site-nav .nav-ico { font-size: 16px; }
+  body.has-nav { padding-bottom: 0; padding-top: 58px; }
+  .theme-toggle { top: 62px; }
+}
+
+/* ---------- back to top ---------- */
+.to-top {
+  position: fixed;
+  right: 14px;
+  bottom: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px) + 14px);
+  z-index: 65;
+  width: var(--tap); height: var(--tap);
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-size: 19px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease;
+}
+.to-top.show { opacity: 1; pointer-events: auto; }
+@media (min-width: 861px) { .to-top { bottom: 20px; } }
+
+/* ---------- stat strip ---------- */
+.stat-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 4px 0 18px;
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+.stat-strip b { color: var(--ink); font-size: 15px; }
+.stat-strip .offline-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 12px;
+}
+.stat-strip .offline-pill::before { content: "●"; font-size: 8px; }
+
+/* ---------- in-page jump links (reader) ---------- */
+.jump {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 12px 0 4px;
+  margin: 8px -20px 0;
+  padding-inline: 20px;
+  scroll-snap-type: x proximity;
+}
+.jump::-webkit-scrollbar { display: none; }
+.jump a {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  padding: 9px 15px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-size: 13.5px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.jump a:hover, .jump a:focus-visible {
+  text-decoration: none;
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Anchored sections shouldn't land flush against the top of the viewport.
+   On phones the nav sits at the *bottom*, so a small breathing gap is enough;
+   on desktop the bar is overhead and the offset has to clear it. */
+[id^="sec-"], .museum-block, .route-area, .tour, .mp-card { scroll-margin-top: 14px; }
+@media (min-width: 861px) {
+  [id^="sec-"], .museum-block, .route-area, .tour, .mp-card { scroll-margin-top: 74px; }
+}
+
+/* ---------- masterpiece cards ---------- */
+.mp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+  margin: 8px 0 24px;
+}
+.mp-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--c, var(--accent));
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+  margin: 10px 0 22px;
+}
+.mp-head { display: flex; gap: 13px; align-items: flex-start; }
+.mp-emoji {
+  font-size: 1.9rem;
+  line-height: 1;
+  flex: 0 0 auto;
+  width: 46px; height: 46px;
+  display: grid; place-items: center;
+  border-radius: 12px;
+  background: var(--c-soft, var(--accent-soft));
+}
+.mp-titles { min-width: 0; }
+.mp-titles h3 { margin: 0 0 3px; font-size: 1.2rem; letter-spacing: -0.01em; }
+.mp-meta { font-size: 12.5px; color: var(--ink-faint); font-weight: 600; }
+.mp-where { font-size: 12.5px; color: var(--c, var(--accent)); font-weight: 700; margin-top: 3px; }
+.mp-hook {
+  margin: 14px 0 10px;
+  font-size: 16.5px;
+  font-weight: 600;
+  line-height: 1.42;
+  color: var(--ink);
+}
+.mp-read { margin: 0 0 14px; font-size: 15px; color: var(--ink-soft); }
+.mp-look {
+  background: var(--paper-2);
+  border-radius: 10px;
+  padding: 12px 15px 12px 14px;
+}
+.mp-look h4 {
+  margin: 0 0 7px;
+  font-size: .76rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--c, var(--accent));
+}
+.mp-look ul { margin: 0; padding-left: 17px; }
+.mp-look li { font-size: 14px; color: var(--ink-soft); margin: 5px 0; }
+.mp-more {
+  display: inline-block;
+  margin-top: 13px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--c, var(--accent));
+}
+
+/* ---------- where to see it (reader) ---------- */
+.where-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 10px;
+  margin: 10px 0 6px;
+}
+.where-card {
+  display: block;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 15px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow-sm);
+  min-height: var(--tap);
+}
+.where-card:hover { text-decoration: none; border-color: var(--accent); }
+.where-museum { font-size: 12.5px; color: var(--ink-faint); font-weight: 700; }
+.where-area { font-weight: 700; font-size: 15px; margin: 2px 0 1px; }
+.where-gal { font-size: 13px; color: var(--accent); font-weight: 600; }
+
+/* ---------- related civilizations (reader) ---------- */
+.rel-list { display: grid; gap: 8px; margin: 10px 0 6px; }
+.rel-row {
+  display: grid;
+  grid-template-columns: 128px 1fr;
+  gap: 4px 12px;
+  align-items: baseline;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 15px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow-sm);
+}
+.rel-row:hover { text-decoration: none; border-color: var(--c, var(--accent)); }
+.rel-type {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+.rel-trade { color: #0284c7; }
+.rel-script { color: #db2777; }
+.rel-conquest { color: #dc2626; }
+.rel-religion { color: #7c3aed; }
+.rel-influenced { color: #b45309; }
+.rel-name { font-weight: 700; font-size: 15px; }
+.rel-note { grid-column: 2; font-size: 13.5px; color: var(--ink-soft); }
+@media (max-width: 560px) {
+  .rel-row { grid-template-columns: 1fr; }
+  .rel-note { grid-column: 1; }
+}
+
+/* ---------- tours ---------- */
+.tour-cards {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 4px 0 16px;
+  scroll-snap-type: x proximity;
+}
+.tour-cards::-webkit-scrollbar { display: none; }
+.tour-card {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  min-width: 210px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 13px 16px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow-sm);
+}
+.tour-card:hover { text-decoration: none; border-color: var(--accent); }
+.tour-card-top { font-size: 15px; }
+.tour-card-meta { font-size: 12.5px; color: var(--ink-faint); margin-top: 3px; font-weight: 600; }
+
+.tour {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px 22px 22px;
+  margin: 22px 0;
+  box-shadow: var(--shadow-sm);
+}
+.tour-head { display: flex; gap: 13px; align-items: center; }
+.tour-emoji {
+  width: 46px; height: 46px;
+  display: grid; place-items: center;
+  font-size: 1.6rem;
+  background: var(--accent-soft);
+  border-radius: 12px;
+  flex: 0 0 auto;
+}
+.tour-head h2 { margin: 0; font-size: 1.3rem; letter-spacing: -0.01em; }
+.tour-sub { font-size: 12.5px; color: var(--ink-faint); font-weight: 600; margin-top: 2px; }
+.tour-blurb { margin: 14px 0 4px; font-size: 15px; color: var(--ink-soft); }
+
+.tour-stops { list-style: none; margin: 16px 0 0; padding: 0; }
+.tour-stop {
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  gap: 14px;
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+}
+.tour-stop-rail { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.tour-num {
+  width: 30px; height: 30px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 800;
+  font-size: 14px;
+}
+.tour-clock { font-size: 11px; color: var(--ink-faint); font-weight: 700; white-space: nowrap; }
+.tour-stop-body h3 { margin: 2px 0 3px; font-size: 1.05rem; }
+.tour-gal { font-size: 12.5px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+.tour-what { margin: 0 0 7px; font-size: 14.5px; color: var(--ink-soft); }
+.tour-why { margin: 0 0 9px; font-size: 14px; color: var(--ink-soft); }
+.tour-why b { color: var(--ink); }
+.tour-time {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 9px;
+}
+.tour-tips {
+  margin-top: 18px;
+  background: var(--paper-2);
+  border-radius: 10px;
+  padding: 13px 16px;
+}
+.tour-tips h4 {
+  margin: 0 0 7px;
+  font-size: .76rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--accent);
+}
+.tour-tips ul { margin: 0; padding-left: 17px; }
+.tour-tips li { font-size: 14px; color: var(--ink-soft); margin: 5px 0; }
+.tour .route-btn.subtle { margin-top: 16px; }
+@media (max-width: 560px) {
+  .tour { padding: 16px 15px 18px; }
+  .tour-stop { grid-template-columns: 44px 1fr; gap: 10px; }
+  .tour-num { width: 27px; height: 27px; font-size: 13px; }
+}
+
+/* ---------- guide: how-to, glossary, resources ---------- */
+.howto { margin: 0; padding-left: 20px; }
+.howto li { font-size: 15px; color: var(--ink-soft); margin: 10px 0; }
+.howto li b { color: var(--ink); }
+
+.gloss-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+  margin: 12px 0 6px;
+}
+.gloss {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 15px;
+  box-shadow: var(--shadow-sm);
+}
+.gloss b { display: block; font-size: 15px; color: var(--ink); }
+.gloss span { display: block; font-size: 14px; color: var(--ink-soft); margin-top: 3px; }
+.gloss-civs { display: flex !important; flex-wrap: wrap; gap: 4px 10px; margin-top: 7px !important; }
+.gloss-civs a { font-size: 12.5px; font-weight: 600; }
+
+.res-group {
+  margin: 26px 0 8px;
+  font-size: .92rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--ink-faint);
+}
+.res-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+.res-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow-sm);
+  min-height: var(--tap);
+}
+.res-card:hover { text-decoration: none; border-color: var(--accent); transform: translateY(-1px); }
+.res-name { font-weight: 700; font-size: 15px; color: var(--accent); }
+.res-card p { margin: 6px 0 10px; font-size: 14px; color: var(--ink-soft); flex: 1; }
+.res-host { font-size: 12px; color: var(--ink-faint); font-weight: 600; }
+.src-note { font-size: 14.5px; color: var(--ink-soft); margin: 0 0 12px; }
+.src-note code {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 1px 5px;
+  font-size: 13px;
+}
+
+/* ---------- graph: time slider & touch affordances ---------- */
+.graph-timeslider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 0 0 10px;
+  padding: 10px 13px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.graph-timeslider label {
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--ink-faint);
+}
+.graph-timeslider input[type="range"] {
+  flex: 1 1 200px;
+  min-width: 150px;
+  accent-color: var(--accent);
+  height: 28px;
+}
+.graph-timeslider output {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--accent);
+  min-width: 88px;
+  text-align: right;
+}
+.time-btn {
+  min-width: var(--tap);
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  font: 700 14px/1 var(--font);
+  cursor: pointer;
+  padding: 0 14px;
+}
+.time-btn.subtle { background: var(--paper); color: var(--accent); }
+
+.graph-stage { touch-action: none; }
+.g-node:focus-visible .g-circle { stroke: var(--accent); stroke-width: 3; outline: none; }
+.g-node.faded { opacity: .12; }
+.g-node.focused .g-circle { stroke: var(--accent); stroke-width: 3; }
+.g-node.out-of-time { opacity: .1; }
+.g-edge { transition: opacity .12s ease; }
+.g-edge.faded { opacity: .05; }
+.g-edge.lit { opacity: .95; stroke-width: 2.6; }
+.g-edge.out-of-time { opacity: .06; }
+
+.graph-info {
+  max-width: min(340px, calc(100% - 24px));
+  padding-right: 34px;
+}
+.graph-info-close {
+  position: absolute;
+  top: 6px; right: 6px;
+  width: 30px; height: 30px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-faint);
+  font-size: 21px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.graph-info-close:hover { background: var(--paper-2); color: var(--ink); }
+.graph-info-links { margin: 0 0 10px; padding-left: 16px; }
+.graph-info-links li { font-size: 12.5px; color: var(--ink-soft); margin: 4px 0; }
+.graph-info-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.graph-hint {
+  position: absolute;
+  left: 12px; top: 12px;
+  font-size: 12px;
+  color: var(--ink-faint);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 12px;
+  pointer-events: none;
+  transition: opacity .3s ease;
+}
+.graph-hint.gone { opacity: 0; }
+
+/* ===========================================================================
+ * PHONE LAYOUT
+ * ========================================================================= */
+@media (max-width: 860px) {
+  .wrap { padding: 0 16px; }
+  .graph-stage { height: 62vh; min-height: 340px; }
+  .graph-toolbar { gap: 8px 12px; }
+  .graph-legend { gap: 8px; font-size: 11.5px; }
+  .graph-filters {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+  .graph-filters::-webkit-scrollbar { display: none; }
+  .filt-chip { flex: 0 0 auto; padding: 8px 13px; font-size: 12.5px; }
+  .graph-info { left: 8px; right: 8px; bottom: 8px; max-width: none; }
+}
+
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .hero h1 { font-size: clamp(1.65rem, 7.6vw, 2.2rem); }
+  .lede { font-size: 16px; }
+  .mp-grid, .res-grid, .gloss-grid, .where-grid { grid-template-columns: 1fr; }
+  .mp-card { padding: 15px 16px; }
+  .mp-hook { font-size: 15.5px; }
+  .route-btn { padding: 12px 18px; }         /* keep buttons thumb-sized */
+  .filt-chip, .jump a { min-height: 38px; display: inline-flex; align-items: center; }
+  .section-title { margin-top: 26px; }
+  .museum-block { padding: 15px 15px 6px; }
+  .route-grid { grid-template-columns: 1fr; }
+  .route-area { padding: 13px 14px; }
+  .route-pill { padding: 8px 13px; font-size: 13.5px; }   /* was too small to tap */
+  .pager { grid-template-columns: 1fr; gap: 8px; }
+  .pager a.next { text-align: left; }
+  .pager .pager-all { justify-content: center; padding: 6px 0; }
+  .stat-strip { gap: 6px 14px; font-size: 12.5px; }
+  .graph-timeslider { gap: 8px; padding: 9px 11px; }
+  .graph-timeslider output { min-width: 74px; font-size: 12.5px; }
+  details.period summary { padding: 13px 14px; }
+  .quick { padding: 13px 15px; }
+  .quick li { font-size: 15px; }
+  .civ-header h1 { gap: 10px; }
+  .tl-scroll { margin: 0 -16px; padding: 0 16px; }
+}
+
+/* The SVG timelines are the one thing that genuinely needs a wide viewport —
+   give them a proper horizontal scroller with a visible hint on phones. */
+@media (max-width: 860px) {
+  .tl-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+  }
+  .tl-scroll > svg { min-width: 760px; }
+  .mt-panel .tl-scroll > svg { min-width: 880px; }
+  .panel-head .hint { font-size: 12px; }
+}
+
+/* Bigger hit areas everywhere touch is the primary input. */
+@media (pointer: coarse) {
+  a, button, summary, .filt-chip, .route-pill, .nav-item { -webkit-tap-highlight-color: rgba(0, 0, 0, .04); }
+  details.period summary { min-height: var(--tap); }
+  .theme-toggle { width: 48px; height: 48px; }
+}
+
+/* Respect reduced-motion preferences. */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: .001ms !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+}
+
+/* Print / save-as-PDF: strip the chrome, keep the words. */
+@media print {
+  .site-nav, .to-top, .theme-toggle, .jump, .search-wrap, .route-links, .graph-panel { display: none !important; }
+  body { font-size: 11pt; background: #fff; }
+  .panel, .mp-card, .tour, .museum-block { break-inside: avoid; box-shadow: none; }
+  details.period[open] .p-body, details.period .p-body { display: block !important; }
+}
+
+/* ---------- dark mode additions ---------- */
+html[data-theme="dark"] .site-nav {
+  background: rgba(24, 28, 36, .96);
+  border-color: #2a3140;
+}
+html[data-theme="dark"] .to-top { background: var(--paper); }
+html[data-theme="dark"] .mp-look,
+html[data-theme="dark"] .tour-tips { background: #131720; }
+html[data-theme="dark"] .graph-hint { background: rgba(24, 28, 36, .92); }
+html[data-theme="dark"] .g-node.faded { opacity: .16; }
+html[data-theme="dark"] .g-circle { stroke: #181c24; }
+html[data-theme="dark"] .src-note code { background: #131720; }
