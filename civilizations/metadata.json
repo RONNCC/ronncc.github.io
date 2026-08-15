@@ -1,0 +1,6 @@
+{
+  "name": "Civilization Readers",
+  "description": "A mini-site of 32 museum primers covering the Mediterranean, Asia, Africa (kingdoms and peoples alike), the Americas, and Oceania. Each reader shows a visual timeline (with a world-history ruler), high-level context, deeper period-by-period detail, and a museum cheat sheet — including real Met gallery numbers. Routes for the Met, SF museums, and the Smithsonian are structured internally as a graph (museums → galleries → civilizations, plus relationship edges) and rendered as an interactive force-directed network on routes.html. Works offline, installable, and has a dark/low-light mode for dim galleries.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["timeline", "civilization-primers", "museum-context", "offline", "dark-mode", "met-gallery-numbers"]
+}
