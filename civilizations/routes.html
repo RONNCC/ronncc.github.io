@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Museums, mapped as a graph — Civilization Readers</title>
+  <meta name="description" content="Museums, galleries, and civilizations as an interactive graph, plus route pages for the Met, SF museums, and the Smithsonian." />
+  <meta name="theme-color" content="#0f6ab4" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-180.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="routes">
+  <div class="wrap">
+    <div id="app"></div>
+  </div>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("sw.js").catch(function () {});
+      });
+    }
+  </script>
+</body>
+</html>
