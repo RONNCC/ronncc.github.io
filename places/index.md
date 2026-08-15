@@ -20,7 +20,7 @@ Guides to actual places worth going to. Mostly SF for now.
     - filterable map & table of 70 museums with NARM/ROAM, ICOM, and entry-card info.
   </li>
   <li>
-    <a href="{{ site.baseurl }}/coffee-guide/">Quick Coffee Guide</a>
-    - searchable decoder for coffee drinks, ingredients, and SF café menu names.
+    <a href="{{ site.baseurl }}/coffee-guide/">Coffee Guide ☕</a>
+    - an illustrated, searchable decoder for coffee drinks, ingredients, SF café menu names, and the cafés that serve them.
   </li>
 </ul>
