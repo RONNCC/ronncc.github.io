@@ -48,14 +48,21 @@ below.
   `london.html` (British Museum, room by room), `paris.html` (the Louvre, wing by wing),
   `berlin.html` (Museum Island & the Humboldt Forum), and `template.html` — a generic
   "encyclopedic museum" skeleton you can copy to add your own.
-- **A graph view** (`routes.html`) — museums, galleries, civilizations, **and objects** are
-  structured internally as a graph (`MUSEUMS`, `CIV_RELATIONS`, `MASTERPIECES` in
-  `data.js`) and rendered as an interactive force-directed network. Edges are typed and
-  colour-coded: neighbour, contemporary, successor/predecessor, influence, region, **trade**
-  (Indus–Mesopotamia), **script** (Phoenician→Greek), **conquest** (Persia→Egypt), and
-  **religious spread** (Gupta→Southeast Asia). There's a **time slider** that fades civs in
-  and out as the years scroll, **drill-down** (tap a museum twice to collapse or expand its
-  galleries in place), type/region filters, pinch-zoom and one-finger pan.
+- **A geographic museum map** (`routes.html`) — every museum plotted where it actually
+  stands — New York, the Bay Area, Washington DC, London, Paris, and Berlin — on an
+  offline map bundled with the site (`world.js`, Natural Earth 1:110m land polygons
+  projected to equirectangular). Museums within ~1.1° of each other share one pin (the
+  four Smithsonian buildings, the four Bay Area museums); tap a pin for the museums
+  there, and use **Fit museums** / **World** to zoom the view.
+- **A connection graph** (`routes.html`, below the map) — museums, galleries,
+  civilizations, **and objects** are structured internally as a graph (`MUSEUMS`,
+  `CIV_RELATIONS`, `MASTERPIECES` in `data.js`) and rendered as an interactive
+  force-directed network. Edges are typed and colour-coded: neighbour, contemporary,
+  successor/predecessor, influence, region, **trade** (Indus–Mesopotamia), **script**
+  (Phoenician→Greek), **conquest** (Persia→Egypt), and **religious spread**
+  (Gupta→Southeast Asia). There's a **time slider** that fades civs in and out as the
+  years scroll, **drill-down** (tap a museum twice to collapse or expand its galleries
+  in place), type/region filters, pinch-zoom and one-finger pan.
 - **A how-to-read-a-museum guide** (`guide.html`) — what to do when the label is thin, a
   20-term glossary of the words labels use without explaining (repoussé, faience, slip,
   provenance…), and a reference list of further reading and collection databases.
@@ -67,11 +74,14 @@ below.
 - `reader.html` — the reader template; load with `?c=<slug>` (e.g. `reader.html?c=egypt`)
 - `objects.html` / `tours.html` / `guide.html` — masterpieces, timed tours, and the
   how-to-read/glossary/references guide
-- `routes.html` — museums + graph hub
+- `routes.html` — museums on a geographic map, plus the connection graph hub
 - `met.html`, `sf.html`, `smithsonian.html`, `london.html`, `paris.html`, `berlin.html`,
   `template.html` — museum route pages
-- `data.js` — all content: `CIVILIZATIONS`, `MUSEUMS` (the route graph), `CIV_RELATIONS`
-  (typed relationship edges), `MASTERPIECES`, `TOURS`, `RESOURCES`, `GLOSSARY`
+- `data.js` — all content: `CIVILIZATIONS`, `MUSEUMS` (the route graph, with `lat`/`lon`
+  for the map), `CIV_RELATIONS` (typed relationship edges), `MASTERPIECES`, `TOURS`,
+  `RESOURCES`, `GLOSSARY`
+- `world.js` — Natural Earth 1:110m land polygons (public domain), projected to
+  equirectangular and simplified, used only by the map on `routes.html`
 - `app.js` — rendering logic (cards, timelines, world ruler, graph, tours, search,
   narration, theme)
 - `styles.css` — styling (light + dark, mobile-first)
