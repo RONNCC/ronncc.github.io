@@ -2,7 +2,7 @@
  * Cache-first (stale-while-revalidate) so the site works offline,
  * e.g. in a museum basement with no signal.
  */
-const CACHE = "civ-readers-v5";
+const CACHE = "civ-readers-v6";
 const ASSETS = [
   "./",
   "./index.html",
