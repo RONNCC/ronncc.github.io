@@ -178,7 +178,7 @@ function renderIndex() {
     <div class="route-links">
       <a class="route-btn" href="tours.html">Start-here tours &rarr;</a>
       <a class="route-btn subtle" href="objects.html">Masterpieces</a>
-      <a class="route-btn subtle" href="routes.html">Museums &amp; graph</a>
+      <a class="route-btn subtle" href="routes.html">Museums on a map</a>
       <a class="route-btn subtle" href="guide.html">Label decoder</a>
     </div>
   </header>
@@ -863,7 +863,7 @@ function renderRoutePage(museumIds, title, intro, footerHtml) {
       <span class="step"><b>4.</b> Read it offline in the gallery</span>
     </div>
     <div class="route-links">
-      <a class="route-btn" href="routes.html">All museums &amp; graph &rarr;</a>
+      <a class="route-btn" href="routes.html">All museums on a map &rarr;</a>
       <a class="route-btn subtle" href="index.html">All civilizations</a>
       <a class="route-btn subtle" href="tours.html">Tours</a>
     </div>
@@ -962,15 +962,180 @@ function renderTemplate() {
           <li>Copy the block with <code>id: "template"</code> and paste it as a new entry.</li>
           <li>Change <code>id</code>, <code>name</code>, <code>city</code>, <code>emoji</code>, and <code>tagline</code>. Every <code>id</code> in the file must be unique.</li>
           <li>Replace each area's <code>galleries</code> with the room names or numbers from your museum's map, and edit the <code>civs</code> arrays to match what's actually on display.</li>
-          <li>Add a page mapping in <code>MUSEUM_PAGE</code> in <code>app.js</code> if you want it on its own route page — otherwise it will still appear in the graph and on <code>routes.html</code>.</li>
+          <li>Add a page mapping in <code>MUSEUM_PAGE</code> in <code>app.js</code> if you want it on its own route page — otherwise it will still appear on <code>routes.html</code> — on the map and in the graph.</li>
           <li>Optionally add a tour to the <code>TOURS</code> array using your new area ids.</li>
           <li>Bump the <code>CACHE</code> version in <code>sw.js</code> so returning visitors get the new data.</li>
         </ol>
-        <p class="src-note">Nothing else needs editing. The graph, search, tours, and each civilization's &ldquo;Galleries in this guide&rdquo; section all read from the same structure.</p>
+        <p class="src-note">Nothing else needs editing. The map, graph, search, tours, and each civilization's &ldquo;Galleries in this guide&rdquo; section all read from the same structure.</p>
       </div>
     </section>
     <footer class="foot">The whole site is static — no build step, no dependencies. <a href="routes.html">Back to all museums &rarr;</a></footer>`
   );
+}
+
+/* ---------------- geo map (routes.html) ---------------- */
+
+const MAP_W = 1000, MAP_H = 560;   // equirectangular world, latitude ±85°
+const MAP_LAT_TOP = 85, MAP_LAT_BOT = -85;
+
+function mapXY(lat, lon) {
+  return {
+    x: ((lon + 180) / 360) * MAP_W,
+    y: ((90 - lat) / 180) * MAP_H
+  };
+}
+
+/* Museums within ~1.1° of each other share one pin (SF + San Jose, the four
+ * Smithsonian buildings). The cluster is drawn at the centroid of its members. */
+function geoClusters() {
+  const clusters = [];
+  MUSEUMS.forEach((m) => {
+    if (m.id === "template" || m.lat == null || m.lon == null) return;
+    let host = null;
+    for (const c of clusters) {
+      if (Math.abs(c.lat - m.lat) < 1.1 && Math.abs(c.lon - m.lon) < 1.1) { host = c; break; }
+    }
+    if (host) host.museums.push(m);
+    else clusters.push({ lat: m.lat, lon: m.lon, museums: [m] });
+  });
+  clusters.forEach((c) => {
+    c.lat = c.museums.reduce((s, m) => s + m.lat, 0) / c.museums.length;
+    c.lon = c.museums.reduce((s, m) => s + m.lon, 0) / c.museums.length;
+    c.city = c.museums[0].city;
+  });
+  return clusters;
+}
+
+/* Fit the marker set into the viewBox, with padding; caps so a single-city
+ * cluster can't zoom into empty ocean. */
+function mapFitTransform(clusters) {
+  const pts = clusters.map((c) => mapXY(c.lat, c.lon));
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  pts.forEach((p) => {
+    minX = Math.min(minX, p.x); maxX = Math.max(maxX, p.x);
+    minY = Math.min(minY, p.y); maxY = Math.max(maxY, p.y);
+  });
+  const spanX = Math.max(maxX - minX, 40), spanY = Math.max(maxY - minY, 30);
+  const padX = spanX * 0.18, padY = spanY * 0.18;
+  minX -= padX; maxX += padX; minY -= padY; maxY += padY;
+  const k = Math.min(MAP_W / (maxX - minX), MAP_H / (maxY - minY), 6);
+  const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
+  return { k, tx: MAP_W / 2 - k * cx, ty: MAP_H / 2 - k * cy };
+}
+
+function renderGeoMap(container) {
+  if (!container) return;
+  if (typeof WORLD_LAND === "undefined") {
+    container.innerHTML = `<p class="src-note">Map data not loaded.</p>`;
+    return;
+  }
+  const clusters = geoClusters();
+  if (!clusters.length) {
+    container.innerHTML = `<p class="src-note">No museums have coordinates yet — add <code>lat</code>/<code>lon</code> to a <code>MUSEUMS</code> entry.</p>`;
+    return;
+  }
+
+  // graticule every 30°
+  let grid = "";
+  for (let lon = -180; lon <= 180; lon += 30) {
+    const x = ((lon + 180) / 360) * MAP_W;
+    grid += `<line class="map-gridline" x1="${x.toFixed(1)}" y1="${((90 - MAP_LAT_TOP) / 180) * MAP_H}" x2="${x.toFixed(1)}" y2="${((90 - MAP_LAT_BOT) / 180) * MAP_H}"/>`;
+  }
+  for (let lat = -60; lat <= 60; lat += 30) {
+    const y = ((90 - lat) / 180) * MAP_H;
+    grid += `<line class="map-gridline" x1="0" y1="${y.toFixed(1)}" x2="${MAP_W}" y2="${y.toFixed(1)}"/>`;
+  }
+
+  let pins = "";
+  clusters.forEach((c, i) => {
+    const p = mapXY(c.lat, c.lon);
+    const n = c.museums.length;
+    pins += `<g class="map-pin" data-i="${i}" tabindex="0" role="button" aria-label="${esc(c.city)} — ${n} museum${n > 1 ? "s" : ""}">
+      <circle class="map-hit" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="22" fill="transparent"/>
+      <circle class="map-dot" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${n > 1 ? 11 : 9}"/>
+      ${n > 1 ? `<circle class="map-badge" cx="${(p.x + 8).toFixed(1)}" cy="${(p.y - 8).toFixed(1)}" r="7.5"/><text class="map-badge-n" x="${(p.x + 8).toFixed(1)}" y="${(p.y - 4.8).toFixed(1)}" text-anchor="middle">${n}</text>` : ""}
+      <text class="map-city" x="${p.x.toFixed(1)}" y="${(p.y + (n > 1 ? 26 : 24)).toFixed(1)}" text-anchor="middle">${esc(c.city)}</text>
+    </g>`;
+  });
+
+  const fit = mapFitTransform(clusters);
+  container.innerHTML = `
+    <div class="map-tools">
+      <button type="button" class="map-btn on" id="map-fit">Fit museums</button>
+      <button type="button" class="map-btn" id="map-world">World</button>
+      <span class="map-hint">${clusters.length} pins · ${clusters.reduce((s, c) => s + c.museums.length, 0)} museums · tap a pin</span>
+    </div>
+    <div class="map-stage">
+      <svg class="map-svg" viewBox="0 0 ${MAP_W} ${MAP_H}" role="img" aria-label="World map showing where the museums in this guide are located">
+        <rect x="0" y="0" width="${MAP_W}" height="${MAP_H}" class="map-ocean"/>
+        <g class="map-view" id="map-view">
+          ${grid}
+          <path class="map-land" d="${WORLD_LAND}"/>
+          ${pins}
+        </g>
+      </svg>
+      <div class="map-info" id="map-info"></div>
+    </div>`;
+
+  const view = container.querySelector("#map-view");
+  const applyView = (t) => {
+    view.setAttribute("transform", `translate(${t.tx.toFixed(2)},${t.ty.toFixed(2)}) scale(${t.k.toFixed(4)})`);
+  };
+  applyView(fit);
+
+  const fitBtn = container.querySelector("#map-fit");
+  const worldBtn = container.querySelector("#map-world");
+  fitBtn.addEventListener("click", () => {
+    fitBtn.classList.add("on"); worldBtn.classList.remove("on");
+    applyView(fit);
+  });
+  worldBtn.addEventListener("click", () => {
+    worldBtn.classList.add("on"); fitBtn.classList.remove("on");
+    applyView({ k: 1, tx: 0, ty: 0 });
+  });
+
+  /* ---- tap a pin: list its museums ---- */
+  const info = container.querySelector("#map-info");
+  const pinEls = Array.from(container.querySelectorAll(".map-pin"));
+  const setInfo = (c) => {
+    if (!c) {
+      info.classList.remove("active"); info.innerHTML = "";
+      pinEls.forEach((el) => el.classList.remove("on"));
+      return;
+    }
+    pinEls.forEach((el) => el.classList.toggle("on", el.getAttribute("data-i") === String(c.i)));
+    info.innerHTML = `
+      <button class="map-info-close" type="button" aria-label="Close">×</button>
+      <div class="map-info-title">${esc(c.city)} · ${c.museums.length} museum${c.museums.length > 1 ? "s" : ""}</div>
+      <ul class="map-info-list">
+        ${c.museums.map((m) => `
+          <li>
+            <a href="${esc(routePageFor(m.id))}">${m.emoji} ${esc(m.name)}</a>
+            <div class="map-info-sub">${esc(m.tagline)}</div>
+          </li>`).join("")}
+      </ul>`;
+    info.classList.add("active");
+  };
+
+  let active = null;
+  pinEls.forEach((el) => {
+    const select = () => {
+      const i = Number(el.getAttribute("data-i"));
+      active = active === i ? null : i;
+      setInfo(active == null ? null : clusters[active]);
+    };
+    el.addEventListener("click", select);
+    el.addEventListener("keydown", (ev) => {
+      if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); select(); }
+    });
+  });
+  info.addEventListener("click", (ev) => {
+    if (ev.target.closest(".map-info-close")) { active = null; setInfo(null); }
+  });
+  container.querySelector(".map-stage").addEventListener("click", (ev) => {
+    if (ev.target.closest(".map-pin") || ev.target.closest(".map-info")) return;
+    active = null; setInfo(null);
+  });
 }
 
 /* ---------------- graph ---------------- */
@@ -1504,8 +1669,8 @@ function renderRoutes() {
   let html = `
   <header class="hero">
     <p class="kicker">Civilization Readers</p>
-    <h1>Museums, mapped as a graph.</h1>
-    <p class="lede">Museums connect to galleries, galleries to civilizations, and civilizations to each other by trade, script, conquest, and religion. Tap a node to inspect it, tap a museum to expand or collapse its galleries, drag to pan, pinch or scroll to zoom, and drag the year slider to watch civilizations fade in and out of existence.</p>
+    <h1>Museums, on a map.</h1>
+    <p class="lede">Every museum in this guide plotted where it actually stands — New York, the San Francisco Bay Area, Washington, London, Paris, and Berlin. Tap a pin for the museums there, then open its route page for the floor-by-floor detail. <a href="#graph">Prefer the connection graph? It's further down.</a></p>
     <div class="route-links">
       <a class="route-btn" href="tours.html">Start-here tours &rarr;</a>
       <a class="route-btn subtle" href="index.html">All civilizations</a>
@@ -1513,13 +1678,13 @@ function renderRoutes() {
     </div>
   </header>
 
-  <section class="panel graph-panel">
+  <section class="panel map-panel">
     <div class="panel-head">
-      <h2>The graph</h2>
-      <span class="hint">museums → galleries → civilizations, plus relationship edges between civilizations</span>
+      <h2>Where the museums are</h2>
+      <span class="hint">tap a pin to see the museums there</span>
     </div>
     <div class="panel-body">
-      <div id="graph"></div>
+      <div id="geo-map"></div>
     </div>
   </section>`;
 
@@ -1542,10 +1707,21 @@ function renderRoutes() {
     html += `</div>`;
   });
 
-  html += `<footer class="foot">Gallery and exhibit names change with reinstalls — always cross-check the museum's current map. <a href="index.html">All civilization readers &rarr;</a></footer>`;
+  html += `
+  <section class="panel graph-panel" id="graph">
+    <div class="panel-head">
+      <h2>The connection graph</h2>
+      <span class="hint">museums → galleries → civilizations → objects, plus relationship edges between civilizations</span>
+    </div>
+    <div class="panel-body">
+      <div id="graph-host"></div>
+    </div>
+  </section>
+  <footer class="foot">Gallery and exhibit names change with reinstalls — always cross-check the museum's current map. <a href="index.html">All civilization readers &rarr;</a></footer>`;
   app.innerHTML = html;
-  document.title = "Museums, mapped as a graph — Civilization Readers";
-  renderGraph(document.getElementById("graph"));
+  document.title = "Museums, on a map — Civilization Readers";
+  renderGeoMap(document.getElementById("geo-map"));
+  renderGraph(document.getElementById("graph-host"));
 }
 
 /* ---------------- masterpieces (objects.html) ---------------- */
@@ -1617,7 +1793,7 @@ function renderTours() {
     <h1>Start here. You have ninety minutes.</h1>
     <p class="lede">Encyclopedic museums are unwinnable — the honest move is to pick a route and skip the rest without guilt. Each tour below is a timed sequence of stops with the reader to open at each one, ordered so you don't double back.</p>
     <div class="route-links">
-      <a class="route-btn" href="routes.html">All museums &amp; graph &rarr;</a>
+      <a class="route-btn" href="routes.html">All museums on a map &rarr;</a>
       <a class="route-btn subtle" href="index.html">All civilizations</a>
       <a class="route-btn subtle" href="objects.html">Masterpieces</a>
     </div>
