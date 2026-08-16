@@ -191,15 +191,16 @@ function renderIndex() {
     <span class="offline-pill" id="offline-pill">Works offline</span>
   </div>
 
-  <section class="panel mt-panel">
-    <div class="panel-head">
+  <details class="panel mt-panel" data-collapse-key="master-timeline" open>
+    <summary class="panel-head">
       <h2>All civilizations at a glance</h2>
       <span class="hint">scroll horizontally &middot; tap a bar to open its reader &middot; BCE counts down to 1 CE</span>
-    </div>
+      <span class="panel-chev" aria-hidden="true">&#9662;</span>
+    </summary>
     <div class="panel-body">
       <div id="master-timeline"></div>
     </div>
-  </section>`;
+  </details>`;
 
   groups.forEach(({ group, civs }) => {
     html += `<h2 class="group-head">${esc(group)}</h2><div class="grid">`;
@@ -235,6 +236,7 @@ function renderIndex() {
   html += `<footer class="foot">A high-level primer for gallery context — not an academic reference. Dates are approximate. <a href="reader.html?c=egypt">Start with Egypt &rarr;</a></footer>`;
   app.innerHTML = html;
   renderMasterTimeline(document.getElementById("master-timeline"));
+  wireCollapsiblePanels();
   wireSearch();
   document.title = "Civilization Readers — museum primers";
 }
@@ -289,6 +291,39 @@ function renderMasterTimeline(container) {
 
   s += `</svg>`;
   container.innerHTML = `<div class="tl-scroll">${s}</div>`;
+}
+
+/* Collapsible panels: any <details class="panel" data-collapse-key> remembers
+   whether you left it open or closed, per key, across visits. */
+const COLLAPSE_PREFIX = "civ-readers-collapsed:";
+
+function wireCollapsiblePanels() {
+  document.querySelectorAll("details.panel[data-collapse-key]").forEach((d) => {
+    const key = COLLAPSE_PREFIX + d.dataset.collapseKey;
+    let saved = null;
+    try { saved = localStorage.getItem(key); } catch (e) {}
+    if (saved === "1") d.open = false;
+    else if (saved === "0") d.open = true;
+    d.addEventListener("toggle", () => {
+      try { localStorage.setItem(key, d.open ? "0" : "1"); } catch (e) {}
+    });
+  });
+
+  // Jump links (e.g. "Timeline" in the reader nav) should reopen a collapsed
+  // panel instead of scrolling to a closed bar.
+  if (!wireCollapsiblePanels._wired) {
+    wireCollapsiblePanels._wired = true;
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest && e.target.closest('a[href*="#"]');
+      if (!a) return;
+      const hash = a.getAttribute("href").split("#")[1];
+      if (!hash) return;
+      const target = document.getElementById(hash);
+      if (target && target.matches && target.matches("details.panel") && !target.open) {
+        target.open = true;
+      }
+    });
+  }
 }
 
 function wireSearch() {
@@ -603,11 +638,12 @@ function renderReader() {
     ${places.length ? `<a href="#sec-where">Where to see it</a>` : ""}
   </nav>
 
-  <section class="panel" id="sec-timeline">
-    <div class="panel-head">
+  <details class="panel" id="sec-timeline" data-collapse-key="reader-timeline" open>
+    <summary class="panel-head">
       <h2>Timeline</h2>
       <span class="hint">Hover a dot, or tap one for detail &middot; colored bands are periods</span>
-    </div>
+      <span class="panel-chev" aria-hidden="true">&#9662;</span>
+    </summary>
     <div class="panel-body">
       <div id="timeline"></div>
       <div class="tl-detail" id="tl-detail">
@@ -616,17 +652,18 @@ function renderReader() {
         <p>${esc(civ.overview)}</p>
       </div>
     </div>
-  </section>
+  </details>
 
-  <section class="panel">
-    <div class="panel-head">
+  <details class="panel" data-collapse-key="world-ruler" open>
+    <summary class="panel-head">
       <h2>Where it sits in world history</h2>
       <span class="hint">your civilization (highlighted) against 4,000 years of milestones</span>
-    </div>
+      <span class="panel-chev" aria-hidden="true">&#9662;</span>
+    </summary>
     <div class="panel-body">
       <div id="world-ruler"></div>
     </div>
-  </section>
+  </details>
 
   <div class="section-title" id="sec-context">
     <div>
@@ -774,6 +811,7 @@ function renderReader() {
   app.innerHTML = html;
   renderTimeline(document.getElementById("timeline"), civ);
   renderWorldRuler(document.getElementById("world-ruler"), civ);
+  wireCollapsiblePanels();
   wireNarration(document.getElementById("listen-quick"), [
     `${civ.name}. ${civ.tagline}`,
     ...(civ.quick || []),

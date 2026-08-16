@@ -279,6 +279,28 @@ a:hover { text-decoration: underline; }
 }
 .panel .panel-body { padding: 14px 18px 16px; }
 
+/* Collapsible panels (<details class="panel">): the whole header is the
+   toggle, with a chevron cue on the right. */
+details.panel > summary.panel-head {
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, .04);
+}
+details.panel > summary.panel-head::-webkit-details-marker { display: none; }
+details.panel > summary.panel-head::marker { content: ""; }
+details.panel:not([open]) > summary.panel-head { border-bottom: none; }
+details.panel > summary.panel-head:hover h2 { color: var(--accent); }
+.panel-chev {
+  margin-left: auto;
+  color: var(--ink-faint);
+  font-size: 13px;
+  line-height: 1;
+  transition: transform .15s ease;
+  align-self: center;
+}
+details.panel:not([open]) .panel-chev { transform: rotate(-90deg); }
+
 .tl-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .tl-scroll svg { display: block; min-width: 860px; }
 .tl-svg text { font-family: var(--font); }
@@ -1571,6 +1593,8 @@ body.has-nav { padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom, 0
   body { font-size: 11pt; background: #fff; }
   .panel, .mp-card, .tour, .museum-block { break-inside: avoid; box-shadow: none; }
   details.period[open] .p-body, details.period .p-body { display: block !important; }
+  details.panel .panel-body { display: block !important; }
+  .panel-chev { display: none !important; }
 }
 
 /* ---------- dark mode additions ---------- */
