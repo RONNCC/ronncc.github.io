@@ -600,7 +600,22 @@ function renderReader() {
   const places = galleriesForCiv(civ.slug).filter((g) => g.museum.id !== "template");
 
   let html = `
-  <header class="civ-header">
+  <div class="reader-layout">
+    <aside class="reader-toc" id="reader-toc" aria-label="On this page">
+      <p class="reader-toc-title">On this page</p>
+      <nav class="toc-nav">
+        <a href="#sec-timeline">Timeline</a>
+        <a href="#sec-context">Context</a>
+        ${mp ? `<a href="#sec-object">The object</a>` : ""}
+        <a href="#sec-deeper">Go deeper</a>
+        <a href="#sec-dates">Key dates</a>
+        <a href="#museum">Cheat sheet</a>
+        ${places.length ? `<a href="#sec-where">Where to see it</a>` : ""}
+        ${rels.length ? `<a href="#sec-rel">Connected to</a>` : ""}
+      </nav>
+    </aside>
+    <article class="reader-article">
+      <header class="civ-header">
     <div class="crumbs">
       <a href="index.html">All civilizations</a>
       <span>/</span>
@@ -627,16 +642,6 @@ function renderReader() {
     </div>
     <ul>${civ.quick.map((q) => `<li>${esc(q)}</li>`).join("")}</ul>
   </div>` : ""}
-
-  <nav class="jump" aria-label="Jump to section">
-    <a href="#sec-timeline">Timeline</a>
-    <a href="#sec-context">Context</a>
-    ${mp ? `<a href="#sec-object">The object</a>` : ""}
-    <a href="#sec-deeper">Go deeper</a>
-    <a href="#sec-dates">Key dates</a>
-    <a href="#museum">Cheat sheet</a>
-    ${places.length ? `<a href="#sec-where">Where to see it</a>` : ""}
-  </nav>
 
   <details class="panel" id="sec-timeline" data-collapse-key="reader-timeline" open>
     <summary class="panel-head">
@@ -806,12 +811,15 @@ function renderReader() {
       <span class="pager-label">Next &rarr;</span>
       <span class="pager-name">${next.emoji} ${esc(next.name)}</span>
     </a>
-  </nav>`;
+  </nav>
+    </article>
+  </div>`;
 
   app.innerHTML = html;
   renderTimeline(document.getElementById("timeline"), civ);
   renderWorldRuler(document.getElementById("world-ruler"), civ);
   wireCollapsiblePanels();
+  wireReaderToc();
   wireNarration(document.getElementById("listen-quick"), [
     `${civ.name}. ${civ.tagline}`,
     ...(civ.quick || []),
@@ -822,6 +830,58 @@ function renderReader() {
   if (getCiv(slug) !== civ && slug) {
     history.replaceState(null, "", `reader.html?c=${civ.slug}`);
   }
+}
+
+/* The reader's table of contents is a persistent rail (desktop) or a sticky
+ * bar (phone). This keeps it honest: it highlights whichever section you're
+ * actually reading, so it reads as a navigational anchor rather than a list
+ * that scrolls off the top of the page. */
+function wireReaderToc() {
+  const toc = document.getElementById("reader-toc");
+  if (!toc) return;
+  const links = Array.from(toc.querySelectorAll("a[href^='#']"));
+  if (!links.length) return;
+  const items = links
+    .map((a) => {
+      const id = a.getAttribute("href").slice(1);
+      const el = document.getElementById(id);
+      return el ? { a, el } : null;
+    })
+    .filter(Boolean);
+  if (!items.length) return;
+
+  let ticking = false;
+  const setActive = () => {
+    ticking = false;
+    // A section is "current" once its top passes just below the fixed chrome
+    // (the top nav on desktop, or the sticky TOC bar on phones).
+    const line = window.innerHeight < 680 ? 96 : 120;
+    let current = items[0];
+    for (const it of items) {
+      if (it.el.getBoundingClientRect().top - line <= 0) current = it;
+    }
+    // Pin the final item once we've reached the end of the page.
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+      current = items[items.length - 1];
+    }
+    items.forEach((it) => {
+      const on = it === current;
+      it.a.classList.toggle("active", on);
+      if (on) it.a.setAttribute("aria-current", "location");
+      else it.a.removeAttribute("aria-current");
+    });
+  };
+  const onScroll = () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(setActive);
+    }
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+  // Collapsing/expanding a panel shifts the layout without firing a scroll.
+  document.querySelectorAll("details").forEach((d) => d.addEventListener("toggle", onScroll));
+  setActive();
 }
 
 /* ---------------- routes (graph) ---------------- */
