@@ -9,7 +9,7 @@ About
 
 📕 Carnegie Mellon,
 Berkeley, CCSF, Georgia Tech
-🍔 Looking for new things to eat
+🍔 Currently trying to eat top 20 sandwich spots in SF and NYC
 
 Contact me
 
