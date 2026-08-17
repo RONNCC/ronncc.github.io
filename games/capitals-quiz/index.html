@@ -571,7 +571,7 @@
       const active = difficulty === d.id;
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'relative rounded-xl bg-gradient-to-br ' + d.color + ' text-white p-4 text-left shadow hover:shadow-md hover:-translate-y-0.5 transition-all ' + (active ? 'ring-2 ring-offset-2 ring-indigo-500' : 'opacity-75');
+      btn.className = 'relative rounded-xl bg-gradient-to-br ' + d.color + ' text-white p-4 text-left shadow hover:shadow-md hover:-translate-y-0.5 transition-all ' + (active ? 'ring-2 ring-offset-2 ring-indigo-500 dark:ring-offset-gray-800' : 'opacity-75');
       btn.innerHTML =
         '<span class="text-2xl block mb-1.5">' + d.emoji + '</span>' +
         '<span class="font-bold block">' + d.name + '</span>' +
@@ -703,24 +703,24 @@
     box.innerHTML = '';
     if (d === 'medium') {
       const first = q.capital.replace(/\s/g, '')[0];
-      box.innerHTML = '<span class="text-sm text-gray-500">Hint: the capital starts with “' + esc(first) + '”</span>';
+      box.innerHTML = '<span class="text-sm text-gray-500 dark:text-gray-400">Hint: the capital starts with “' + esc(first) + '”</span>';
       return;
     }
     // learning: reveal progressively
     const letters = q.capital.replace(/[\s']/g, '');
     if (level <= 0) {
       const dots = letters.slice(1).replace(/./g, '•');
-      box.innerHTML = '<span class="text-sm text-gray-500">Hint: ' + esc(letters[0] || '') + dots + ' &nbsp; <button id="hint-more" type="button" class="underline text-indigo-600 hover:text-indigo-800">More hints</button></span>';
+      box.innerHTML = '<span class="text-sm text-gray-500 dark:text-gray-400">Hint: ' + esc(letters[0] || '') + dots + ' &nbsp; <button id="hint-more" type="button" class="underline text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300">More hints</button></span>';
     } else {
       let show = Math.min(letters.length, 1 + Math.floor(level * letters.length / 2));
       show = Math.max(show, 1);
       const shown = letters.slice(0, show);
       const dots = letters.slice(show).replace(/./g, '•');
       const fully = show >= letters.length;
-      box.innerHTML = '<span class="text-sm text-gray-500">Hint: ' + esc(shown) + (dots ? ' ' + dots : '') + '</span>' +
+      box.innerHTML = '<span class="text-sm text-gray-500 dark:text-gray-400">Hint: ' + esc(shown) + (dots ? ' ' + dots : '') + '</span>' +
         (fully
-          ? '<span class="ml-3 text-xs text-gray-400">(fully revealed)</span>'
-          : ' &nbsp; <button id="hint-more" type="button" class="underline text-indigo-600 hover:text-indigo-800">More hints</button>');
+          ? '<span class="ml-3 text-xs text-gray-400 dark:text-gray-500">(fully revealed)</span>'
+          : ' &nbsp; <button id="hint-more" type="button" class="underline text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300">More hints</button>');
     }
     const moreBtn = $('hint-more');
     if (moreBtn) moreBtn.addEventListener('click', revealHint);
@@ -796,15 +796,15 @@
     fb.className = 'fade-in text-center mt-6';
     if (isCorrect) {
       fb.innerHTML =
-        '<div class="inline-block bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-lg px-6 py-3">' +
+        '<div class="inline-block bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300 rounded-lg px-6 py-3">' +
           '<span class="font-semibold text-lg">✓ Correct!</span>' +
           (quiz.streak >= 2 ? '<span class="block text-sm mt-0.5">Streak: ' + quiz.streak + ' in a row 🔥</span>' : '') +
         '</div>';
     } else {
       fb.innerHTML =
-        '<div class="inline-block bg-rose-50 border border-rose-200 text-rose-700 rounded-lg px-6 py-3">' +
+        '<div class="inline-block bg-rose-50 dark:bg-rose-900/30 border border-rose-200 dark:border-rose-700 text-rose-700 dark:text-rose-300 rounded-lg px-6 py-3">' +
           '<span class="font-semibold text-lg">✗ ' + esc(answer || '—') + '</span>' +
-          '<span class="block text-sm mt-0.5">The capital of <b>' + esc(q.place) + '</b> is <b class="text-emerald-700">' + esc(q.capital) + '</b></span>' +
+          '<span class="block text-sm mt-0.5">The capital of <b>' + esc(q.place) + '</b> is <b class="text-emerald-700 dark:text-emerald-300">' + esc(q.capital) + '</b></span>' +
         '</div>';
     }
 
