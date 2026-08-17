@@ -5,7 +5,7 @@ permalink: /about/
 published: true
 ---
 
-<p class="about-tagline">Student at Carnegie Mellon, Berkeley, CCSF, Georgia Tech.</p>
+<p class="about-tagline">📕 Carnegie Mellon, Berkeley, CCSF, Georgia Tech</p>
 
 <p class="about-currently">🍔 Currently trying to eat top 20 sandwich spots in SF and NYC</p>
 
