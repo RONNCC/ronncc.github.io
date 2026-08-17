@@ -5,12 +5,10 @@ permalink: /about/
 published: true
 ---
 
-About
+<p class="about-tagline">Student at Carnegie Mellon, Berkeley, CCSF, Georgia Tech.</p>
 
-📕 Carnegie Mellon,
-Berkeley, CCSF, Georgia Tech
-🍔 Currently trying to eat top 20 sandwich spots in SF and NYC
+<p class="about-currently">🍔 Currently trying to eat top 20 sandwich spots in SF and NYC</p>
 
-Contact me
+<h3>Contact</h3>
 
-Email Hidden: https://mailhide.io/e/qQZ6hHoZ
+<p>Email: <a href="https://mailhide.io/e/qQZ6hHoZ">Click here to reveal</a></p>

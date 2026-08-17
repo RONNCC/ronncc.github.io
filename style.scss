@@ -592,7 +592,36 @@ footer .svg-icons {
   flex-wrap: wrap;
 }
 
+// About page
+.about-tagline {
+  font-size: 1.15rem;
+  color: $darkGray;
+  margin-bottom: 1.5em;
+}
+
+.about-currently {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: $darkerGray;
+  padding: 0.8em 1em;
+  background: #f9f9f9;
+  border-left: 4px solid $blue;
+  border-radius: 4px;
+  margin-bottom: 2em;
+
+  @include mobile {
+    font-size: 1.1rem;
+    padding: 0.6em 0.8em;
+  }
+}
+
+.entry h3 {
+  color: $darkGray;
+  font-size: 1.1rem;
+  margin-top: 0;
+}
+
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
-// ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
+// ... Otherwise it really bloats up the top of the CSS and makes it difficult to find the start
 @import "highlights";
 @import "svg-icons";
