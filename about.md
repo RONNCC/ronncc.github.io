@@ -5,15 +5,12 @@ permalink: /about/
 published: true
 ---
 
-Hi!
+About
 
-Study:
-- Past: Carnegie Mellon
-- Present: UC Berkeley, Stanford, CCSF
+📕 Carnegie Mellon,
+Berkeley, CCSF, Georgia Tech
+🍔 Looking for new things to eat
 
-Builds things at < tech company > 
+Contact me
 
-### Contact me
-
-Name is intentionally confusing
-Email:  https://mailhide.io/e/qQZ6hHoZ
+Email Hidden: https://mailhide.io/e/qQZ6hHoZ
