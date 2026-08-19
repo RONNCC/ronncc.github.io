@@ -198,8 +198,8 @@ permalink: /sandwich-spots/
 
     <!-- Filter chips -->
     <div class="ss-filter-row">
-      <button class="ss-chip on" data-status="all">All<span class="ss-ct" id="ctAll">21</span></button>
-      <button class="ss-chip" data-status="notyet">○ Not yet<span class="ss-ct" id="ctNotyet">14</span></button>
+      <button class="ss-chip on" data-status="all">All<span class="ss-ct" id="ctAll">22</span></button>
+      <button class="ss-chip" data-status="notyet">○ Not yet<span class="ss-ct" id="ctNotyet">15</span></button>
       <button class="ss-chip" data-status="visited">✓ Visited<span class="ss-ct" id="ctVisited">7</span></button>
       <button class="ss-chip ss-chip-toggle" id="ssOpenNowToggle"><span class="ss-dot-live"></span>Open now<span class="ss-ct" id="ctOpenNow">0</span></button>
     </div>
@@ -212,7 +212,7 @@ permalink: /sandwich-spots/
   <div id="ssMap" class="ss-map"></div>
   <div class="ss-map-legend" id="ssMapLegend">
     <span><span class="ss-dot" style="background:#2e7d32"></span>Visited (<span id="legVisited">7</span>)</span>
-    <span><span class="ss-dot" style="background:#c1440e"></span>Not yet (<span id="legNotyet">14</span>)</span>
+    <span><span class="ss-dot" style="background:#c1440e"></span>Not yet (<span id="legNotyet">15</span>)</span>
     <span><span class="ss-dot-live"></span>Open Now (<span id="legOpenNow">0</span>)</span>
   </div>
 
@@ -430,7 +430,17 @@ permalink: /sandwich-spots/
      hoursStr:'Mon 11:00 AM – 8:00 PM, Tue–Sat 11:00 AM – 8:30 PM, Sun 11:00 AM – 8:00 PM',
      schedule:{0:[[660,1200]], 1:[[660,1200]], 2:[[660,1230]], 3:[[660,1230]], 4:[[660,1230]], 5:[[660,1230]], 6:[[660,1230]]},
      links:[{t:'Yelp',u:'https://www.yelp.com/biz/guerrero-market-and-deli-san-francisco'},
-            {t:'Directions',u:'https://www.google.com/maps/search/?api=1&query=Guerrero+Market+and+Deli+701+Guerrero+St+San+Francisco+CA+94110'}]}
+            {t:'Directions',u:'https://www.google.com/maps/search/?api=1&query=Guerrero+Market+and+Deli+701+Guerrero+St+San+Francisco+CA+94110'}]},
+
+    {key:'sfmeatco', name:'SF Meat Co.', nb:'Hayes Valley', lat:37.77604, lng:-122.42316,
+     defaultStatus:'notyet', drink:'Mortadella muffaletta, or house meatball on Dutch crunch',
+     note:'Hayes Valley butcher shop (est. 2023) at 320 Fell making generous sandwiches on freshly baked Boudin bread — Dutch crunch, sweet roll, rye, or sourdough. Mortadella muffaletta and house meatballs are the crowd-pleasers; also a Reuben, roast beef, and build-your-own.',
+     addr:'320 Fell St, San Francisco, CA 94102',
+     hoursStr:'Daily 10:00 AM – 6:00 PM',
+     schedule:{0:[[600,1080]], 1:[[600,1080]], 2:[[600,1080]], 3:[[600,1080]], 4:[[600,1080]], 5:[[600,1080]], 6:[[600,1080]]},
+     links:[{t:'Menu',u:'https://sfmeatco.com/menu'},
+            {t:'Yelp',u:'https://www.yelp.com/biz/san-francisco-meat-co-san-francisco-7'},
+            {t:'Directions',u:'https://www.google.com/maps/search/?api=1&query=San+Francisco+Meat+Co+320+Fell+St+San+Francisco+CA+94102'}]}
   ];
 
   /* ── User Visited state from localStorage ── */
