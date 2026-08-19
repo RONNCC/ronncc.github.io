@@ -199,8 +199,8 @@ permalink: /sandwich-spots/
     <!-- Filter chips -->
     <div class="ss-filter-row">
       <button class="ss-chip on" data-status="all">All<span class="ss-ct" id="ctAll">21</span></button>
-      <button class="ss-chip" data-status="notyet">○ Not yet<span class="ss-ct" id="ctNotyet">14</span></button>
-      <button class="ss-chip" data-status="visited">✓ Visited<span class="ss-ct" id="ctVisited">7</span></button>
+      <button class="ss-chip" data-status="notyet">○ Not yet<span class="ss-ct" id="ctNotyet">13</span></button>
+      <button class="ss-chip" data-status="visited">✓ Visited<span class="ss-ct" id="ctVisited">8</span></button>
       <button class="ss-chip ss-chip-toggle" id="ssOpenNowToggle"><span class="ss-dot-live"></span>Open now<span class="ss-ct" id="ctOpenNow">0</span></button>
     </div>
   </div>
@@ -352,8 +352,8 @@ permalink: /sandwich-spots/
             {t:'Directions',u:'https://www.google.com/maps/search/?api=1&query=Oink+and+Oscar+87+Yerba+Buena+Ln+San+Francisco+CA+94103'}]},
 
     {key:'boysdeli', name:'The Boys\' Deli', nb:'Russian Hill', lat:37.7975, lng:-122.4217,
-     defaultStatus:'notyet', drink:'Spitfire — rotisserie chicken, bacon, jalapeños, sriracha mayo',
-     note:'A counter inside Polk Street Market. Also check the rotating specials: brown sugar tri-tip or pulled rotisserie chicken with coleslaw and chipotle mayo. (Infatuation: 8.4)',
+     defaultStatus:'visited', drink:'Beef tri tip',
+     note:'A counter inside Polk Street Market. Updated August 2026 — got the beef tri tip. Also check rotating specials like the Spitfire or pulled rotisserie chicken. (Infatuation: 8.4)',
      addr:'2222 Polk St, San Francisco, CA 94109',
      hoursStr:'Mon–Sat 9:00 AM – 8:00 PM, Sun 9:00 AM – 7:00 PM',
      schedule:{0:[[540,1140]], 1:[[540,1200]], 2:[[540,1200]], 3:[[540,1200]], 4:[[540,1200]], 5:[[540,1200]], 6:[[540,1200]]},
