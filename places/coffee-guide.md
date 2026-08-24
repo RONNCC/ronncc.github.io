@@ -351,6 +351,7 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
   padding-top: .6rem;
   border-top: 1.5px dashed #e8d6bf;
 }
+.cg-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin: 0 0 .5rem; }
 .cg-detail-row {
   display: grid;
   grid-template-columns: 1.15rem 1fr;
