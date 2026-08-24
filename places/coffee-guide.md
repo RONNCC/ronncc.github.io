@@ -2653,7 +2653,7 @@ function cupArt(item) {
          cgLayers(g, p, id) + cgBody(g, p.vessel) + cgExtras(g, p, y) + cgLabels(g, p) + '</svg>';
 }
 
-  var state = { query: "", category: "all", shop: "all", showAll: false };
+  var state = { query: "", category: "all", shop: "all", region: "all", showAll: false };
   var search = document.getElementById("cg-search");
   var clear = document.getElementById("cg-clear");
   var results = document.getElementById("cg-results");
