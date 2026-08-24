@@ -79,23 +79,25 @@ const Spec = (() => {
 
   // ============================================================
   // STATION BUILD CONTRIBUTIONS
+  // Keyed to Factory.STATIONS ids; consumed by compute() so the
+  // live metrics reflect what the line has actually done so far.
   // ============================================================
   const STATION_ADDS = {
-    isolation:     { cells: 5e5,     materials: ['chondro'] },
-    expansion:     { cells: 1.5e7,   materials: ['chondro'] },
-    seeding:       { cells: 0,       materials: ['plga', 'chondro'] },
-    perfusion:     { gag: 8,         collagen: 15,  materials: ['gag', 'collagen2'] },
-    mechanical:    { gag: 12,        collagen: 25,  modulus: 2e6,  materials: ['gag', 'collagen2'] },
-    hypoxia:       { gag: 6,         collagen: 10,  viability: 0.92, materials: ['gag'] },
-    maturation:    { gag: 15,        collagen: 35,  modulus: 5e6,  materials: ['construct'] },
-    qc_morph:      { }, // inspection only
-    qc_mech:       { }, // inspection only
-    qc_sterile:    { }, // inspection only
-    packaging:     { materials: ['implant'] },
-    cold_chain:    { },
-    surgical_prep: { },
-    implantation:  { },
-    recovery:      { },
+    procurement:      {},
+    digestion:        {},
+    isolation:        { cells: 5e5 },
+    expansion:        { cells: 1.5e7 },
+    characterization: {},
+    scaffold:         { modulus: 0.5e6 },
+    seeding:          {},
+    perfusion:        { gag: 8, collagen: 15 },
+    conditioning:     { gag: 12, collagen: 25, modulus: 5e6 },
+    histology:        {},
+    mechanical_test:  { modulus: 8e6 },
+    sterility:        {},
+    release:          {},
+    preop:            {},
+    implantation:     {}
   };
 
   // ============================================================
@@ -154,20 +156,9 @@ const Spec = (() => {
     let gag = 0;
     let collagen = 0;
 
-    // The factory uses production-station identifiers, while the original
-    // engineering model groups their contributions into these metrics.
-    const stationAdds = {
-      isolation: { cells: 5e5 },
-      expansion: { cells: 1.5e7 },
-      scaffold: { modulus: 0.5e6 },
-      perfusion: { gag: 8, collagen: 15 },
-      conditioning: { gag: 12, collagen: 25, modulus: 5e6 },
-      mechanical_test: { modulus: 8e6 }
-    };
-
     // Accumulate from station progress
     for (const [id, prog] of Object.entries(stationProgress)) {
-      const add = stationAdds[id] || STATION_ADDS[id];
+      const add = STATION_ADDS[id];
       if (!add) continue;
       const w = clamp(prog, 0, 1);
       if (add.gag) gag += add.gag * w;
@@ -202,7 +193,7 @@ const Spec = (() => {
     const daysToImplant = Math.max(0, (e.implantation.integrationTime - simHours) / 24);
     const integrationProgress = clamp(simHours / e.implantation.integrationTime, 0, 1);
 
-      return {
+    return {
       // Cell metrics
       cellCount,
       cellDensity: cellDensity / 1e6, // millions/m³
@@ -256,101 +247,16 @@ const Spec = (() => {
   }
 
   // ============================================================
-  // STAGE-LEVEL READOUTS (for station panels)
-  // ============================================================
-  const STAGE_READOUTS = {
-    isolation: {
-      title: 'CELL ISOLATION',
-      metrics: ['Initial cell yield', 'Viability post-digest', 'Contamination check'],
-      target: '>500k viable chondrocytes, >90% viability',
-    },
-    expansion: {
-      title: 'CELL EXPANSION',
-      metrics: ['Population doublings', 'Phenotype maintenance', 'Passage number'],
-      target: 'P2-P3, >15M cells, COL2A1+/COL1A1- ratio >10',
-    },
-    seeding: {
-      title: 'SCAFFOLD SEEDING',
-      metrics: ['Seeding efficiency', 'Cell distribution uniformity', 'Attachment rate'],
-      target: '>80% seeding efficiency, uniform penetration',
-    },
-    perfusion: {
-      title: 'PERFUSION BIOREACTOR',
-      metrics: ['O₂ concentration', 'Glucose consumption', 'Lactate production', 'GAG accumulation'],
-      target: 'O₂ >15%, glucose >2mM, GAG >20 μg/mg',
-    },
-    mechanical: {
-      title: 'MECHANICAL CONDITIONING',
-      metrics: ['Dynamic compression', 'Construct modulus', 'Collagen alignment', 'GAG retention'],
-      target: 'Modulus >5 MPa, aligned collagen, GAG >35 μg/mg',
-    },
-    hypoxia: {
-      title: 'HYPOXIC MATURATION',
-      metrics: ['HIF-1α stabilization', 'Glycolytic flux', 'Matrix synthesis rate', 'Viability'],
-      target: 'HIF-1α+, viability >90%, enhanced GAG synthesis',
-    },
-    maturation: {
-      title: 'TERMINAL MATURATION',
-      metrics: ['Equilibrium modulus', 'GAG content', 'Collagen II/I ratio', 'Histology score'],
-      target: 'Modulus 10-15 MPa, GAG >40, Col II/I >20, OARSI <2',
-    },
-    qc_morph: {
-      title: 'QC: MORPHOLOGY',
-      metrics: ['Safranin-O staining', 'Collagen II IHC', 'Cell morphology', 'Surface integrity'],
-      target: 'Uniform matrix, round chondrocytes, intact surface',
-    },
-    qc_mech: {
-      title: 'QC: MECHANICS',
-      metrics: ['Indentation modulus', 'Stress-relaxation', 'Permeability', 'Friction coefficient'],
-      target: 'E_eq 10-15 MPa, τ 10-20s, k 10⁻¹⁵ m⁴/Ns, μ <0.02',
-    },
-    qc_sterile: {
-      title: 'QC: STERILITY',
-      metrics: ['Endotoxin (LAL)', 'Bioburden', 'Mycoplasma', 'Endotoxin'], 
-      target: '<0.5 EU/mL, sterile, mycoplasma negative',
-    },
-    packaging: {
-      title: 'PACKAGING & TRANSPORT',
-      metrics: ['Container integrity', 'Temperature log', 'Gas exchange', 'Shelf life'],
-      target: 'Intact, 2-8°C logged, viable >72h',
-    },
-    cold_chain: {
-      title: 'COLD CHAIN LOGISTICS',
-      metrics: ['Shipment tracking', 'Temperature excursion', 'Time in transit', 'Receiving inspection'],
-      target: 'No excursions, <24h transit, pass receiving QC',
-    },
-    surgical_prep: {
-      title: 'SURGICAL PREPARATION',
-      metrics: ['Defect debridement', 'Sizing verification', 'Construct thaw/rinse', 'Press-fit trial'],
-      target: 'Clean defect, correct size, construct viable, 10% interference',
-    },
-    implantation: {
-      title: 'IMPLANTATION',
-      metrics: ['Press-fit stability', 'Arthroscopic confirmation', 'OR time', 'Intra-op complications'],
-      target: 'Stable fixation, flush integration, <60 min, no complications',
-    },
-    recovery: {
-      title: 'POST-OP RECOVERY',
-      metrics: ['Weight-bearing protocol', 'MRI T2 mapping', 'Clinical scores (IKDC/KOOS)', 'Complication rate'],
-      target: 'Progressive WB, T2 normalization, IKDC >80, <5% complications',
-    },
-  };
-
-  // ============================================================
   // PUBLIC API
   // ============================================================
   return {
     ENG,
-    MATERIALS,
     STATION_ADDS,
-    STAGE_READOUTS,
     compute,
     clamp,
     lerp,
     group,
-    fmtTime,
-    fmtMetric,
-    pct,
+    pct
   };
 })();
 

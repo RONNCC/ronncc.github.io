@@ -1,6 +1,6 @@
 {
   "name": "TERM Lab Park",
-  "description": "Low-poly Rollercoaster-Tycoon-style simulation game for the Tissue Engineering & Regenerative Medicine roadmap: 8 Duolingo-style levels, animated lab park, quizzes, per-level recap sheets with deep-dive objectives, and an info drawer with references.",
+  "description": "Isometric factory simulation for learning tissue engineering: one construct travels a 15-station line from donor tissue to surgical implantation, grouped into five teaching levels with per-station lessons.",
   "requestFramePermissions": [],
   "majorCapabilities": []
 }
