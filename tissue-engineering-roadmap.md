@@ -1,3 +1,9 @@
+---
+layout: page
+title: Tissue Engineering & Regenerative Medicine — Learning Roadmap
+permalink: /tissue-engineering-roadmap/
+---
+
 # Tissue Engineering & Regenerative Medicine — Learning Roadmap
 
 **Zero-to-grad study plan for tissue cloning, lab equipment, and the bioengineering foundations of TERM (tissue engineering & regenerative medicine).**
