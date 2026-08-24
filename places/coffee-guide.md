@@ -217,32 +217,30 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
 .cg-clear.is-visible { display: block; }
 .cg-clear:hover { background: #f7ede1; color: var(--ink); }
 .cg-filter-label {
-  margin: .95rem 0 .45rem;
+  margin: 0;
   color: #96745b;
   font-family: "Caveat", "Comic Sans MS", cursive;
   font-size: 1.02rem;
   font-weight: 700;
 }
-.cg-filters { display: flex; flex-wrap: wrap; gap: .4rem; }
-.cg-filter {
-  padding: .38rem .72rem;
+.cg-select-row { display: flex; flex-wrap: wrap; gap: .6rem 1rem; margin-top: .55rem; }
+.cg-select-group { display: flex; flex-direction: column; gap: .3rem; flex: 1 1 180px; min-width: 0; }
+.cg-select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  padding: .42rem 2rem .42rem .7rem;
   border: 1.5px solid var(--line);
-  border-radius: 999px;
-  background: #fff;
+  border-radius: 12px;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='none' stroke='%238b6d5a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M2.5 4.5l3.5 3.5 3.5-3.5'/%3E%3C/svg%3E") no-repeat right .6rem center / 12px;
   color: var(--ink-soft);
+  font: inherit;
+  font-size: .82rem;
+  font-weight: 700;
   cursor: pointer;
-  font-size: .78rem;
-  font-weight: 750;
-  line-height: 1.2;
-  transition: transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
 }
-.cg-filter:hover { border-color: #d8a87b; color: var(--ink); transform: translateY(-1px); }
-.cg-filter.is-active {
-  border-color: transparent;
-  background: var(--coffee);
-  color: #fff7ec;
-  box-shadow: 0 5px 12px rgba(107, 58, 36, .3);
-}
+.cg-select:hover { border-color: #d8a87b; }
+.cg-select.is-active { border-color: #d8a87b; background-color: #fdf3ea; }
 /* ── results line ─────────────────────────────────────────────────────────── */
 .cg-results-line {
   display: flex;
@@ -660,61 +658,6 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
 }
 .cg-sf-card button:hover { text-decoration: underline; }
 .cg-sf-card button .cg-ico { width: .85rem; height: .85rem; }
-/* ── world postcards ──────────────────────────────────────────────────────── */
-.cg-world-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .85rem; }
-.cg-world-card {
-  display: flex;
-  min-height: 158px;
-  flex-direction: column;
-  padding: 1.05rem 1rem 1.05rem;
-  border: 1px solid #ddd0e8;
-  border-radius: 18px;
-  background: linear-gradient(150deg, #fff, #f8f3fb);
-  box-shadow: var(--shadow-soft);
-  transition: transform .2s ease, box-shadow .2s ease;
-}
-.cg-world-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-pop); z-index: 1; }
-.cg-world-stamp {
-  display: inline-grid;
-  width: 2.5rem;
-  height: 2.5rem;
-  place-items: center;
-  margin-bottom: .7rem;
-  border: 2px dashed #c9aed4;
-  border-radius: 12px;
-  background: #eee2f1;
-  color: #6b4774;
-  font-family: "Fraunces", Georgia, serif;
-  font-size: .82rem;
-  font-weight: 900;
-  letter-spacing: .04em;
-  transform: rotate(-4deg);
-}
-.cg-world-card h3 {
-  margin: 0 0 .35rem;
-  color: var(--ink);
-  font-family: "Fraunces", Georgia, serif;
-  font-size: 1.06rem;
-  font-weight: 800;
-  line-height: 1.15;
-}
-.cg-world-card p { margin: 0; color: var(--muted); font-size: .8rem; line-height: 1.5; }
-.cg-world-card button {
-  display: inline-flex;
-  align-items: center;
-  gap: .3rem;
-  margin-top: auto;
-  padding: .65rem 0 0;
-  border: 0;
-  background: transparent;
-  color: var(--coral);
-  cursor: pointer;
-  font-size: .76rem;
-  font-weight: 800;
-  text-align: left;
-}
-.cg-world-card button:hover { text-decoration: underline; }
-.cg-world-card button .cg-ico { width: .8rem; height: .8rem; }
 /* ── order receipt card ───────────────────────────────────────────────────── */
 .cg-order-card {
   position: relative;
@@ -809,7 +752,6 @@ button.cg-tag:hover { border-color: #d8a87b; background: #fdf3ea; }
   .cg-results-line { display: block; }
   .cg-results-hint { margin-top: .3rem; text-align: left; }
   .cg-sf-grid { grid-template-columns: 1fr; }
-  .cg-world-grid { grid-template-columns: 1fr; }
   .cg-math-grid { grid-template-columns: 1fr; }
   .cg-math-card { min-height: 0; }
   .cg-vibe-head { display: block; }
@@ -820,18 +762,16 @@ button.cg-tag:hover { border-color: #d8a87b; background: #fdf3ea; }
 @media screen and (max-width: 460px) {
   .cg-board-title { letter-spacing: -.02em; }
   .cg-search-panel { padding: .6rem .65rem; }
-  .cg-filters { gap: .32rem; }
-  .cg-filter { padding: .34rem .6rem; font-size: .74rem; }
   .cg-pin { padding: .8rem .75rem .9rem; }
   .cg-pin-name { font-size: 1.42rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .cg-pin, .cg-math-card, .cg-note, .cg-vibe, .cg-sf-card, .cg-world-card,
-  .cg-filter, .cg-show-more {
+  .cg-pin, .cg-math-card, .cg-note, .cg-vibe, .cg-sf-card,
+  .cg-show-more {
     transition: none;
   }
   .cg-pin:hover, .cg-math-card:hover, .cg-note:hover, .cg-vibe:hover,
-  .cg-sf-card:hover, .cg-world-card:hover, .cg-show-more:hover {
+  .cg-sf-card:hover, .cg-show-more:hover {
     transform: none !important;
   }
 }
@@ -929,38 +869,71 @@ button.cg-tag:hover { border-color: #d8a87b; background: #fdf3ea; }
         <button class="cg-clear" id="cg-clear" type="button" aria-label="Clear search">×</button>
       </div>
 
-      <p class="cg-filter-label">Drink family</p>
-      <div class="cg-filters" id="cg-category-filters" aria-label="Filter by drink family">
-        <button class="cg-filter is-active" type="button" data-filter="all" aria-pressed="true">All</button>
-        <button class="cg-filter" type="button" data-filter="espresso" aria-pressed="false">Espresso</button>
-        <button class="cg-filter" type="button" data-filter="milk" aria-pressed="false">Milk drinks</button>
-        <button class="cg-filter" type="button" data-filter="brewed" aria-pressed="false">Brewed</button>
-        <button class="cg-filter" type="button" data-filter="cold" aria-pressed="false">Cold &amp; sparkling</button>
-        <button class="cg-filter" type="button" data-filter="signature" aria-pressed="false">SF signatures</button>
-        <button class="cg-filter" type="button" data-filter="noncoffee" aria-pressed="false">Not coffee</button>
-        <button class="cg-filter" type="button" data-filter="world" aria-pressed="false">World passport</button>
-      </div>
-
-      <p class="cg-filter-label">Shop lens</p>
-      <div class="cg-filters" id="cg-shop-filters" aria-label="Filter by San Francisco coffee shop">
-        <button class="cg-filter is-active" type="button" data-shop-filter="all" aria-pressed="true">All shops</button>
-        <button class="cg-filter" type="button" data-shop-filter="Saint Frank" aria-pressed="false">Saint Frank</button>
-        <button class="cg-filter" type="button" data-shop-filter="Blue Bottle" aria-pressed="false">Blue Bottle</button>
-        <button class="cg-filter" type="button" data-shop-filter="Ritual" aria-pressed="false">Ritual</button>
-        <button class="cg-filter" type="button" data-shop-filter="Sightglass" aria-pressed="false">Sightglass</button>
-        <button class="cg-filter" type="button" data-shop-filter="Andytown" aria-pressed="false">Andytown</button>
-        <button class="cg-filter" type="button" data-shop-filter="Philz" aria-pressed="false">Philz</button>
-        <button class="cg-filter" type="button" data-shop-filter="Four Barrel" aria-pressed="false">Four Barrel</button>
-        <button class="cg-filter" type="button" data-shop-filter="Linea" aria-pressed="false">Linea</button>
-        <button class="cg-filter" type="button" data-shop-filter="Verve" aria-pressed="false">Verve</button>
-        <button class="cg-filter" type="button" data-shop-filter="Equator" aria-pressed="false">Equator</button>
-        <button class="cg-filter" type="button" data-shop-filter="Wrecking Ball" aria-pressed="false">Wrecking Ball</button>
-        <button class="cg-filter" type="button" data-shop-filter="Flywheel" aria-pressed="false">Flywheel</button>
-        <button class="cg-filter" type="button" data-shop-filter="The Coffee Movement" aria-pressed="false">Coffee Movement</button>
-        <button class="cg-filter" type="button" data-shop-filter="Abanico" aria-pressed="false">Abanico</button>
-        <button class="cg-filter" type="button" data-shop-filter="Sextant" aria-pressed="false">Sextant</button>
-        <button class="cg-filter" type="button" data-shop-filter="Pinhole" aria-pressed="false">Pinhole</button>
-        <button class="cg-filter" type="button" data-shop-filter="Mazarine" aria-pressed="false">Mazarine</button>
+      <div class="cg-select-row">
+        <div class="cg-select-group">
+          <label class="cg-filter-label" for="cg-category-select">Drink family</label>
+          <select id="cg-category-select" class="cg-select">
+            <option value="all" selected>All families</option>
+            <option value="espresso">Espresso</option>
+            <option value="milk">Milk drinks</option>
+            <option value="brewed">Brewed</option>
+            <option value="cold">Cold &amp; sparkling</option>
+            <option value="signature">SF signatures</option>
+            <option value="noncoffee">Not coffee</option>
+            <option value="world">World passport</option>
+          </select>
+        </div>
+        <div class="cg-select-group">
+          <label class="cg-filter-label" for="cg-shop-select">Shop</label>
+          <select id="cg-shop-select" class="cg-select">
+            <option value="all" selected>All shops</option>
+            <option>Saint Frank</option>
+            <option>Blue Bottle</option>
+            <option>Ritual</option>
+            <option>Sightglass</option>
+            <option>Andytown</option>
+            <option>Philz</option>
+            <option>Four Barrel</option>
+            <option>Linea</option>
+            <option>Verve</option>
+            <option>Equator</option>
+            <option>Wrecking Ball</option>
+            <option>Flywheel</option>
+            <option value="The Coffee Movement">Coffee Movement</option>
+            <option>Abanico</option>
+            <option>Sextant</option>
+            <option>Pinhole</option>
+            <option>Mazarine</option>
+          </select>
+        </div>
+        <div class="cg-select-group">
+          <label class="cg-filter-label" for="cg-region-select">Country</label>
+          <select id="cg-region-select" class="cg-select">
+            <option value="all" selected>All countries</option>
+            <option>Australia</option>
+            <option>Austria</option>
+            <option>Cuba</option>
+            <option>Ethiopia</option>
+            <option>France</option>
+            <option>Germany</option>
+            <option>Greece</option>
+            <option>Hong Kong</option>
+            <option>India</option>
+            <option>Indonesia</option>
+            <option>Ireland</option>
+            <option>Italy</option>
+            <option>Korea</option>
+            <option>Mexico</option>
+            <option>Morocco</option>
+            <option>New York</option>
+            <option>Portugal</option>
+            <option>Senegal</option>
+            <option>Singapore</option>
+            <option>Spain</option>
+            <option>Turkey</option>
+            <option>Vietnam</option>
+          </select>
+        </div>
       </div>
     </div>
 
@@ -1189,103 +1162,6 @@ button.cg-tag:hover { border-color: #d8a87b; background: #fdf3ea; }
         <em class="cg-sf-hood">Financial District · 720 Market St</em>
         <p><strong>Look for:</strong> the Raf — espresso, half-and-half, and cinnamon — plus nitro cold brew and classic downtown espresso drinks.</p>
         <button type="button" data-shop-jump="Mazarine">Show Mazarine terms <svg class="cg-ico" aria-hidden="true"><use href="#cg-i-arrow"/></svg></button>
-      </article>
-    </div>
-  </section>
-
-  <section class="cg-section" id="cg-world" aria-labelledby="cg-world-title">
-    <div class="cg-section-head">
-      <div>
-        <p class="cg-eyebrow">coffee passport</p>
-        <h2 id="cg-world-title" class="cg-display">The menu gets bigger.</h2>
-      </div>
-      <p>SF borrows freely. If you see one of these names in New York, Spain, Portugal, or somewhere else on a trip, tap the stamp for the little story behind it. Purple tags mark place; red tags mean 21+.</p>
-    </div>
-
-    <div class="cg-world-grid">
-      <article class="cg-world-card">
-        <span class="cg-world-stamp" aria-hidden="true">ES</span>
-        <h3>Spain</h3>
-        <p>Café con leche, bombón, carajillo, café con hielo, manchado, and the endlessly useful café solo.</p>
-        <button type="button" data-region-query="Spain">Open Spain terms <svg class="cg-ico" aria-hidden="true"><use href="#cg-i-arrow"/></svg></button>
-      </article>
-      <article class="cg-world-card">
-        <span class="cg-world-stamp" aria-hidden="true">PT</span>
-        <h3>Portugal</h3>
-        <p>Bica, galão, meia de leite, pingado, garoto, and the lemony mazagran.</p>
-        <button type="button" data-region-query="Portugal">Open Portugal terms <svg class="cg-ico" aria-hidden="true"><use href="#cg-i-arrow"/></svg></button>
-      </article>
-      <article class="cg-world-card">
-        <span class="cg-world-stamp" aria-hidden="true">NY</span>
-        <h3>New York</h3>
-        <p>Diner “regular coffee,” red eyes, and the egg cream — a soda fountain classic with no egg or cream.</p>
-        <button type="button" data-region-query="New York">Open NYC terms <svg class="cg-ico" aria-hidden="true"><use href="#cg-i-arrow"/></svg></button>
-      </article>
-      <article class="cg-world-card">
-        <span class="cg-world-stamp" aria-hidden="true">IT</span>
-        <h3>Italy</h3>
-        <p>Corrected espresso, layered chocolate, and the little rituals behind an Italian bar.</p>
-        <button type="button" data-region-query="Italy">Open Italy terms <svg class="cg-ico" aria-hidden="true"><use href="#cg-i-arrow"/></svg></button>
-      </article>
-      <article class="cg-world-card">
-        <span class="cg-world-stamp" aria-hidden="true">AT</span>
-        <h3>Vienna</h3>
-        <p>Whipped cream, melange, tall glasses, and a coffeehouse where the table is part of the order.</p>
-        <button type="button" data-region-query="Austria">Open Vienna terms <svg class="cg-ico" aria-hidden="true"><use href="#cg-i-arrow"/></svg></button>
-      </article>
-      <article class="cg-world-card">
-        <span class="cg-world-stamp" aria-hidden="true">GR</span>
-        <h3>Greece</h3>
-        <p>Freddo espresso, freddo cappuccino, and the instant-coffee fizz of a Greek frappé.</p>
-        <button type="button" data-region-query="Greece">Open Greece terms <svg class="cg-ico" aria-hidden="true"><use href="#cg-i-arrow"/></svg></button>
-      </article>
-      <article class="cg-world-card">
-        <span class="cg-world-stamp" aria-hidden="true">VN</span>
-        <h3>Vietnam</h3>
-        <p>Phin-brewed coffee with condensed milk, plus egg coffee with a custardy, meringue-like top.</p>
-        <button type="button" data-region-query="Vietnam">Open Vietnam terms <svg class="cg-ico" aria-hidden="true"><use href="#cg-i-arrow"/></svg></button>
-      </article>
-      <article class="cg-world-card">
-        <span class="cg-world-stamp" aria-hidden="true">MX</span>
-        <h3>Mexico</h3>
-        <p>Café de olla, carajillo with Licor 43, and coffee drinks that lean into spice and piloncillo.</p>
-        <button type="button" data-region-query="Mexico">Open Mexico terms <svg class="cg-ico" aria-hidden="true"><use href="#cg-i-arrow"/></svg></button>
-      </article>
-      <article class="cg-world-card">
-        <span class="cg-world-stamp" aria-hidden="true">∞</span>
-        <h3>More rabbit holes</h3>
-        <p>Turkish coffee, South Indian kaapi, Korean dalgona, German Eiskaffee, and Irish coffee.</p>
-        <button type="button" data-region-query="world">Open the world list <svg class="cg-ico" aria-hidden="true"><use href="#cg-i-arrow"/></svg></button>
-      </article>
-      <article class="cg-world-card">
-        <span class="cg-world-stamp" aria-hidden="true">FR</span>
-        <h3>France</h3>
-        <p>Noisette, crème, allongé, and the reminder that “un café” usually means espresso.</p>
-        <button type="button" data-region-query="France">Open France terms <svg class="cg-ico" aria-hidden="true"><use href="#cg-i-arrow"/></svg></button>
-      </article>
-      <article class="cg-world-card">
-        <span class="cg-world-stamp" aria-hidden="true">AU</span>
-        <h3>Australia + NZ</h3>
-        <p>Magic and long black: tiny, coffee-forward drinks with strong opinions about ratio.</p>
-        <button type="button" data-region-query="Australia">Open Australia terms <svg class="cg-ico" aria-hidden="true"><use href="#cg-i-arrow"/></svg></button>
-      </article>
-      <article class="cg-world-card">
-        <span class="cg-world-stamp" aria-hidden="true">CU</span>
-        <h3>Cuba</h3>
-        <p>Cafecito, colada, cortadito, and espumita — coffee as a sweet social ritual.</p>
-        <button type="button" data-region-query="Cuba">Open Cuba terms <svg class="cg-ico" aria-hidden="true"><use href="#cg-i-arrow"/></svg></button>
-      </article>
-      <article class="cg-world-card">
-        <span class="cg-world-stamp" aria-hidden="true">MA</span>
-        <h3>Morocco</h3>
-        <p>Nous nous means half-half: espresso and milk in a small glass, often with sugar.</p>
-        <button type="button" data-region-query="Morocco">Open Morocco terms <svg class="cg-ico" aria-hidden="true"><use href="#cg-i-arrow"/></svg></button>
-      </article>
-      <article class="cg-world-card">
-        <span class="cg-world-stamp" aria-hidden="true">ET</span>
-        <h3>Ethiopia</h3>
-        <p>Buna is more than a cup: roasting, incense, a jebena, and three rounds of shared coffee.</p>
-        <button type="button" data-region-query="Ethiopia">Open Ethiopia terms <svg class="cg-ico" aria-hidden="true"><use href="#cg-i-arrow"/></svg></button>
       </article>
     </div>
   </section>
@@ -2814,7 +2690,8 @@ function cupArt(item) {
     var queryMatch = !state.query || haystack.indexOf(normalize(state.query)) !== -1;
     var categoryMatch = state.category === "all" || item.category === state.category;
     var shopMatch = state.shop === "all" || (item.shops || []).indexOf(state.shop) !== -1;
-    return queryMatch && categoryMatch && shopMatch;
+    var regionMatch = state.region === "all" || item.region === state.region || (item.tags || []).indexOf(state.region) !== -1;
+    return queryMatch && categoryMatch && shopMatch && regionMatch;
   }
 
   function shopChipHTML(shop) {
@@ -2863,7 +2740,7 @@ function cupArt(item) {
 
   function render() {
     var visible = drinks.filter(matches);
-    var defaultView = !state.query && state.category === "all" && state.shop === "all";
+    var defaultView = !state.query && state.category === "all" && state.shop === "all" && state.region === "all";
     var initialLimit = 18;
     var shown = defaultView && !state.showAll ? visible.slice(0, initialLimit) : visible;
     results.innerHTML = shown.length
@@ -2881,35 +2758,42 @@ function cupArt(item) {
     clear.classList.toggle("is-visible", Boolean(state.query));
   }
 
-  function setActive(selector, attribute, value) {
-    document.querySelectorAll(selector).forEach(function (button) {
-      var active = button.getAttribute(attribute) === value;
-      button.classList.toggle("is-active", active);
-      button.setAttribute("aria-pressed", active ? "true" : "false");
-    });
+  function syncSelects() {
+    [["cg-category-select", state.category], ["cg-shop-select", state.shop], ["cg-region-select", state.region]]
+      .forEach(function (pair) {
+        var el = document.getElementById(pair[0]);
+        if (!el) return;
+        el.value = pair[1];
+        el.classList.toggle("is-active", pair[1] !== "all");
+      });
   }
 
-  document.querySelectorAll("[data-filter]").forEach(function (button) {
-    button.addEventListener("click", function () {
-      state.category = button.getAttribute("data-filter");
-      setActive("[data-filter]", "data-filter", state.category);
-      render();
-    });
+  document.getElementById("cg-category-select").addEventListener("change", function () {
+    state.category = this.value;
+    syncSelects();
+    render();
   });
 
-  document.querySelectorAll("[data-shop-filter]").forEach(function (button) {
-    button.addEventListener("click", function () {
-      state.shop = button.getAttribute("data-shop-filter");
-      setActive("[data-shop-filter]", "data-shop-filter", state.shop);
-      render();
-      document.getElementById("cg-lookup-title").scrollIntoView({ behavior: "smooth", block: "start" });
-    });
+  document.getElementById("cg-shop-select").addEventListener("change", function () {
+    state.shop = this.value;
+    syncSelects();
+    render();
+    document.getElementById("cg-lookup-title").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  document.getElementById("cg-region-select").addEventListener("change", function () {
+    state.region = this.value;
+    syncSelects();
+    render();
+    document.getElementById("cg-lookup-title").scrollIntoView({ behavior: "smooth", block: "start" });
   });
 
   document.querySelectorAll("[data-shop-jump]").forEach(function (button) {
     button.addEventListener("click", function () {
+      var shopEl = document.getElementById("cg-shop-select");
       state.shop = button.getAttribute("data-shop-jump");
-      setActive("[data-shop-filter]", "data-shop-filter", state.shop);
+      shopEl.value = state.shop;
+      shopEl.classList.toggle("is-active", state.shop !== "all");
       render();
       document.getElementById("cg-lookup").scrollIntoView({ behavior: "smooth", block: "start" });
     });
@@ -2920,24 +2804,10 @@ function cupArt(item) {
       state.query = button.getAttribute("data-vibe-query");
       state.category = "all";
       state.shop = "all";
+      state.region = "all";
       state.showAll = true;
       search.value = state.query;
-      setActive("[data-filter]", "data-filter", "all");
-      setActive("[data-shop-filter]", "data-shop-filter", "all");
-      render();
-      document.getElementById("cg-lookup").scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  });
-
-  document.querySelectorAll("[data-region-query]").forEach(function (button) {
-    button.addEventListener("click", function () {
-      state.query = button.getAttribute("data-region-query");
-      state.category = "all";
-      state.shop = "all";
-      state.showAll = true;
-      search.value = state.query;
-      setActive("[data-filter]", "data-filter", "all");
-      setActive("[data-shop-filter]", "data-shop-filter", "all");
+      syncSelects();
       render();
       document.getElementById("cg-lookup").scrollIntoView({ behavior: "smooth", block: "start" });
     });
@@ -2957,10 +2827,10 @@ function cupArt(item) {
     state.query = tag.getAttribute("data-tag-query");
     state.category = "all";
     state.shop = "all";
+    state.region = "all";
     state.showAll = true;
     search.value = state.query;
-    setActive("[data-filter]", "data-filter", "all");
-    setActive("[data-shop-filter]", "data-shop-filter", "all");
+    syncSelects();
     render();
   });
 

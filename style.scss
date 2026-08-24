@@ -180,6 +180,17 @@ img {
   margin-bottom: 3rem;
 }
 
+// Masthead container shrink-wraps to logo+nav content and stays centered
+// (margin: 0 auto from .container handles centering); back to full width on mobile.
+.wrapper-masthead .container {
+  width: fit-content;
+  max-width: 100%;
+
+  @include mobile {
+    width: 100%;
+  }
+}
+
 .masthead {
   display: flex;
   align-items: center;
@@ -303,6 +314,7 @@ nav {
       margin: 0;
       color: $blue;
       font-weight: 400;
+      padding: 0.5rem 0.25rem;
     }
   }
 }

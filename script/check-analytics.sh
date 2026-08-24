@@ -16,6 +16,14 @@ while IFS= read -r f; do
     echo "MISSING layout in front matter: $f"
     fail=1
   fi
+  # permalink: pretty rewrites named .html pages to directory URLs unless
+  # an explicit permalink preserves the original path
+  if [[ "$f" == *.html && "$f" != */index.html && "$f" != "index.html" ]]; then
+    if ! sed -n '2,8p' "$f" | grep -q '^permalink:'; then
+      echo "MISSING permalink (pretty permalinks would move $f to a directory URL): $f"
+      fail=1
+    fi
+  fi
 done < <(git ls-files | grep -E '\.(html|md)$' | grep -vE '^(_layouts|_includes|node_modules)/' | grep -vE '^_posts/' | grep -v 'README\.md$')
 
 # every layout must reach analytics.html (directly or via default)
