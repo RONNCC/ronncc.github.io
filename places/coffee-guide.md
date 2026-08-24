@@ -12,61 +12,43 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
 
 <style>
 /* ──────────────────────────────────────────────────────────────────────────
-   Coffee Guide — the scrapbook cut. Self-contained so the rest of the site
-   stays light and plain. Cute SVG doodles + CSS animation, no JS animation.
+   Coffee Guide — Pinterest board cut. Cream canvas, sticky pill toolbar,
+   masonry wall of white pin cards with layered-cup art. Self-contained;
+   SVG doodles animate via shared keyframes, no JS animation.
    ────────────────────────────────────────────────────────────────────────── */
 .cg-app {
   --ink: #4a2b1c;
   --ink-soft: #6f4e39;
-  --muted: #7a5c46;
-  --paper: #fff9f0;
-  --cream: #fdefd9;
-  --butter: #fbe7b8;
-  --blush: #fadfd6;
-  --mint: #ddf0e4;
-  --sky: #dcecf7;
-  --lilac: #e9e0f3;
+  --muted: #8a6f5c;
+  --paper: #fffdf9;
+  --line: #e7d5c0;
   --coffee: #6b3a24;
-  --caramel: #c07a3f;
-  --coral: #d96a4e;
-  --rose: #c65468;
-  --sage: #4d806a;
-  --blue: #3d6d89;
-  --plum: #6b4774;
-  --line: #ecd9c3;
-  --shadow: 0 18px 44px rgba(96, 58, 30, .12);
-  --shadow-soft: 0 8px 20px rgba(96, 58, 30, .08);
-  width: min(1080px, calc(100vw - 2rem));
+  --script: #8b5a3c;
+  --coral: #c65f45;
+  --shadow-pop: 0 6px 16px rgba(93, 64, 42, .14), 0 18px 40px rgba(93, 64, 42, .12);
+  --shadow-soft: 0 2px 10px rgba(93, 64, 42, .08), 0 10px 28px rgba(93, 64, 42, .07);
+  width: min(1180px, calc(100vw - 2rem));
   margin-left: 50%;
   transform: translateX(-50%);
   color: var(--ink);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 1.5;
-  background:
-    radial-gradient(circle at 18px 18px, rgba(192, 122, 63, .07) 1.6px, transparent 2.2px) 0 0 / 26px 26px,
-    linear-gradient(180deg, #fffaf2 0%, #fdf4e7 100%);
+  background-color: #f1e6d8;
+  background-image: radial-gradient(circle at 13px 13px, rgba(139, 90, 60, .06) 1.5px, transparent 2.1px);
+  background-size: 26px 26px;
 }
-
-.cg-app *,
-.cg-app *::before,
-.cg-app *::after { box-sizing: border-box; }
-
-.cg-app button,
-.cg-app input { font: inherit; }
-
+.cg-app *, .cg-app *::before, .cg-app *::after { box-sizing: border-box; }
+.cg-app button, .cg-app input { font: inherit; }
 .cg-app a { color: var(--coral); }
 .cg-app a:hover { color: #a3432c; }
-
 .cg-app button:focus-visible,
 .cg-app input:focus-visible,
 .cg-app a:focus-visible {
   outline: 3px solid rgba(61, 109, 137, .42);
   outline-offset: 3px;
 }
-
 .cg-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
-
 .cg-ico {
   display: inline-block;
   width: 1em;
@@ -79,16 +61,8 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-
-.cg-hand {
-  font-family: "Caveat", "Comic Sans MS", cursive;
-  font-weight: 700;
-}
-
-.cg-display {
-  font-family: "Fraunces", Georgia, "Times New Roman", serif;
-}
-
+.cg-hand { font-family: "Caveat", "Comic Sans MS", cursive; font-weight: 700; }
+.cg-display { font-family: "Fraunces", Georgia, "Times New Roman", serif; }
 /* ── animation primitives (shared with inline SVG) ───────────────────────── */
 @keyframes cg-bob {
   0%, 100% { transform: translateY(0); }
@@ -124,399 +98,77 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
   50% { transform: translateY(-7px) rotate(var(--cg-fr, 0deg)); }
 }
 .cg-s-bob { animation: cg-bob 4.2s ease-in-out infinite; }
-.cg-s-steam {
-  animation: cg-steam 2.6s ease-in-out infinite;
-  transform-box: fill-box;
-  transform-origin: 50% 100%;
-}
+.cg-s-steam { animation: cg-steam 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
 .cg-s-bub { animation: cg-bubble 3s ease-in infinite; transform-box: fill-box; }
 .cg-s-bub-lg { animation: cg-bubble-lg 3.2s ease-in infinite; transform-box: fill-box; }
-.cg-s-tw {
-  animation: cg-twinkle 2.2s ease-in-out infinite;
-  transform-box: fill-box;
-  transform-origin: 50% 50%;
-}
-.cg-s-heart {
-  animation: cg-heartbeat 2.6s ease-in-out infinite;
-  transform-box: fill-box;
-  transform-origin: 50% 50%;
-}
+.cg-s-tw { animation: cg-twinkle 2.2s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 50%; }
+.cg-s-heart { animation: cg-heartbeat 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 50%; }
 .cg-s-float { animation: cg-floaty 5.5s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) {
   .cg-s-bob, .cg-s-steam, .cg-s-bub, .cg-s-bub-lg, .cg-s-tw, .cg-s-heart, .cg-s-float { animation: none; }
 }
-
-/* ── hero ─────────────────────────────────────────────────────────────────── */
-.cg-hero {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(300px, .95fr);
+/* ── board header ─────────────────────────────────────────────────────────── */
+.cg-board-header {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: clamp(1.2rem, 4vw, 3rem);
-  overflow: hidden;
-  padding: clamp(1.4rem, 4vw, 3.4rem);
-  border: 2px solid #f3ddc2;
-  border-radius: 30px;
-  background:
-    radial-gradient(circle at 10% 8%, rgba(255,255,255,.85), transparent 34%),
-    linear-gradient(135deg, #fff6ea 0%, #f9e3cf 55%, #f7d9c2 100%);
-  box-shadow: var(--shadow);
+  padding: 2.6rem 1rem 1.3rem;
+  text-align: center;
 }
-
-.cg-kicker,
 .cg-eyebrow {
-  margin: 0 0 .55rem;
+  margin: 0;
   color: var(--coral);
   font-family: "Caveat", "Comic Sans MS", cursive;
-  font-size: 1.35rem;
+  font-size: 1.3rem;
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: .01em;
 }
-
-.cg-hero h2 {
-  max-width: 12ch;
-  margin: 0;
+.cg-board-title {
+  max-width: 14ch;
+  margin: .45rem 0 0;
   color: var(--ink);
   font-family: "Fraunces", Georgia, serif;
-  font-size: clamp(2.5rem, 6vw, 4.9rem);
+  font-size: clamp(2.6rem, 7vw, 4.6rem);
   font-weight: 900;
-  letter-spacing: -.04em;
-  line-height: .96;
-}
-
-.cg-hero h2 .cg-mark {
-  position: relative;
-  white-space: nowrap;
-}
-
-.cg-dek {
-  max-width: 52ch;
-  margin: 1.15rem 0 0;
-  color: var(--ink-soft);
-  font-size: clamp(1rem, 1.7vw, 1.12rem);
-  line-height: 1.65;
-}
-
-.cg-hero-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .6rem;
-  margin-top: 1.4rem;
-}
-
-.cg-hero-links a {
-  display: inline-flex;
-  align-items: center;
-  gap: .45rem;
-  min-height: 2.5rem;
-  padding: .55rem 1rem .55rem .85rem;
-  border: 2px solid rgba(214, 106, 78, .35);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, .65);
-  color: var(--coral);
-  cursor: pointer;
-  font-size: .88rem;
-  font-weight: 750;
-  text-decoration: none;
-  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
-}
-.cg-hero-links a:hover {
-  background: #fff;
-  box-shadow: var(--shadow-soft);
-  transform: translateY(-2px) rotate(-.6deg);
-  text-decoration: none;
-}
-.cg-hero-links .cg-ico { width: 1rem; height: 1rem; }
-
-.cg-updated {
-  margin: 1.1rem 0 0;
-  color: #96745b;
-  font-size: .78rem;
-}
-
-.cg-hero-art {
-  align-self: stretch;
-  display: flex;
-  align-items: center;
-  min-width: 0;
-}
-
-.cg-polaroid {
-  position: relative;
-  margin: 0;
-  padding: .9rem .9rem 1.05rem;
-  border: 1px solid #f0dcc2;
-  border-radius: 14px;
-  background: #fffefb;
-  box-shadow: var(--shadow);
-  transform: rotate(-1.8deg);
-  transition: transform .25s ease;
-}
-.cg-polaroid:hover { transform: rotate(-.6deg) scale(1.012); }
-
-.cg-polaroid svg.hero-art { display: block; width: 100%; height: auto; border-radius: 9px; }
-
-.cg-polaroid figcaption {
-  display: flex;
-  align-items: center;
-  gap: .4rem;
-  margin: .55rem .1rem 0;
-  color: #7a5a41;
-  font-family: "Caveat", "Comic Sans MS", cursive;
-  font-size: 1.12rem;
-  font-weight: 700;
-  line-height: 1.15;
-}
-.cg-polaroid figcaption .cg-ico { width: 1.05rem; height: 1.05rem; color: var(--rose); }
-
-.cg-tape,
-.cg-tape-2 {
-  position: absolute;
-  height: 26px;
-  border-radius: 3px;
-  background: rgba(251, 231, 184, .82);
-  box-shadow: 0 2px 5px rgba(96, 58, 30, .08);
-  z-index: 2;
-}
-.cg-tape { top: -12px; left: 50%; width: 104px; margin-left: -52px; transform: rotate(2.2deg); }
-.cg-tape-2 { top: -8px; left: -14px; width: 78px; transform: rotate(-36deg); }
-
-/* ── sections ─────────────────────────────────────────────────────────────── */
-.cg-section { margin-top: clamp(2.4rem, 5vw, 4.2rem); }
-
-.cg-section-head {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 1.2rem;
-  margin-bottom: 1.2rem;
-}
-
-.cg-section-head h2 {
-  margin: 0;
-  color: var(--ink);
-  font-family: "Fraunces", Georgia, serif;
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
-  font-weight: 800;
   letter-spacing: -.03em;
-  line-height: 1.04;
+  line-height: .98;
 }
-
-.cg-section-head p {
-  max-width: 44ch;
-  margin: 0;
-  color: var(--muted);
-  font-size: .94rem;
-  line-height: 1.55;
-  text-align: right;
-}
-.cg-section-head .cg-eyebrow { text-align: left; }
-
-/* ── decoder math cards ───────────────────────────────────────────────────── */
-.cg-math-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: .9rem;
-}
-
-.cg-math-card {
-  position: relative;
-  min-height: 172px;
-  padding: 1.1rem 1.05rem 1.15rem;
-  border: 2px solid var(--line);
-  border-radius: 20px;
-  box-shadow: var(--shadow-soft);
-  transition: transform .2s ease, box-shadow .2s ease;
-}
-.cg-math-card:nth-child(1) { background: #fdf0d9; transform: rotate(-.7deg); }
-.cg-math-card:nth-child(2) { background: #fbe3db; transform: rotate(.6deg); }
-.cg-math-card:nth-child(3) { background: #e2f0e8; transform: rotate(-.5deg); }
-.cg-math-card:nth-child(4) { background: #ece4f5; transform: rotate(.7deg); }
-.cg-math-card:hover {
-  box-shadow: var(--shadow);
-  transform: rotate(0deg) translateY(-4px);
-  z-index: 1;
-}
-
-.cg-step {
-  display: inline-flex;
-  align-items: center;
-  gap: .35rem;
-  margin-bottom: .85rem;
-  padding: .3rem .72rem .3rem .45rem;
-  border-radius: 999px;
-  background: var(--coffee);
-  color: #fff7ec;
-  font-size: .78rem;
-  font-weight: 850;
-  letter-spacing: .02em;
-  box-shadow: 0 4px 10px rgba(107, 58, 36, .28);
-}
-.cg-step .cg-ico { width: 1rem; height: 1rem; }
-.cg-step .cg-num {
-  font-family: "Fraunces", Georgia, serif;
-  font-size: 1rem;
-  font-weight: 900;
-}
-
-.cg-math-card h3 {
-  margin: 0 0 .4rem;
-  color: var(--ink);
-  font-family: "Fraunces", Georgia, serif;
-  font-size: 1.22rem;
-  font-weight: 800;
-  line-height: 1.12;
-}
-
-.cg-math-card p {
-  margin: 0;
-  color: var(--ink-soft);
-  font-size: .87rem;
-  line-height: 1.52;
-}
-
-/* ── trap sticky notes ────────────────────────────────────────────────────── */
-.cg-traps {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: .9rem;
-  margin-top: 1.1rem;
-}
-
-.cg-note {
-  position: relative;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: start;
-  gap: .85rem;
-  padding: 1.05rem 1.15rem 1.15rem;
-  border: 2px solid #ecd79f;
-  border-radius: 16px;
-  background: #fdf3cd;
-  box-shadow: var(--shadow-soft);
-  transform: rotate(-.8deg);
-  transition: transform .2s ease, box-shadow .2s ease;
-}
-.cg-note:nth-child(2) { transform: rotate(.8deg); }
-.cg-note:hover { transform: rotate(0) translateY(-3px); box-shadow: var(--shadow); }
-.cg-note .cg-tape {
-  top: -10px;
-  left: 26px;
-  width: 60px;
-  height: 18px;
-  margin-left: 0;
-  transform: rotate(-4deg);
-}
-
-.cg-note-mark {
-  display: grid;
-  width: 2.1rem;
-  height: 2.1rem;
-  place-items: center;
-  border-radius: 50%;
-  background: #f0c26b;
-  color: #7e4a1f;
-  font-family: "Fraunces", Georgia, serif;
-  font-size: 1.25rem;
-  font-weight: 900;
-  box-shadow: inset 0 -2px 0 rgba(0,0,0,.06);
-}
-
-.cg-note p { margin: 0; color: #6d4a26; font-size: .93rem; line-height: 1.58; }
-.cg-note strong { color: #4a2f15; }
-
-/* ── mood picker ──────────────────────────────────────────────────────────── */
-.cg-vibe-panel {
-  margin-top: 1.1rem;
-  padding: 1.1rem;
-  border: 2px solid var(--line);
-  border-radius: 20px;
-  background: rgba(255, 253, 248, .9);
-}
-
-.cg-vibe-head {
+.cg-board-flourish {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: .85rem;
+  align-items: center;
+  justify-content: center;
+  gap: .65rem;
+  width: min(180px, 62%);
+  margin: 1.05rem 0 0;
+  color: #b98a63;
+  font-size: .82rem;
+  line-height: 1;
 }
-.cg-vibe-head p { margin: 0; color: var(--muted); font-size: .85rem; }
-.cg-vibe-head strong { color: var(--ink); font-size: .95rem; }
-
-.cg-vibes {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: .6rem;
+.cg-board-flourish::before,
+.cg-board-flourish::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #d8b08c);
 }
-
-.cg-vibe {
-  min-width: 0;
-  padding: .75rem .6rem .8rem;
-  border: 2px solid transparent;
-  border-radius: 16px;
-  color: var(--ink);
-  cursor: pointer;
-  text-align: left;
-  box-shadow: var(--shadow-soft);
-  transition: transform .18s ease, box-shadow .18s ease;
-}
-.cg-vibe:nth-child(1) { background: #f7e7cf; }
-.cg-vibe:nth-child(2) { background: #fbe0d9; }
-.cg-vibe:nth-child(3) { background: #e3edf7; }
-.cg-vibe:nth-child(4) { background: #dff0e6; }
-.cg-vibe:nth-child(5) { background: #fbdde6; }
-.cg-vibe:nth-child(6) { background: #ece4f5; }
-.cg-vibe:hover {
-  border-color: rgba(192, 122, 63, .45);
-  box-shadow: var(--shadow);
-  transform: translateY(-3px) rotate(-.5deg);
-}
-
-.cg-vibe-icon {
-  display: grid;
-  width: 2.2rem;
-  height: 2.2rem;
-  place-items: center;
-  margin-bottom: .5rem;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, .8);
-  color: var(--coffee);
-  box-shadow: inset 0 -2px 0 rgba(0,0,0,.05);
-}
-.cg-vibe-icon .cg-ico { width: 1.25rem; height: 1.25rem; }
-.cg-vibe:nth-child(2) .cg-vibe-icon { color: #a45b38; }
-.cg-vibe:nth-child(3) .cg-vibe-icon { color: #40597c; }
-.cg-vibe:nth-child(4) .cg-vibe-icon { color: #2f6b52; }
-.cg-vibe:nth-child(5) .cg-vibe-icon { color: #b04762; }
-.cg-vibe:nth-child(6) .cg-vibe-icon { color: #6b4774; }
-
-.cg-vibe strong,
-.cg-vibe small { display: block; }
-.cg-vibe strong { font-size: .84rem; line-height: 1.2; }
-.cg-vibe small { margin-top: .3rem; color: var(--ink-soft); font-size: .72rem; line-height: 1.35; }
-
-/* ── search panel ─────────────────────────────────────────────────────────── */
+.cg-board-flourish::after { background: linear-gradient(90deg, #d8b08c, transparent); }
+.cg-board-dek { max-width: 62ch; margin: .95rem 0 0; color: var(--muted); font-size: 1.02rem; line-height: 1.6; }
+.cg-updated { margin: .85rem 0 0; color: #96745b; font-size: .78rem; }
+/* ── sticky search + filter pill ──────────────────────────────────────────── */
 .cg-search-panel {
   position: sticky;
-  top: 12px;
-  z-index: 10;
-  padding: 1.05rem;
-  border: 2px solid var(--line);
-  border-radius: 22px;
-  background: rgba(255, 251, 244, .95);
-  box-shadow: 0 12px 28px rgba(96, 58, 30, .09);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
+  top: 10px;
+  z-index: 20;
+  padding: .9rem 1rem;
+  border: 1.5px solid var(--line);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: var(--shadow-soft);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 }
-
-.cg-search-line {
-  display: flex;
-  align-items: center;
-  gap: .7rem;
-}
-
+.cg-search-line { display: flex; align-items: center; gap: .7rem; }
 .cg-search-label {
   position: absolute;
   width: 1px;
@@ -527,24 +179,22 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
   white-space: nowrap;
   border: 0;
 }
-
 .cg-search-icon {
   display: grid;
-  width: 2.6rem;
-  height: 2.6rem;
+  width: 2.4rem;
+  height: 2.4rem;
   flex: 0 0 auto;
   place-items: center;
-  border-radius: 14px;
-  background: #f7e7cf;
-  color: var(--coffee);
-  transform: rotate(-8deg);
+  border-radius: 50%;
+  background: var(--coffee);
+  color: #fff7ec;
+  transform: rotate(-6deg);
 }
-.cg-search-icon .cg-ico { width: 1.3rem; height: 1.3rem; }
-
+.cg-search-icon .cg-ico { width: 1.15rem; height: 1.15rem; }
 .cg-search-input {
   width: 100%;
   min-width: 0;
-  padding: .5rem 0;
+  padding: .45rem 0;
   border: 0;
   outline: 0;
   background: transparent;
@@ -552,13 +202,12 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
   font-size: 1.05rem;
 }
 .cg-search-input::placeholder { color: #967b64; }
-
 .cg-clear {
   display: none;
   flex: 0 0 auto;
-  padding: .3rem .55rem;
+  padding: .28rem .55rem;
   border: 0;
-  border-radius: 10px;
+  border-radius: 999px;
   background: transparent;
   color: var(--muted);
   cursor: pointer;
@@ -566,25 +215,18 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
   line-height: 1;
 }
 .cg-clear.is-visible { display: block; }
-.cg-clear:hover { background: #f7e7cf; color: var(--ink); }
-
+.cg-clear:hover { background: #f7ede1; color: var(--ink); }
 .cg-filter-label {
-  margin: 1rem 0 .45rem;
+  margin: .95rem 0 .45rem;
   color: #96745b;
   font-family: "Caveat", "Comic Sans MS", cursive;
-  font-size: 1.05rem;
+  font-size: 1.02rem;
   font-weight: 700;
 }
-
-.cg-filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .45rem;
-}
-
+.cg-filters { display: flex; flex-wrap: wrap; gap: .4rem; }
 .cg-filter {
-  padding: .42rem .78rem;
-  border: 2px solid var(--line);
+  padding: .38rem .72rem;
+  border: 1.5px solid var(--line);
   border-radius: 999px;
   background: #fff;
   color: var(--ink-soft);
@@ -596,30 +238,28 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
 }
 .cg-filter:hover { border-color: #d8a87b; color: var(--ink); transform: translateY(-1px); }
 .cg-filter.is-active {
-  border-color: var(--coffee);
+  border-color: transparent;
   background: var(--coffee);
   color: #fff7ec;
   box-shadow: 0 5px 12px rgba(107, 58, 36, .3);
 }
-
-/* ── results ──────────────────────────────────────────────────────────────── */
+/* ── results line ─────────────────────────────────────────────────────────── */
 .cg-results-line {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
-  margin: 1.3rem 0 .85rem;
+  margin: 1.25rem 0 .9rem;
 }
-
 .cg-results-count {
   display: flex;
   align-items: center;
   gap: .45rem;
   margin: 0;
   color: var(--muted);
-  font-size: .9rem;
+  font-size: .88rem;
 }
-.cg-results-count strong { color: var(--ink); font-family: "Fraunces", Georgia, serif; font-size: 1.1rem; }
+.cg-results-count strong { color: var(--ink); font-family: "Fraunces", Georgia, serif; font-size: 1.05rem; }
 .cg-results-count .cg-ico { width: 1rem; height: 1rem; color: var(--coral); }
 .cg-results-hint {
   margin: 0;
@@ -629,245 +269,164 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
   font-weight: 600;
   text-align: right;
 }
-
-.cg-results {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.05rem;
-}
-
-.cg-card {
+/* ── masonry board ────────────────────────────────────────────────────────── */
+.cg-results { display: block; columns: 220px 5; column-gap: 1rem; }
+.cg-pin {
   display: flex;
-  min-width: 0;
   flex-direction: column;
-  padding: 1.15rem 1.15rem 1.2rem;
-  border: 2px solid var(--cardline, var(--line));
-  border-radius: 22px;
-  background: var(--cardbg, #fffdf8);
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  margin: 0 0 1rem;
+  padding: .9rem .9rem 1rem;
+  border: 1px solid rgba(93, 64, 42, .06);
+  border-radius: 18px;
+  background: #fff;
   box-shadow: var(--shadow-soft);
-  transition: transform .2s ease, box-shadow .2s ease;
+  transition: transform .18s ease, box-shadow .18s ease;
 }
-.cg-results .cg-card:nth-child(odd) { transform: rotate(-.5deg); }
-.cg-results .cg-card:nth-child(even) { transform: rotate(.5deg); }
-.cg-card:hover {
-  box-shadow: var(--shadow);
-  transform: rotate(0deg) translateY(-4px) !important;
-  z-index: 1;
+.cg-pin:hover { transform: translateY(-3px); box-shadow: var(--shadow-pop); }
+.cg-pin[data-cat="espresso"] { border-top: 3px solid #b06a42; }
+.cg-pin[data-cat="milk"] { border-top: 3px solid #d98b74; }
+.cg-pin[data-cat="brewed"] { border-top: 3px solid #7d86b8; }
+.cg-pin[data-cat="cold"] { border-top: 3px solid #5e9e80; }
+.cg-pin[data-cat="signature"] { border-top: 3px solid #d96a4e; }
+.cg-pin[data-cat="noncoffee"] { border-top: 3px solid #a8a44e; }
+.cg-pin[data-cat="world"] { border-top: 3px solid #9a7bb8; }
+.cg-pin-art { display: grid; place-items: center; padding: .35rem 0 .15rem; }
+.cg-pin-art svg { display: block; width: 100%; max-width: 205px; height: auto; }
+.cg-pin-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-top: .15rem; }
+.cg-pin-name {
+  margin: 0;
+  color: var(--script);
+  font-family: "Caveat", "Comic Sans MS", cursive;
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1.05;
 }
-
-.cg-card[data-cat="espresso"]   { --cardbg: #fdf4ea; --cardline: #ecd3b9; }
-.cg-card[data-cat="milk"]       { --cardbg: #fdf1ee; --cardline: #eed2c9; }
-.cg-card[data-cat="brewed"]     { --cardbg: #f0f4fa; --cardline: #d3ddee; }
-.cg-card[data-cat="cold"]       { --cardbg: #eff7f1; --cardline: #cfe3d6; }
-.cg-card[data-cat="signature"]  { --cardbg: #fdf0e8; --cardline: #f0d2c0; }
-.cg-card[data-cat="noncoffee"]  { --cardbg: #faf6e6; --cardline: #e7dcb6; }
-.cg-card[data-cat="world"]      { --cardbg: #f6f1fb; --cardline: #e0d4ec; }
-
-.cg-card-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: .65rem;
-  min-height: 1.6rem;
-}
-
-.cg-card-kind {
+.cg-pin-cat {
   display: inline-flex;
-  align-items: center;
-  gap: .5rem;
-  min-width: 0;
-}
-
-.cg-mini-cup {
-  display: grid;
-  width: 2.15rem;
-  height: 2.15rem;
   flex: 0 0 auto;
-  place-items: center;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, .75);
-  box-shadow: inset 0 -2px 0 rgba(0,0,0,.05);
-  transform: rotate(-5deg);
-}
-.cg-mini-cup svg { display: block; width: 1.75rem; height: 1.75rem; }
-.cg-mini-cup[data-category="cold"] { background: rgba(255,255,255,.75); }
-.cg-mini-cup[data-category="brewed"] { background: rgba(255,255,255,.75); }
-.cg-mini-cup[data-category="signature"] { background: rgba(255,255,255,.75); }
-.cg-mini-cup[data-category="noncoffee"] { background: rgba(255,255,255,.75); }
-.cg-mini-cup[data-category="world"] { background: rgba(255,255,255,.75); }
-
-.cg-category {
-  display: inline-flex;
   align-items: center;
-  gap: .35rem;
-  padding: .3rem .62rem;
+  padding: .2rem .5rem;
   border-radius: 999px;
-  background: #f7e7cf;
+  background: #f3e2d0;
   color: #7a482f;
-  font-size: .68rem;
+  font-size: .6rem;
   font-weight: 850;
-  letter-spacing: .05em;
-  line-height: 1.1;
+  letter-spacing: .07em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.cg-pin-cat[data-cat="milk"] { background: #fbe9e2; color: #a04a34; }
+.cg-pin-cat[data-cat="brewed"] { background: #e3eaf4; color: #4f547d; }
+.cg-pin-cat[data-cat="cold"] { background: #dcf0e5; color: #2c6a52; }
+.cg-pin-cat[data-cat="signature"] { background: #fde8dc; color: #b04a2c; }
+.cg-pin-cat[data-cat="noncoffee"] { background: #f2efd8; color: #6b6a3a; }
+.cg-pin-cat[data-cat="world"] { background: #ece2f4; color: #6b4774; }
+.cg-pin-alias {
+  margin: .1rem 0 0;
+  color: #a08268;
+  font-size: .72rem;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cg-pin-meaning {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  margin: .45rem 0 0;
+  color: var(--ink-soft);
+  font-size: .84rem;
+  line-height: 1.5;
+}
+.cg-pin.is-open .cg-pin-meaning { display: block; -webkit-line-clamp: unset; }
+.cg-pin-more { display: none; }
+.cg-pin.is-open .cg-pin-more {
+  display: block;
+  margin-top: .6rem;
+  padding-top: .6rem;
+  border-top: 1.5px dashed #e8d6bf;
+}
+.cg-detail-row {
+  display: grid;
+  grid-template-columns: 1.15rem 1fr;
+  gap: .45rem;
+  padding: .32rem 0;
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.cg-detail-row + .cg-detail-row { border-top: 1px dashed rgba(232, 214, 191, .7); }
+.cg-detail-row .cg-ico { width: 1rem; height: 1rem; margin-top: .12rem; color: #b98a63; }
+.cg-detail-row strong {
+  display: block;
+  color: #8b4d2c;
+  font-size: .64rem;
+  letter-spacing: .06em;
   text-transform: uppercase;
 }
-.cg-category .cg-ico { width: .8rem; height: .8rem; color: var(--caramel); }
-.cg-category[data-category="cold"] { background: #d9efe2; color: #28634f; }
-.cg-category[data-category="brewed"] { background: #dde6f4; color: #4f547d; }
-.cg-category[data-category="noncoffee"] { background: #efe9c9; color: #64643b; }
-.cg-category[data-category="signature"] { background: #f8dcd0; color: #973e28; }
-.cg-category[data-category="world"] { background: #e7dcf1; color: #6b4774; }
-
-.cg-card-shops {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: .3rem;
+.cg-detail-row span { color: #4f4037; }
+.cg-where-row .cg-shop-chip { margin: .15rem .3rem .1rem 0; }
+.cg-where-row .cg-shop-chip .cg-ico { color: #4d806a; }
+.cg-pin-toggle {
+  align-self: center;
+  padding: .25rem .7rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--coral);
+  cursor: pointer;
+  font-size: .74rem;
+  font-weight: 800;
 }
-
+.cg-pin-toggle:hover { background: #fdf0e8; }
+.cg-pin-foot { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .6rem; }
 .cg-shop-chip {
   display: inline-flex;
   align-items: center;
   gap: .28rem;
   padding: .18rem .5rem;
-  border: 1.5px solid var(--cardline, var(--line));
+  border: 1.2px solid var(--line);
   border-radius: 999px;
-  background: rgba(255, 255, 255, .8);
+  background: #faf5ee;
   color: #8a624a;
-  font-size: .68rem;
-  font-weight: 750;
+  font-size: .66rem;
+  font-weight: 700;
   line-height: 1.3;
   white-space: nowrap;
 }
-.cg-shop-chip .cg-ico { width: .78rem; height: .78rem; color: var(--coral); }
-.cg-shop-chip em {
-  font-style: normal;
-  color: #8a6b50;
-  font-weight: 600;
-}
-
-.cg-card h3 {
-  margin: .8rem 0 .3rem;
-  color: var(--ink);
-  font-family: "Fraunces", Georgia, serif;
-  font-size: clamp(1.3rem, 2.5vw, 1.6rem);
-  font-weight: 800;
-  letter-spacing: -.02em;
-  line-height: 1.1;
-}
-
-.cg-aliases {
-  margin: 0 0 .7rem;
-  color: #88694f;
-  font-size: .76rem;
-  line-height: 1.45;
-}
-
-.cg-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .3rem;
-  margin: -.2rem 0 .75rem;
-}
-
-.cg-tag {
-  padding: .22rem .5rem;
-  border: 1.5px solid #ead9c5;
-  border-radius: 999px;
-  background: #fff;
-  color: #8b6d5a;
-  font-size: .67rem;
-  font-weight: 750;
-  line-height: 1.1;
-}
-.cg-tag.origin { border-color: #d8c2df; background: #f5eef7; color: #6b4774; }
-.cg-tag.adult { border-color: #e5b9a8; background: #fff0eb; color: #a8442c; }
-button.cg-tag { cursor: pointer; font-family: inherit; }
-button.cg-tag:hover { border-color: #c89670; background: #fff1e3; }
-
-.cg-meaning {
-  margin: 0 0 .9rem;
-  color: var(--ink-soft);
-  font-size: .9rem;
-  line-height: 1.55;
-}
-
-.cg-detail-box {
-  margin-top: auto;
-  padding: .6rem .75rem;
-  border: 1.5px dashed #e4c9ad;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, .62);
-}
-
-.cg-detail-row {
-  display: grid;
-  grid-template-columns: 1.25rem 1fr;
-  gap: .5rem;
-  padding: .32rem 0;
-  font-size: .82rem;
-  line-height: 1.45;
-}
-.cg-detail-row + .cg-detail-row { border-top: 1px dashed rgba(228, 201, 173, .6); }
-.cg-detail-row .cg-ico { width: 1.05rem; height: 1.05rem; margin-top: .12rem; color: var(--caramel); }
-.cg-detail-row strong {
-  display: block;
-  color: #8b4d2c;
-  font-size: .68rem;
-  letter-spacing: .07em;
-  text-transform: uppercase;
-}
-.cg-detail-row span { color: #4f4037; }
-
-.cg-where-row .cg-shop-chip { margin: .15rem .3rem .1rem 0; }
-.cg-where-row .cg-shop-chip .cg-ico { color: var(--sage); }
-
-.cg-region-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: .3rem;
-  padding: .2rem .55rem;
-  border: 1.5px solid #d8c2df;
-  border-radius: 999px;
-  background: #f5eef7;
-  color: #6b4774;
-  font-size: .72rem;
-  font-weight: 750;
-}
-.cg-region-chip .cg-ico { width: .8rem; height: .8rem; }
-
+.cg-shop-chip .cg-ico { width: .75rem; height: .75rem; color: var(--coral); }
+.cg-shop-chip em { font-style: normal; color: #a08268; font-weight: 600; }
 .cg-seasonal {
   display: inline-flex;
+  align-self: flex-start;
   align-items: center;
   gap: .4rem;
-  align-self: flex-start;
-  margin: .8rem 0 0;
-  padding: .28rem .62rem;
+  margin: .55rem 0 0;
+  padding: .24rem .58rem;
   border: 1.5px solid #f0c9b4;
   border-radius: 999px;
   background: #fdebe2;
   color: var(--coral);
-  font-size: .72rem;
+  font-size: .7rem;
   font-weight: 800;
   letter-spacing: .02em;
 }
-.cg-seasonal .cg-ico { width: .9rem; height: .9rem; }
-
+.cg-seasonal .cg-ico { width: .85rem; height: .85rem; }
 .cg-no-results {
-  grid-column: 1 / -1;
+  -webkit-column-span: all;
+  column-span: all;
   padding: 2.2rem 1rem;
   border: 2px dashed #d8b99b;
-  border-radius: 20px;
+  border-radius: 18px;
   background: #fffaf3;
   color: var(--muted);
   text-align: center;
 }
-
-.cg-results-actions {
-  display: flex;
-  justify-content: center;
-  margin-top: 1.1rem;
-}
-
+.cg-results-actions { display: flex; justify-content: center; margin-top: 1.1rem; }
 .cg-show-more {
   display: inline-flex;
   align-items: center;
@@ -883,45 +442,194 @@ button.cg-tag:hover { border-color: #c89670; background: #fff1e3; }
   box-shadow: var(--shadow-soft);
   transition: transform .18s ease, box-shadow .18s ease;
 }
-.cg-show-more:hover { background: #fff1e3; transform: translateY(-2px); box-shadow: var(--shadow); }
+.cg-show-more:hover { transform: translateY(-2px); box-shadow: var(--shadow-pop); }
 .cg-show-more .cg-ico { width: .95rem; height: .95rem; }
-
-/* ── SF shop cards ────────────────────────────────────────────────────────── */
-.cg-sf-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: .85rem;
+/* ── sections ─────────────────────────────────────────────────────────────── */
+.cg-section { margin-top: clamp(2.4rem, 5vw, 4.2rem); }
+.cg-section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1.2rem;
+  margin-bottom: 1.2rem;
 }
-
-.cg-sf-card {
+.cg-section-head h2 {
+  margin: 0;
+  color: var(--ink);
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1.04;
+}
+.cg-section-head p {
+  max-width: 44ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: .94rem;
+  line-height: 1.55;
+  text-align: right;
+}
+.cg-section-head .cg-eyebrow { text-align: left; }
+/* ── decoder math cards ───────────────────────────────────────────────────── */
+.cg-math-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .9rem; }
+.cg-math-card {
   position: relative;
-  padding: 1.05rem 1.05rem 1.1rem;
-  border: 2px solid var(--line);
+  min-height: 172px;
+  padding: 1.1rem 1.05rem 1.15rem;
+  border: 1px solid var(--line);
   border-radius: 18px;
   background: #fff;
   box-shadow: var(--shadow-soft);
   transition: transform .2s ease, box-shadow .2s ease;
 }
-.cg-sf-grid .cg-sf-card:nth-child(3n+1) { transform: rotate(-.5deg); }
-.cg-sf-grid .cg-sf-card:nth-child(3n+2) { transform: rotate(.4deg); }
-.cg-sf-grid .cg-sf-card:nth-child(3n) { transform: rotate(-.4deg); }
-.cg-sf-card:hover { transform: rotate(0) translateY(-3px) !important; box-shadow: var(--shadow); z-index: 1; }
-
+.cg-math-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-pop); z-index: 1; }
+.cg-step {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  margin-bottom: .85rem;
+  padding: .3rem .72rem .3rem .45rem;
+  border-radius: 999px;
+  background: var(--coffee);
+  color: #fff7ec;
+  font-size: .78rem;
+  font-weight: 850;
+  letter-spacing: .02em;
+  box-shadow: 0 4px 10px rgba(107, 58, 36, .28);
+}
+.cg-step .cg-ico { width: 1rem; height: 1rem; }
+.cg-step .cg-num { font-family: "Fraunces", Georgia, serif; font-size: 1rem; font-weight: 900; }
+.cg-math-card h3 {
+  margin: 0 0 .4rem;
+  color: var(--ink);
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.22rem;
+  font-weight: 800;
+  line-height: 1.12;
+}
+.cg-math-card p { margin: 0; color: var(--ink-soft); font-size: .87rem; line-height: 1.52; }
+/* ── trap sticky notes ────────────────────────────────────────────────────── */
+.cg-traps { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; margin-top: 1.1rem; }
+.cg-note {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: .85rem;
+  padding: 1.05rem 1.15rem 1.15rem;
+  border: 1.5px solid #eeddb2;
+  border-radius: 18px;
+  background: #fdf6e3;
+  box-shadow: var(--shadow-soft);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.cg-note:hover { transform: translateY(-3px); box-shadow: var(--shadow-pop); }
+.cg-note .cg-tape { top: -10px; left: 26px; width: 60px; height: 18px; margin-left: 0; transform: rotate(-4deg); }
+.cg-tape,
+.cg-tape-2 {
+  position: absolute;
+  height: 26px;
+  border-radius: 3px;
+  background: rgba(251, 231, 184, .82);
+  box-shadow: 0 2px 5px rgba(96, 58, 30, .08);
+  z-index: 2;
+}
+.cg-tape { top: -12px; left: 50%; width: 104px; margin-left: -52px; transform: rotate(2.2deg); }
+.cg-tape-2 { top: -8px; left: -14px; width: 78px; transform: rotate(-36deg); }
+.cg-note-mark {
+  display: grid;
+  width: 2.1rem;
+  height: 2.1rem;
+  place-items: center;
+  border-radius: 50%;
+  background: #f0c26b;
+  color: #7e4a1f;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 900;
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,.06);
+}
+.cg-note p { margin: 0; color: #6d4a26; font-size: .93rem; line-height: 1.58; }
+.cg-note strong { color: #4a2f15; }
+/* ── mood picker ──────────────────────────────────────────────────────────── */
+.cg-vibe-panel {
+  margin-top: 1.1rem;
+  padding: 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+.cg-vibe-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: .85rem;
+}
+.cg-vibe-head p { margin: 0; color: var(--muted); font-size: .85rem; }
+.cg-vibe-head strong { color: var(--ink); font-size: .95rem; }
+.cg-vibes { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: .6rem; }
+.cg-vibe {
+  min-width: 0;
+  padding: .75rem .6rem .8rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+  box-shadow: var(--shadow-soft);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.cg-vibe:hover { border-color: #d8a87b; box-shadow: var(--shadow-pop); transform: translateY(-3px); }
+.cg-vibe-icon {
+  display: grid;
+  width: 2.2rem;
+  height: 2.2rem;
+  place-items: center;
+  margin-bottom: .5rem;
+  border-radius: 50%;
+  background: #faf3ea;
+  color: var(--coffee);
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,.05);
+}
+.cg-vibe-icon .cg-ico { width: 1.25rem; height: 1.25rem; }
+.cg-vibe:nth-child(2) .cg-vibe-icon { color: #a45b38; }
+.cg-vibe:nth-child(3) .cg-vibe-icon { color: #40597c; }
+.cg-vibe:nth-child(4) .cg-vibe-icon { color: #2f6b52; }
+.cg-vibe:nth-child(5) .cg-vibe-icon { color: #b04762; }
+.cg-vibe:nth-child(6) .cg-vibe-icon { color: #6b4774; }
+.cg-vibe strong, .cg-vibe small { display: block; }
+.cg-vibe strong { font-size: .84rem; line-height: 1.2; }
+.cg-vibe small { margin-top: .3rem; color: var(--ink-soft); font-size: .72rem; line-height: 1.35; }
+/* ── SF shop cards ────────────────────────────────────────────────────────── */
+.cg-sf-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .85rem; }
+.cg-sf-card {
+  position: relative;
+  padding: 1.05rem 1.05rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.cg-sf-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-pop); z-index: 1; }
 .cg-sf-tab {
   position: absolute;
   top: -11px;
   left: 14px;
   padding: .16rem .6rem;
   border-radius: 999px;
-  background: #f7e7cf;
-  color: #7a482f;
+  background: var(--coffee);
+  color: #fff7ec;
   font-size: .66rem;
   font-weight: 850;
   letter-spacing: .05em;
   text-transform: uppercase;
-  box-shadow: 0 3px 8px rgba(96, 58, 30, .12);
+  box-shadow: 0 3px 8px rgba(93, 64, 42, .18);
 }
-
 .cg-sf-card h3 {
   display: flex;
   align-items: center;
@@ -934,13 +642,7 @@ button.cg-tag:hover { border-color: #c89670; background: #fff1e3; }
   line-height: 1.15;
 }
 .cg-sf-card h3 .cg-ico { width: 1.05rem; height: 1.05rem; color: var(--coral); }
-.cg-sf-card .cg-sf-hood {
-  display: block;
-  margin: 0 0 .55rem;
-  color: #96745b;
-  font-size: .75rem;
-  line-height: 1.4;
-}
+.cg-sf-card .cg-sf-hood { display: block; margin: 0 0 .55rem; color: #96745b; font-size: .75rem; line-height: 1.4; }
 .cg-sf-card p { margin: 0; color: var(--muted); font-size: .82rem; line-height: 1.55; }
 .cg-sf-card button {
   display: inline-flex;
@@ -957,29 +659,20 @@ button.cg-tag:hover { border-color: #c89670; background: #fff1e3; }
 }
 .cg-sf-card button:hover { text-decoration: underline; }
 .cg-sf-card button .cg-ico { width: .85rem; height: .85rem; }
-
 /* ── world postcards ──────────────────────────────────────────────────────── */
-.cg-world-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: .85rem;
-}
-
+.cg-world-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .85rem; }
 .cg-world-card {
   display: flex;
   min-height: 158px;
   flex-direction: column;
   padding: 1.05rem 1rem 1.05rem;
-  border: 2px solid #ddd0e8;
+  border: 1px solid #ddd0e8;
   border-radius: 18px;
-  background: linear-gradient(150deg, #fff, #f7f0fb);
+  background: linear-gradient(150deg, #fff, #f8f3fb);
   box-shadow: var(--shadow-soft);
   transition: transform .2s ease, box-shadow .2s ease;
 }
-.cg-world-grid .cg-world-card:nth-child(odd) { transform: rotate(-.6deg); }
-.cg-world-grid .cg-world-card:nth-child(even) { transform: rotate(.6deg); }
-.cg-world-card:hover { transform: rotate(0) translateY(-3px) !important; box-shadow: var(--shadow); z-index: 1; }
-
+.cg-world-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-pop); z-index: 1; }
 .cg-world-stamp {
   display: inline-grid;
   width: 2.5rem;
@@ -996,8 +689,14 @@ button.cg-tag:hover { border-color: #c89670; background: #fff1e3; }
   letter-spacing: .04em;
   transform: rotate(-4deg);
 }
-
-.cg-world-card h3 { margin: 0 0 .35rem; color: var(--ink); font-family: "Fraunces", Georgia, serif; font-size: 1.06rem; font-weight: 800; line-height: 1.15; }
+.cg-world-card h3 {
+  margin: 0 0 .35rem;
+  color: var(--ink);
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.06rem;
+  font-weight: 800;
+  line-height: 1.15;
+}
 .cg-world-card p { margin: 0; color: var(--muted); font-size: .8rem; line-height: 1.5; }
 .cg-world-card button {
   display: inline-flex;
@@ -1015,7 +714,6 @@ button.cg-tag:hover { border-color: #c89670; background: #fff1e3; }
 }
 .cg-world-card button:hover { text-decoration: underline; }
 .cg-world-card button .cg-ico { width: .8rem; height: .8rem; }
-
 /* ── order receipt card ───────────────────────────────────────────────────── */
 .cg-order-card {
   position: relative;
@@ -1030,17 +728,9 @@ button.cg-tag:hover { border-color: #c89670; background: #fff1e3; }
     radial-gradient(circle at 88% 12%, rgba(255,255,255,.1), transparent 30%),
     var(--coffee);
   color: #fff8ef;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-pop);
 }
-
-.cg-order-card .cg-tape {
-  top: -12px;
-  left: 50%;
-  width: 96px;
-  margin-left: -48px;
-  transform: rotate(-2deg);
-}
-
+.cg-order-card .cg-tape { top: -12px; left: 50%; width: 96px; margin-left: -48px; transform: rotate(-2deg); }
 .cg-order-card h2 {
   margin: 0;
   color: #fff8ef;
@@ -1050,7 +740,6 @@ button.cg-tag:hover { border-color: #c89670; background: #fff1e3; }
   letter-spacing: -.03em;
   line-height: 1.04;
 }
-
 .cg-order-card p { margin: 0; color: #f1dfcb; font-size: .95rem; line-height: 1.6; }
 .cg-order-example { margin-top: .75rem !important; color: #fff8ef !important; font-weight: 750; }
 .cg-order-example code {
@@ -1072,61 +761,81 @@ button.cg-tag:hover { border-color: #c89670; background: #fff1e3; }
   font-weight: 600;
 }
 .cg-order-note .cg-ico { width: 1.05rem; height: 1.05rem; color: #f7b6a4; }
-
-/* ── sources ──────────────────────────────────────────────────────────────── */
-.cg-sources {
-  padding: 1rem 0 .35rem;
-  color: #86715f;
-  font-size: .75rem;
-  line-height: 1.6;
+/* ── shared chips (world + tags) ──────────────────────────────────────────── */
+.cg-region-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  padding: .2rem .55rem;
+  border: 1.5px solid #ddd0e8;
+  border-radius: 999px;
+  background: #f5eef7;
+  color: #6b4774;
+  font-size: .72rem;
+  font-weight: 750;
 }
+.cg-region-chip .cg-ico { width: .8rem; height: .8rem; }
+.cg-tag {
+  padding: .22rem .5rem;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: #8b6d5a;
+  font-size: .67rem;
+  font-weight: 750;
+  line-height: 1.1;
+}
+.cg-tag.origin { border-color: #ddd0e8; background: #f5eef7; color: #6b4774; }
+.cg-tag.adult { border-color: #e5b9a8; background: #fff0eb; color: #a8442c; }
+button.cg-tag { cursor: pointer; font-family: inherit; }
+button.cg-tag:hover { border-color: #d8a87b; background: #fdf3ea; }
+/* ── sources ──────────────────────────────────────────────────────────────── */
+.cg-sources { padding: 1rem 0 .35rem; color: var(--muted); font-size: .75rem; line-height: 1.6; }
 .cg-sources p { margin: 0 0 .55rem; }
 .cg-sources strong { color: #705543; }
 .cg-sources a { color: #8f5d41; }
 .cg-sources ul { margin: .45rem 0 0; padding-left: 1.2rem; }
 .cg-sources li { margin: .18rem 0; }
-
 /* ── responsive ───────────────────────────────────────────────────────────── */
-@media screen and (max-width: 920px) {
-  .cg-hero { grid-template-columns: 1fr; }
-  .cg-hero h2 { max-width: 15ch; }
-  .cg-hero-art { order: -1; }
-  .cg-polaroid { max-width: 560px; margin: 0 auto; }
-  .cg-sf-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .cg-world-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .cg-vibes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .cg-math-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
 @media screen and (max-width: 700px) {
   .cg-app { width: 100%; margin-left: 0; transform: none; }
-  .cg-hero { gap: 1.2rem; padding: 1.2rem; border-radius: 22px; }
+  .cg-board-header { padding: 1.9rem .75rem 1rem; }
   .cg-section { margin-top: 2.5rem; }
   .cg-section-head { display: block; }
   .cg-section-head p { margin-top: .55rem; text-align: left; }
+  .cg-search-panel { top: 6px; padding: .7rem .8rem; border-radius: 16px; }
   .cg-traps { grid-template-columns: 1fr; }
-  .cg-search-panel { top: 6px; border-radius: 16px; }
   .cg-results-line { display: block; }
   .cg-results-hint { margin-top: .3rem; text-align: left; }
-  .cg-results { grid-template-columns: 1fr; }
   .cg-sf-grid { grid-template-columns: 1fr; }
   .cg-world-grid { grid-template-columns: 1fr; }
+  .cg-math-grid { grid-template-columns: 1fr; }
+  .cg-math-card { min-height: 0; }
   .cg-vibe-head { display: block; }
   .cg-vibe-head p { margin-top: .35rem; }
   .cg-vibes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .cg-order-card { grid-template-columns: 1fr; }
 }
-
 @media screen and (max-width: 460px) {
-  .cg-math-grid { grid-template-columns: 1fr; }
-  .cg-math-card { min-height: 0; }
+  .cg-board-title { letter-spacing: -.02em; }
+  .cg-search-panel { padding: .6rem .65rem; }
+  .cg-filters { gap: .32rem; }
+  .cg-filter { padding: .34rem .6rem; font-size: .74rem; }
+  .cg-pin { padding: .8rem .75rem .9rem; }
+  .cg-pin-name { font-size: 1.42rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cg-pin, .cg-math-card, .cg-note, .cg-vibe, .cg-sf-card, .cg-world-card,
+  .cg-filter, .cg-show-more {
+    transition: none;
+  }
+  .cg-pin:hover, .cg-math-card:hover, .cg-note:hover, .cg-vibe:hover,
+  .cg-sf-card:hover, .cg-world-card:hover, .cg-show-more:hover {
+    transform: none !important;
+  }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .cg-card, .cg-filter, .cg-vibe, .cg-hero-links a, .cg-math-card, .cg-note,
-  .cg-sf-card, .cg-world-card, .cg-polaroid, .cg-show-more { transition: none; }
-  .cg-card, .cg-math-card, .cg-note, .cg-sf-card, .cg-world-card, .cg-polaroid { transform: none !important; }
-}
+.cg-app .cg-art { overflow: visible; }
 </style>
 <div class="cg-app">
 
@@ -1193,172 +902,77 @@ button.cg-tag:hover { border-color: #c89670; background: #fff1e3; }
     </defs>
   </svg>
 
-  <section class="cg-hero" aria-labelledby="cg-hero-title">
-    <div>
-      <p class="cg-kicker">san francisco coffee field notes ✎</p>
-      <h2 id="cg-hero-title" class="cg-display">Read the menu.<br /><span class="cg-mark">Order the thing.</span></h2>
-      <p class="cg-dek">A friendly decoder for espresso ratios, milk textures, cold coffee, and the wonderfully specific names you’ll run into at SF cafés — plus where to actually find them.</p>
-      <div class="cg-hero-links" aria-label="Guide sections">
-        <a href="#cg-decoder"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-cup"/></svg>Start with the ratio ↓</a>
-        <a href="#cg-lookup"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-mag"/></svg>Look up a drink ↓</a>
-        <a href="#cg-world"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-sparkle"/></svg>World passport ↓</a>
+  <header class="cg-board-header" aria-labelledby="cg-hero-title">
+    <p class="cg-eyebrow">san francisco coffee field notes ✎</p>
+    <h2 id="cg-hero-title" class="cg-board-title">Read the menu.<br />Order the thing.</h2>
+    <div class="cg-board-flourish" aria-hidden="true">✦</div>
+    <p class="cg-board-dek">A friendly decoder for espresso ratios, milk textures, cold coffee, and the wonderfully specific names you’ll run into at SF cafés — plus where to actually find them.</p>
+    <p class="cg-updated">128 drinks · classic definitions + SF menu sightings · last checked August 15, 2026</p>
+  </header>
+
+
+  <section class="cg-section" id="cg-lookup" aria-labelledby="cg-lookup-title">
+    <div class="cg-section-head">
+      <div>
+        <p class="cg-eyebrow">the useful bit</p>
+        <h2 id="cg-lookup-title" class="cg-display">Look it up at the counter.</h2>
       </div>
-      <p class="cg-updated">Classic definitions + SF menu sightings · last checked August 15, 2026</p>
+      <p>Search a drink, ingredient, alias, or shop. Try <em>tonic</em>, <em>macadamia</em>, <em>Philz</em>, or <em>cortado</em>.</p>
     </div>
-    <div class="cg-hero-art">
-      <figure class="cg-polaroid">
-        <span class="cg-tape" aria-hidden="true"></span>
-        <span class="cg-tape-2" aria-hidden="true"></span>
-        <svg class="hero-art" viewBox="0 0 1200 470" role="img" aria-labelledby="cghero-title cghero-desc">
-          <title id="cghero-title">The quick coffee ratio map, animated</title>
-          <desc id="cghero-desc">Five cute illustrated cups: espresso, cortado, cappuccino, latte, and a fizzy cold coffee with tonic. Steam rises from the hot drinks, sparkles twinkle, and bubbles rise through the cold one.</desc>
-          <defs>
-            <linearGradient id="cghero-paper" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#fff9f0"/>
-              <stop offset="1" stop-color="#f6e7d2"/>
-            </linearGradient>
-            <linearGradient id="cghero-coffee" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#6f3821"/>
-              <stop offset="1" stop-color="#351a10"/>
-            </linearGradient>
-            <linearGradient id="cghero-milk" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#fff8e9"/>
-              <stop offset="1" stop-color="#e7cda7"/>
-            </linearGradient>
-            <linearGradient id="cghero-foam" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#fffdf7"/>
-              <stop offset="1" stop-color="#f2ddba"/>
-            </linearGradient>
-            <linearGradient id="cghero-tonic" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#dff3e7"/>
-              <stop offset="1" stop-color="#a7d6c0"/>
-            </linearGradient>
-            <pattern id="cghero-dots" width="20" height="20" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1.2" fill="#b26c43" opacity=".16"/>
-            </pattern>
-          </defs>
 
-          <rect width="1200" height="470" rx="26" fill="url(#cghero-paper)"/>
-          <rect width="1200" height="470" rx="26" fill="url(#cghero-dots)"/>
+    <div class="cg-search-panel">
+      <div class="cg-search-line">
+        <span class="cg-search-icon" aria-hidden="true"><svg class="cg-ico"><use href="#cg-i-mag"/></svg></span>
+        <label class="cg-search-label" for="cg-search">Search drinks, ingredients, or cafés</label>
+        <input class="cg-search-input" id="cg-search" type="search" placeholder="Search drinks, ingredients, or cafés…" autocomplete="off" />
+        <button class="cg-clear" id="cg-clear" type="button" aria-label="Clear search">×</button>
+      </div>
 
-          <path d="M36 78C208 14 330 96 470 52s300-34 448 18 196-10 262-26" fill="none" stroke="#d58c5c" stroke-width="2" stroke-dasharray="4 10" opacity=".55"/>
+      <p class="cg-filter-label">Drink family</p>
+      <div class="cg-filters" id="cg-category-filters" aria-label="Filter by drink family">
+        <button class="cg-filter is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+        <button class="cg-filter" type="button" data-filter="espresso" aria-pressed="false">Espresso</button>
+        <button class="cg-filter" type="button" data-filter="milk" aria-pressed="false">Milk drinks</button>
+        <button class="cg-filter" type="button" data-filter="brewed" aria-pressed="false">Brewed</button>
+        <button class="cg-filter" type="button" data-filter="cold" aria-pressed="false">Cold &amp; sparkling</button>
+        <button class="cg-filter" type="button" data-filter="signature" aria-pressed="false">SF signatures</button>
+        <button class="cg-filter" type="button" data-filter="noncoffee" aria-pressed="false">Not coffee</button>
+        <button class="cg-filter" type="button" data-filter="world" aria-pressed="false">World passport</button>
+      </div>
 
-          <text x="56" y="46" fill="#8b4d2c" font-family="Caveat, 'Comic Sans MS', cursive" font-size="21" font-weight="700" letter-spacing="1">the quick ratio map ✎</text>
-          <text x="1144" y="46" text-anchor="end" fill="#8b4d2c" font-family="Caveat, 'Comic Sans MS', cursive" font-size="18" font-weight="700" letter-spacing=".5">more milk → softer sip</text>
-
-          <!-- sparkles -->
-          <g class="cg-s-tw"><path d="M96 70l6 17 17 6-17 6-6 17-6-17-17-6 17-6 6-17Z" fill="#e8a04f"/></g>
-          <g class="cg-s-tw" style="animation-delay:.7s"><path d="M258 62l5 14 14 5-14 5-5 14-5-14-14-5 14-5 5-14Z" fill="#e88fa8"/></g>
-          <g class="cg-s-tw" style="animation-delay:1.2s"><path d="M482 66l5 14 14 5-14 5-5 14-5-14-14-5 14-5 5-14Z" fill="#8fb8d9"/></g>
-          <g class="cg-s-tw" style="animation-delay:1.8s"><path d="M706 58l6 17 17 6-17 6-6 17-6-17-17-6 17-6 6-17Z" fill="#e8a04f"/></g>
-          <g class="cg-s-tw" style="animation-delay:2.4s"><path d="M928 64l5 14 14 5-14 5-5 14-5-14-14-5 14-5 5-14Z" fill="#e88fa8"/></g>
-          <g class="cg-s-tw" style="animation-delay:1.1s"><path d="M1168 84l6 17 17 6-17 6-6 17-6-17-17-6 17-6 6-17Z" fill="#e8a04f"/></g>
-          <g class="cg-s-tw" style="animation-delay:.4s"><path d="M58 196l4 12 12 4-12 4-4 12-4-12-12-4 12-4 4-12Z" fill="#e88fa8"/></g>
-          <g class="cg-s-tw" style="animation-delay:1.6s"><path d="M1146 180l5 14 14 5-14 5-5 14-5-14-14-5 14-5 5-14Z" fill="#8fb8d9"/></g>
-
-          <!-- ground shadows -->
-          <ellipse cx="175" cy="221" rx="66" ry="11" fill="#c9936d" opacity=".3"/>
-          <ellipse cx="395" cy="221" rx="64" ry="11" fill="#c9936d" opacity=".3"/>
-          <ellipse cx="615" cy="221" rx="70" ry="11" fill="#c9936d" opacity=".3"/>
-          <ellipse cx="835" cy="221" rx="62" ry="11" fill="#c9936d" opacity=".3"/>
-          <ellipse cx="1055" cy="219" rx="62" ry="11" fill="#c9936d" opacity=".3"/>
-
-          <!-- 1 · espresso -->
-          <g class="cg-s-bob">
-            <g class="cg-s-steam"><path d="M161 94c8-10 16 10 24 0" fill="none" stroke="#c07a3f" stroke-width="4.5" stroke-linecap="round"/></g>
-            <g class="cg-s-steam" style="animation-delay:1.15s"><path d="M186 96c7-9 14 9 21 0" fill="none" stroke="#c07a3f" stroke-width="3.5" stroke-linecap="round" opacity=".8"/></g>
-            <path d="M112 118h126l-10 76c-2 15-14 25-29 25h-48c-15 0-27-10-29-25z" fill="#fffdf8" stroke="#b06a42" stroke-width="3"/>
-            <ellipse cx="175" cy="118" rx="63" ry="18" fill="#e2b48b" stroke="#b06a42" stroke-width="3"/>
-            <ellipse cx="175" cy="114" rx="53" ry="12" fill="url(#cghero-coffee)"/>
-            <path d="M138 106c10-7 17 7 27 0s17 7 27 0" fill="none" stroke="#d99257" stroke-width="3" opacity=".8"/>
-            <circle cx="166" cy="182" r="2.8" fill="#3b2116"/>
-            <circle cx="184" cy="182" r="2.8" fill="#3b2116"/>
-            <path d="M167 190c3.5 3.5 12.5 3.5 16 0" fill="none" stroke="#3b2116" stroke-width="2.4" stroke-linecap="round"/>
-            <text x="175" y="254" text-anchor="middle" fill="#3b2116" font-family="Fraunces, Georgia, serif" font-size="17" font-weight="800">ESPRESSO</text>
-            <text x="175" y="276" text-anchor="middle" fill="#8b4d2c" font-family="Caveat, 'Comic Sans MS', cursive" font-size="17" font-weight="700">just the shot</text>
-          </g>
-
-          <!-- 2 · cortado (espresso on the bottom, milk on top) -->
-          <g class="cg-s-bob" style="animation-delay:.55s">
-            <g class="cg-s-steam" style="animation-delay:.4s"><path d="M381 72c8-10 16 10 24 0" fill="none" stroke="#c07a3f" stroke-width="4.5" stroke-linecap="round"/></g>
-            <g class="cg-s-steam" style="animation-delay:1.55s"><path d="M406 74c7-9 14 9 21 0" fill="none" stroke="#c07a3f" stroke-width="3.5" stroke-linecap="round" opacity=".8"/></g>
-            <path d="M339 96h112l-8 99c-2 15-10 24-24 24h-48c-14 0-22-9-24-24z" fill="#fffdf8" fill-opacity=".55" stroke="#b06a42" stroke-width="3"/>
-            <path d="M342 152h106l-6 43c-2 15-10 24-24 24h-48c-14 0-22-9-24-24z" fill="url(#cghero-coffee)" opacity=".95"/>
-            <path d="M342 152v-24c7-6 16-9 26-9h54c10 0 19 3 26 9v24z" fill="url(#cghero-milk)"/>
-            <ellipse cx="395" cy="96" rx="56" ry="13" fill="none" stroke="#b06a42" stroke-width="3"/>
-            <ellipse cx="395" cy="120" rx="51" ry="10" fill="#eccfa9"/>
-            <circle cx="386" cy="138" r="2.6" fill="#4a2b1c"/>
-            <circle cx="404" cy="138" r="2.6" fill="#4a2b1c"/>
-            <path d="M387 146c3.2 3.2 12.8 3.2 16 0" fill="none" stroke="#4a2b1c" stroke-width="2.2" stroke-linecap="round"/>
-            <text x="395" y="254" text-anchor="middle" fill="#3b2116" font-family="Fraunces, Georgia, serif" font-size="17" font-weight="800">CORTADO</text>
-            <text x="395" y="276" text-anchor="middle" fill="#8b4d2c" font-family="Caveat, 'Comic Sans MS', cursive" font-size="17" font-weight="700">espresso = milk</text>
-          </g>
-
-          <!-- 3 · cappuccino (espresso → milk → foam, thirds) -->
-          <g class="cg-s-bob" style="animation-delay:1.05s">
-            <g class="cg-s-steam" style="animation-delay:.8s"><path d="M601 84c8-10 16 10 24 0" fill="none" stroke="#c07a3f" stroke-width="4.5" stroke-linecap="round"/></g>
-            <g class="cg-s-steam" style="animation-delay:1.9s"><path d="M626 86c7-9 14 9 21 0" fill="none" stroke="#c07a3f" stroke-width="3.5" stroke-linecap="round" opacity=".8"/></g>
-            <path d="M552 118h126l-10 76c-2 15-14 25-29 25h-48c-15 0-27-10-29-25z" fill="#fffdf8" stroke="#b06a42" stroke-width="3"/>
-            <path d="M562 176h106l-7 18c-2 15-14 25-29 25h-48c-15 0-27-10-29-25z" fill="url(#cghero-coffee)" opacity=".97"/>
-            <path d="M562 176v-34c7-7 17-11 28-11h50c11 0 21 4 28 11v34z" fill="url(#cghero-milk)"/>
-            <path d="M559 118c2-19 20-30 56-30s54 11 56 30c-8-9-19-14-31-14h-50c-12 0-23 5-31 14z" fill="url(#cghero-foam)"/>
-            <ellipse cx="615" cy="118" rx="63" ry="17" fill="none" stroke="#b06a42" stroke-width="3"/>
-            <circle cx="587" cy="127" r="2.2" fill="#8a5a38" opacity=".85"/>
-            <circle cx="615" cy="133" r="2.2" fill="#8a5a38" opacity=".85"/>
-            <circle cx="641" cy="128" r="2.2" fill="#8a5a38" opacity=".85"/>
-            <circle cx="607" cy="141" r="2.6" fill="#4a2b1c"/>
-            <circle cx="625" cy="141" r="2.6" fill="#4a2b1c"/>
-            <path d="M608 149c3.2 3.2 12.8 3.2 16 0" fill="none" stroke="#4a2b1c" stroke-width="2.2" stroke-linecap="round"/>
-            <text x="615" y="254" text-anchor="middle" fill="#3b2116" font-family="Fraunces, Georgia, serif" font-size="17" font-weight="800">CAPPUCCINO</text>
-            <text x="615" y="276" text-anchor="middle" fill="#8b4d2c" font-family="Caveat, 'Comic Sans MS', cursive" font-size="17" font-weight="700">more foam + texture</text>
-          </g>
-
-          <!-- 4 · latte (thin espresso, lots of milk, heart art) -->
-          <g class="cg-s-bob" style="animation-delay:1.55s">
-            <g class="cg-s-steam" style="animation-delay:1.2s"><path d="M821 62c8-10 16 10 24 0" fill="none" stroke="#c07a3f" stroke-width="4.5" stroke-linecap="round"/></g>
-            <g class="cg-s-steam" style="animation-delay:.3s"><path d="M846 64c7-9 14 9 21 0" fill="none" stroke="#c07a3f" stroke-width="3.5" stroke-linecap="round" opacity=".8"/></g>
-            <path d="M783 96h104l-8 99c-2 15-10 24-24 24h-40c-14 0-22-9-24-24z" fill="#fffdf8" fill-opacity=".55" stroke="#b06a42" stroke-width="3"/>
-            <path d="M787 186h90l-3 16c-1.2 8-7 13-15 13h-52c-8 0-13.8-5-15-13z" fill="url(#cghero-coffee)" opacity=".97"/>
-            <path d="M787 186v-62c6-5 14-8 23-8h44c9 0 17 3 23 8v62z" fill="url(#cghero-milk)"/>
-            <ellipse cx="835" cy="96" rx="52" ry="13" fill="none" stroke="#b06a42" stroke-width="3"/>
-            <ellipse cx="835" cy="100" rx="47" ry="10" fill="url(#cghero-foam)"/>
-            <path d="M835 106c-3.2-4.4-8.6-2.2-8.6 2.1 0 3.9 3 5.9 6.2 8.8l2.4 2.2 2.4-2.2c3.2-2.9 6.2-4.9 6.2-8.8 0-4.3-5.4-6.5-8.6-2.1z" fill="#cf9a68"/>
-            <circle cx="826" cy="156" r="2.6" fill="#4a2b1c"/>
-            <circle cx="844" cy="156" r="2.6" fill="#4a2b1c"/>
-            <path d="M828 164c3.2 3.2 12.8 3.2 16 0" fill="none" stroke="#4a2b1c" stroke-width="2.2" stroke-linecap="round"/>
-            <text x="835" y="254" text-anchor="middle" fill="#3b2116" font-family="Fraunces, Georgia, serif" font-size="17" font-weight="800">LATTE</text>
-            <text x="835" y="276" text-anchor="middle" fill="#8b4d2c" font-family="Caveat, 'Comic Sans MS', cursive" font-size="17" font-weight="700">mostly milk + microfoam</text>
-          </g>
-
-          <!-- 5 · cold + fizz -->
-          <g class="cg-s-bob" style="animation-delay:2.1s">
-            <path d="M1018 52l14 62" fill="none" stroke="#e88fa8" stroke-width="5" stroke-linecap="round"/>
-            <g class="cg-s-bub-lg"><circle cx="1024" cy="132" r="4.2" fill="#fff" opacity=".8"/></g>
-            <g class="cg-s-bub-lg" style="animation-delay:.9s"><circle cx="1056" cy="120" r="3.2" fill="#fff" opacity=".75"/></g>
-            <g class="cg-s-bub-lg" style="animation-delay:1.5s"><circle cx="1040" cy="142" r="3.6" fill="#fff" opacity=".85"/></g>
-            <g class="cg-s-bub-lg" style="animation-delay:2.2s"><circle cx="1074" cy="138" r="2.6" fill="#fff" opacity=".7"/></g>
-            <g class="cg-s-bub-lg" style="animation-delay:.5s"><circle cx="1088" cy="126" r="2.2" fill="#fff" opacity=".8"/></g>
-            <path d="M1003 92h104l-8 101c-2 15-10 24-24 24h-40c-14 0-22-9-24-24z" fill="url(#cghero-tonic)" fill-opacity=".92" stroke="#5e9e80" stroke-width="3"/>
-            <path d="M1007 158h96l-5 35c-2 15-10 24-24 24h-40c-14 0-22-9-24-24z" fill="url(#cghero-coffee)" opacity=".95"/>
-            <path d="M1007 158v-62c6-2 14-4 23-4h50c9 0 17 2 23 4v62z" fill="url(#cghero-tonic)" opacity=".96"/>
-            <rect x="1028" y="100" width="17" height="15" rx="4.5" fill="#fff" fill-opacity=".9" stroke="#a7d6c0" stroke-width="2" transform="rotate(-8 1036.5 107.5)"/>
-            <rect x="1062" y="108" width="16" height="14" rx="4.5" fill="#fff" fill-opacity=".9" stroke="#a7d6c0" stroke-width="2" transform="rotate(9 1070 115)"/>
-            <ellipse cx="1055" cy="92" rx="52" ry="12" fill="none" stroke="#5e9e80" stroke-width="3"/>
-            <circle cx="1088" cy="86" r="9.5" fill="#f4d85e" stroke="#d9b83f" stroke-width="2.5"/>
-            <path d="M1088 86l4.6 4.4m-4.6-4.4-3.4 5.3m3.4-5.3-6.4-1.4m6.4 1.4.8-6.5" stroke="#d9b83f" stroke-width="1.6" stroke-linecap="round"/>
-            <text x="1055" y="254" text-anchor="middle" fill="#3b2116" font-family="Fraunces, Georgia, serif" font-size="17" font-weight="800">COLD + FIZZ</text>
-            <text x="1055" y="276" text-anchor="middle" fill="#8b4d2c" font-family="Caveat, 'Comic Sans MS', cursive" font-size="17" font-weight="700">tonic / soda + coffee</text>
-          </g>
-
-          <g class="cg-s-tw" style="animation-delay:.2s"><path d="M420 416l4 11 11 4-11 4-4 11-4-11-11-4 11-4 4-11Z" fill="#e8a04f"/></g>
-          <text x="600" y="430" text-anchor="middle" fill="#8b4d2c" font-family="Caveat, 'Comic Sans MS', cursive" font-size="19" font-weight="700">ratios vary by shop — the idea is the useful part</text>
-          <g class="cg-s-heart" style="animation-delay:.6s"><path d="M782 418c-4-5.4-11-2.7-11 2.6 0 4.8 3.8 7.3 7.9 10.9l3.1 2.8 3.1-2.8c4.1-3.6 7.9-6.1 7.9-10.9 0-5.3-7-8-11-2.6z" fill="#e88fa8"/></g>
-        </svg>
-        <figcaption><svg class="cg-ico cg-s-heart" aria-hidden="true"><use href="#cg-i-heart"/></svg>less milk, more coffee… more milk, softer sip</figcaption>
-      </figure>
+      <p class="cg-filter-label">Shop lens</p>
+      <div class="cg-filters" id="cg-shop-filters" aria-label="Filter by San Francisco coffee shop">
+        <button class="cg-filter is-active" type="button" data-shop-filter="all" aria-pressed="true">All shops</button>
+        <button class="cg-filter" type="button" data-shop-filter="Saint Frank" aria-pressed="false">Saint Frank</button>
+        <button class="cg-filter" type="button" data-shop-filter="Blue Bottle" aria-pressed="false">Blue Bottle</button>
+        <button class="cg-filter" type="button" data-shop-filter="Ritual" aria-pressed="false">Ritual</button>
+        <button class="cg-filter" type="button" data-shop-filter="Sightglass" aria-pressed="false">Sightglass</button>
+        <button class="cg-filter" type="button" data-shop-filter="Andytown" aria-pressed="false">Andytown</button>
+        <button class="cg-filter" type="button" data-shop-filter="Philz" aria-pressed="false">Philz</button>
+        <button class="cg-filter" type="button" data-shop-filter="Four Barrel" aria-pressed="false">Four Barrel</button>
+        <button class="cg-filter" type="button" data-shop-filter="Linea" aria-pressed="false">Linea</button>
+        <button class="cg-filter" type="button" data-shop-filter="Verve" aria-pressed="false">Verve</button>
+        <button class="cg-filter" type="button" data-shop-filter="Equator" aria-pressed="false">Equator</button>
+        <button class="cg-filter" type="button" data-shop-filter="Wrecking Ball" aria-pressed="false">Wrecking Ball</button>
+        <button class="cg-filter" type="button" data-shop-filter="Flywheel" aria-pressed="false">Flywheel</button>
+        <button class="cg-filter" type="button" data-shop-filter="The Coffee Movement" aria-pressed="false">Coffee Movement</button>
+        <button class="cg-filter" type="button" data-shop-filter="Abanico" aria-pressed="false">Abanico</button>
+        <button class="cg-filter" type="button" data-shop-filter="Sextant" aria-pressed="false">Sextant</button>
+        <button class="cg-filter" type="button" data-shop-filter="Pinhole" aria-pressed="false">Pinhole</button>
+        <button class="cg-filter" type="button" data-shop-filter="Mazarine" aria-pressed="false">Mazarine</button>
+      </div>
     </div>
+
+    <div class="cg-results-line">
+      <p class="cg-results-count" id="cg-results-count" aria-live="polite"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-sparkle"/></svg></p>
+      <p class="cg-results-hint">Ratios are guidelines, not café law.</p>
+    </div>
+    <div class="cg-results" id="cg-results"></div>
+    <div class="cg-results-actions">
+      <button class="cg-show-more" id="cg-show-more" type="button" hidden>Show all menu terms <svg class="cg-ico" aria-hidden="true"><use href="#cg-i-arrow"/></svg></button>
+    </div>
+    <noscript><p class="cg-no-results">This lookup needs JavaScript enabled. The quick ratio map and the shop notes below still work without it.</p></noscript>
   </section>
-
   <section class="cg-section" id="cg-decoder" aria-labelledby="cg-decoder-title">
     <div class="cg-section-head">
       <div>
@@ -1444,68 +1058,7 @@ button.cg-tag:hover { border-color: #c89670; background: #fff1e3; }
     </div>
   </section>
 
-  <section class="cg-section" id="cg-lookup" aria-labelledby="cg-lookup-title">
-    <div class="cg-section-head">
-      <div>
-        <p class="cg-eyebrow">the useful bit</p>
-        <h2 id="cg-lookup-title" class="cg-display">Look it up at the counter.</h2>
-      </div>
-      <p>Search a drink, ingredient, alias, or shop. Try <em>tonic</em>, <em>macadamia</em>, <em>Philz</em>, or <em>cortado</em>.</p>
-    </div>
 
-    <div class="cg-search-panel">
-      <div class="cg-search-line">
-        <span class="cg-search-icon" aria-hidden="true"><svg class="cg-ico"><use href="#cg-i-mag"/></svg></span>
-        <label class="cg-search-label" for="cg-search">Search drinks, ingredients, or cafés</label>
-        <input class="cg-search-input" id="cg-search" type="search" placeholder="Search drinks, ingredients, or cafés…" autocomplete="off" />
-        <button class="cg-clear" id="cg-clear" type="button" aria-label="Clear search">×</button>
-      </div>
-
-      <p class="cg-filter-label">Drink family</p>
-      <div class="cg-filters" id="cg-category-filters" aria-label="Filter by drink family">
-        <button class="cg-filter is-active" type="button" data-filter="all" aria-pressed="true">All</button>
-        <button class="cg-filter" type="button" data-filter="espresso" aria-pressed="false">Espresso</button>
-        <button class="cg-filter" type="button" data-filter="milk" aria-pressed="false">Milk drinks</button>
-        <button class="cg-filter" type="button" data-filter="brewed" aria-pressed="false">Brewed</button>
-        <button class="cg-filter" type="button" data-filter="cold" aria-pressed="false">Cold &amp; sparkling</button>
-        <button class="cg-filter" type="button" data-filter="signature" aria-pressed="false">SF signatures</button>
-        <button class="cg-filter" type="button" data-filter="noncoffee" aria-pressed="false">Not coffee</button>
-        <button class="cg-filter" type="button" data-filter="world" aria-pressed="false">World passport</button>
-      </div>
-
-      <p class="cg-filter-label">Shop lens</p>
-      <div class="cg-filters" id="cg-shop-filters" aria-label="Filter by San Francisco coffee shop">
-        <button class="cg-filter is-active" type="button" data-shop-filter="all" aria-pressed="true">All shops</button>
-        <button class="cg-filter" type="button" data-shop-filter="Saint Frank" aria-pressed="false">Saint Frank</button>
-        <button class="cg-filter" type="button" data-shop-filter="Blue Bottle" aria-pressed="false">Blue Bottle</button>
-        <button class="cg-filter" type="button" data-shop-filter="Ritual" aria-pressed="false">Ritual</button>
-        <button class="cg-filter" type="button" data-shop-filter="Sightglass" aria-pressed="false">Sightglass</button>
-        <button class="cg-filter" type="button" data-shop-filter="Andytown" aria-pressed="false">Andytown</button>
-        <button class="cg-filter" type="button" data-shop-filter="Philz" aria-pressed="false">Philz</button>
-        <button class="cg-filter" type="button" data-shop-filter="Four Barrel" aria-pressed="false">Four Barrel</button>
-        <button class="cg-filter" type="button" data-shop-filter="Linea" aria-pressed="false">Linea</button>
-        <button class="cg-filter" type="button" data-shop-filter="Verve" aria-pressed="false">Verve</button>
-        <button class="cg-filter" type="button" data-shop-filter="Equator" aria-pressed="false">Equator</button>
-        <button class="cg-filter" type="button" data-shop-filter="Wrecking Ball" aria-pressed="false">Wrecking Ball</button>
-        <button class="cg-filter" type="button" data-shop-filter="Flywheel" aria-pressed="false">Flywheel</button>
-        <button class="cg-filter" type="button" data-shop-filter="The Coffee Movement" aria-pressed="false">Coffee Movement</button>
-        <button class="cg-filter" type="button" data-shop-filter="Abanico" aria-pressed="false">Abanico</button>
-        <button class="cg-filter" type="button" data-shop-filter="Sextant" aria-pressed="false">Sextant</button>
-        <button class="cg-filter" type="button" data-shop-filter="Pinhole" aria-pressed="false">Pinhole</button>
-        <button class="cg-filter" type="button" data-shop-filter="Mazarine" aria-pressed="false">Mazarine</button>
-      </div>
-    </div>
-
-    <div class="cg-results-line">
-      <p class="cg-results-count" id="cg-results-count" aria-live="polite"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-sparkle"/></svg></p>
-      <p class="cg-results-hint">Ratios are guidelines, not café law.</p>
-    </div>
-    <div class="cg-results" id="cg-results"></div>
-    <div class="cg-results-actions">
-      <button class="cg-show-more" id="cg-show-more" type="button" hidden>Show all menu terms <svg class="cg-ico" aria-hidden="true"><use href="#cg-i-arrow"/></svg></button>
-    </div>
-    <noscript><p class="cg-no-results">This lookup needs JavaScript enabled. The quick ratio map and the shop notes below still work without it.</p></noscript>
-  </section>
 
   <section class="cg-section" id="cg-sf" aria-labelledby="cg-sf-title">
     <div class="cg-section-head">
@@ -3012,6 +2565,217 @@ button.cg-tag:hover { border-color: #c89670; background: #fff1e3; }
     world: "World passport"
   };
 
+/* cg-cupart.js — cute layered coffee-cup SVG art for the coffee guide chart. Pure ES5, string output only, no DOM. */
+var CG_PALETTE = {
+  espresso:"#3f2013", coffee:"#6b3a24", drip:"#7a4a2c", milk:"#f2e2c8",
+  foam:"#faf1e2", cream:"#fff7ec", water:"#cfe3ee", tonic:"#cde9db",
+  soda:"#d9eef2", cola:"#4a2c20", chocolate:"#53301e", matcha:"#a8bf78",
+  tea:"#c98f52", condensed:"#f7ecd4", custard:"#f4d78a", whipped:"#fffdf6",
+  oat:"#e8d9bd", honey:"#e0a83c", caramel:"#c07a3f", rose:"#e8b4bc",
+  licor:"#d9a441", mint:"#9ec49a"
+};
+var CG_PROFILES = {
+  "espresso":{vessel:"mug",layers:[["espresso",.5,"espresso"]],extras:["steam"]}, "doppio":{vessel:"mug",layers:[["espresso",.55,"2 shots"]],extras:["steam"]},
+  "ristretto":{vessel:"mug",layers:[["espresso",.38,"short pull"]],extras:["steam"]}, "americano":{vessel:"mug",layers:[["espresso",.2,"espresso"],["water",.38,"hot water"]],extras:["steam"]},
+  "red eye":{vessel:"mug",layers:[["coffee",.46,"drip coffee"],["espresso",.12,"+1 shot"]],extras:["steam"]}, "macchiato":{vessel:"glass",layers:[["espresso",.48,"espresso"],["foam",.1,"foam dot"]],extras:["steam"]},
+  "cortado":{vessel:"glass",layers:[["espresso",.38,"espresso"],["milk",.38,"steamed milk"]],extras:["steam"]}, "gibraltar":{vessel:"glass",layers:[["espresso",.38,"espresso"],["milk",.38,"milk"]],extras:["steam"]},
+  "piccolo latte":{vessel:"glass",layers:[["espresso",.26,"ristretto"],["milk",.44,"microfoam"]],extras:["steam"]}, "cappuccino":{vessel:"mug",layers:[["espresso",.26,"espresso"],["milk",.24,"steamed milk"],["foam",.22,"foam"]],extras:["steam"]},
+  "flat white":{vessel:"mug",layers:[["espresso",.28,"espresso"],["milk",.42,"microfoam"]],extras:["steam"]}, "latte":{vessel:"tall",layers:[["espresso",.16,"espresso"],["milk",.5,"steamed milk"],["foam",.08,"microfoam"]],extras:["steam"]},
+  "mocha":{vessel:"mug",layers:[["chocolate",.16,"chocolate"],["espresso",.18,"espresso"],["milk",.32,"milk"],["foam",.06,"foam"]],extras:["steam"]}, "café au lait":{vessel:"mug",layers:[["coffee",.4,"drip coffee"],["milk",.4,"warm milk"]],extras:["steam"]},
+  "breve":{vessel:"mug",layers:[["espresso",.18,"espresso"],["cream",.42,"half-and-half"]],extras:["steam"]}, "espresso con panna":{vessel:"glass",layers:[["espresso",.46,"espresso"],["whipped",.18,"whipped cream"]],extras:["steam","whipped"]},
+  "drip / batch / filter coffee":{vessel:"mug",layers:[["coffee",.6,"house drip"]],extras:["steam"]}, "pour-over / v60":{vessel:"mug",layers:[["coffee",.6,"filter brew"]],extras:["steam"]},
+  "french press":{vessel:"mug",layers:[["coffee",.6,"steeped"]],extras:["steam"]}, "coffee flight / tasting flight":{vessel:"flight",layers:[["coffee",.5,"three pours"]],extras:[]},
+  "cold brew":{vessel:"tall",layers:[["coffee",.6,"cold brew"]],extras:["ice"]}, "iced coffee":{vessel:"tall",layers:[["coffee",.52,"filter coffee"]],extras:["ice"]},
+  "nitro cold brew":{vessel:"tall",layers:[["coffee",.62,"nitro cold brew"]],extras:["bubbles"]}, "shakerato":{vessel:"rocks",layers:[["foam",.14,"crema"],["coffee",.34,"shaken espresso"]],extras:["ice"]},
+  "espresso tonic / kaffe tonic":{vessel:"tall",layers:[["tonic",.42,"tonic"],["espresso",.16,"espresso"]],extras:["ice","lemon"]}, "kaffe cola":{vessel:"tall",layers:[["cola",.44,"cola"],["coffee",.14,"coffee"]],extras:["ice"]},
+  "new orleans iced / nola":{vessel:"tall",layers:[["milk",.22,"milk"],["coffee",.34,"chicory cold brew"]],extras:["ice"]}, "snowy plover":{vessel:"rocks",layers:[["soda",.32,"sparkling water"],["cream",.12,"cream"]],extras:["ice","straw"]},
+  "matcha plover":{vessel:"rocks",layers:[["soda",.32,"sparkling water"],["matcha",.12,"matcha"]],extras:["ice","straw"]}, "philz mint mojito":{vessel:"tall",layers:[["milk",.16,"cream"],["coffee",.32,"iced coffee"]],extras:["ice","mint"]},
+  "philz philtered soul cold brew":{vessel:"tall",layers:[["coffee",.54,"cold brew"]],extras:["ice"]}, "philz honey haze":{vessel:"tall",layers:[["oat",.24,"oat milk"],["coffee",.3,"cold brew"]],extras:["ice"]},
+  "philz iced coffee rosé":{vessel:"tall",layers:[["rose",.18,"rose cream"],["coffee",.32,"iced coffee"]],extras:["ice"]}, "philz oatmeal cookie cold brew":{vessel:"tall",layers:[["oat",.22,"oat milk"],["coffee",.3,"cold brew"]],extras:["ice"]},
+  "philz mocha tesora":{vessel:"tall",layers:[["chocolate",.16,"chocolate"],["coffee",.32,"tesora brew"]],extras:["ice"]}, "philz named blends":{vessel:"mug",layers:[["coffee",.5,"named blend"]],extras:["steam"]},
+  "saint frank house coffee names":{vessel:"mug",layers:[["coffee",.5,"house coffee"]],extras:["steam"]}, "sweet latte":{vessel:"tall",layers:[["espresso",.14,"espresso"],["milk",.44,"sweet milk"]],extras:["steam"]},
+  "saint frank café miel":{vessel:"mug",layers:[["honey",.1,"honey"],["espresso",.16,"espresso"],["milk",.34,"milk"]],extras:["steam"]}, "saint frank seasonal lattes":{vessel:"mug",layers:[["espresso",.16,"espresso"],["milk",.36,"seasonal milk"]],extras:["steam"]},
+  "saint frank gingerbread latte":{vessel:"mug",layers:[["espresso",.16,"espresso"],["milk",.36,"spiced milk"]],extras:["steam","stick"]}, "saint frank café nico":{vessel:"glass",layers:[["espresso",.18,"espresso"],["milk",.36,"citrus milk"]],extras:["steam","lemon"]},
+  "ritual foggy latte":{vessel:"glass",layers:[["tea",.24,"earl grey"],["espresso",.12,"espresso"],["milk",.28,"milk"]],extras:["steam"]}, "ritual ‘spromoni":{vessel:"rocks",layers:[["espresso",.28,"espresso"],["whipped",.16,"cherry cream"]],extras:["whipped"]},
+  "ritual tamarindo lindo":{vessel:"tall",layers:[["soda",.36,"tamarind soda"],["coffee",.16,"cold brew"]],extras:["ice"]}, "sightglass brown butter miso caramel latte":{vessel:"mug",layers:[["caramel",.12,"caramel"],["espresso",.16,"espresso"],["milk",.32,"milk"]],extras:["steam"]},
+  "sightglass cardamom mocha":{vessel:"mug",layers:[["chocolate",.14,"chocolate"],["espresso",.16,"espresso"],["milk",.3,"milk"]],extras:["steam"]}, "sightglass vanilla paste latte":{vessel:"tall",layers:[["espresso",.14,"espresso"],["milk",.44,"vanilla milk"]],extras:["steam"]},
+  "linea salted maple latte":{vessel:"mug",layers:[["caramel",.1,"maple"],["espresso",.16,"espresso"],["milk",.32,"milk"]],extras:["steam"]}, "flywheel siphon coffee":{vessel:"mug",layers:[["coffee",.5,"siphon brew"]],extras:["steam"]},
+  "flash brew":{vessel:"tall",layers:[["coffee",.48,"flash brew"]],extras:["ice"]}, "verve one + one":{vessel:"flight",layers:[["espresso",.45,"espresso + macchiato"]],extras:[]},
+  "verve missile":{vessel:"tall",layers:[["cream",.16,"cream"],["coffee",.36,"concentrate"]],extras:["ice","straw"]}, "verve whiskey latte":{vessel:"mug",layers:[["caramel",.1,"barrel syrup"],["espresso",.16,"espresso"],["milk",.32,"milk"]],extras:["steam"]},
+  "equator habibi latte":{vessel:"glass",layers:[["espresso",.16,"espresso"],["milk",.4,"spiced milk"]],extras:["steam"]}, "equator brown sugar cinnamon shakerato":{vessel:"rocks",layers:[["foam",.12,"foam"],["coffee",.32,"shaken espresso"]],extras:["ice"]},
+  "equator chagaccino":{vessel:"mug",layers:[["chocolate",.12,"chaga blend"],["espresso",.16,"espresso"],["milk",.32,"milk"]],extras:["steam"]}, "wrecking ball iced cappuccino":{vessel:"tall",layers:[["espresso",.14,"espresso"],["milk",.32,"cold milk"],["foam",.12,"cold foam"]],extras:["ice"]},
+  "wrecking ball house coffee names":{vessel:"mug",layers:[["coffee",.5,"pillow fight"]],extras:["steam"]}, "cortadito":{vessel:"glass",layers:[["condensed",.14,"condensed milk"],["espresso",.16,"espresso"],["milk",.24,"milk"]],extras:["steam"]},
+  "café con leche":{vessel:"glass",layers:[["espresso",.2,"espresso"],["milk",.38,"hot milk"]],extras:["steam"]}, "iced café de olla":{vessel:"tall",layers:[["coffee",.44,"spiced coffee"]],extras:["ice","stick"]},
+  "café con morro":{vessel:"glass",layers:[["espresso",.18,"espresso"],["milk",.36,"morro milk"]],extras:["steam"]}, "café con coco y choco":{vessel:"glass",layers:[["chocolate",.14,"cacao"],["espresso",.14,"espresso"],["milk",.3,"coconut milk"]],extras:["steam"]},
+  "pinolillo":{vessel:"glass",layers:[["chocolate",.22,"cacao corn"],["milk",.22,"spiced milk"]],extras:["sparkle"]}, "con ‘espumita’ cubana":{vessel:"glass",layers:[["espresso",.4,"espresso"],["foam",.12,"espumita"]],extras:["steam"]},
+  "cocoa cappuccino":{vessel:"mug",layers:[["espresso",.24,"espresso"],["milk",.22,"milk"],["foam",.2,"cocoa foam"]],extras:["steam"]}, "coffee cream soda":{vessel:"rocks",layers:[["soda",.32,"vanilla soda"],["cream",.1,"coconut cream"]],extras:["ice","straw"]},
+  "coffee movement seasonal lattes":{vessel:"mug",layers:[["espresso",.16,"espresso"],["milk",.34,"herb milk"]],extras:["steam"]}, "espresso mule":{vessel:"tall",layers:[["soda",.4,"ginger beer"],["espresso",.12,"espresso"]],extras:["ice","lemon"]},
+  "wrecking ball karl the latte":{vessel:"mug",layers:[["tea",.2,"lapsang tea"],["espresso",.12,"espresso"],["milk",.28,"almond milk"]],extras:["steam"]}, "sextant wired gandhi":{vessel:"mug",layers:[["tea",.24,"spiced chai"],["espresso",.12,"espresso"],["milk",.24,"milk"]],extras:["steam"]},
+  "sextant frosty gandhi":{vessel:"mug",layers:[["tea",.22,"spiced chai"],["espresso",.12,"espresso"],["milk",.22,"peppermint milk"]],extras:["steam"]}, "sextant ginger gasheer":{vessel:"mug",layers:[["coffee",.5,"black coffee"]],extras:["steam"]},
+  "sextant adeny":{vessel:"mug",layers:[["coffee",.46,"spiced coffee"]],extras:["steam"]}, "pinhole shaken iced coffee":{vessel:"rocks",layers:[["foam",.1,"foam"],["coffee",.32,"shaken coffee"]],extras:["ice"]},
+  "mazarine raf":{vessel:"mug",layers:[["espresso",.16,"espresso"],["cream",.34,"steamed cream"]],extras:["steam"]}, "philz featured dessert coffees":{vessel:"tall",layers:[["cream",.16,"cream"],["coffee",.32,"dessert brew"]],extras:["ice"]},
+  "philz mission cold brew":{vessel:"tall",layers:[["coffee",.52,"mission cold brew"]],extras:["ice"]}, "coffee float":{vessel:"tall",layers:[["coffee",.4,"cold coffee"],["cream",.14,"ice cream"]],extras:["straw","sparkle"]},
+  "hot chocolate":{vessel:"mug",layers:[["chocolate",.48,"chocolate"]],extras:["steam","marshmallow"]}, "café solo":{vessel:"mug",layers:[["espresso",.44,"espresso"]],extras:["steam"]},
+  "café con hielo":{vessel:"rocks",layers:[["coffee",.34,"hot coffee, poured over"]],extras:["ice"]}, "café bombón":{vessel:"glass",layers:[["condensed",.24,"condensed milk"],["espresso",.22,"espresso"]],extras:[]},
+  "carajillo":{vessel:"mug",layers:[["espresso",.44,"espresso + spirit"]],extras:["steam","sparkle"]}, "café manchado / sombra":{vessel:"glass",layers:[["espresso",.1,"espresso"],["milk",.44,"mostly milk"]],extras:["steam"]},
+  "barraquito":{vessel:"tall",layers:[["condensed",.18,"condensed milk"],["espresso",.14,"espresso"],["licor",.1,"licor 43"],["milk",.12,"milk foam"]],extras:["sparkle"]}, "bica / cimbalino":{vessel:"mug",layers:[["espresso",.44,"espresso"]],extras:["steam"]},
+  "pingado / garoto":{vessel:"mug",layers:[["espresso",.44,"espresso"],["milk",.06,"splash of milk"]],extras:["steam"]}, "meia de leite":{vessel:"mug",layers:[["espresso",.18,"coffee"],["milk",.36,"hot milk"]],extras:["steam"]},
+  "galão":{vessel:"tall",layers:[["espresso",.12,"espresso"],["milk",.44,"foamed milk"]],extras:["steam"]}, "mazagran":{vessel:"tall",layers:[["coffee",.36,"iced coffee"]],extras:["ice","lemon"]},
+  "café com cheirinho":{vessel:"mug",layers:[["espresso",.44,"espresso + aguardente"]],extras:["steam","sparkle"]}, "new york diner regular":{vessel:"mug",layers:[["coffee",.44,"drip coffee"]],extras:["steam"]},
+  "new york egg cream":{vessel:"tall",layers:[["milk",.24,"milk"],["soda",.22,"seltzer"],["foam",.08,"fizz"]],extras:["straw"]}, "caffè corretto":{vessel:"mug",layers:[["espresso",.44,"espresso + grappa"]],extras:["steam","sparkle"]},
+  "bicerin":{vessel:"tall",layers:[["chocolate",.18,"hot chocolate"],["espresso",.14,"espresso"],["cream",.14,"cream"]],extras:[]}, "einspänner":{vessel:"glass",layers:[["coffee",.4,"strong coffee"],["whipped",.18,"whipped cream"]],extras:["whipped"]},
+  "wiener melange":{vessel:"mug",layers:[["espresso",.18,"coffee"],["milk",.24,"milk"],["foam",.14,"foam"]],extras:["steam"]}, "freddo espresso / freddo cappuccino":{vessel:"rocks",layers:[["espresso",.32,"shaken espresso"],["foam",.1,"cold foam"]],extras:["ice"]},
+  "greek frappé":{vessel:"tall",layers:[["foam",.12,"foam"],["coffee",.32,"instant coffee"]],extras:["ice","straw"]}, "cà phê sữa đá":{vessel:"rocks",layers:[["condensed",.18,"condensed milk"],["coffee",.24,"phin coffee"]],extras:["ice"]},
+  "vietnamese egg coffee":{vessel:"mug",layers:[["coffee",.32,"strong coffee"],["custard",.2,"egg custard"]],extras:[]}, "café de olla":{vessel:"mug",layers:[["coffee",.46,"piloncillo coffee"]],extras:["steam","stick"]},
+  "mexican carajillo 43":{vessel:"rocks",layers:[["espresso",.28,"espresso"],["licor",.14,"licor 43"]],extras:["ice"]}, "turkish coffee":{vessel:"mug",layers:[["espresso",.4,"unfiltered coffee"]],extras:["steam"]},
+  "south indian filter coffee":{vessel:"mug",layers:[["coffee",.28,"decoction"],["milk",.24,"milk"],["foam",.06,"froth"]],extras:["steam"]}, "dalgona coffee":{vessel:"glass",layers:[["milk",.36,"milk"],["whipped",.2,"dalgona foam"]],extras:["ice"]},
+  "eiskaffee":{vessel:"tall",layers:[["coffee",.32,"chilled coffee"],["cream",.16,"ice cream"]],extras:["whipped","straw"]}, "irish coffee":{vessel:"glass",layers:[["coffee",.36,"sweet coffee"],["cream",.14,"cream"]],extras:["sparkle"]},
+  "yuenyeung":{vessel:"mug",layers:[["tea",.24,"milk tea"],["coffee",.16,"coffee"],["milk",.16,"milk"]],extras:["steam"]}, "kopi c":{vessel:"mug",layers:[["coffee",.32,"kopi"],["milk",.18,"evaporated milk"]],extras:["steam"]},
+  "café touba":{vessel:"mug",layers:[["coffee",.46,"djarr coffee"]],extras:["steam"]}, "kopi joss":{vessel:"mug",layers:[["coffee",.46,"black coffee"]],extras:["steam","sparkle"]},
+  "café crème":{vessel:"mug",layers:[["espresso",.18,"espresso"],["milk",.32,"steamed milk"],["foam",.1,"foam"]],extras:["steam"]}, "café noisette":{vessel:"mug",layers:[["espresso",.38,"espresso"],["milk",.08,"splash of milk"]],extras:["steam"]},
+  "café allongé":{vessel:"mug",layers:[["espresso",.16,"espresso"],["water",.34,"hot water"]],extras:["steam"]}, "café gourmand":{vessel:"mug",layers:[["espresso",.38,"espresso"]],extras:["steam","sparkle"]},
+  "magic coffee":{vessel:"glass",layers:[["espresso",.24,"double ristretto"],["milk",.32,"microfoam"]],extras:["steam"]}, "long black":{vessel:"mug",layers:[["water",.24,"hot water"],["espresso",.2,"espresso + crema"]],extras:["steam"]},
+  "café cubano / colada":{vessel:"mug",layers:[["espresso",.4,"cafecito"],["foam",.08,"espumita"]],extras:["steam"]}, "cuban cortadito":{vessel:"glass",layers:[["condensed",.12,"sweetened"],["espresso",.16,"cubano"],["milk",.24,"evaporated milk"]],extras:["steam"]},
+  "nous nous":{vessel:"rocks",layers:[["espresso",.28,"espresso"],["milk",.28,"foamed milk"]],extras:["steam"]}, "buna / jebena coffee ceremony":{vessel:"mug",layers:[["coffee",.42,"jebena brew"]],extras:["steam","sparkle"]},
+  "matcha latte":{vessel:"glass",layers:[["matcha",.22,"matcha"],["milk",.3,"milk"]],extras:["steam"]}, "chai latte":{vessel:"mug",layers:[["tea",.28,"chai"],["milk",.24,"milk"],["foam",.08,"foam"]],extras:["steam"]},
+  "dirty chai":{vessel:"mug",layers:[["tea",.24,"chai"],["espresso",.12,"espresso"],["milk",.24,"milk"]],extras:["steam"]}
+};
+var CG_FALLBACK = {
+  espresso:{vessel:"mug",layers:[["espresso",.45,"espresso"]],extras:["steam"]},
+  milk:{vessel:"mug",layers:[["espresso",.2,"espresso"],["milk",.35,"milk"],["foam",.12,"foam"]],extras:["steam"]},
+  brewed:{vessel:"mug",layers:[["coffee",.55,"brewed coffee"]],extras:["steam"]},
+  cold:{vessel:"tall",layers:[["coffee",.5,"iced coffee"]],extras:["ice"]},
+  signature:{vessel:"mug",layers:[["espresso",.18,"espresso"],["milk",.32,"milk"]],extras:["steam","sparkle"]},
+  noncoffee:{vessel:"mug",layers:[["milk",.4,"steamed milk"]],extras:["steam"]},
+  world:{vessel:"glass",layers:[["espresso",.2,"coffee"],["milk",.3,"milk"]],extras:["steam"]}
+};
+var cgN = 0;
+
+function cgMix(hex, t) {
+  var n = parseInt(hex.slice(1), 16), f = function (c) { return Math.round(c + (255 - c) * t); };
+  return "rgb(" + f(n >> 16) + "," + f((n >> 8) & 255) + "," + f(n & 255) + ")";
+}
+
+function cgGeo(v) {
+  if (v === "tall") return { l: 56, r: 100, top: 42, bot: 131 };
+  if (v === "glass") return { l: 50, r: 106, top: 58, bot: 130 };
+  if (v === "rocks") return { l: 40, r: 116, top: 84, bot: 127 };
+  return { l: 47, r: 109, top: 54, bot: 130 };
+}
+
+function cgBody(g, v) {
+  var s;
+  if (v === "mug") {
+    s = '<path d="M' + g.l + ',' + g.top + 'L' + g.l + ',' + (g.bot - 12) + 'Q' + g.l + ',' + g.bot + ' ' + (g.l + 12) + ',' + g.bot +
+        'L' + (g.r - 12) + ',' + g.bot + 'Q' + g.r + ',' + g.bot + ' ' + g.r + ',' + (g.bot - 12) + 'L' + g.r + ',' + g.top +
+        'M' + g.r + ',' + (g.top + 20) + 'C' + (g.r + 18) + ',' + (g.top + 18) + ' ' + (g.r + 18) + ',' + (g.top + 48) + ' ' + g.r + ',' + (g.top + 46) + '" fill="none"/>';
+  } else {
+    var cr = 9, lb = g.l + 3, rb = g.r - 3;
+    s = '<path d="M' + g.l + ',' + g.top + 'L' + lb + ',' + (g.bot - cr) + 'Q' + lb + ',' + g.bot + ' ' + (lb + cr) + ',' + g.bot +
+        'L' + (rb - cr) + ',' + g.bot + 'Q' + rb + ',' + g.bot + ' ' + rb + ',' + (g.bot - cr) + 'L' + g.r + ',' + g.top + 'Z" fill="none"/>';
+  }
+  return '<g stroke="#8b4d2c" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">' + s + '</g>';
+}
+
+function cgLayers(g, p, id) {
+  var innerH = g.bot - g.top - 6, y = g.bot - 3, lx = g.l + 3, w = g.r - g.l - 6, L = p.layers, s = "", i, h;
+  for (i = 0; i < L.length; i++) {
+    h = L[i][1] * innerH;
+    s += '<rect x="' + lx + '" y="' + (y - h).toFixed(1) + '" width="' + w + '" height="' + h.toFixed(1) + '" fill="' + CG_PALETTE[L[i][0]] + '"/>';
+    y -= h;
+  }
+  s += '<ellipse cx="' + ((g.l + g.r) / 2) + '" cy="' + (y + 1.6).toFixed(1) + '" rx="' + (w / 2 - 1) + '" ry="2.7" fill="' + cgMix(CG_PALETTE[L[L.length - 1][0]], .4) + '" opacity=".9"/>';
+  return '<g clip-path="url(#' + id + ')">' + s + '</g>';
+}
+
+function cgLabels(g, p) {
+  if (p.vessel === "flight") return "";
+  var L = p.layers, n = L.length, innerH = g.bot - g.top - 6, y = g.bot - 3, mids = [], pick, pts = [], s = "", i;
+  for (i = 0; i < n; i++) { mids.push(y - L[i][1] * innerH / 2); y -= L[i][1] * innerH; }
+  pick = n === 1 ? [0] : n === 2 ? [0, n - 1] : [0, Math.floor(n / 2), n - 1];
+  for (i = 0; i < pick.length; i++) pts.push({ k: pick[i], y: mids[pick[i]] });
+  pts.sort(function (a, b) { return a.y - b.y; });
+  for (i = 1; i < pts.length; i++) {
+    if (pts[i].y < pts[i - 1].y + 14) pts[i].y = pts[i - 1].y + 14;
+    if (pts[i].y > g.bot - 2) pts[i].y = g.bot - 2;
+  }
+  for (i = 0; i < pts.length; i++) {
+    s += '<path d="M' + (g.r + 2) + ',' + mids[pts[i].k].toFixed(1) + 'L133,' + pts[i].y.toFixed(1) +
+         '" stroke="#8b5a3c" stroke-width="1" opacity=".55" fill="none"/>' +
+         '<text x="139" y="' + (pts[i].y + 3.5).toFixed(1) + '" font-family="Caveat, cursive" font-size="11" fill="#7a4e33">' + L[pts[i].k][2] + '</text>';
+  }
+  return s;
+}
+
+function cgExtras(g, p, ty) {
+  if (p.vessel === "flight") return "";
+  var e = p.extras || [], cx = (g.l + g.r) / 2, s = "", i;
+  function star(x, y) {
+    return '<path class="cg-s-tw" d="M' + x + ',' + (y - 6) + 'L' + (x + 1.7) + ',' + (y - 1.7) + 'L' + (x + 6) + ',' + y + 'L' + (x + 1.7) + ',' + (y + 1.7) +
+           'L' + x + ',' + (y + 6) + 'L' + (x - 1.7) + ',' + (y + 1.7) + 'L' + (x - 6) + ',' + y + 'L' + (x - 1.7) + ',' + (y - 1.7) + 'Z" fill="#e2a04f"/>';
+  }
+  for (i = 0; i < e.length; i++) {
+    if (e[i] === "steam") {
+      s += '<path class="cg-s-steam" d="M' + (cx - 12) + ',' + (ty - 8) + 'q-6,-9 0,-17q6,-8 0,-16" stroke="#c07a3f" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".65"/>' +
+           '<path class="cg-s-steam" style="animation-delay:1.1s" d="M' + (cx + 10) + ',' + (ty - 6) + 'q-6,-9 0,-17q6,-8 0,-16" stroke="#c07a3f" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".65"/>';
+    } else if (e[i] === "ice") {
+      s += '<rect x="' + (cx - 17) + '" y="' + (g.top + 13) + '" width="11" height="11" rx="2.5" fill="#fff" opacity=".8" transform="rotate(-16 ' + (cx - 11) + ' ' + (g.top + 18) + ')"/>' +
+           '<rect x="' + (cx + 3) + '" y="' + (g.top + 21) + '" width="10" height="10" rx="2.5" fill="#fff" opacity=".8" transform="rotate(15 ' + (cx + 8) + ' ' + (g.top + 26) + ')"/>';
+    } else if (e[i] === "bubbles") {
+      s += '<circle class="cg-s-bub" cx="' + (cx - 10) + '" cy="' + (ty + 8) + '" r="2.2" fill="#fff" opacity=".75"/>' +
+           '<circle class="cg-s-bub" style="animation-delay:.9s" cx="' + cx + '" cy="' + (ty + 14) + '" r="1.7" fill="#fff" opacity=".75"/>' +
+           '<circle class="cg-s-bub" style="animation-delay:1.8s" cx="' + (cx + 9) + '" cy="' + (ty + 6) + '" r="1.3" fill="#fff" opacity=".75"/>';
+    } else if (e[i] === "straw") {
+      s += '<path d="M' + (cx + 5) + ',' + (ty + 26) + 'L' + (cx + 31) + ',' + (g.top - 16) + '" stroke="#e88fa8" stroke-width="4" stroke-linecap="round"/>';
+    } else if (e[i] === "whipped") {
+      s += '<path d="M' + (cx - 13) + ',' + (ty + 3) + 'q-5,-11 7,-12q3,-9 13,-5q11,-3 9,9q7,5 -3,10z" fill="#fffdf6" stroke="#dcc09a" stroke-width="1.5" stroke-linejoin="round"/>';
+    } else if (e[i] === "lemon") {
+      s += '<circle cx="' + (g.r - 1) + '" cy="' + (g.top + 1) + '" r="8.5" fill="#f7de73" stroke="#d9a441" stroke-width="1.5"/>' +
+           '<path d="M' + (g.r - 1) + ',' + (g.top - 5) + 'V' + (g.top + 7) + 'M' + (g.r - 6) + ',' + (g.top - 2) + 'L' + (g.r + 4) + ',' + (g.top + 4) +
+           'M' + (g.r - 6) + ',' + (g.top + 4) + 'L' + (g.r + 4) + ',' + (g.top - 2) + '" stroke="#d9a441" stroke-width="1"/>';
+    } else if (e[i] === "mint") {
+      s += '<ellipse cx="' + (cx - 8) + '" cy="' + (ty - 3) + '" rx="7" ry="3.2" fill="#9ec49a" stroke="#6fa06b" stroke-width="1" transform="rotate(-28 ' + (cx - 8) + ' ' + (ty - 3) + ')"/>' +
+           '<ellipse cx="' + (cx + 6) + '" cy="' + (ty - 4) + '" rx="7" ry="3.2" fill="#9ec49a" stroke="#6fa06b" stroke-width="1" transform="rotate(22 ' + (cx + 6) + ' ' + (ty - 4) + ')"/>';
+    } else if (e[i] === "marshmallow") {
+      s += '<rect x="' + (cx - 13) + '" y="' + (ty - 4) + '" width="9" height="5.5" rx="1.5" fill="#fff" stroke="#e3d3ba" transform="rotate(-10 ' + (cx - 9) + ' ' + (ty - 1) + ')"/>' +
+           '<rect x="' + (cx + 3) + '" y="' + (ty - 5) + '" width="9" height="5.5" rx="1.5" fill="#fff" stroke="#e3d3ba" transform="rotate(12 ' + (cx + 7) + ' ' + (ty - 2) + ')"/>';
+    } else if (e[i] === "sparkle") {
+      s += star(g.r + 9, g.top - 4);
+    } else if (e[i] === "stick") {
+      s += '<path d="M' + (cx - 3) + ',' + (ty + 22) + 'L' + (cx - 13) + ',' + (g.top - 15) + 'M' + (cx + 4) + ',' + (ty + 24) + 'L' + (cx + 12) + ',' + (g.top - 13) +
+           '" stroke="#8b5a3c" stroke-width="2.5" stroke-linecap="round"/>';
+    }
+  }
+  return s;
+}
+
+function cgFlight() {
+  var xs = [34, 78, 122], cols = [CG_PALETTE.espresso, CG_PALETTE.coffee, CG_PALETTE.milk], s = "", i, x, d;
+  for (i = 0; i < 3; i++) {
+    x = xs[i];
+    d = 'M' + (x - 13) + ',94L' + (x - 11) + ',117Q' + (x - 11) + ',121 ' + (x - 7) + ',121L' + (x + 7) + ',121Q' + (x + 11) + ',121 ' + (x + 11) + ',117L' + (x + 13) + ',94';
+    s += '<path d="' + d + 'Z" fill="' + cols[i] + '"/><path d="' + d + '" fill="none"/>';
+  }
+  return '<g stroke="#8b4d2c" stroke-width="2" stroke-linejoin="round">' + s + '</g>';
+}
+
+function cgArtProfile(item) {
+  var k = String(item && item.name || "").toLowerCase();
+  return CG_PROFILES[k] || CG_FALLBACK[item && item.category] || CG_FALLBACK.world;
+}
+
+function cupArt(item) {
+  var p = cgArtProfile(item), g = cgGeo(p.vessel);
+  if (p.vessel === "flight")
+    return '<svg class="cg-art" viewBox="0 0 200 150" role="img" aria-hidden="true" focusable="false">' + cgFlight() + '</svg>';
+  var id = "cgc" + (++cgN), innerH = g.bot - g.top - 6, y = g.bot - 3, i, h;
+  for (i = 0; i < p.layers.length; i++) { h = p.layers[i][1] * innerH; y -= h; }
+  return '<svg class="cg-art" viewBox="0 0 200 150" role="img" aria-hidden="true" focusable="false">' +
+         '<defs><clipPath id="' + id + '"><rect x="' + (g.l + 2) + '" y="' + (g.top + 2) + '" width="' + (g.r - g.l - 4) +
+         '" height="' + (g.bot - g.top - 2) + '" rx="7"/></clipPath></defs>' +
+         cgLayers(g, p, id) + cgBody(g, p.vessel) + cgExtras(g, p, y) + cgLabels(g, p) + '</svg>';
+}
+
   var state = { query: "", category: "all", shop: "all", showAll: false };
   var search = document.getElementById("cg-search");
   var clear = document.getElementById("cg-clear");
@@ -3052,44 +2816,6 @@ button.cg-tag:hover { border-color: #c89670; background: #fff1e3; }
     return queryMatch && categoryMatch && shopMatch;
   }
 
-  function renderMiniCup(item) {
-    var fills = {
-      espresso: "#6b3a24",
-      milk: "#c07a3f",
-      brewed: "#4f547d",
-      cold: "#4d806a",
-      signature: "#d96a4e",
-      noncoffee: "#8a8740",
-      world: "#6b4774"
-    };
-    var fill = fills[item.category] || fills.espresso;
-    var inner = "";
-    if (item.category === "cold") {
-      inner =
-        '<path d="M9 4h18l-2 26H11L9 4Z" fill="#f4fdf8" fill-opacity=".92" stroke="#39735f" stroke-width="1.5"/>' +
-        '<path d="M11 19h14l-1 9H12L11 19Z" fill="' + fill + '" opacity=".9"/>' +
-        '<path d="M11 11h14v8H11v-8Z" fill="#cfe9da" opacity=".85"/>' +
-        '<circle class="cg-s-bub" cx="14" cy="16" r="1.4" fill="#fff" stroke="none" opacity=".85"/>' +
-        '<circle class="cg-s-bub" cx="19" cy="13" r="1" fill="#fff" stroke="none" opacity=".7" style="animation-delay:1s"/>' +
-        '<circle class="cg-s-bub" cx="22" cy="15.5" r="1.2" fill="#fff" stroke="none" opacity=".8" style="animation-delay:1.8s"/>';
-    } else {
-      inner =
-        '<path d="M6 10h22l-2 18H10L6 10Z" fill="#fffaf3" stroke="#8b4d2c" stroke-width="1.5"/>' +
-        '<path d="M28 13h2.5a2.2 2.2 0 0 1 0 4.4H28" fill="none" stroke="#8b4d2c" stroke-width="1.5"/>' +
-        '<path d="M9.5 15h16v9H11.5L9.5 15Z" fill="' + fill + '" opacity=".9"/>' +
-        '<ellipse cx="17" cy="14.6" rx="8" ry="2.6" fill="' + fill + '" opacity=".96"/>' +
-        '<path class="cg-s-steam" d="M13.5 7.5c1.4-2 2.8 2 4.2 0" stroke="#c07a3f" stroke-width="1.4" stroke-linecap="round" fill="none"/>' +
-        '<path class="cg-s-steam" d="M18.5 8.5c1.4-2 2.8 2 4.2 0" stroke="#c07a3f" stroke-width="1.1" stroke-linecap="round" fill="none" opacity=".75" style="animation-delay:1.1s"/>';
-    }
-    var extra = "";
-    if (item.category === "signature" || item.category === "world") {
-      extra = '<path class="cg-s-tw" d="M29 3.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8.8-2Z" fill="#e2a04f" stroke="none"/>';
-    } else if (item.category === "noncoffee") {
-      extra = '<path class="cg-s-tw" d="M29 3.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8.8-2Z" fill="#9aa86a" stroke="none"/>';
-    }
-    return '<span class="cg-mini-cup" data-category="' + escapeHTML(item.category) + '" aria-hidden="true"><svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">' + inner + extra + '</svg></span>';
-  }
-
   function shopChipHTML(shop) {
     var d = shopDetails[shop] || null;
     var hood = d ? " <em>" + escapeHTML(d.hood) + "</em>" : "";
@@ -3098,11 +2824,7 @@ button.cg-tag:hover { border-color: #c89670; background: #fff1e3; }
   }
 
   function renderCard(item) {
-    var aliases = item.aliases && item.aliases.length
-      ? '<p class="cg-aliases">Also called: ' + escapeHTML(item.aliases.join(" · ")) + "</p>"
-      : "";
-    var shops = item.shops || [];
-    var shopChips = shops.map(shopChipHTML).join("");
+    var shopChips = (item.shops || []).map(shopChipHTML).join("");
     var tagList = (item.tags || []).filter(function (tag) { return tag !== "world"; });
     var tags = tagList.length
       ? '<div class="cg-tags">' + tagList.map(function (tag) {
@@ -3110,31 +2832,31 @@ button.cg-tag:hover { border-color: #c89670; background: #fff1e3; }
           return '<button type="button" class="cg-tag ' + tagClass + '" data-tag-query="' + escapeHTML(tag) + '">' + escapeHTML(tag) + "</button>";
         }).join("") + "</div>"
       : "";
-    var where = "";
-    if (shopChips) {
-      where = '<div class="cg-detail-row cg-where-row"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-pin"/></svg><div><strong>Try it at</strong><span>' + shopChips + "</span></div></div>";
-    } else if (item.region) {
-      where = '<div class="cg-detail-row cg-where-row"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-sparkle"/></svg><div><strong>From</strong><span><span class="cg-region-chip"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-sparkle"/></svg>' + escapeHTML(item.region) + "</span></span></div></div>";
-    }
+    var aliasLine = item.aliases && item.aliases.length
+      ? '<p class="cg-pin-alias">aka ' + escapeHTML(item.aliases.join(" · ")) + "</p>"
+      : "";
     var seasonal = item.seasonal
       ? '<span class="cg-seasonal"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-sun"/></svg>Seasonal · recipe may rotate</span>'
       : "";
-    return '<article class="cg-card" data-cat="' + escapeHTML(item.category) + '">' +
-      '<div class="cg-card-top">' +
-        '<div class="cg-card-kind">' + renderMiniCup(item) +
-          '<span class="cg-category" data-category="' + escapeHTML(item.category) + '"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-star"/></svg>' + escapeHTML(categoryLabels[item.category]) + "</span>" +
-        "</div>" +
+    var foot = shopChips
+      ? '<div class="cg-pin-foot">' + shopChips + "</div>"
+      : item.region
+        ? '<div class="cg-pin-foot"><span class="cg-region-chip"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-sparkle"/></svg>' + escapeHTML(item.region) + "</span></div>"
+        : "";
+    return '<article class="cg-pin" data-cat="' + escapeHTML(item.category) + '">' +
+      '<div class="cg-pin-art">' + cupArt(item) + "</div>" +
+      '<div class="cg-pin-head">' +
+        '<h3 class="cg-pin-name">' + escapeHTML(item.name) + "</h3>" +
+        '<span class="cg-pin-cat" data-cat="' + escapeHTML(item.category) + '">' + escapeHTML(categoryLabels[item.category]) + "</span>" +
       "</div>" +
-      "<h3>" + escapeHTML(item.name) + "</h3>" +
-      aliases +
-      tags +
-      '<p class="cg-meaning">' + escapeHTML(item.meaning) + "</p>" +
-      '<div class="cg-detail-box">' +
+      aliasLine +
+      '<p class="cg-pin-meaning">' + escapeHTML(item.meaning) + "</p>" +
+      '<div class="cg-pin-more">' + seasonal + tags +
         '<div class="cg-detail-row"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-bean"/></svg><div><strong>In the cup</strong><span>' + escapeHTML(item.ingredients) + "</span></div></div>" +
         '<div class="cg-detail-row"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-chat"/></svg><div><strong>Try saying</strong><span>“' + escapeHTML(item.order) + "”</span></div></div>" +
-        where +
       "</div>" +
-      seasonal +
+      '<button type="button" class="cg-pin-toggle" aria-expanded="false">details +</button>' +
+      foot +
     "</article>";
   }
 
@@ -3221,6 +2943,14 @@ button.cg-tag:hover { border-color: #c89670; background: #fff1e3; }
   });
 
   results.addEventListener("click", function (event) {
+    var toggle = event.target.closest ? event.target.closest(".cg-pin-toggle") : null;
+    if (toggle) {
+      var pin = toggle.closest(".cg-pin");
+      var open = pin.classList.toggle("is-open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      toggle.textContent = open ? "show less −" : "details +";
+      return;
+    }
     var tag = event.target.closest ? event.target.closest("[data-tag-query]") : null;
     if (!tag) return;
     state.query = tag.getAttribute("data-tag-query");
