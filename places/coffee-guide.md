@@ -603,61 +603,6 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
 .cg-vibe strong, .cg-vibe small { display: block; }
 .cg-vibe strong { font-size: .84rem; line-height: 1.2; }
 .cg-vibe small { margin-top: .3rem; color: var(--ink-soft); font-size: .72rem; line-height: 1.35; }
-/* ── SF shop cards ────────────────────────────────────────────────────────── */
-.cg-sf-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .85rem; }
-.cg-sf-card {
-  position: relative;
-  padding: 1.05rem 1.05rem 1.1rem;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: #fff;
-  box-shadow: var(--shadow-soft);
-  transition: transform .2s ease, box-shadow .2s ease;
-}
-.cg-sf-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-pop); z-index: 1; }
-.cg-sf-tab {
-  position: absolute;
-  top: -11px;
-  left: 14px;
-  padding: .16rem .6rem;
-  border-radius: 999px;
-  background: var(--coffee);
-  color: #fff7ec;
-  font-size: .66rem;
-  font-weight: 850;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-  box-shadow: 0 3px 8px rgba(93, 64, 42, .18);
-}
-.cg-sf-card h3 {
-  display: flex;
-  align-items: center;
-  gap: .45rem;
-  margin: 0 0 .35rem;
-  color: var(--ink);
-  font-family: "Fraunces", Georgia, serif;
-  font-size: 1.12rem;
-  font-weight: 800;
-  line-height: 1.15;
-}
-.cg-sf-card h3 .cg-ico { width: 1.05rem; height: 1.05rem; color: var(--coral); }
-.cg-sf-card .cg-sf-hood { display: block; margin: 0 0 .55rem; color: #96745b; font-size: .75rem; line-height: 1.4; }
-.cg-sf-card p { margin: 0; color: var(--muted); font-size: .82rem; line-height: 1.55; }
-.cg-sf-card button {
-  display: inline-flex;
-  align-items: center;
-  gap: .35rem;
-  margin-top: .8rem;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--coral);
-  cursor: pointer;
-  font-size: .78rem;
-  font-weight: 800;
-}
-.cg-sf-card button:hover { text-decoration: underline; }
-.cg-sf-card button .cg-ico { width: .85rem; height: .85rem; }
 /* ── order receipt card ───────────────────────────────────────────────────── */
 .cg-order-card {
   position: relative;
@@ -751,7 +696,6 @@ button.cg-tag:hover { border-color: #d8a87b; background: #fdf3ea; }
   .cg-traps { grid-template-columns: 1fr; }
   .cg-results-line { display: block; }
   .cg-results-hint { margin-top: .3rem; text-align: left; }
-  .cg-sf-grid { grid-template-columns: 1fr; }
   .cg-math-grid { grid-template-columns: 1fr; }
   .cg-math-card { min-height: 0; }
   .cg-vibe-head { display: block; }
@@ -766,12 +710,12 @@ button.cg-tag:hover { border-color: #d8a87b; background: #fdf3ea; }
   .cg-pin-name { font-size: 1.42rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .cg-pin, .cg-math-card, .cg-note, .cg-vibe, .cg-sf-card,
+  .cg-pin, .cg-math-card, .cg-note, .cg-vibe,
   .cg-show-more {
     transition: none;
   }
   .cg-pin:hover, .cg-math-card:hover, .cg-note:hover, .cg-vibe:hover,
-  .cg-sf-card:hover, .cg-show-more:hover {
+  .cg-show-more:hover {
     transform: none !important;
   }
 }
