@@ -56,6 +56,9 @@ jobs:
 
       - uses: actions/configure-pages@v5
 
+      - name: Check analytics coverage
+        run: bash script/check-analytics.sh
+
       - name: Build Jekyll site
         uses: actions/jekyll-build-pages@v1
         with:
