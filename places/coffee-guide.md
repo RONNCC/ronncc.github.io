@@ -16,7 +16,8 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
    masonry wall of white pin cards with layered-cup art. Self-contained;
    SVG doodles animate via shared keyframes, no JS animation.
    ────────────────────────────────────────────────────────────────────────── */
-.cg-app {
+.cg-app,
+.cg-modal {
   --ink: #4a2b1c;
   --ink-soft: #6f4e39;
   --muted: #8a6f5c;
@@ -27,6 +28,8 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
   --coral: #c65f45;
   --shadow-pop: 0 6px 16px rgba(93, 64, 42, .14), 0 18px 40px rgba(93, 64, 42, .12);
   --shadow-soft: 0 2px 10px rgba(93, 64, 42, .08), 0 10px 28px rgba(93, 64, 42, .07);
+}
+.cg-app {
   width: min(1180px, calc(100vw - 2rem));
   margin-left: 50%;
   transform: translateX(-50%);
