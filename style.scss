@@ -180,17 +180,6 @@ img {
   margin-bottom: 3rem;
 }
 
-// Masthead container shrink-wraps to logo+nav content and stays centered
-// (margin: 0 auto from .container handles centering); back to full width on mobile.
-.wrapper-masthead .container {
-  width: fit-content;
-  max-width: 100%;
-
-  @include mobile {
-    width: 100%;
-  }
-}
-
 .masthead {
   display: flex;
   align-items: center;
@@ -246,6 +235,27 @@ img {
   }
 }
 
+// Emoji fallback when no avatar is configured in _config.yml.
+.site-textavatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 70px;
+  height: 70px;
+  font-size: 2.5rem;
+  line-height: 1;
+  text-decoration: none;
+  border-radius: 5px;
+  background: $lightGray;
+
+  @include tablet {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+  }
+}
+
 .site-info {
   display: flex;
   flex-direction: column;
@@ -264,6 +274,7 @@ img {
   font-family: $helveticaNeue;
   font-weight: 300;
   font-size: clamp(1.4rem, 3vw, 1.75rem);
+  line-height: 1.2;
   letter-spacing: 1px;
   white-space: nowrap;
   overflow: hidden;
