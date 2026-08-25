@@ -1,0 +1,471 @@
+---
+layout: standalone
+permalink: /ronnie-nyc-2026/
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ronnie NYC 2026 — Where I'll Be</title>
+<meta name="description" content="Ronnie's NYC 2026 calendar — where I'm headed, when, and how to get there. Test data for now.">
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#fbfbfd;--card:#fff;--bd:#e6e8ee;--bd2:#d9dce5;--tx:#11131a;--soft:#4a4f64;--mu:#7a8199;--mu2:#9aa0b8;
+  --blue:#2b6ef0;--blueSoft:rgba(43,110,240,.08);--blueLine:rgba(43,110,240,.2);
+  --ink:#0f172a;--pill:#f1f3f9;
+}
+html,body{height:100%}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.5;-webkit-font-smoothing:antialiased}
+[x-cloak]{display:none!important}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+/* top */
+.top{position:sticky;top:0;z-index:50;background:rgba(251,251,253,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--bd)}
+.top-inner{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#2b6ef0,#7c3aed);display:grid;place-items:center;color:#fff;font-size:1.2rem}
+.brand h1{font-size:1.05rem;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.brand h1 span{display:block;font-size:.68rem;font-weight:600;color:var(--mu);letter-spacing:.04em;text-transform:uppercase;margin-top:2px}
+.top-actions{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn{border:1px solid var(--bd);background:var(--card);color:var(--tx);font:600 .8rem Inter,sans-serif;padding:8px 12px;border-radius:999px;cursor:pointer}
+.btn:hover{border-color:var(--bd2)}
+.btn.primary{background:var(--tx);color:#fff;border-color:var(--tx)}
+.btn.primary:hover{opacity:.92}
+.search{position:relative;flex:1;min-width:180px;max-width:420px}
+.search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--mu2);pointer-events:none}
+.search input{width:100%;height:38px;border-radius:999px;border:1px solid var(--bd);background:var(--card);padding:0 12px 0 34px;font:inherit;font-size:.86rem;outline:none}
+.search input:focus{border-color:var(--blue);box-shadow:0 0 0 3px var(--blueSoft)}
+.search input::placeholder{color:var(--mu2)}
+
+/* layout */
+.wrap{max-width:1100px;margin:0 auto;padding:18px 16px 64px}
+.hero{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:18px 18px 14px;margin-bottom:14px}
+.hero h2{font-size:clamp(1.5rem,3vw,2rem);font-weight:800;letter-spacing:-.03em}
+.hero p{color:var(--soft);font-size:.92rem;margin-top:6px;max-width:780px}
+.hero .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{border:1px solid var(--bd);background:var(--pill);color:var(--soft);font:600 .72rem Inter,sans-serif;padding:6px 10px;border-radius:999px}
+.chip b{color:var(--tx)}
+.notice{margin-top:12px;background:#fff7ed;border:1px solid #fed7aa;color:#7c2d12;font-size:.82rem;padding:10px 12px;border-radius:12px;line-height:1.45}
+.notice strong{color:#9a3412}
+
+/* controls */
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0 10px}
+.pill-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{border:1px solid var(--bd);background:var(--card);color:var(--mu);font:700 .72rem Inter,sans-serif;padding:7px 12px;border-radius:999px;cursor:pointer}
+.tab:hover{color:var(--tx);border-color:var(--bd2)}
+.tab.on{background:var(--tx);color:#fff;border-color:var(--tx)}
+.small{font-size:.72rem;color:var(--mu)}
+.day-jump{display:flex;flex-wrap:wrap;gap:6px}
+.day-jump button{border:1px solid var(--bd);background:var(--card);font:600 .7rem 'JetBrains Mono',monospace;padding:6px 9px;border-radius:999px;cursor:pointer;color:var(--soft)}
+.day-jump button:hover{border-color:var(--blueLine);color:var(--blue)}
+.day-jump button.on{background:var(--blueSoft);border-color:var(--blueLine);color:var(--blue)}
+
+/* grid */
+.grid{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:860px){.grid{grid-template-columns:280px 1fr}}
+.side{position:sticky;top:64px;align-self:start;display:flex;flex-direction:column;gap:12px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;overflow:hidden}
+.card-h{padding:12px 14px;border-bottom:1px solid var(--bd);font:800 .72rem Inter,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--mu)}
+.card-b{padding:12px 14px}
+.kv{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid #f1f3f9;font-size:.82rem}
+.kv:last-child{border-bottom:0}
+.kv b{font-weight:700}
+.kv span{color:var(--mu);font-size:.75rem}
+.legend{display:flex;flex-wrap:wrap;gap:6px}
+.dot{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;color:var(--soft);border:1px solid var(--bd);background:var(--pill);padding:5px 9px;border-radius:999px}
+.dot i{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+/* day */
+.day{background:var(--card);border:1px solid var(--bd);border-radius:16px;overflow:hidden}
+.day-head{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--bd);background:linear-gradient(180deg,#fff,#fbfbfd)}
+.day-date{font:800 .9rem 'JetBrains Mono',monospace;color:var(--tx)}
+.day-sub{font-size:.76rem;color:var(--mu)}
+.day-count{margin-left:auto;font:700 .7rem Inter,sans-serif;color:var(--mu);background:var(--pill);border:1px solid var(--bd);padding:5px 9px;border-radius:999px}
+.events{padding:10px;display:flex;flex-direction:column;gap:10px}
+.evt{border:1px solid var(--bd);border-radius:14px;padding:12px 13px;background:#fff;display:grid;gap:10px;transition:.12s}
+.evt:hover{border-color:var(--bd2);box-shadow:0 6px 20px rgba(16,24,40,.06)}
+.evt-top{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.time{font:700 .76rem 'JetBrains Mono',monospace;color:var(--blue);background:var(--blueSoft);border:1px solid var(--blueLine);padding:5px 9px;border-radius:999px;white-space:nowrap}
+.badges{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.badge{font:700 .66rem Inter,sans-serif;letter-spacing:.03em;text-transform:uppercase;padding:5px 8px;border-radius:999px;border:1px solid var(--bd);background:var(--pill);color:var(--soft)}
+.badge.open{background:#ecfdf5;border-color:#a7f3d0;color:#065f46}
+.badge.private{background:#fef2f2;border-color:#fecaca;color:#991b1b}
+.evt h3{font-size:1rem;font-weight:800;letter-spacing:-.02em;line-height:1.25}
+.evt p.desc{font-size:.86rem;color:var(--soft);line-height:1.5}
+.meta-row{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:620px){.meta-row{grid-template-columns:1.2fr .9fr}}
+.box{background:var(--pill);border:1px solid var(--bd);border-radius:12px;padding:10px 11px}
+.box .lb{font:800 .62rem Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:var(--mu);margin-bottom:6px}
+.box .v{font-size:.82rem;color:var(--tx);line-height:1.45;overflow-wrap:anywhere}
+.box .v small{display:block;color:var(--mu);font-size:.74rem;margin-top:4px}
+.lines{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.line{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font:800 .68rem 'JetBrains Mono',monospace;color:#fff;border:1px solid rgba(0,0,0,.08)}
+.line.l-456{background:#00933c}.line.l-123{background:#ee352e}.line.l-7{background:#b933ad}.line.l-ace{background:#2850ad}.line.l-bdfm{background:#ff6319}.line.l-jz{background:#996633}.line.l-l{background:#a7a9ac;color:#111}.line.l-g{background:#6cbe45}.line.l-sir{border-style:dashed;background:#fff;color:#333;border-color:#bbb}.line.l-nqrw{background:#fccc0a;color:#111}.line.l-shuttle{background:#808183}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.btn-sm{border:1px solid var(--bd);background:var(--card);color:var(--tx);font:600 .76rem Inter,sans-serif;padding:7px 11px;border-radius:999px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-sm:hover{border-color:var(--bd2);text-decoration:none}
+.btn-sm.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn-sm.primary:hover{opacity:.93}
+.empty{padding:28px 16px;text-align:center;color:var(--mu);font-size:.9rem;border:1px dashed var(--bd);border-radius:16px;background:#fff}
+.foot{margin-top:14px;text-align:center;color:var(--mu2);font-size:.72rem}
+code.inline{background:var(--pill);border:1px solid var(--bd);padding:1px 6px;border-radius:6px;font:500 .72rem 'JetBrains Mono',monospace}
+</style>
+</head>
+<body x-data="app()" x-cloak>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <div class="logo">🗽</div>
+      <h1>Ronnie NYC 2026 <span>Public calendar · where I'll be & how to get there</span></h1>
+    </div>
+    <div class="search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input type="search" x-model="q" placeholder="Search events, places, hoods…" autocomplete="off">
+    </div>
+    <div class="top-actions">
+      <button class="btn" @click="copyPageLink()">Copy link</button>
+      <a class="btn primary" href="#calendar">Jump to calendar ↓</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <h2>NYC — Winter / Spring 2026</h2>
+    <p>Lightweight public calendar so friends can find me. Each block shows <b>when</b>, <b>where</b> (with neighborhood + address), and <b>approx how to get there</b> by subway/walk from Midtown. Tap <em>Directions</em> for Google Maps. This is <b>test data</b> for now — real dates will replace it.</p>
+    <div class="meta">
+      <span class="chip">Base: <b>Midtown · Bryant Park</b></span>
+      <span class="chip">Transit: <b>MTA subway + walk</b></span>
+      <span class="chip">Timezone: <b>America/New_York</b></span>
+      <span class="chip">Last updated: <b x-text="lastUpdated"></b></span>
+    </div>
+    <div class="notice">
+      <strong>Heads up — test data.</strong> Times/places below are fake examples to show the layout. If you want to meet up, message me to confirm — don't just show up. Edit <code class="inline">EVENTS</code> in this file to make it real.
+    </div>
+  </div>
+
+  <div class="controls" id="calendar">
+    <div class="pill-tabs">
+      <button class="tab" :class="{on: filter==='all'}" @click="filter='all'">All</button>
+      <button class="tab" :class="{on: filter==='open'}" @click="filter='open'">Open to join</button>
+      <button class="tab" :class="{on: filter==='private'}" @click="filter='private'">Private</button>
+      <button class="tab" :class="{on: filter==='today'}" @click="scrollToToday()">Today</button>
+    </div>
+    <span class="small" x-text="visibleCount + ' events · ' + visibleDays + ' days'"></span>
+    <div style="margin-left:auto" class="day-jump">
+      <template x-for="d in days" :key="d.key">
+        <button :class="{on: activeDay===d.key}" @click="jump(d.key)" x-text="d.short"></button>
+      </template>
+    </div>
+  </div>
+
+  <div class="grid">
+    <aside class="side">
+      <div class="card">
+        <div class="card-h">At a glance</div>
+        <div class="card-b">
+          <div class="kv"><div><b x-text="events.length"></b> total blocks <br><span>Test data</span></div><span x-text="days.length + ' days'"></span></div>
+          <div class="kv"><div><b>How I get around</b><br><span>Subway → walk, Citi Bike if nice</span></div><span>🚇</span></div>
+          <div class="kv"><div><b>DM to hang</b><br><span>Reply with which event</span></div><span>💬</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-h">Neighborhoods</div>
+        <div class="card-b">
+          <div class="legend">
+            <span class="dot"><i style="background:#2b6ef0"></i> Midtown</span>
+            <span class="dot"><i style="background:#d9480f"></i> Downtown</span>
+            <span class="dot"><i style="background:#099268"></i> Brooklyn</span>
+            <span class="dot"><i style="background:#ae3ec9"></i> Uptown/Harlem</span>
+            <span class="dot"><i style="background:#868e96"></i> Queens</span>
+          </div>
+          <p style="margin-top:10px;font-size:.76rem;color:var(--mu)">Subway dots use MTA colors: <span class="line l-123" style="display:inline-grid;width:18px;height:18px;font-size:.58rem">1</span> <span class="line l-456" style="display:inline-grid;width:18px;height:18px;font-size:.58rem">6</span> <span class="line l-7" style="display:inline-grid;width:18px;height:18px;font-size:.58rem">7</span> <span class="line l-ace" style="display:inline-grid;width:18px;height:18px;font-size:.58rem">A</span> etc.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-h">Share</div>
+        <div class="card-b">
+          <div class="actions">
+            <button class="btn-sm" @click="copyPageLink()">Copy page link</button>
+            <button class="btn-sm" @click="downloadICS()">Download .ics (demo)</button>
+          </div>
+          <p style="margin-top:8px;font-size:.74rem;color:var(--mu)">Send this URL to friends — no login needed. Calendar apps can import the .ics later when real events are added.</p>
+        </div>
+      </div>
+    </aside>
+
+    <main>
+      <template x-if="!filteredDays.length">
+        <div class="empty">No events match “<span x-text="q"></span>” / filter. Try clearing search.</div>
+      </template>
+
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <template x-for="day in filteredDays" :key="day.key">
+          <section class="day" :id="'day-'+day.key">
+            <div class="day-head">
+              <div class="day-date" x-text="day.label"></div>
+              <div class="day-sub" x-text="day.weekday"></div>
+              <div class="day-count" x-text="day.events.length + ' blocks'"></div>
+            </div>
+            <div class="events">
+              <template x-for="e in day.events" :key="e.id">
+                <article class="evt">
+                  <div class="evt-top">
+                    <div class="time" x-text="e.time"></div>
+                    <div class="badges">
+                      <span class="badge" :class="e.open ? 'open' : 'private'" x-text="e.open ? '● open to join' : '◐ private / heads-down'"></span>
+                      <span class="badge" x-text="e.hood"></span>
+                      <span class="badge" x-show="e.neighborhood" x-text="e.neighborhood"></span>
+                    </div>
+                    <div style="margin-left:auto;display:flex;gap:6px">
+                      <button class="btn-sm" @click="copyEventLink(e)">Copy</button>
+                    </div>
+                  </div>
+                  <h3 x-text="e.title"></h3>
+                  <p class="desc" x-text="e.desc"></p>
+
+                  <div class="meta-row">
+                    <div class="box">
+                      <div class="lb">📍 Where</div>
+                      <div class="v">
+                        <span x-text="e.place"></span>
+                        <small x-text="e.address"></small>
+                        <small x-show="e.placeNote" x-text="e.placeNote"></small>
+                      </div>
+                    </div>
+                    <div class="box">
+                      <div class="lb">🚇 How to get there (from Midtown)</div>
+                      <div class="v" x-text="e.transit"></div>
+                      <div class="lines" x-show="e.lines && e.lines.length">
+                        <template x-for="ln in e.lines" :key="ln.label">
+                          <span class="line" :class="'l-'+ln.cls" x-text="ln.label"></span>
+                        </template>
+                      </div>
+                      <small x-text="e.walk"></small>
+                    </div>
+                  </div>
+
+                  <div class="actions">
+                    <a class="btn-sm primary" :href="mapUrl(e)" target="_blank" rel="noreferrer">Directions ↗</a>
+                    <a class="btn-sm" :href="mapSearchUrl(e)" target="_blank" rel="noreferrer">Open in Maps</a>
+                    <button class="btn-sm" @click="copyDirections(e)">Copy directions</button>
+                  </div>
+                </article>
+              </template>
+            </div>
+          </section>
+        </template>
+      </div>
+
+      <p class="foot">Test data only · Edit <code class="inline">EVENTS</code> array at top of this file. Built as a static Jekyll page — no backend.</p>
+    </main>
+  </div>
+</div>
+
+<script>
+// ---------- TEST DATA ----------
+// Edit this to make it real. Each event needs: date (YYYY-MM-DD), time ("9:00 AM — 10:30 AM"), title, desc, place, address, hood, neighborhood, transit, walk, lines, open (bool)
+const EVENTS = [
+  {
+    id: "e1", date: "2026-02-09", time: "9:00 AM — 10:15 AM",
+    title: "Coffee + coworking",
+    desc: "Camped at a sunny window, knocking out writing. Swing by if you're nearby — happy to pair.",
+    place: "Devoción — Flatiron", address: "25 E 20th St, New York, NY 10003", hood: "Flatiron", neighborhood: "Manhattan",
+    transit: "From Bryant Park: Take 6 downtown to 23 St (6 min), 4-min walk south on Park Ave S.", walk: "2-min from 23 St · Citi Bike dock on 21st & Broadway",
+    lines: [{label:"6",cls:"456"},{label:"N",cls:"nqrw"},{label:"R",cls:"nqrw"}], open: true, placeNote: "Ask for Ronnie — blue backpack, near outlet wall."
+  },
+  {
+    id: "e2", date: "2026-02-09", time: "12:30 PM — 1:45 PM",
+    title: "Lunch — sandwich spot crawl",
+    desc: "Trying #7 on the NYC sandwich list. Join if you want a half.",
+    place: "Alidoro — Bryant Park", address: "18 E 39th St, New York, NY 10016", hood: "Midtown", neighborhood: "Manhattan",
+    transit: "Walk from base: 7 min east on 40th → 5th Ave. No subway needed.", walk: "Right by the park — easy to find.",
+    lines: [], open: true
+  },
+  {
+    id: "e3", date: "2026-02-09", time: "3:00 PM — 5:00 PM",
+    title: "Deep work block (private)",
+    desc: "Heads-down sprint — not available, but listed so folks know.",
+    place: "Midtown library / base", address: "Home base near Bryant Park", hood: "Midtown", neighborhood: "Manhattan",
+    transit: "—", walk: "—",
+    lines: [], open: false
+  },
+  {
+    id: "e4", date: "2026-02-10", time: "10:00 AM — 12:00 PM",
+    title: "Museum morning — MoMA",
+    desc: "Sketching in the design galleries. Friends welcome — I have a spare guest pass.",
+    place: "MoMA", address: "11 W 53rd St, New York, NY 10019", hood: "Midtown", neighborhood: "Manhattan",
+    transit: "From Bryant Park: Take E north to 5 Av/53 St (1 stop, 4 min), 2-min walk.", walk: "Exit at 53rd — MoMA is mid-block.",
+    lines: [{label:"E",cls:"ace"},{label:"M",cls:"bdfm"}], open: true
+  },
+  {
+    id: "e5", date: "2026-02-10", time: "6:30 PM — 8:30 PM",
+    title: "Dinner — West Village",
+    desc: "Casual dinner, open table. Great for anyone in the area.",
+    place: "I Sodi", address: "314 Bleecker St, New York, NY 10014", hood: "West Village", neighborhood: "Manhattan",
+    transit: "From Midtown: Take 1 downtown to Christopher St–Sheridan Sq (14 min), 6-min walk west on Bleecker.", walk: "Bleecker & Grove — look for green awning.",
+    lines: [{label:"1",cls:"123"}], open: true
+  },
+  {
+    id: "e6", date: "2026-02-11", time: "9:30 AM — 11:00 AM",
+    title: "Run — Prospect Park loop",
+    desc: "Easy 5-miler, conversational pace. Meet at Grand Army Plaza arch.",
+    place: "Prospect Park — Grand Army Plaza", address: "Grand Army Plaza, Brooklyn, NY 11238", hood: "Prospect Heights", neighborhood: "Brooklyn",
+    transit: "From Bryant Park: Take Q to Atlantic Ave–Barclays (18 min), transfer to 2/3 to Grand Army Plaza (1 stop) or walk 12 min.", walk: "Park entrance right at the arch.",
+    lines: [{label:"Q",cls:"nqrw"},{label:"2",cls:"123"},{label:"3",cls:"123"}], open: true
+  },
+  {
+    id: "e7", date: "2026-02-11", time: "2:00 PM — 3:30 PM",
+    title: "Coffee with Maya (private)",
+    desc: "Catch-up — private, but marking busy so friends know.",
+    place: "Partners Coffee — Williamsburg", address: "125 N 6th St, Brooklyn, NY 11249", hood: "Williamsburg", neighborhood: "Brooklyn",
+    transit: "From Midtown: Take L to Bedford Ave (16 min), 4-min walk north.", walk: "On N 6th between Berry & Wythe.",
+    lines: [{label:"L",cls:"l"}], open: false
+  },
+  {
+    id: "e8", date: "2026-02-12", time: "11:00 AM — 1:00 PM",
+    title: "NYPL Schwarzman — research",
+    desc: "Archives dive. Wander in if you want a library tour after.",
+    place: "NYPL Stephen A. Schwarzman Building", address: "476 5th Ave, New York, NY 10018", hood: "Midtown", neighborhood: "Manhattan",
+    transit: "Walk: 5 min from Bryant Park — it's the lion building on 5th.", walk: "Main entrance on 5th Ave at 42nd.",
+    lines: [{label:"7",cls:"7"},{label:"B",cls:"bdfm"},{label:"D",cls:"bdfm"},{label:"F",cls:"bdfm"},{label:"M",cls:"bdfm"}], open: true
+  },
+  {
+    id: "e9", date: "2026-02-12", time: "7:00 PM — 9:30 PM",
+    title: "Jazz — Village Vanguard",
+    desc: "Late set. Grabbed two tickets — one spare if you want it.",
+    place: "Village Vanguard", address: "178 7th Ave S, New York, NY 10014", hood: "West Village", neighborhood: "Manhattan",
+    transit: "From Midtown: Take A/C/E downtown to 14 St (8 min), 7-min walk south on 7th Ave S.", walk: "Basement club — line forms early.",
+    lines: [{label:"A",cls:"ace"},{label:"C",cls:"ace"},{label:"E",cls:"ace"}], open: true
+  },
+  {
+    id: "e10", date: "2026-02-13", time: "10:00 AM — 11:30 AM",
+    title: "High Line walk (open)",
+    desc: "Slow walk + photos start to finish. Good for first-timers — hop in anywhere along the route.",
+    place: "High Line — 14th St entrance", address: "High Line, New York, NY 10011 (W 14th St & 10th Ave)", hood: "Chelsea", neighborhood: "Manhattan",
+    transit: "From Midtown: Take A/C/E to 14 St (8 min), 5-min walk west to 10th Ave.", walk: "Elevator + stairs at 14th — we'll head north.",
+    lines: [{label:"A",cls:"ace"},{label:"C",cls:"ace"}], open: true
+  },
+  {
+    id: "e11", date: "2026-02-14", time: "1:00 PM — 3:00 PM",
+    title: "Dim sum — Flushing",
+    desc: "Group dim sum — extra chairs if you RSVP by morning.",
+    place: "Asian Jewels", address: "133-30 39th Ave, Queens, NY 11354", hood: "Flushing", neighborhood: "Queens",
+    transit: "From Bryant Park: Take 7 to Flushing–Main St (38 min, last stop), 3-min walk south on Main St.", walk: "Second floor above the supermarket.",
+    lines: [{label:"7",cls:"7"}], open: true
+  },
+  {
+    id: "e12", date: "2026-02-14", time: "8:00 PM — 10:00 PM",
+    title: "Harlem — Apollo Amateur Night (maybe)",
+    desc: "Tentative — checking tickets. Marked so friends know I'm uptown that evening.",
+    place: "Apollo Theater", address: "253 W 125th St, New York, NY 10027", hood: "Harlem", neighborhood: "Manhattan",
+    transit: "From Midtown: Take 2/3 uptown to 125 St (16 min), 2-min walk east on 125th.", walk: "Marquee on 125th between 7th & 8th.",
+    lines: [{label:"2",cls:"123"},{label:"3",cls:"123"}], open: true
+  },
+];
+
+function app(){
+  return {
+    q: "",
+    filter: "all",
+    lastUpdated: "Feb 8, 2026 (test data)",
+    activeDay: null,
+    get days(){
+      const map = {};
+      for(const e of EVENTS){
+        if(!map[e.date]) map[e.date] = [];
+        map[e.date].push(e);
+      }
+      const keys = Object.keys(map).sort();
+      return keys.map(k=>{
+        const d = new Date(k+"T12:00:00");
+        return {
+          key: k,
+          label: d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),
+          short: d.toLocaleDateString('en-US',{month:'short',day:'numeric'}),
+          weekday: d.toLocaleDateString('en-US',{weekday:'long'}),
+          events: map[k].slice().sort((a,b)=> a.time.localeCompare(b.time))
+        };
+      });
+    },
+    get events(){ return EVENTS; },
+    get filteredDays(){
+      let days = this.days.map(d=> ({...d, events: d.events.slice()}));
+      // text filter
+      if(this.q.trim()){
+        const q = this.q.trim().toLowerCase();
+        days = days.map(d=> ({...d, events: d.events.filter(e=>
+          [e.title,e.desc,e.place,e.address,e.hood,e.neighborhood,e.transit].join(" ").toLowerCase().includes(q)
+        )})).filter(d=> d.events.length);
+      }
+      // open/private filter
+      if(this.filter==='open') days = days.map(d=> ({...d, events: d.events.filter(e=> e.open)})).filter(d=> d.events.length);
+      if(this.filter==='private') days = days.map(d=> ({...d, events: d.events.filter(e=> !e.open)})).filter(d=> d.events.length);
+      return days;
+    },
+    get visibleCount(){ return this.filteredDays.reduce((s,d)=> s+d.events.length, 0); },
+    get visibleDays(){ return this.filteredDays.length; },
+    jump(key){
+      this.activeDay = key;
+      const el = document.getElementById('day-'+key);
+      if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+      setTimeout(()=> this.activeDay=null, 2000);
+    },
+    scrollToToday(){
+      const today = new Date().toISOString().slice(0,10);
+      // find nearest day >= today, else first
+      let target = this.days.find(d=> d.key >= today) || this.days[0];
+      if(target) this.jump(target.key);
+      this.filter='all';
+    },
+    mapUrl(e){
+      const q = encodeURIComponent(e.place + " " + e.address);
+      return `https://www.google.com/maps/dir/?api=1&destination=${q}`;
+    },
+    mapSearchUrl(e){
+      const q = encodeURIComponent(e.place + " " + e.address);
+      return `https://www.google.com/maps/search/?api=1&query=${q}`;
+    },
+    copyPageLink(){
+      const url = location.href;
+      navigator.clipboard.writeText(url).then(()=> alert("Link copied:\n"+url), ()=> prompt("Copy this link:", url));
+    },
+    copyEventLink(e){
+      const url = location.href.split('#')[0] + "#day-" + e.date;
+      const txt = `${e.title} — ${e.time} @ ${e.place} (${e.address})\n${this.mapUrl(e)}\nHow to get there: ${e.transit} ${e.walk||""}`;
+      navigator.clipboard.writeText(txt).then(()=> alert("Copied:\n"+txt), ()=> prompt("Copy:", txt));
+    },
+    copyDirections(e){
+      const txt = `${e.title} @ ${e.place}\n${e.address}\nHow to get there (from Midtown): ${e.transit}\n${e.walk||""}\nMaps: ${this.mapUrl(e)}`;
+      navigator.clipboard.writeText(txt).then(()=> alert("Directions copied"), ()=> prompt("Copy:", txt));
+    },
+    downloadICS(){
+      // minimal demo .ics with first 3 open events
+      const icsEvents = EVENTS.filter(e=>e.open).slice(0,4);
+      let ics = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Ronnie NYC 2026//EN\r\n";
+      for(const e of icsEvents){
+        const dt = e.date.replace(/-/g,'');
+        // fake 1.5h, use time's start naive
+        ics += `BEGIN:VEVENT\r\nUID:${e.id}@sghose.me\r\nDTSTAMP:${dt}T120000Z\r\nDTSTART:${dt}T140000Z\r\nSUMMARY:${e.title}\r\nLOCATION:${e.place} ${e.address}\r\nDESCRIPTION:${(e.desc+" How: "+e.transit).replace(/\n/g,' ')}\r\nEND:VEVENT\r\n`;
+      }
+      ics += "END:VCALENDAR";
+      const blob = new Blob([ics], {type:"text/calendar"});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = "ronnie-nyc-2026-demo.ics";
+      a.click();
+      setTimeout(()=> URL.revokeObjectURL(a.href), 2000);
+    }
+  }
+}
+</script>
+</body>
+</html>
