@@ -64,10 +64,6 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
 .cg-hand { font-family: "Caveat", "Comic Sans MS", cursive; font-weight: 700; }
 .cg-display { font-family: "Fraunces", Georgia, "Times New Roman", serif; }
 /* ── animation primitives (shared with inline SVG) ───────────────────────── */
-@keyframes cg-bob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-}
 @keyframes cg-steam {
   0%   { opacity: 0; transform: translateY(4px) scaleX(.9); }
   35%  { opacity: .85; }
@@ -77,11 +73,6 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
   0%   { opacity: 0; transform: translateY(2px); }
   25%  { opacity: .9; }
   100% { opacity: 0; transform: translateY(-11px); }
-}
-@keyframes cg-bubble-lg {
-  0%   { opacity: 0; transform: translateY(3px); }
-  25%  { opacity: .9; }
-  100% { opacity: 0; transform: translateY(-24px); }
 }
 @keyframes cg-twinkle {
   0%, 100% { opacity: .25; transform: scale(.7); }
@@ -93,19 +84,12 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
   45% { transform: scale(.95); }
   60% { transform: scale(1.08); }
 }
-@keyframes cg-floaty {
-  0%, 100% { transform: translateY(0) rotate(var(--cg-fr, 0deg)); }
-  50% { transform: translateY(-7px) rotate(var(--cg-fr, 0deg)); }
-}
-.cg-s-bob { animation: cg-bob 4.2s ease-in-out infinite; }
 .cg-s-steam { animation: cg-steam 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
 .cg-s-bub { animation: cg-bubble 3s ease-in infinite; transform-box: fill-box; }
-.cg-s-bub-lg { animation: cg-bubble-lg 3.2s ease-in infinite; transform-box: fill-box; }
 .cg-s-tw { animation: cg-twinkle 2.2s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 50%; }
 .cg-s-heart { animation: cg-heartbeat 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 50%; }
-.cg-s-float { animation: cg-floaty 5.5s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) {
-  .cg-s-bob, .cg-s-steam, .cg-s-bub, .cg-s-bub-lg, .cg-s-tw, .cg-s-heart, .cg-s-float { animation: none; }
+  .cg-s-steam, .cg-s-bub, .cg-s-tw, .cg-s-heart { animation: none; }
 }
 /* ── board header ─────────────────────────────────────────────────────────── */
 .cg-board-header {
