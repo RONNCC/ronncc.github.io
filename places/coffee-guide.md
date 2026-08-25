@@ -254,6 +254,7 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
 /* ── masonry board ────────────────────────────────────────────────────────── */
 .cg-results { display: block; columns: 220px 5; column-gap: 1rem; }
 .cg-pin {
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   break-inside: avoid;
@@ -325,14 +326,6 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
   font-size: .84rem;
   line-height: 1.5;
 }
-.cg-pin.is-open .cg-pin-meaning { display: block; -webkit-line-clamp: unset; }
-.cg-pin-more { display: none; }
-.cg-pin.is-open .cg-pin-more {
-  display: block;
-  margin-top: .6rem;
-  padding-top: .6rem;
-  border-top: 1.5px dashed #e8d6bf;
-}
 .cg-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin: 0 0 .5rem; }
 .cg-detail-row {
   display: grid;
@@ -354,18 +347,6 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
 .cg-detail-row span { color: #4f4037; }
 .cg-where-row .cg-shop-chip { margin: .15rem .3rem .1rem 0; }
 .cg-where-row .cg-shop-chip .cg-ico { color: #4d806a; }
-.cg-pin-toggle {
-  align-self: center;
-  padding: .25rem .7rem;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  color: var(--coral);
-  cursor: pointer;
-  font-size: .74rem;
-  font-weight: 800;
-}
-.cg-pin-toggle:hover { background: #fdf0e8; }
 .cg-pin-foot { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .6rem; }
 .cg-shop-chip {
   display: inline-flex;
@@ -702,6 +683,110 @@ button.cg-tag:hover { border-color: #d8a87b; background: #fdf3ea; }
   .cg-show-more:hover {
     transform: none !important;
   }
+}
+
+
+/* ── detail popup ─────────────────────────────────────────────────────────── */
+.cg-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(60, 38, 24, .45);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+.cg-modal.is-open { display: flex; animation: cg-modal-fade .18s ease-out; }
+.cg-modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  max-height: min(86vh, 760px);
+  overflow-y: auto;
+  padding: 1.4rem 1.4rem 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: #fffdf9;
+  box-shadow: 0 24px 60px rgba(60, 38, 24, .35);
+}
+.cg-modal.is-open .cg-modal-card { animation: cg-modal-pop .22s ease-out; }
+.cg-modal-grabber { display: none; }
+.cg-modal-close {
+  position: absolute;
+  top: .8rem;
+  right: .8rem;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1.5px solid var(--line);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font-size: 1.05rem;
+  line-height: 1;
+  transition: transform .18s ease, background .18s ease;
+}
+.cg-modal-close:hover { background: #fdf0e8; transform: rotate(90deg); }
+.cg-modal-art { display: grid; place-items: center; padding: .2rem 0 .4rem; }
+.cg-modal-art svg { display: block; width: 100%; max-width: 240px; height: auto; }
+.cg-modal-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.cg-modal-name {
+  margin: 0;
+  color: var(--script);
+  font-family: "Caveat", "Comic Sans MS", cursive;
+  font-weight: 700;
+  font-size: 2.1rem;
+  line-height: 1.02;
+}
+.cg-modal-alias { margin: .15rem 0 0; color: #a08268; font-size: .78rem; line-height: 1.4; }
+.cg-modal-meaning { margin: .55rem 0 0; color: var(--ink-soft); font-size: .95rem; line-height: 1.6; }
+.cg-modal-rows { margin-top: .8rem; padding-top: .7rem; border-top: 1.5px dashed #e8d6bf; }
+.cg-modal-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .3rem;
+  margin-top: 1rem;
+  padding-top: .8rem;
+  border-top: 1.5px dashed #e8d6bf;
+}
+body.cg-modal-open { overflow: hidden; }
+@keyframes cg-modal-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cg-modal-pop {
+  from { opacity: 0; transform: translateY(14px) scale(.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media screen and (max-width: 640px) {
+  .cg-modal { align-items: flex-end; padding: 0; }
+  .cg-modal-card {
+    max-width: none;
+    max-height: 88vh;
+    border-radius: 24px 24px 0 0;
+    border-bottom: 0;
+  }
+  .cg-modal.is-open .cg-modal-card { animation: cg-modal-sheet .26s ease-out; }
+  .cg-modal-grabber {
+    position: absolute;
+    top: .55rem;
+    left: 50%;
+    display: block;
+    width: 36px;
+    height: 4px;
+    margin-left: -18px;
+    border-radius: 999px;
+    background: #e0cdb6;
+  }
+}
+@keyframes cg-modal-sheet {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cg-modal, .cg-modal.is-open .cg-modal-card, .cg-modal-close { animation: none; transition: none; }
 }
 
 .cg-app .cg-art { overflow: visible; }
@@ -2499,27 +2584,16 @@ function cupArt(item) {
     return '<span class="cg-shop-chip" title="' + escapeHTML(title) + '"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-pin"/></svg>' + escapeHTML(shop) + hood + "</span>";
   }
 
-  function renderCard(item) {
-    var shopChips = (item.shops || []).map(shopChipHTML).join("");
-    var tagList = (item.tags || []).filter(function (tag) { return tag !== "world"; });
-    var tags = tagList.length
-      ? '<div class="cg-tags">' + tagList.map(function (tag) {
-          var tagClass = tag === item.region ? "origin" : tag === "21+" ? "adult" : "";
-          return '<button type="button" class="cg-tag ' + tagClass + '" data-tag-query="' + escapeHTML(tag) + '">' + escapeHTML(tag) + "</button>";
-        }).join("") + "</div>"
-      : "";
+  function renderCard(item, idx) {
     var aliasLine = item.aliases && item.aliases.length
       ? '<p class="cg-pin-alias">aka ' + escapeHTML(item.aliases.join(" · ")) + "</p>"
       : "";
-    var seasonal = item.seasonal
-      ? '<span class="cg-seasonal"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-sun"/></svg>Seasonal · recipe may rotate</span>'
-      : "";
-    var foot = shopChips
-      ? '<div class="cg-pin-foot">' + shopChips + "</div>"
+    var foot = (item.shops || []).length
+      ? '<div class="cg-pin-foot">' + item.shops.map(shopChipHTML).join("") + "</div>"
       : item.region
         ? '<div class="cg-pin-foot"><span class="cg-region-chip"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-sparkle"/></svg>' + escapeHTML(item.region) + "</span></div>"
         : "";
-    return '<article class="cg-pin" data-cat="' + escapeHTML(item.category) + '">' +
+    return '<article class="cg-pin" data-cat="' + escapeHTML(item.category) + '" data-idx="' + idx + '" tabindex="0" role="button" aria-haspopup="dialog" aria-label="' + escapeHTML(item.name) + ' details">' +
       '<div class="cg-pin-art">' + cupArt(item) + "</div>" +
       '<div class="cg-pin-head">' +
         '<h3 class="cg-pin-name">' + escapeHTML(item.name) + "</h3>" +
@@ -2527,11 +2601,6 @@ function cupArt(item) {
       "</div>" +
       aliasLine +
       '<p class="cg-pin-meaning">' + escapeHTML(item.meaning) + "</p>" +
-      '<div class="cg-pin-more">' + seasonal + tags +
-        '<div class="cg-detail-row"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-bean"/></svg><div><strong>In the cup</strong><span>' + escapeHTML(item.ingredients) + "</span></div></div>" +
-        '<div class="cg-detail-row"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-chat"/></svg><div><strong>Try saying</strong><span>“' + escapeHTML(item.order) + "”</span></div></div>" +
-      "</div>" +
-      '<button type="button" class="cg-pin-toggle" aria-expanded="false">details +</button>' +
       foot +
     "</article>";
   }
@@ -2542,7 +2611,7 @@ function cupArt(item) {
     var initialLimit = 18;
     var shown = defaultView && !state.showAll ? visible.slice(0, initialLimit) : visible;
     results.innerHTML = shown.length
-      ? shown.map(renderCard).join("")
+      ? shown.map(function (item) { return renderCard(item, drinks.indexOf(item)); }).join("")
       : '<div class="cg-no-results">No menu term matched that combination. Try a broader search, or clear one of the filters.</div>';
 
     var resultLabel = visible.length === 1 ? "term" : "terms";
@@ -2600,25 +2669,13 @@ function cupArt(item) {
     });
   });
 
-  results.addEventListener("click", function (event) {
-    var toggle = event.target.closest ? event.target.closest(".cg-pin-toggle") : null;
-    if (toggle) {
-      var pin = toggle.closest(".cg-pin");
-      var open = pin.classList.toggle("is-open");
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
-      toggle.textContent = open ? "show less −" : "details +";
-      return;
-    }
-    var tag = event.target.closest ? event.target.closest("[data-tag-query]") : null;
-    if (!tag) return;
-    state.query = tag.getAttribute("data-tag-query");
-    state.category = "all";
-    state.shop = "all";
-    state.region = "all";
-    state.showAll = true;
-    search.value = state.query;
-    syncSelects();
-    render();
+  results.addEventListener("keydown", function (event) {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    var pin = event.target.closest ? event.target.closest(".cg-pin") : null;
+    if (!pin) return;
+    event.preventDefault();
+    var item = drinks[Number(pin.getAttribute("data-idx"))];
+    if (item) cgOpenModal(item, pin);
   });
 
   showMore.addEventListener("click", function () {
@@ -2637,6 +2694,128 @@ function cupArt(item) {
     search.focus();
     render();
   });
+
+  var cgModal = document.createElement("div");
+  cgModal.className = "cg-modal";
+  cgModal.setAttribute("role", "dialog");
+  cgModal.setAttribute("aria-modal", "true");
+  cgModal.setAttribute("aria-labelledby", "cg-modal-title");
+  cgModal.hidden = true;
+  cgModal.innerHTML =
+    '<div class="cg-modal-card">' +
+      '<button class="cg-modal-close" type="button" aria-label="Close details">×</button>' +
+      '<span class="cg-modal-grabber" aria-hidden="true"></span>' +
+      '<div class="cg-modal-body"></div>' +
+    "</div>";
+  document.body.appendChild(cgModal);
+
+  var cgModalCard = cgModal.querySelector(".cg-modal-card");
+  var cgModalBody = cgModal.querySelector(".cg-modal-body");
+  var cgModalClose = cgModal.querySelector(".cg-modal-close");
+
+  var cgModalItem = null;
+  var cgModalReturnFocus = null;
+
+  function cgFillModal(item) {
+    var tagList = (item.tags || []).filter(function (tag) { return tag !== "world"; });
+    var tags = tagList.length
+      ? '<div class="cg-tags">' + tagList.map(function (tag) {
+          var tagClass = tag === item.region ? "origin" : tag === "21+" ? "adult" : "";
+          return '<button type="button" class="cg-tag ' + tagClass + '" data-tag-query="' + escapeHTML(tag) + '">' + escapeHTML(tag) + "</button>";
+        }).join("") + "</div>"
+      : "";
+    var aliasLine = item.aliases && item.aliases.length
+      ? '<p class="cg-modal-alias">aka ' + escapeHTML(item.aliases.join(" · ")) + "</p>"
+      : "";
+    var seasonal = item.seasonal
+      ? '<span class="cg-seasonal"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-sun"/></svg>Seasonal · recipe may rotate</span>'
+      : "";
+    var footChips = (item.shops || []).length
+      ? (item.shops || []).map(shopChipHTML).join("")
+      : item.region
+        ? '<span class="cg-region-chip"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-sparkle"/></svg>' + escapeHTML(item.region) + "</span>"
+        : "";
+
+    cgModalBody.innerHTML =
+      '<div class="cg-modal-art">' + cupArt(item) + "</div>" +
+      '<div class="cg-modal-head">' +
+        '<h3 id="cg-modal-title" class="cg-modal-name">' + escapeHTML(item.name) + "</h3>" +
+        '<span class="cg-pin-cat" data-cat="' + escapeHTML(item.category) + '">' + escapeHTML(categoryLabels[item.category]) + "</span>" +
+      "</div>" +
+      aliasLine +
+      seasonal +
+      '<p class="cg-modal-meaning">' + escapeHTML(item.meaning) + "</p>" +
+      '<div class="cg-modal-rows">' +
+        tags +
+        '<div class="cg-detail-row"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-bean"/></svg><div><strong>In the cup</strong><span>' + escapeHTML(item.ingredients) + "</span></div></div>" +
+        '<div class="cg-detail-row"><svg class="cg-ico" aria-hidden="true"><use href="#cg-i-chat"/></svg><div><strong>Try saying</strong><span>“' + escapeHTML(item.order) + "”</span></div></div>" +
+      "</div>" +
+      '<div class="cg-modal-foot">' + footChips + "</div>";
+  }
+
+  function cgOpenModal(item, originEl) {
+    cgModalItem = item;
+    cgFillModal(item);
+    cgModal.hidden = false;
+    cgModal.classList.add("is-open");
+    document.body.classList.add("cg-modal-open");
+    cgModalReturnFocus = originEl || null;
+    if (cgModalCard) cgModalCard.scrollTop = 0;
+    cgModalClose.focus();
+  }
+
+  function cgCloseModal() {
+    cgModal.classList.remove("is-open");
+    cgModal.hidden = true;
+    document.body.classList.remove("cg-modal-open");
+    cgModalItem = null;
+    if (cgModalReturnFocus && document.contains(cgModalReturnFocus)) {
+      cgModalReturnFocus.focus();
+    }
+    cgModalReturnFocus = null;
+  }
+
+  cgModal.addEventListener("click", function (event) {
+    if (event.target === cgModal) cgCloseModal();
+  });
+
+  cgModalClose.addEventListener("click", function () {
+    cgCloseModal();
+  });
+
+  cgModalBody.addEventListener("click", function (event) {
+    var tag = event.target.closest ? event.target.closest("[data-tag-query]") : null;
+    if (!tag) return;
+    var query = tag.getAttribute("data-tag-query");
+    cgCloseModal();
+    state.query = query;
+    state.category = "all";
+    state.shop = "all";
+    state.region = "all";
+    state.showAll = true;
+    search.value = query;
+    syncSelects();
+    render();
+    document.getElementById("cg-lookup").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && !cgModal.hidden) cgCloseModal();
+  });
+
+  results.addEventListener("click", function (event) {
+    var toggle = event.target.closest ? event.target.closest(".cg-pin-toggle") : null;
+    if (toggle) return;
+    var tag = event.target.closest ? event.target.closest("[data-tag-query]") : null;
+    if (tag) return;
+    var pin = event.target.closest ? event.target.closest(".cg-pin") : null;
+    if (!pin) return;
+    var idx = Number(pin.getAttribute("data-idx"));
+    var item = drinks[idx];
+    if (!item) return;
+    cgOpenModal(item, pin);
+  });
+
 
   render();
 }());
