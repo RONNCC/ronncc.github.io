@@ -4,7 +4,7 @@ title: Places
 permalink: /places/
 ---
 
-Guides to actual places worth going to. Mostly SF for now.
+Guides to actual places worth going to — Bay Area + NYC (within ~2h of Manhattan).
 
 <ul class="post-list">
   <li>
@@ -16,8 +16,8 @@ Guides to actual places worth going to. Mostly SF for now.
     - an interactive map of the best sandwiches around the city.
   </li>
   <li>
-    <a href="{{ site.baseurl }}/museums/">Bay Area Museums & Pass Guide</a>
-    - filterable map & table of 70 museums with NARM/ROAM, ICOM, and entry-card info.
+    <a href="{{ site.baseurl }}/museums/">Museums & Pass Guide — Bay Area + NYC</a>
+    - filterable map & table of ~150 museums (70 Bay Area + ~80 NYC within ~2h of Manhattan) with NARM/ROAM, ICOM, and student/free-night info. Defaults to NYC.
   </li>
   <li>
     <a href="{{ site.baseurl }}/coffee-guide/">Coffee Guide ☕</a>
