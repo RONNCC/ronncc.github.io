@@ -10,7 +10,7 @@ name: website
 description: human-centered lambda design
 
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
-avatar: https://i.imgur.com/HW0TXQB.png
+avatar: /images/avatar.png
 #
 # Flags below are optional
 #
