@@ -2807,8 +2807,6 @@ function cupArt(item) {
   });
 
   results.addEventListener("click", function (event) {
-    var toggle = event.target.closest ? event.target.closest(".cg-pin-toggle") : null;
-    if (toggle) return;
     var tag = event.target.closest ? event.target.closest("[data-tag-query]") : null;
     if (tag) return;
     var pin = event.target.closest ? event.target.closest(".cg-pin") : null;
