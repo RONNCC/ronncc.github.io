@@ -864,7 +864,7 @@ body.cg-modal-open { overflow: hidden; }
     <h2 id="cg-hero-title" class="cg-board-title">Read the menu.<br />Order the thing.</h2>
     <div class="cg-board-flourish" aria-hidden="true">✦</div>
     <p class="cg-board-dek">A friendly decoder for espresso ratios, milk textures, cold coffee, and the wonderfully specific names you’ll run into at SF cafés — plus where to actually find them.</p>
-    <p class="cg-updated">128 drinks · classic definitions + SF menu sightings · last checked August 15, 2026</p>
+    <p class="cg-updated">128 drinks · classic definitions + SF menu sightings · last checked August 26, 2026</p>
   </header>
 
 
@@ -1097,8 +1097,8 @@ body.cg-modal-open { overflow: hidden; }
       aliases: ["short shot"],
       category: "espresso",
       shops: ["Saint Frank", "Ritual", "Sightglass"],
-      meaning: "A shorter espresso pull using less water. It tends to taste concentrated and syrupy, though the actual flavor depends on the coffee and recipe.",
-      ingredients: "Finely ground coffee + less water than a normal espresso shot.",
+      meaning: "The same dose as espresso pulled short to a sweeter, syrupy, less-bitter shot. Flavor still depends on the coffee and recipe.",
+      ingredients: "Same dose as espresso (7–9g single / 14–18g double) pulled short to ~15–20 ml per shot (30–40 ml double); no milk or water added.",
       order: "a ristretto shot, if you offer it"
     },
     {
@@ -1106,8 +1106,8 @@ body.cg-modal-open { overflow: hidden; }
       aliases: ["iced americano", "espresso with water"],
       category: "espresso",
       shops: ["Saint Frank", "Ritual", "Sightglass", "Blue Bottle", "Four Barrel"],
-      meaning: "Espresso lengthened with water. It is the black-coffee option at an espresso bar and can be hot or iced.",
-      ingredients: "Espresso + hot water; iced versions use cold water and ice.",
+      meaning: "Espresso lengthened with water to drip strength. It is the black-coffee option at an espresso bar and can be hot or iced. A long black pours espresso over water to keep crema.",
+      ingredients: "1–2 shots espresso (30–60 ml) + 90–180 ml hot water to 5–8 oz total (about 1:2 to 1:3); iced uses cold water + ice. Long black = water first, then espresso.",
       order: "a hot Americano"
     },
     {
@@ -1124,8 +1124,8 @@ body.cg-modal-open { overflow: hidden; }
       aliases: ["espresso macchiato", "marked espresso"],
       category: "milk",
       shops: ["Saint Frank", "Ritual", "Sightglass", "Four Barrel"],
-      meaning: "Macchiato means marked or stained: espresso marked with a small spoonful of foamed milk. It is much smaller and stronger than a latte.",
-      ingredients: "1–2 shots espresso + a little steamed or foamed milk.",
+      meaning: "Macchiato means marked or stained: espresso marked with a dollop of foamed milk. It is much smaller and stronger than a latte. A latte macchiato is the inverse — milk marked by espresso — not the caramel-drink you may expect.",
+      ingredients: "1–2 shots espresso (25–60 ml) + 1–2 tsp foamed milk dollop only (5–15 ml), about 2–3 oz total; not pourable steamed milk.",
       order: "a traditional espresso macchiato"
     },
     {
@@ -1133,8 +1133,8 @@ body.cg-modal-open { overflow: hidden; }
       aliases: ["Spanish-style coffee", "equal espresso and milk"],
       category: "milk",
       shops: ["Saint Frank", "Ritual", "Sightglass", "Four Barrel"],
-      meaning: "Cortado comes from cortar, to cut: espresso cut with roughly equal parts warm steamed milk. Little foam, lots of coffee flavor.",
-      ingredients: "Espresso + about the same amount of steamed milk; commonly 4–6 oz total.",
+      meaning: "Cortado comes from cortar, to cut: espresso cut 1:1 with warm, lightly textured milk with almost no foam. Lots of coffee flavor.",
+      ingredients: "1–2 shots espresso (~30–60 ml) + equal lightly steamed milk with velvety microfoam, no dry cap; about 4–4.5 oz total.",
       order: "a cortado"
     },
     {
@@ -1142,8 +1142,8 @@ body.cg-modal-open { overflow: hidden; }
       aliases: ["SF cortado", "small glass of espresso and milk"],
       category: "milk",
       shops: ["Blue Bottle", "Ritual"],
-      meaning: "The San Francisco name for a small, balanced espresso-and-milk drink, traditionally served in a 4.5 oz Gibraltar glass. Most cafés treat it as a cortado twin.",
-      ingredients: "Usually a double espresso + a similar amount of lightly textured milk.",
+      meaning: "The San Francisco name for a small, balanced espresso-and-milk drink, defined by the 4.5 oz Libbey Gibraltar glass. Most cafés treat it as a cortado twin.",
+      ingredients: "Double shot (36–60 ml) + ~60–75 ml lightly textured steamed milk in a 4.5 oz Gibraltar glass; otherwise 1:1 like a cortado.",
       order: "a Gibraltar — or a cortado if that is what you call it"
     },
     {
@@ -1153,8 +1153,8 @@ body.cg-modal-open { overflow: hidden; }
       region: "Australia",
       tags: ["world", "Australia", "small", "milk"],
       shops: ["The Coffee Movement", "Pinhole"],
-      meaning: "A tiny latte, often built from a ristretto shot and silky milk in a 3–4 oz glass. It is milkier than a macchiato but much smaller than a normal latte.",
-      ingredients: "Usually 1 ristretto shot + steamed milk with thin microfoam.",
+      meaning: "A tiny 3–4 oz latte, often built from a single ristretto and silky milk. It is milkier than a macchiato but far smaller than a normal latte.",
+      ingredients: "1 ristretto shot (15–20 ml) + 70–90 ml steamed milk with thin microfoam; 3–3.5 oz total, about 1:3–4. Some cafés use a single espresso instead.",
       order: "a piccolo — how many shots does yours use?"
     },
     {
@@ -1162,8 +1162,8 @@ body.cg-modal-open { overflow: hidden; }
       aliases: ["competition cappuccino", "dry cappuccino"],
       category: "milk",
       shops: ["Saint Frank", "Ritual", "Sightglass", "Four Barrel"],
-      meaning: "Espresso with textured steamed milk and more foam than a latte. Specialty cafés often make it smaller and coffee-forward; sizes are not universal.",
-      ingredients: "Espresso + steamed milk + a thicker layer of microfoam.",
+      meaning: "Espresso with textured steamed milk and more foam than a latte — traditionally about one third espresso, one third steamed milk, one third airy microfoam. Specialty cafés often make it smaller and coffee-forward at 5–6 oz.",
+      ingredients: "1–2 shots espresso (30–60 ml) + steamed milk + ~1 cm airy microfoam cap; 5–6 oz total, distinctly foamier than a flat white or latte.",
       order: "a cappuccino, not too dry"
     },
     {
@@ -1171,8 +1171,8 @@ body.cg-modal-open { overflow: hidden; }
       aliases: ["microfoam coffee", "small latte"],
       category: "milk",
       shops: ["Ritual", "Sightglass"],
-      meaning: "A small espresso-and-milk drink with very fine, thin microfoam. Usually more concentrated and less foamy than a traditional cappuccino.",
-      ingredients: "Usually a double espresso + smooth steamed milk in a smaller cup.",
+      meaning: "An Australasian 5–6 oz drink with velvety, integrated microfoam and no dry cap — stronger and silkier than a latte, less foamy than a cappuccino. Usually built from a double ristretto.",
+      ingredients: "Double ristretto (30–40 ml) + 110–130 ml steamed milk with velvety microfoam integrated throughout; 5–6 oz total, about 1:3–4.",
       order: "a flat white"
     },
     {
@@ -1180,8 +1180,8 @@ body.cg-modal-open { overflow: hidden; }
       aliases: ["caffè latte", "iced latte", "oat latte"],
       category: "milk",
       shops: ["Saint Frank", "Ritual", "Sightglass", "Four Barrel", "Blue Bottle"],
-      meaning: "The milk-forward classic: espresso, plenty of steamed milk, and a thin layer of microfoam. Iced lattes use cold milk and ice instead.",
-      ingredients: "Espresso + a larger volume of steamed or cold milk.",
+      meaning: "The milk-forward classic: espresso, plenty of steamed milk, and a thin crown of microfoam. Iced lattes use cold milk and ice instead.",
+      ingredients: "1–2 shots espresso (30–60 ml) + 180–300 ml steamed milk + ~0.5–1 cm thin microfoam; 8–12 oz total, about 1:4–6. Iced: shots over cold milk + ice, no foam.",
       order: "a small oat latte, iced"
     },
     {
@@ -1189,8 +1189,8 @@ body.cg-modal-open { overflow: hidden; }
       aliases: ["caffè mocha", "iced mocha"],
       category: "milk",
       shops: ["Saint Frank", "Sightglass", "Four Barrel", "Philz"],
-      meaning: "A latte with chocolate. The chocolate may be syrup, cocoa, ganache, or a house blend, so sweetness varies a lot by café.",
-      ingredients: "Espresso + milk + chocolate; whipped cream is optional, not automatic.",
+      meaning: "A chocolate latte: espresso with steamed milk and chocolate. The chocolate may be syrup, cocoa, ganache, or a house blend, so sweetness varies a lot by café.",
+      ingredients: "Chocolate (syrup, cocoa, or ganache) + 1–2 shots espresso + steamed milk + thin microfoam (8–12 oz hot); iced uses cold milk + ice. Whipped cream is optional, not automatic.",
       order: "a mocha, lightly sweet if possible"
     },
     {
@@ -1207,8 +1207,8 @@ body.cg-modal-open { overflow: hidden; }
       aliases: ["café breve", "half-and-half latte"],
       category: "milk",
       shops: ["Ritual", "Sightglass"],
-      meaning: "A latte made with half-and-half instead of milk. It is richer and heavier; many specialty shops do not list it but can make one.",
-      ingredients: "Espresso + steamed half-and-half.",
+      meaning: "A latte made with half-and-half (half milk, half cream, ~10–12% fat) instead of milk. It is richer and heavier; many specialty shops do not list it but can make one.",
+      ingredients: "1–2 shots espresso (30–60 ml) + 150–240 ml steamed half-and-half + thin microfoam; same 8–12 oz ratios as a latte, heavier mouthfeel.",
       order: "a breve, if you have half-and-half"
     },
     {
@@ -1216,8 +1216,8 @@ body.cg-modal-open { overflow: hidden; }
       aliases: ["con panna", "espresso with whipped cream"],
       category: "milk",
       shops: ["Ritual", "Sightglass"],
-      meaning: "Espresso topped with whipped cream. Dessert-like, but the drink itself is tiny and still tastes strongly of espresso.",
-      ingredients: "1–2 shots espresso + a spoonful of whipped cream.",
+      meaning: "Espresso topped with a cold dollop of unsweetened whipped cream. Dessert-like, but the drink itself is tiny and still tastes strongly of espresso.",
+      ingredients: "1–2 shots espresso (25–60 ml) + 15–30 ml cold unsweetened whipped cream; no steamed milk.",
       order: "an espresso con panna"
     },
     {
@@ -1276,11 +1276,11 @@ body.cg-modal-open { overflow: hidden; }
     },
     {
       name: "Nitro Cold Brew",
-      aliases: ["nitro", "nitrogen coffee", "nitro flash brew"],
+      aliases: ["nitro", "nitrogen coffee"],
       category: "cold",
       shops: ["Saint Frank", "Ritual", "Four Barrel", "Mazarine", "Flywheel", "Verve"],
-      meaning: "Cold brew infused with nitrogen through a tap. The tiny bubbles give it a creamy-looking pour without dairy.",
-      ingredients: "Cold brew + nitrogen; milk is optional.",
+      meaning: "Cold brew (sometimes flash brew) kegged and poured under nitrogen through a stout faucet. The tiny nitrogen bubbles give it a creamy cascade without dairy.",
+      ingredients: "Cold brew + pure nitrogen (N₂) under pressure, draft-poured; milk is optional. The foam is nitrogen microbubbles, not dairy.",
       order: "a nitro cold brew"
     },
     {
@@ -1423,8 +1423,8 @@ body.cg-modal-open { overflow: hidden; }
       aliases: ["honey latte", "miel coffee"],
       category: "signature",
       shops: ["Saint Frank"],
-      meaning: "Miel means honey. This is the honey-and-spice lane of the latte family, with the exact balance set by the café.",
-      ingredients: "Espresso + steamed milk + honey; cinnamon is a common addition.",
+      meaning: "Miel means honey. This is the honey-and-cinnamon lane of the latte family, with honey and cinnamon standard at Saint Frank.",
+      ingredients: "Espresso + steamed milk + honey + cinnamon; the house honey-cinnamon balance is the signature.",
       order: "a Café Miel"
     },
     {
@@ -1531,17 +1531,17 @@ body.cg-modal-open { overflow: hidden; }
       aliases: ["siphon", "vacuum pot coffee", "vac pot"],
       category: "brewed",
       shops: ["Flywheel"],
-      meaning: "A theatrical filter method using vapor pressure and a vacuum to move water through the coffee. The name describes the brewer, not the roast.",
-      ingredients: "Ground coffee + hot water brewed in a glass siphon brewer.",
+      meaning: "A theatrical filter method using vapor pressure to push water up and a vacuum to draw it back through a cloth filter. The name describes the brewer, not the roast.",
+      ingredients: "Medium-fine ground coffee + hot water brewed in a glass siphon/vacuum pot with cloth or paper filter; vapor-pressure immersion + vacuum drawdown.",
       order: "the siphon — what single origin is on it?"
     },
     {
       name: "Flash Brew",
-      aliases: ["flash-chilled coffee", "iced pour-over", "flash brew nitro"],
+      aliases: ["flash-chilled coffee", "iced pour-over", "Japanese-style iced coffee"],
       category: "cold",
       shops: ["Flywheel", "Verve"],
-      meaning: "Hot-brewed coffee chilled quickly over ice. It preserves more of the bright aroma of a hot filter coffee than a long cold extraction.",
-      ingredients: "Hot-brewed filter coffee + ice; nitrogen may be added for a nitro flash brew.",
+      meaning: "Japanese-style iced coffee: hot-brewed filter coffee flash-chilled by brewing directly onto ice. It preserves more bright aroma than a long cold extraction, with a lighter body than cold brew.",
+      ingredients: "Hot pour-over brewed concentrated (about one third of the water replaced by ice) + ice to flash-chill; nitro may be added for a nitro flash brew variant.",
       order: "a flash brew, or nitro flash brew if you have it"
     },
     {
@@ -1754,8 +1754,8 @@ body.cg-modal-open { overflow: hidden; }
       aliases: ["ginger gasheer", "ginger black coffee"],
       category: "signature",
       shops: ["Sextant"],
-      meaning: "A black-coffee drink with fresh ginger from Sextant’s East African / Middle Eastern-inspired menu. Ginger is the point, not a flavored latte afterthought.",
-      ingredients: "Black coffee + fresh ginger; preparation and sweetness may vary.",
+      meaning: "A black-coffee drink inspired by qishr/gasheer — the Yemeni husk coffee — with fresh ginger. Ginger is the point, not a flavored-latte afterthought, from Sextant’s East African / Middle Eastern-inspired menu.",
+      ingredients: "Black coffee (qishr/husk-inspired) + fresh ginger; preparation and sweetness may vary. Served black, no milk.",
       order: "Ginger Gasheer, black if possible"
     },
     {
@@ -1781,8 +1781,8 @@ body.cg-modal-open { overflow: hidden; }
       aliases: ["Raf", "raf coffee", "cinnamon cream coffee"],
       category: "signature",
       shops: ["Mazarine"],
-      meaning: "A glossy, creamy espresso drink with Russian roots that Mazarine made part of the downtown SF vocabulary. It is richer than a latte because half-and-half gets steamed into the espresso.",
-      ingredients: "Espresso + half-and-half + cinnamon; some versions add sugar or honey.",
+      meaning: "A glossy, creamy espresso drink with Russian roots that Mazarine made part of the downtown SF vocabulary. Classic Raf steams espresso together with cream and vanilla sugar; Mazarine uses half-and-half and cinnamon.",
+      ingredients: "Espresso + half-and-half + vanilla sugar (or honey) + cinnamon, steamed together so the drink is sweet, creamy, and lightly spiced.",
       order: "a Raf, with cinnamon"
     },
     {
@@ -1832,8 +1832,8 @@ body.cg-modal-open { overflow: hidden; }
       region: "Spain",
       tags: ["world", "Spain", "21+", "after dinner"],
       adult: true,
-      meaning: "An after-dinner coffee with a splash of liquor. Brandy, rum, or whiskey are common; some versions are flambéed, but the name does not guarantee fire.",
-      ingredients: "Espresso or black coffee + brandy, rum, whiskey, or another spirit; sugar may be added.",
+      meaning: "A hot after-dinner coffee with a splash of liquor. Brandy, rum, or whiskey are common; some versions are flambéed, but the name does not guarantee fire. Do not confuse with the iced, Licor 43-shaken Mexican carajillo.",
+      ingredients: "Hot espresso or black coffee + a small pour of brandy, rum, or whiskey (often on the side); sugar may be added.",
       order: "a carajillo — which spirit do you use?"
     },
     {
@@ -1903,8 +1903,8 @@ body.cg-modal-open { overflow: hidden; }
       category: "world",
       region: "Portugal",
       tags: ["world", "Portugal", "cold", "citrus"],
-      meaning: "A bracing iced coffee with lemon. Its history is tied to Algeria, while Portugal made the name part of its own café vocabulary; recipes wander between coffee, citrus, sugar, mint, and sparkle.",
-      ingredients: "Chilled coffee or espresso + lemon + sugar + ice; tonic, sparkling water, or mint may appear.",
+      meaning: "A bracing iced coffee with lemon. Its history is tied to Algeria, while Portugal made the name part of its own café vocabulary; recipes wander between coffee, citrus, sugar, mint, and ice.",
+      ingredients: "Chilled coffee or espresso + lemon juice + sugar + ice + cold water; mint or rum may appear, but tonic is a modern crossover with espresso tonic, not traditional mazagran.",
       order: "a mazagran — what is your house version?"
     },
     {
@@ -1924,8 +1924,8 @@ body.cg-modal-open { overflow: hidden; }
       category: "world",
       region: "New York",
       tags: ["world", "New York", "diner", "drip"],
-      meaning: "In a New York diner, “regular coffee” can mean the house drip with the diner’s expected milk or cream and sugar. It is intentionally less precise than a specialty menu.",
-      ingredients: "Drip coffee + milk or cream + sugar, according to the counter’s house convention.",
+      meaning: "In a New York diner, “regular coffee” often means light-and-sweet — house drip with cream and sugar (usually two sugars). Outside NYC, “regular” may just mean black drip. It is intentionally less precise than a specialty menu.",
+      ingredients: "Drip coffee + milk/cream + sugar, according to the counter’s house convention (NYC regular = cream + sugar).",
       order: "a regular coffee, cream and sugar"
     },
     {
@@ -1985,8 +1985,8 @@ body.cg-modal-open { overflow: hidden; }
       category: "world",
       region: "Greece",
       tags: ["world", "Greece", "cold", "foam"],
-      meaning: "Greek summer coffee made cold on purpose: espresso is shaken or blended with ice; the cappuccino version adds a layer of cold milk foam.",
-      ingredients: "Espresso + ice; Freddo Cappuccino adds cold-frothed milk foam.",
+      meaning: "Greek summer coffee made cold on purpose: double espresso is shaken or blended with ice and strained over fresh ice so it stays creamy, not watery; the cappuccino version adds cold-frothed milk foam (afrogala) on top.",
+      ingredients: "Double espresso blender-shaken with ice and strained over fresh ice; Freddo Cappuccino adds a layer of cold-frothed milk foam.",
       order: "a freddo espresso, no sugar"
     },
     {
