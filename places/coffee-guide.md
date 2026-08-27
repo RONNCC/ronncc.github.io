@@ -864,7 +864,7 @@ body.cg-modal-open { overflow: hidden; }
     <h2 id="cg-hero-title" class="cg-board-title">Read the menu.<br />Order the thing.</h2>
     <div class="cg-board-flourish" aria-hidden="true">✦</div>
     <p class="cg-board-dek">A friendly decoder for espresso ratios, milk textures, cold coffee, and the wonderfully specific names you’ll run into at SF cafés — plus where to actually find them.</p>
-    <p class="cg-updated">128 drinks · classic definitions + SF menu sightings · last checked August 26, 2026</p>
+    <p class="cg-updated">128 drinks · classic definitions + SF menu sightings · last checked August 27, 2026</p>
   </header>
 
 
@@ -2331,67 +2331,67 @@ body.cg-modal-open { overflow: hidden; }
 /* cg-cupart.js — cute layered coffee-cup SVG art for the coffee guide chart. Pure ES5, string output only, no DOM. */
 var CG_PALETTE = {
   espresso:"#3f2013", coffee:"#6b3a24", drip:"#7a4a2c", milk:"#f2e2c8",
-  foam:"#faf1e2", cream:"#fff7ec", water:"#cfe3ee", tonic:"#cde9db",
-  soda:"#d9eef2", cola:"#4a2c20", chocolate:"#53301e", matcha:"#a8bf78",
-  tea:"#c98f52", condensed:"#f7ecd4", custard:"#f4d78a", whipped:"#fffdf6",
-  oat:"#e8d9bd", honey:"#e0a83c", caramel:"#c07a3f", rose:"#e8b4bc",
-  licor:"#d9a441", mint:"#9ec49a"
+  foam:"#ffffff", cream:"#fff0cc", water:"#cfe3ee", tonic:"#cde9db",
+  soda:"#d9eef2", cola:"#4a2c20", chocolate:"#6e3b24", matcha:"#a8bf78",
+  tea:"#c98f52", condensed:"#ffebb0", custard:"#f4d78a", whipped:"#ffffff",
+  oat:"#d2b48c", honey:"#f5b82e", caramel:"#c07a3f", rose:"#e8b4bc",
+  licor:"#c97a0a", mint:"#9ec49a"
 };
 var CG_PROFILES = {
   "espresso":{vessel:"mug",layers:[["espresso",.5,"espresso"]],extras:["steam"]}, "doppio":{vessel:"mug",layers:[["espresso",.55,"2 shots"]],extras:["steam"]},
   "ristretto":{vessel:"mug",layers:[["espresso",.38,"short pull"]],extras:["steam"]}, "americano":{vessel:"mug",layers:[["espresso",.2,"espresso"],["water",.38,"hot water"]],extras:["steam"]},
   "red eye":{vessel:"mug",layers:[["coffee",.46,"drip coffee"],["espresso",.12,"+1 shot"]],extras:["steam"]}, "macchiato":{vessel:"glass",layers:[["espresso",.48,"espresso"],["foam",.1,"foam dot"]],extras:["steam"]},
   "cortado":{vessel:"glass",layers:[["espresso",.38,"espresso"],["milk",.38,"steamed milk"]],extras:["steam"]}, "gibraltar":{vessel:"glass",layers:[["espresso",.38,"espresso"],["milk",.38,"milk"]],extras:["steam"]},
-  "piccolo latte":{vessel:"glass",layers:[["espresso",.26,"ristretto"],["milk",.44,"microfoam"]],extras:["steam"]}, "cappuccino":{vessel:"mug",layers:[["espresso",.26,"espresso"],["milk",.24,"steamed milk"],["foam",.22,"foam"]],extras:["steam"]},
-  "flat white":{vessel:"mug",layers:[["espresso",.28,"espresso"],["milk",.42,"microfoam"]],extras:["steam"]}, "latte":{vessel:"tall",layers:[["espresso",.16,"espresso"],["milk",.5,"steamed milk"],["foam",.08,"microfoam"]],extras:["steam"]},
-  "mocha":{vessel:"mug",layers:[["chocolate",.16,"chocolate"],["espresso",.18,"espresso"],["milk",.32,"milk"],["foam",.06,"foam"]],extras:["steam"]}, "café au lait":{vessel:"mug",layers:[["coffee",.4,"drip coffee"],["milk",.4,"warm milk"]],extras:["steam"]},
-  "breve":{vessel:"mug",layers:[["espresso",.18,"espresso"],["cream",.42,"half-and-half"]],extras:["steam"]}, "espresso con panna":{vessel:"glass",layers:[["espresso",.46,"espresso"],["whipped",.18,"whipped cream"]],extras:["steam","whipped"]},
+  "piccolo latte":{vessel:"glass",layers:[["espresso",.20,"ristretto"],["milk",.48,"microfoam"]],extras:["steam"]}, "cappuccino":{vessel:"mug",layers:[["espresso",.26,"espresso"],["milk",.24,"steamed milk"],["foam",.22,"foam"]],extras:["steam"]},
+  "flat white":{vessel:"mug",layers:[["espresso",.22,"espresso"],["milk",.48,"microfoam"]],extras:["steam"]}, "latte":{vessel:"tall",layers:[["espresso",.16,"espresso"],["milk",.50,"steamed milk"],["foam",.08,"microfoam"]],extras:["steam"]},
+  "mocha":{vessel:"mug",layers:[["chocolate",.14,"chocolate"],["espresso",.18,"espresso"],["milk",.36,"milk"],["foam",.06,"foam"]],extras:["steam"]}, "café au lait":{vessel:"mug",layers:[["coffee",.36,"drip coffee"],["milk",.36,"warm milk"]],extras:["steam"]},
+  "breve":{vessel:"mug",layers:[["espresso",.16,"espresso"],["cream",.56,"half-and-half"]],extras:["steam"]}, "espresso con panna":{vessel:"glass",layers:[["espresso",.46,"espresso"],["whipped",.18,"whipped cream"]],extras:["steam","whipped"]},
   "drip / batch / filter coffee":{vessel:"mug",layers:[["coffee",.6,"house drip"]],extras:["steam"]}, "pour-over / v60":{vessel:"mug",layers:[["coffee",.6,"filter brew"]],extras:["steam"]},
   "french press":{vessel:"mug",layers:[["coffee",.6,"steeped"]],extras:["steam"]}, "coffee flight / tasting flight":{vessel:"flight",layers:[["coffee",.5,"three pours"]],extras:[]},
   "cold brew":{vessel:"tall",layers:[["coffee",.6,"cold brew"]],extras:["ice"]}, "iced coffee":{vessel:"tall",layers:[["coffee",.52,"filter coffee"]],extras:["ice"]},
-  "nitro cold brew":{vessel:"tall",layers:[["coffee",.62,"nitro cold brew"]],extras:["bubbles"]}, "shakerato":{vessel:"rocks",layers:[["foam",.14,"crema"],["coffee",.34,"shaken espresso"]],extras:["ice"]},
+  "nitro cold brew":{vessel:"tall",layers:[["coffee",.62,"nitro cold brew"]],extras:["bubbles"]}, "shakerato":{vessel:"rocks",layers:[["coffee",.34,"shaken espresso"],["foam",.14,"crema"]],extras:["ice"]},
   "espresso tonic / kaffe tonic":{vessel:"tall",layers:[["tonic",.42,"tonic"],["espresso",.16,"espresso"]],extras:["ice","lemon"]}, "kaffe cola":{vessel:"tall",layers:[["cola",.44,"cola"],["coffee",.14,"coffee"]],extras:["ice"]},
-  "new orleans iced / nola":{vessel:"tall",layers:[["milk",.22,"milk"],["coffee",.34,"chicory cold brew"]],extras:["ice"]}, "snowy plover":{vessel:"rocks",layers:[["soda",.32,"sparkling water"],["cream",.12,"cream"]],extras:["ice","straw"]},
-  "matcha plover":{vessel:"rocks",layers:[["soda",.32,"sparkling water"],["matcha",.12,"matcha"]],extras:["ice","straw"]}, "philz mint mojito":{vessel:"tall",layers:[["milk",.16,"cream"],["coffee",.32,"iced coffee"]],extras:["ice","mint"]},
-  "philz philtered soul cold brew":{vessel:"tall",layers:[["coffee",.54,"cold brew"]],extras:["ice"]}, "philz honey haze":{vessel:"tall",layers:[["oat",.24,"oat milk"],["coffee",.3,"cold brew"]],extras:["ice"]},
-  "philz iced coffee rosé":{vessel:"tall",layers:[["rose",.18,"rose cream"],["coffee",.32,"iced coffee"]],extras:["ice"]}, "philz oatmeal cookie cold brew":{vessel:"tall",layers:[["oat",.22,"oat milk"],["coffee",.3,"cold brew"]],extras:["ice"]},
-  "philz mocha tesora":{vessel:"tall",layers:[["chocolate",.16,"chocolate"],["coffee",.32,"tesora brew"]],extras:["ice"]}, "philz named blends":{vessel:"mug",layers:[["coffee",.5,"named blend"]],extras:["steam"]},
+  "new orleans iced / nola":{vessel:"tall",layers:[["milk",.22,"milk"],["coffee",.34,"chicory cold brew"]],extras:["ice"]}, "snowy plover":{vessel:"rocks",layers:[["soda",.28,"sparkling water"],["espresso",.12,"espresso"],["cream",.10,"whipped cream"]],extras:["ice","straw"]},
+  "matcha plover":{vessel:"rocks",layers:[["soda",.28,"sparkling water"],["matcha",.12,"matcha"],["cream",.10,"whipped cream"]],extras:["ice","straw"]}, "philz mint mojito":{vessel:"tall",layers:[["milk",.16,"cream"],["coffee",.32,"iced coffee"]],extras:["ice","mint"]},
+  "philz philtered soul cold brew":{vessel:"tall",layers:[["coffee",.54,"cold brew"]],extras:["ice"]},   "philz honey haze":{vessel:"tall",layers:[["honey",.10,"honey"],["oat",.16,"oat milk"],["coffee",.28,"cold brew"]],extras:["ice"]},
+  "philz iced coffee rosé":{vessel:"tall",layers:[["rose",.18,"rose cream"],["coffee",.32,"iced coffee"]],extras:["ice"]}, "philz oatmeal cookie cold brew":{vessel:"tall",layers:[["oat",.22,"oat milk"],["coffee",.30,"cold brew"]],extras:["ice","stick"]},
+  "philz mocha tesora":{vessel:"tall",layers:[["chocolate",.12,"chocolate"],["coffee",.24,"tesora brew"],["milk",.18,"milk"]],extras:["ice"]}, "philz named blends":{vessel:"mug",layers:[["coffee",.5,"named blend"]],extras:["steam"]},
   "saint frank house coffee names":{vessel:"mug",layers:[["coffee",.5,"house coffee"]],extras:["steam"]}, "sweet latte":{vessel:"tall",layers:[["espresso",.14,"espresso"],["milk",.44,"sweet milk"]],extras:["steam"]},
-  "saint frank café miel":{vessel:"mug",layers:[["honey",.1,"honey"],["espresso",.16,"espresso"],["milk",.34,"milk"]],extras:["steam"]}, "saint frank seasonal lattes":{vessel:"mug",layers:[["espresso",.16,"espresso"],["milk",.36,"seasonal milk"]],extras:["steam"]},
+  "saint frank café miel":{vessel:"mug",layers:[["honey",.10,"honey"],["espresso",.16,"espresso"],["milk",.34,"milk"]],extras:["steam","stick"]}, "saint frank seasonal lattes":{vessel:"mug",layers:[["espresso",.16,"espresso"],["milk",.36,"seasonal milk"]],extras:["steam"]},
   "saint frank gingerbread latte":{vessel:"mug",layers:[["espresso",.16,"espresso"],["milk",.36,"spiced milk"]],extras:["steam","stick"]}, "saint frank café nico":{vessel:"glass",layers:[["espresso",.18,"espresso"],["milk",.36,"citrus milk"]],extras:["steam","lemon"]},
-  "ritual foggy latte":{vessel:"glass",layers:[["tea",.24,"earl grey"],["espresso",.12,"espresso"],["milk",.28,"milk"]],extras:["steam"]}, "ritual ‘spromoni":{vessel:"rocks",layers:[["espresso",.28,"espresso"],["whipped",.16,"cherry cream"]],extras:["whipped"]},
+  "ritual foggy latte":{vessel:"glass",layers:[["tea",.24,"earl grey"],["espresso",.12,"espresso"],["milk",.28,"milk"]],extras:["steam","lemon"]}, "ritual ‘spromoni":{vessel:"rocks",layers:[["matcha",.12,"pistachio"],["espresso",.20,"espresso"],["whipped",.14,"cherry cream"]],extras:["whipped"]},
   "ritual tamarindo lindo":{vessel:"tall",layers:[["soda",.36,"tamarind soda"],["coffee",.16,"cold brew"]],extras:["ice"]}, "sightglass brown butter miso caramel latte":{vessel:"mug",layers:[["caramel",.12,"caramel"],["espresso",.16,"espresso"],["milk",.32,"milk"]],extras:["steam"]},
-  "sightglass cardamom mocha":{vessel:"mug",layers:[["chocolate",.14,"chocolate"],["espresso",.16,"espresso"],["milk",.3,"milk"]],extras:["steam"]}, "sightglass vanilla paste latte":{vessel:"tall",layers:[["espresso",.14,"espresso"],["milk",.44,"vanilla milk"]],extras:["steam"]},
+  "sightglass cardamom mocha":{vessel:"mug",layers:[["chocolate",.14,"chocolate"],["espresso",.16,"espresso"],["milk",.30,"milk"]],extras:["steam","stick"]}, "sightglass vanilla paste latte":{vessel:"tall",layers:[["espresso",.14,"espresso"],["milk",.44,"vanilla milk"]],extras:["steam"]},
   "linea salted maple latte":{vessel:"mug",layers:[["caramel",.1,"maple"],["espresso",.16,"espresso"],["milk",.32,"milk"]],extras:["steam"]}, "flywheel siphon coffee":{vessel:"mug",layers:[["coffee",.5,"siphon brew"]],extras:["steam"]},
   "flash brew":{vessel:"tall",layers:[["coffee",.48,"flash brew"]],extras:["ice"]}, "verve one + one":{vessel:"flight",layers:[["espresso",.45,"espresso + macchiato"]],extras:[]},
-  "verve missile":{vessel:"tall",layers:[["cream",.16,"cream"],["coffee",.36,"concentrate"]],extras:["ice","straw"]}, "verve whiskey latte":{vessel:"mug",layers:[["caramel",.1,"barrel syrup"],["espresso",.16,"espresso"],["milk",.32,"milk"]],extras:["steam"]},
-  "equator habibi latte":{vessel:"glass",layers:[["espresso",.16,"espresso"],["milk",.4,"spiced milk"]],extras:["steam"]}, "equator brown sugar cinnamon shakerato":{vessel:"rocks",layers:[["foam",.12,"foam"],["coffee",.32,"shaken espresso"]],extras:["ice"]},
+  "verve missile":{vessel:"tall",layers:[["coffee",.30,"concentrate"],["cream",.16,"cream"]],extras:["ice","straw"]}, "verve whiskey latte":{vessel:"mug",layers:[["caramel",.10,"barrel syrup"],["espresso",.16,"espresso"],["milk",.32,"milk"]],extras:["steam"]},
+  "equator habibi latte":{vessel:"glass",layers:[["espresso",.16,"espresso"],["milk",.40,"spiced milk"]],extras:["steam"]}, "equator brown sugar cinnamon shakerato":{vessel:"rocks",layers:[["caramel",.08,"brown sugar"],["oat",.14,"oat milk"],["coffee",.22,"shaken espresso"],["foam",.08,"foam"]],extras:["ice","stick"]},
   "equator chagaccino":{vessel:"mug",layers:[["chocolate",.12,"chaga blend"],["espresso",.16,"espresso"],["milk",.32,"milk"]],extras:["steam"]}, "wrecking ball iced cappuccino":{vessel:"tall",layers:[["espresso",.14,"espresso"],["milk",.32,"cold milk"],["foam",.12,"cold foam"]],extras:["ice"]},
   "wrecking ball house coffee names":{vessel:"mug",layers:[["coffee",.5,"pillow fight"]],extras:["steam"]}, "cortadito":{vessel:"glass",layers:[["condensed",.14,"condensed milk"],["espresso",.16,"espresso"],["milk",.24,"milk"]],extras:["steam"]},
-  "café con leche":{vessel:"glass",layers:[["espresso",.2,"espresso"],["milk",.38,"hot milk"]],extras:["steam"]}, "iced café de olla":{vessel:"tall",layers:[["coffee",.44,"spiced coffee"]],extras:["ice","stick"]},
+  "café con leche":{vessel:"glass",layers:[["condensed",.12,"condensed"],["espresso",.18,"espresso"],["milk",.28,"hot milk"]],extras:["steam","stick"]}, "iced café de olla":{vessel:"tall",layers:[["coffee",.44,"spiced coffee"]],extras:["ice","stick"]},
   "café con morro":{vessel:"glass",layers:[["espresso",.18,"espresso"],["milk",.36,"morro milk"]],extras:["steam"]}, "café con coco y choco":{vessel:"glass",layers:[["chocolate",.14,"cacao"],["espresso",.14,"espresso"],["milk",.3,"coconut milk"]],extras:["steam"]},
   "pinolillo":{vessel:"glass",layers:[["chocolate",.22,"cacao corn"],["milk",.22,"spiced milk"]],extras:["sparkle"]}, "con ‘espumita’ cubana":{vessel:"glass",layers:[["espresso",.4,"espresso"],["foam",.12,"espumita"]],extras:["steam"]},
-  "cocoa cappuccino":{vessel:"mug",layers:[["espresso",.24,"espresso"],["milk",.22,"milk"],["foam",.2,"cocoa foam"]],extras:["steam"]}, "coffee cream soda":{vessel:"rocks",layers:[["soda",.32,"vanilla soda"],["cream",.1,"coconut cream"]],extras:["ice","straw"]},
+  "cocoa cappuccino":{vessel:"mug",layers:[["espresso",.24,"espresso"],["milk",.22,"milk"],["foam",.20,"cocoa foam"]],extras:["steam"]}, "coffee cream soda":{vessel:"rocks",layers:[["soda",.26,"vanilla soda"],["espresso",.12,"espresso"],["cream",.10,"coconut cream"]],extras:["ice","straw"]},
   "coffee movement seasonal lattes":{vessel:"mug",layers:[["espresso",.16,"espresso"],["milk",.34,"herb milk"]],extras:["steam"]}, "espresso mule":{vessel:"tall",layers:[["soda",.4,"ginger beer"],["espresso",.12,"espresso"]],extras:["ice","lemon"]},
   "wrecking ball karl the latte":{vessel:"mug",layers:[["tea",.2,"lapsang tea"],["espresso",.12,"espresso"],["milk",.28,"almond milk"]],extras:["steam"]}, "sextant wired gandhi":{vessel:"mug",layers:[["tea",.24,"spiced chai"],["espresso",.12,"espresso"],["milk",.24,"milk"]],extras:["steam"]},
-  "sextant frosty gandhi":{vessel:"mug",layers:[["tea",.22,"spiced chai"],["espresso",.12,"espresso"],["milk",.22,"peppermint milk"]],extras:["steam"]}, "sextant ginger gasheer":{vessel:"mug",layers:[["coffee",.5,"black coffee"]],extras:["steam"]},
-  "sextant adeny":{vessel:"mug",layers:[["coffee",.46,"spiced coffee"]],extras:["steam"]}, "pinhole shaken iced coffee":{vessel:"rocks",layers:[["foam",.1,"foam"],["coffee",.32,"shaken coffee"]],extras:["ice"]},
+  "sextant frosty gandhi":{vessel:"mug",layers:[["tea",.22,"spiced chai"],["espresso",.12,"espresso"],["milk",.22,"peppermint milk"]],extras:["steam"]}, "sextant ginger gasheer":{vessel:"mug",layers:[["coffee",.46,"ginger coffee"]],extras:["steam","stick"]},
+  "sextant adeny":{vessel:"mug",layers:[["coffee",.46,"spiced coffee"]],extras:["steam","stick"]}, "pinhole shaken iced coffee":{vessel:"rocks",layers:[["coffee",.36,"shaken coffee"],["foam",.12,"foam"]],extras:["ice"]},
   "mazarine raf":{vessel:"mug",layers:[["espresso",.16,"espresso"],["cream",.34,"steamed cream"]],extras:["steam"]}, "philz featured dessert coffees":{vessel:"tall",layers:[["cream",.16,"cream"],["coffee",.32,"dessert brew"]],extras:["ice"]},
   "philz mission cold brew":{vessel:"tall",layers:[["coffee",.52,"mission cold brew"]],extras:["ice"]}, "coffee float":{vessel:"tall",layers:[["coffee",.4,"cold coffee"],["cream",.14,"ice cream"]],extras:["straw","sparkle"]},
   "hot chocolate":{vessel:"mug",layers:[["chocolate",.48,"chocolate"]],extras:["steam","marshmallow"]}, "café solo":{vessel:"mug",layers:[["espresso",.44,"espresso"]],extras:["steam"]},
   "café con hielo":{vessel:"rocks",layers:[["coffee",.34,"hot coffee, poured over"]],extras:["ice"]}, "café bombón":{vessel:"glass",layers:[["condensed",.24,"condensed milk"],["espresso",.22,"espresso"]],extras:[]},
-  "carajillo":{vessel:"mug",layers:[["espresso",.44,"espresso + spirit"]],extras:["steam","sparkle"]}, "café manchado / sombra":{vessel:"glass",layers:[["espresso",.1,"espresso"],["milk",.44,"mostly milk"]],extras:["steam"]},
-  "barraquito":{vessel:"tall",layers:[["condensed",.18,"condensed milk"],["espresso",.14,"espresso"],["licor",.1,"licor 43"],["milk",.12,"milk foam"]],extras:["sparkle"]}, "bica / cimbalino":{vessel:"mug",layers:[["espresso",.44,"espresso"]],extras:["steam"]},
+  "carajillo":{vessel:"glass",layers:[["espresso",.28,"espresso"],["licor",.14,"Licor 43"]],extras:["sparkle"]}, "café manchado / sombra":{vessel:"glass",layers:[["espresso",.10,"espresso"],["milk",.44,"mostly milk"]],extras:["steam"]},
+  "barraquito":{vessel:"tall",layers:[["condensed",.18,"condensed milk"],["espresso",.14,"espresso"],["licor",.12,"Licor 43"],["foam",.14,"milk foam"]],extras:["sparkle","lemon"]}, "bica / cimbalino":{vessel:"mug",layers:[["espresso",.44,"espresso"]],extras:["steam"]},
   "pingado / garoto":{vessel:"mug",layers:[["espresso",.44,"espresso"],["milk",.06,"splash of milk"]],extras:["steam"]}, "meia de leite":{vessel:"mug",layers:[["espresso",.18,"coffee"],["milk",.36,"hot milk"]],extras:["steam"]},
   "galão":{vessel:"tall",layers:[["espresso",.12,"espresso"],["milk",.44,"foamed milk"]],extras:["steam"]}, "mazagran":{vessel:"tall",layers:[["coffee",.36,"iced coffee"]],extras:["ice","lemon"]},
-  "café com cheirinho":{vessel:"mug",layers:[["espresso",.44,"espresso + aguardente"]],extras:["steam","sparkle"]}, "new york diner regular":{vessel:"mug",layers:[["coffee",.44,"drip coffee"]],extras:["steam"]},
-  "new york egg cream":{vessel:"tall",layers:[["milk",.24,"milk"],["soda",.22,"seltzer"],["foam",.08,"fizz"]],extras:["straw"]}, "caffè corretto":{vessel:"mug",layers:[["espresso",.44,"espresso + grappa"]],extras:["steam","sparkle"]},
-  "bicerin":{vessel:"tall",layers:[["chocolate",.18,"hot chocolate"],["espresso",.14,"espresso"],["cream",.14,"cream"]],extras:[]}, "einspänner":{vessel:"glass",layers:[["coffee",.4,"strong coffee"],["whipped",.18,"whipped cream"]],extras:["whipped"]},
-  "wiener melange":{vessel:"mug",layers:[["espresso",.18,"coffee"],["milk",.24,"milk"],["foam",.14,"foam"]],extras:["steam"]}, "freddo espresso / freddo cappuccino":{vessel:"rocks",layers:[["espresso",.32,"shaken espresso"],["foam",.1,"cold foam"]],extras:["ice"]},
-  "greek frappé":{vessel:"tall",layers:[["foam",.12,"foam"],["coffee",.32,"instant coffee"]],extras:["ice","straw"]}, "cà phê sữa đá":{vessel:"rocks",layers:[["condensed",.18,"condensed milk"],["coffee",.24,"phin coffee"]],extras:["ice"]},
-  "vietnamese egg coffee":{vessel:"mug",layers:[["coffee",.32,"strong coffee"],["custard",.2,"egg custard"]],extras:[]}, "café de olla":{vessel:"mug",layers:[["coffee",.46,"piloncillo coffee"]],extras:["steam","stick"]},
-  "mexican carajillo 43":{vessel:"rocks",layers:[["espresso",.28,"espresso"],["licor",.14,"licor 43"]],extras:["ice"]}, "turkish coffee":{vessel:"mug",layers:[["espresso",.4,"unfiltered coffee"]],extras:["steam"]},
-  "south indian filter coffee":{vessel:"mug",layers:[["coffee",.28,"decoction"],["milk",.24,"milk"],["foam",.06,"froth"]],extras:["steam"]}, "dalgona coffee":{vessel:"glass",layers:[["milk",.36,"milk"],["whipped",.2,"dalgona foam"]],extras:["ice"]},
+  "café com cheirinho":{vessel:"glass",layers:[["espresso",.28,"espresso"],["licor",.14,"aguardente"]],extras:["sparkle"]}, "new york diner regular":{vessel:"mug",layers:[["coffee",.44,"drip coffee"]],extras:["steam"]},
+  "new york egg cream":{vessel:"tall",layers:[["chocolate",.10,"chocolate"],["milk",.18,"milk"],["soda",.22,"seltzer"]],extras:["straw"]}, "caffè corretto":{vessel:"glass",layers:[["espresso",.28,"espresso"],["licor",.10,"grappa"]],extras:["sparkle"]},
+  "bicerin":{vessel:"glass",layers:[["chocolate",.18,"hot chocolate"],["espresso",.14,"espresso"],["cream",.14,"cream"]],extras:["steam"]}, "einspänner":{vessel:"glass",layers:[["coffee",.40,"strong coffee"],["whipped",.18,"whipped cream"]],extras:["whipped"]},
+  "wiener melange":{vessel:"mug",layers:[["espresso",.18,"coffee"],["milk",.24,"milk"],["foam",.14,"foam"]],extras:["steam"]}, "freddo espresso / freddo cappuccino":{vessel:"rocks",layers:[["espresso",.32,"shaken espresso"],["foam",.10,"cold foam"]],extras:["ice"]},
+  "greek frappé":{vessel:"tall",layers:[["coffee",.32,"instant coffee"],["foam",.12,"foam"]],extras:["ice","straw"]}, "cà phê sữa đá":{vessel:"rocks",layers:[["condensed",.18,"condensed milk"],["coffee",.24,"phin coffee"]],extras:["ice"]},
+  "vietnamese egg coffee":{vessel:"mug",layers:[["coffee",.32,"strong coffee"],["custard",.20,"egg custard"]],extras:[]}, "café de olla":{vessel:"mug",layers:[["coffee",.46,"piloncillo coffee"]],extras:["steam","stick"]},
+  "mexican carajillo 43":{vessel:"rocks",layers:[["espresso",.28,"espresso"],["licor",.14,"Licor 43"]],extras:["ice"]}, "turkish coffee":{vessel:"mug",layers:[["espresso",.40,"unfiltered coffee"]],extras:["steam"]},
+  "south indian filter coffee":{vessel:"mug",layers:[["coffee",.28,"decoction"],["milk",.24,"milk"],["foam",.10,"froth"]],extras:["steam"]}, "dalgona coffee":{vessel:"glass",layers:[["milk",.36,"milk"],["whipped",.20,"dalgona foam"]],extras:["ice"]},
   "eiskaffee":{vessel:"tall",layers:[["coffee",.32,"chilled coffee"],["cream",.16,"ice cream"]],extras:["whipped","straw"]}, "irish coffee":{vessel:"glass",layers:[["coffee",.36,"sweet coffee"],["cream",.14,"cream"]],extras:["sparkle"]},
   "yuenyeung":{vessel:"mug",layers:[["tea",.24,"milk tea"],["coffee",.16,"coffee"],["milk",.16,"milk"]],extras:["steam"]}, "kopi c":{vessel:"mug",layers:[["coffee",.32,"kopi"],["milk",.18,"evaporated milk"]],extras:["steam"]},
   "café touba":{vessel:"mug",layers:[["coffee",.46,"djarr coffee"]],extras:["steam"]}, "kopi joss":{vessel:"mug",layers:[["coffee",.46,"black coffee"]],extras:["steam","sparkle"]},
@@ -2455,7 +2455,7 @@ function cgLabels(g, p) {
   if (p.vessel === "flight") return "";
   var L = p.layers, n = L.length, innerH = g.bot - g.top - 6, y = g.bot - 3, mids = [], pick, pts = [], s = "", i;
   for (i = 0; i < n; i++) { mids.push(y - L[i][1] * innerH / 2); y -= L[i][1] * innerH; }
-  pick = n === 1 ? [0] : n === 2 ? [0, n - 1] : [0, Math.floor(n / 2), n - 1];
+  pick = n === 1 ? [0] : n === 2 ? [0, 1] : n === 3 ? [0, 1, 2] : n === 4 ? [0, 1, 2, 3] : [0, Math.floor(n / 2), n - 1];
   for (i = 0; i < pick.length; i++) pts.push({ k: pick[i], y: mids[pick[i]] });
   pts.sort(function (a, b) { return a.y - b.y; });
   for (i = 1; i < pts.length; i++) {
