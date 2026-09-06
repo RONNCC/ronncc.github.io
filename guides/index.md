@@ -150,7 +150,7 @@ redirect_from: /places/
     <div class="guide-icon-box icon-chocolate">🍫</div>
     <div class="guide-row-content">
       <div class="guide-row-head">
-        <span class="guide-row-title">Hot Chocolate Spots</span>
+        <span class="guide-row-title">SF Hot Chocolate Spots</span>
         <span class="guide-badge-pill">Interactive Map</span>
       </div>
       <p class="guide-row-desc">Curated drinking chocolate, bakeries, and cafes with notes on signature drinks and status.</p>
@@ -162,7 +162,7 @@ redirect_from: /places/
     <div class="guide-icon-box icon-sandwich">🥪</div>
     <div class="guide-row-content">
       <div class="guide-row-head">
-        <span class="guide-row-title">Sandwich Spots</span>
+        <span class="guide-row-title">SF Sandwich Spots</span>
         <span class="guide-badge-pill">Interactive Map</span>
       </div>
       <p class="guide-row-desc">Standout delis and sandwich counters with live hours, specialty orders, and locations.</p>
@@ -174,7 +174,7 @@ redirect_from: /places/
     <div class="guide-icon-box icon-museum">🏛️</div>
     <div class="guide-row-content">
       <div class="guide-row-head">
-        <span class="guide-row-title">Museums &amp; Passes</span>
+        <span class="guide-row-title">Bay Area &amp; NYC Museums</span>
         <span class="guide-badge-pill">Directory &amp; Map</span>
       </div>
       <p class="guide-row-desc">Directory of 150 museums with reciprocal networks (NARM, ROAM), student discounts, and free days.</p>
@@ -186,7 +186,7 @@ redirect_from: /places/
     <div class="guide-icon-box icon-coffee">☕</div>
     <div class="guide-row-content">
       <div class="guide-row-head">
-        <span class="guide-row-title">Coffee Guide</span>
+        <span class="guide-row-title">SF Coffee Guide</span>
         <span class="guide-badge-pill">Visual Decoder</span>
       </div>
       <p class="guide-row-desc">Illustrated decoder for espresso drinks, milk ratios, cafe menu terminology, and roasters.</p>
