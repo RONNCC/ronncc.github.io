@@ -5,36 +5,90 @@ permalink: /guides/
 redirect_from: /places/
 ---
 
-Interactive guides — food maps, museum passes, and event companions, mostly Bay Area + NYC.
+Interactive maps, museum passes, and event companions across the Bay Area, NYC, and beyond.
 
-<ul class="post-list">
-  <li>
-    <a href="{{ site.baseurl }}/hot-chocolate/">Hot Chocolate Spots in SF</a>
-    - an interactive map of the best hot chocolate around the city.
-  </li>
-  <li>
-    <a href="{{ site.baseurl }}/sandwich-spots/">Sandwich Spots in SF</a>
-    - an interactive map of the best sandwiches around the city.
-  </li>
-  <li>
-    <a href="{{ site.baseurl }}/museums/">Museums & Pass Guide — Bay Area + NYC</a>
-    - filterable map & table of ~150 museums (70 Bay Area + ~80 NYC within ~2h of Manhattan) with NARM/ROAM, ICOM, and student/free-night info. Defaults to NYC.
-  </li>
-  <li>
-    <a href="{{ site.baseurl }}/coffee-guide/">Coffee Guide ☕</a>
-    - an illustrated, searchable decoder for coffee drinks, ingredients, SF café menu names, and the cafés that serve them.
-  </li>
-  <li>
-    <a href="{{ site.baseurl }}/civilizations/">Civilization Readers</a>
-    - 53 pocket primers for the museum, with timelines, gallery numbers, 90-minute
-    tours, and an interactive graph. Works offline in the gallery.
-  </li>
-  <li>
-    <a href="{{ site.baseurl }}/fifa2026/">FIFA 2026 — World Cup Snapshot</a>
-    - results snapshot for the 2026 World Cup.
-  </li>
-  <li>
-    <a href="{{ site.baseurl }}/ronnie-nyc-2026/">Ronnie NYC 2026 — Where I'll Be</a>
-    - public calendar of where I'm headed in NYC, when, and how to get there.
-  </li>
-</ul>
+<div class="guides-table-wrap">
+  <table class="guides-table">
+    <thead>
+      <tr>
+        <th style="width: 29%;">Guide</th>
+        <th style="width: 17%;">Location</th>
+        <th style="width: 19%;">Format</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="col-guide">
+          <a class="guide-name" href="{{ site.baseurl }}/hot-chocolate/">
+            <span class="guide-icon">🍫</span> Hot Chocolate Spots
+          </a>
+        </td>
+        <td class="col-meta"><span class="guide-badge badge-loc">San Francisco</span></td>
+        <td class="col-meta"><span class="guide-badge badge-type">Interactive Map</span></td>
+        <td class="col-desc"><span class="guide-desc">Curated map of SF drinking chocolate, bakeries, and cafes with notes on signature drinks and status.</span></td>
+      </tr>
+      <tr>
+        <td class="col-guide">
+          <a class="guide-name" href="{{ site.baseurl }}/sandwich-spots/">
+            <span class="guide-icon">🥪</span> Sandwich Spots
+          </a>
+        </td>
+        <td class="col-meta"><span class="guide-badge badge-loc">San Francisco</span></td>
+        <td class="col-meta"><span class="guide-badge badge-type">Interactive Map</span></td>
+        <td class="col-desc"><span class="guide-desc">Neighborhood guide to standout SF delis and sandwich counters with operating hours and orders.</span></td>
+      </tr>
+      <tr>
+        <td class="col-guide">
+          <a class="guide-name" href="{{ site.baseurl }}/museums/">
+            <span class="guide-icon">🏛️</span> Museums &amp; Passes
+          </a>
+        </td>
+        <td class="col-meta"><span class="guide-badge badge-loc">Bay Area &amp; NYC</span></td>
+        <td class="col-meta"><span class="guide-badge badge-type">Directory &amp; Map</span></td>
+        <td class="col-desc"><span class="guide-desc">Directory of 150 museums with reciprocal admission networks (NARM, ROAM), student discounts, and free nights.</span></td>
+      </tr>
+      <tr>
+        <td class="col-guide">
+          <a class="guide-name" href="{{ site.baseurl }}/coffee-guide/">
+            <span class="guide-icon">☕</span> Coffee Guide
+          </a>
+        </td>
+        <td class="col-meta"><span class="guide-badge badge-loc">San Francisco</span></td>
+        <td class="col-meta"><span class="guide-badge badge-type">Visual Decoder</span></td>
+        <td class="col-desc"><span class="guide-desc">Illustrated decoder for espresso drinks, milk ratios, cafe menu terminology, and local roasters.</span></td>
+      </tr>
+      <tr>
+        <td class="col-guide">
+          <a class="guide-name" href="{{ site.baseurl }}/civilizations/">
+            <span class="guide-icon">📜</span> Civilization Readers
+          </a>
+        </td>
+        <td class="col-meta"><span class="guide-badge badge-loc">Multi-city</span></td>
+        <td class="col-meta"><span class="guide-badge badge-type">Museum Primers</span></td>
+        <td class="col-desc"><span class="guide-desc">53 pocket museum primers with timelines, gallery floor numbers, and 90-minute walkthrough tours.</span></td>
+      </tr>
+      <tr>
+        <td class="col-guide">
+          <a class="guide-name" href="{{ site.baseurl }}/fifa2026/">
+            <span class="guide-icon">⚽</span> FIFA 2026
+          </a>
+        </td>
+        <td class="col-meta"><span class="guide-badge badge-loc">North America</span></td>
+        <td class="col-meta"><span class="guide-badge badge-type">Match Tracker</span></td>
+        <td class="col-desc"><span class="guide-desc">Match schedule snapshot, stadium venues, and team rosters for the 2026 World Cup tournament.</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  document.querySelectorAll('.guides-table tbody tr').forEach(function(row) {
+    row.addEventListener('click', function(e) {
+      if (e.target.tagName !== 'A') {
+        var a = row.querySelector('a.guide-name');
+        if (a) a.click();
+      }
+    });
+  });
+</script>
