@@ -5,6 +5,12 @@
   // Book pages in Belmont W19 (verified against the PDF TOC).
   var REFS = { ch1: '§§1.1–1.8, pp.3–10', ch2: '§§2.1–2.16, pp.11–22', ch3: '§§3.1–3.4, pp.23–28', ch4: '§§4.1–4.5, pp.29–40', ch5: 'pp.41–48', ch6: 'pp.49–58', ch7: 'pp.59–70', ch8: 'Review + Quiz I, pp.71–84', ch9: '§§9.1–9.4, pp.87–100', ch10: '§§10.1–10.5, pp.101–108', ch11: 'pp.109–110', ch12: 'p.111–112', ch13: 'pp.113–120', ch14: 'pp.121–130', ch15: 'pp.133–142', ch16: 'pp.143–168 + Quiz II', ch17: '§§17.1–17.6, pp.171–184', ch18: '§§18.1–18.7, pp.185–204', ch19: '§§19.1–19.6, pp.205–228', ch20: 'pp.229–230', ch21: '§§21.1–21.6, pp.231–244', ch22: '§§22.1–22.31, pp.245–282' };
   var score = { correct: 0, answered: 0 }, doneCh = {}, chapState = {};
+  var LSKEY = 'b211-v1';
+  try {
+    var saved = JSON.parse(global.localStorage ? global.localStorage.getItem(LSKEY) : 'null');
+    if (saved) { score = saved.score || score; doneCh = saved.doneCh || {}; chapState = saved.chapState || {}; }
+  } catch (e) { /* fresh start */ }
+  function persist() { try { global.localStorage && global.localStorage.setItem(LSKEY, JSON.stringify({ score: score, doneCh: doneCh, chapState: chapState })); } catch (e) { /* storage unavailable */ } }
   var $ = function (id) { return document.getElementById(id); };
   var els = {};
   ['nav', 'search', 'chap-part', 'chap-num', 'chap-title', 'chap-lede', 'concepts', 'widget', 'worksheet', 'ws-count', 'score', 'btn-quiz', 'follow-book', 'sidebar'].forEach(function (id) { els[id.replace(/-/g, '_')] = $(id); });
@@ -487,8 +493,9 @@
   };
 
   /* ---------------- render ---------------- */
-  function markDone(id) { doneCh[id] = true; paintNav(); }
-  function bumpScore(ok) { score.answered++; if (ok) score.correct++; $('score').textContent = score.correct + ' / ' + score.answered; }
+  function markDone(id) { doneCh[id] = true; persist(); paintNav(); }
+  function paintScore() { $('score').textContent = score.correct + ' / ' + score.answered; }
+  function bumpScore(ok) { score.answered++; if (ok) score.correct++; paintScore(); persist(); }
 
   function renderWorksheet(ch) {
     var box = $('worksheet'); box.innerHTML = '';
@@ -501,22 +508,33 @@
       w.choices.forEach(function (c, ci) {
         var b = document.createElement('button'); b.className = 'opt'; b.textContent = c;
         var a = st.answers[qi];
-        if (a === ci) b.classList.add(ci === w.answer ? 'right' : 'wrong');
+        if (a !== undefined && ci === w.answer) b.classList.add('right');
+        if (a === ci && ci !== w.answer) b.classList.add('wrong');
+        if (a !== undefined) b.disabled = true;
         b.onclick = function () {
           if (st.answers[qi] !== undefined) return;
           st.answers[qi] = ci; bumpScore(ci === w.answer);
-          b.classList.add(ci === w.answer ? 'right' : 'wrong');
+          Array.prototype.forEach.call(opts.children, function (ob, oi) {
+            if (oi === w.answer) ob.classList.add('right');
+            else if (oi === ci) ob.classList.add('wrong');
+            ob.disabled = true;
+          });
           var e = document.createElement('p'); e.className = 'expl';
-          e.textContent = (ci === w.answer ? '✓ ' : '✗ Correct: ' + w.choices[w.answer] + '. ') + w.explain;
+          e.textContent = (ci === w.answer ? '✓ ' : '✗ ') + w.explain;
           d.appendChild(e);
           if (Object.keys(st.answers).length === ch.worksheet.length) markDone(ch.id);
         };
         opts.appendChild(b);
       });
       var prev = st.answers[qi];
-      if (prev !== undefined) { var e2 = document.createElement('p'); e2.className = 'expl'; e2.textContent = (prev === w.answer ? '✓ ' : '✗ Correct: ' + w.choices[w.answer] + '. ') + w.explain; d.appendChild(e2); }
+      if (prev !== undefined) { var e2 = document.createElement('p'); e2.className = 'expl'; e2.textContent = (prev === w.answer ? '✓ ' : '✗ ') + w.explain; d.appendChild(e2); }
       box.appendChild(d);
     });
+    var idx = B.CHAPTERS.indexOf(ch);
+    var nav2 = document.createElement('div'); nav2.className = 'btnrow';
+    if (idx > 0) { var pb = document.createElement('button'); pb.textContent = '← ' + B.CHAPTERS[idx - 1].num + '. ' + B.CHAPTERS[idx - 1].title; pb.onclick = function () { showChapter(B.CHAPTERS[idx - 1].id); }; nav2.appendChild(pb); }
+    if (idx < B.CHAPTERS.length - 1) { var nb = document.createElement('button'); nb.textContent = B.CHAPTERS[idx + 1].num + '. ' + B.CHAPTERS[idx + 1].title + ' →'; nb.onclick = function () { showChapter(B.CHAPTERS[idx + 1].id); }; nav2.appendChild(nb); }
+    box.appendChild(nav2);
   }
 
   function showChapter(id) {
@@ -557,14 +575,21 @@
   global.B211App = { showChapter: showChapter };
   $('search').oninput = paintNav;
   $('btn-quiz').onclick = function () { document.getElementById('worksheet').scrollIntoView(); };
+  $('btn-reset').onclick = function () {
+    if (!global.confirm || global.confirm('Clear saved score, answers, and done markers?')) {
+      score = { correct: 0, answered: 0 }; doneCh = {}; chapState = {}; persist(); paintScore();
+      renderWorksheet(B.CHAPTERS.find(function (c) { return c.id === current; })); paintNav();
+    }
+  };
   $('follow-book').onchange = function (e) {
     if (!e.target.checked) {
       var order = B.CHAPTERS.slice().sort(function (a, b) { return a.title.localeCompare(b.title); });
       var nv = $('nav'); nv.innerHTML = '';
       var h = document.createElement('div'); h.className = 'part-title'; h.textContent = 'All chapters A–Z'; nv.appendChild(h);
-      order.forEach(function (c) { var b = document.createElement('button'); b.className = 'nav-ch' + (c.id === current ? ' on' : ''); b.innerHTML = '<b>' + c.num + '</b>' + c.title; b.onclick = function () { showChapter(c.id); }; nv.appendChild(b); });
+      order.forEach(function (c) { var b = document.createElement('button'); b.className = 'nav-ch' + (c.id === current ? ' on' : '') + (doneCh[c.id] ? ' done' : ''); b.innerHTML = '<b>' + c.num + '</b>' + c.title; b.onclick = function () { showChapter(c.id); }; nv.appendChild(b); });
     } else paintNav();
   };
   paintNav();
+  paintScore();
   showChapter('ch1');
 })(window);

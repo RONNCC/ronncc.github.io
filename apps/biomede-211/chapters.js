@@ -58,27 +58,33 @@
       concepts: ['Supernode: voltage source between two non-reference nodes → KCL over the enclosing surface + KVL constraint.', 'Never write both node KCLs (singular matrix). One surface KCL + <code>v2 − v1 = Vs</code>.', 'Dependent sources (VCVS/CCVS/VCCS/CCCS): stamp normally, then add the controlling-variable constraint.', 'Supermesh: current source shared by two meshes → fix one current or merge + constraint.', 'Same idea both domains: extra source, extra equation.'],
       worksheet: [
         { q: 'A 10 V source connects node 1 to node 2 (neither ground). Extra equation?', choices: ['v2 − v1 = 10', 'v1 + v2 = 10', 'i1 = i2'], answer: 0, explain: 'KVL constraint across the source.' },
-        { q: 'The four dependent source types are…', choices: ['VCVS, VCCS, CCVS, CCCS', 'AC, DC, VC, CC', 'NPN, PNP, NMOS, PMOS'], answer: 0, explain: 'Voltage/current-controlled voltage/current sources.' }
+        { q: 'The four dependent source types are…', choices: ['VCVS, VCCS, CCVS, CCCS', 'AC, DC, VC, CC', 'NPN, PNP, NMOS, PMOS'], answer: 0, explain: 'Voltage/current-controlled voltage/current sources.' },
+        { q: 'A dependent source in nodal analysis is…', choices: ['stamped normally, then add its controlling-variable constraint', 'deleted like an independent source', 'always a supernode by itself'], answer: 0, explain: 'Treat as ordinary in KCL, then constrain (e.g. ix = (v3−v2)/R3).' }
       ] },
     { id: 'ch7', part: 'circuits', num: 7, title: 'Circuit theorems', widget: 'thevenin',
       lede: 'Linearity buys superposition, source transformation, and the crown jewels: any linear two-terminal network is a source plus one resistor.',
       concepts: ['Linearity: homogeneity + additivity (power <code>i²R</code> is NOT linear).', 'Superposition: kill independents (V→short, I→open), leave dependents on, sum responses.', 'Source transform: Vs series R ↔ Is parallel R, <code>Is = Vs/R</code>.', 'Thévenin: <code>Vth = Voc</code> series <code>Rth = Voc/Isc</code>. Norton: <code>IN = Isc</code> parallel <code>Rth</code>.', 'With dependents: <code>Rth = vo/io</code> test-source method.'],
       worksheet: [
         { q: 'To deactivate for Rth: voltage sources become…', choices: ['shorts', 'opens', 'dependents'], answer: 0, explain: '0 V = wire. Current sources open.' },
-        { q: 'Norton current equals…', choices: ['short-circuit current Isc', 'open-circuit voltage', 'load current'], answer: 0, explain: 'IN = Isc = Vth/Rth.' }
+        { q: 'Norton current equals…', choices: ['short-circuit current Isc', 'open-circuit voltage', 'load current'], answer: 0, explain: 'IN = Isc = Vth/Rth.' },
+        { q: 'Maximum power transfers to the load when…', choices: ['RL = Rth', 'RL = 0', 'RL → ∞'], answer: 0, explain: 'Matched: VL = Vth/2, Pmax = Vth²/4Rth.' }
       ] },
     { id: 'ch8', part: 'circuits', num: 8, title: 'Review + Glorified Quiz I', widget: 'quizgen',
       lede: 'Cumulative drill over Part I: 81 rapid-fire items plus ten quiz problems. Generate a fresh network below and solve Req before revealing.',
       concepts: ['Topology <code>b = l + n − 1</code>; KCL/KVL sums; dividers.', 'Elements: <code>v = iR</code>, <code>i = C dV/dt</code>, <code>v = L di/dt</code>, <code>Z = R + jX</code>.', 'Op-amps: inverting/non-inverting/summing/diff gains; LM741 saturates near rails.', 'Thévenin = Voc series Rth; Norton = Isc parallel Rth; superposition on/off rules.', 'Meters: ammeter in series (break circuit), voltmeter in parallel.'],
       worksheet: [
-        { q: 'A 5 F capacitor holds 1250 C. Voltage?', choices: ['250 V', '6250 V', '50 V'], answer: 0, explain: 'V = Q/C = 1250/5 = 250 V.' }
+        { q: 'A 5 F capacitor holds 1250 C. Voltage?', choices: ['250 V', '6250 V', '50 V'], answer: 0, explain: 'V = Q/C = 1250/5 = 250 V.' },
+        { q: 'For superposition, independent sources turn off as… (Book §8 drill)', choices: ['V→short, I→open', 'V→open, I→short', 'both removed with wires cut'], answer: 0, explain: '0 V is a wire; 0 A is a cut. Dependents stay on.' },
+        { q: 'Ammeter vs voltmeter connection? (Book §8 drill)', choices: ['ammeter series (break circuit), voltmeter parallel', 'both in series', 'both in parallel'], answer: 0, explain: 'Current through, voltage across.' },
+        { q: 'Δ of 10 Ω resistors → equivalent Y? (Book §8 drill)', choices: ['3.33 Ω', '30 Ω', '10 Ω'], answer: 0, explain: 'R_Y = R_Δ/3.' }
       ] },
     { id: 'ch9', part: 'systems', num: 9, title: 'Laplace I: what it is and why', widget: 'laplace',
       lede: 'Probe a signal with decaying sinusoids and the differential equation becomes algebra. Poles are where the transform blows up — and they run the show.',
       concepts: ['Definition: <code>L{f} = ∫₀^∞ e^(−st) f dt</code>; <code>s = σ + jω</code>.', '<code>L{1} = 1/s</code>, <code>L{e^at} = 1/(s−a)</code> (pole at s = a).', 'Derivatives become multiplication: <code>L{x′} = sX − x(0)</code>, second order <code>s²X − sx(0) − x′(0)</code>.', '<code>L{sin at} = a/(s²+a²)</code>, <code>L{∫x} = X/s</code>.', 'R→R, L→sL, C→1/sC (plus initial-condition sources).'],
       worksheet: [
         { q: 'L{δ(t)} = ?', choices: ['1', '1/s', 's'], answer: 0, explain: 'The impulse contains all frequencies equally.' },
-        { q: 'Poles of 1/((s+2)(s+5))?', choices: ['s = −2, −5', 's = +2, +5', 's = 0, −7'], answer: 0, explain: 'Denominator roots.' }
+        { q: 'Poles of 1/((s+2)(s+5))?', choices: ['s = −2, −5', 's = +2, +5', 's = 0, −7'], answer: 0, explain: 'Denominator roots.' },
+        { q: 'L{dx/dt} = ?', choices: ['sX − x(0)', 'X/s', 's²X'], answer: 0, explain: 'Differentiation becomes multiplication minus the initial condition.' }
       ] },
     { id: 'ch10', part: 'systems', num: 10, title: 'Laplace II: how to use it', widget: 'polezero',
       lede: 'Zeros kill, poles explode. The damping ratio ζ and natural frequency ωn classify every second-order response at a glance.',
@@ -100,7 +106,8 @@
       lede: 'Series RLC is the same KVL you already know, now a second-order ODE — and the ζ/ωn map from Ch.10 predicts everything.',
       concepts: ['KVL: same series-RLC ODE as Ch.10 → <code>s² + R/L·s + 1/LC</code>.', 'Pick R for the regime you want: under / critical / over.', '95% settling ≈ 3/(ζωn) for the well-damped cases.', 'Capacitor 200 nF + inductor 50 mH: find R for each regime (try it below).', 'Bridge to Ch.13–14: response shape and stability.'],
       worksheet: [
-        { q: 'H = 4/(s²+5s+6). Poles and verdict?', choices: ['−2,−3 stable', '+2,+3 stable', '−2,−3 unstable'], answer: 0, explain: '(s+2)(s+3), both left-half-plane.' }
+        { q: 'H = 4/(s²+5s+6). Poles and verdict?', choices: ['−2,−3 stable', '+2,+3 stable', '−2,−3 unstable'], answer: 0, explain: '(s+2)(s+3), both left-half-plane.' },
+        { q: 'H = 4/(s²+5s+4). Damping? (cf. HW-IV)', choices: ['overdamped, stable', 'underdamped, stable', 'overdamped, unstable'], answer: 0, explain: '(s+1)(s+4); ωn=2, ζ=1.25>1, both LHP.' }
       ] },
     { id: 'ch13', part: 'systems', num: 13, title: 'System response I: convolution', widget: 'conv',
       lede: 'For LTI systems the impulse response is the whole system: flip it, slide it, and the overlap area draws the output.',
@@ -128,7 +135,8 @@
       concepts: ['Loop: <code>Y = P·U, U = C·E, E = R − F·Y</code> → <code>Y = PC/(1+PCF)·R</code>.', 'Open-loop: no output dependence (light switch). Closed-loop: output steers input.', 'PID: <code>u = Kp·e + Ki∫e + Kd·de/dt</code>, <code>C(s) = Kp + Ki/s + Kd·s</code>.', 'P speeds up, I kills steady-state error, D damps overshoot.', 'Goal: <code>H ≈ 1</code> — fast, minimal overshoot, zero steady error.'],
       worksheet: [
         { q: 'Which term removes steady-state error?', choices: ['integral', 'proportional', 'derivative'], answer: 0, explain: 'I keeps pushing while any error persists.' },
-        { q: 'Closed-loop transfer with loop gain L = PCF?', choices: ['PC/(1+L)', 'PC·L', 'PC − L'], answer: 0, explain: 'Feedback divides by one plus loop gain.' }
+        { q: 'Closed-loop transfer with loop gain L = PCF?', choices: ['PC/(1+L)', 'PC·L', 'PC − L'], answer: 0, explain: 'Feedback divides by one plus loop gain.' },
+        { q: 'A bedroom light switch is…', choices: ['open-loop — no output dependence', 'closed-loop — the bulb feeds back', 'a PID controller'], answer: 0, explain: 'Book’s example: no dependence of input on output.' }
       ] },
     { id: 'ch17', part: 'bme', num: 17, title: 'Bioelectricity I: passive properties', widget: 'cole',
       lede: 'A cell is R1 + R2‖C. Sweep frequency, plot reactance vs resistance, and the Cole semicircle hands you R0, R∞, and τ — hydration and cell death move it visibly.',
@@ -158,20 +166,25 @@
       concepts: [        'Nyquist: <code>fs ≥ 2·fmax</code>; alias <code>falias = |f − k·fs|</code>.', 'Drag fs below Nyquist and watch a slow impostor appear.', 'Quantization: <code>LSB = VFS/2^N</code>; <code>SQNR ≈ 6.02N + 1.76 dB</code>.', 'More bits = smaller steps = cleaner ECG.'],
       worksheet: [
         { q: 'ECG content to 150 Hz needs fs of at least…', choices: ['300 Hz', '150 Hz', '75 Hz'], answer: 0, explain: 'Nyquist: fs ≥ 2·fmax.' },
-        { q: '8-bit vs 12-bit ADC: SQNR improves by…', choices: ['~24 dB', '~4 dB', 'nothing'], answer: 0, explain: '6.02 dB per bit × 4 bits.' }
+        { q: '8-bit vs 12-bit ADC: SQNR improves by…', choices: ['~24 dB', '~4 dB', 'nothing'], answer: 0, explain: '6.02 dB per bit × 4 bits.' },
+        { q: '10-bit ADC, 5 V full scale. LSB size?', choices: ['~4.9 mV', '~49 mV', '~0.49 mV'], answer: 0, explain: 'LSB = 5/1024 ≈ 4.88 mV.' }
       ] },
     { id: 'ch21', part: 'bme', num: 21, title: 'BME situations and standards', widget: 'device',
       lede: 'What counts as a medical device, how classes and pathways work, and which Act created each rule — answer the classifier below.',
       concepts: ['Device (21 USC §321(h)): instrument/implant/IVD for diagnosis/treatment/affecting structure — without primary chemical action.', 'Classes: I low/general controls, II moderate/performance standards, III high/PMA.', 'Pathways: exempt, 510(k) substantial equivalence, De Novo, PMA, IDE, HDE/HUD.', '1976 Amendments created classes + PMA/510(k)/IDE; 1990 Safe Devices; 1997 Modernization (De Novo, least-burdensome).', '2016 21st Century Cures: breakthrough path, digital-health carve-outs.'],
       worksheet: [
         { q: 'Life-supporting implant, no predicate. Pathway?', choices: ['PMA (Class III)', '510(k)', 'Exempt'], answer: 0, explain: 'High risk + novel = premarket approval.' },
-        { q: 'A Class II device most often goes through…', choices: ['510(k)', 'PMA', 'nothing'], answer: 0, explain: 'Substantial equivalence to a predicate.' }
+        { q: 'A Class II device most often goes through…', choices: ['510(k)', 'PMA', 'nothing'], answer: 0, explain: 'Substantial equivalence to a predicate.' },
+        { q: 'The 1976 Medical Device Amendments created…', choices: ['classes I/II/III + PMA/510(k)/IDE + GMP', 'the breakthrough path', 'digital-health carve-outs'], answer: 0, explain: 'The classification and premarket system; breakthrough came in 2016 Cures.' }
       ] },
     { id: 'ch22', part: 'bme', num: 22, title: 'Review + Glorified Quiz III', widget: 'review',
       lede: 'Thirty-one quiz items spanning the book (22.1–22.31) plus HW map. Use the navigator: each card links back to its chapter.',
       concepts: ['Wound wire, inductor potential, op-amp bandwidth/phase, gyrator.', 'Transfer functions (V/V/I/Z), Bode, high/low-pass, inverting integrator.', 'Poles/zeros → response shape; bridges/amplifiers; block diagrams.', 'Convolution and pulse-in; silent knights/knaves; ECG heart; cell current.'],
       worksheet: [
-        { q: 'Step response with poles −2, −5 and a zero at 0? (cf. Book §10.5.5)', choices: ['decaying, zero initial slope', 'growing oscillation', 'pure sine'], answer: 0, explain: 'LHP poles decay; the zero at origin kills the DC term: y(0+) = y′(0+) = 0.' }
+        { q: 'Step response with poles −2, −5 and a zero at 0? (cf. Book §10.5.5)', choices: ['decaying, zero initial slope', 'growing oscillation', 'pure sine'], answer: 0, explain: 'LHP poles decay; the zero at origin kills the DC term: y(0+) = y′(0+) = 0.' },
+        { q: 'Poles at −3±4j. Decay rate and ring frequency? (Book §22.21–22.22 theme)', choices: ['e^(−3t) decay, 4 rad/s ring', 'e^(−4t) decay, 3 rad/s ring', 'e^(+3t) growth, 4 rad/s ring'], answer: 0, explain: 'Real part sets the envelope, imaginary part the oscillation.' },
+        { q: 'A gyrator (Book §22.7) lets you…', choices: ['simulate inductance with a capacitor', 'amplify without power', 'measure charge directly'], answer: 0, explain: 'Impedance inversion: C behind a gyrator looks inductive.' },
+        { q: 'Inverting integrator (§22.17) fed a step input outputs…', choices: ['a ramp', 'a step', 'an impulse'], answer: 0, explain: 'Vo = −1/RC∫Vi — the integral of a step is a ramp.' }
       ] }
   ];
   window.B211 = { PARTS: PARTS, CHAPTERS: CHAPTERS };
