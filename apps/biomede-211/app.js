@@ -602,5 +602,10 @@
   };
   paintNav();
   paintScore();
+  var resizeT = 0;
+  global.addEventListener('resize', function () {
+    global.clearTimeout(resizeT);
+    resizeT = global.setTimeout(function () { if (current) showChapter(current); }, 250);
+  });
   showChapter('ch1');
 })(window);
