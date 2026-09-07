@@ -138,6 +138,59 @@ try {
     await ctx.close();
   });
 
+  await test('complete offline shell, unvisited readers, no cross-app cache deletion', async () => {
+    const ctx = await context({ serviceWorkers: 'allow', viewport: { width: 390, height: 844 } });
+    const page = await ctx.newPage();
+    await visit(page, 'index.html');
+    await page.evaluate(async () => { await navigator.serviceWorker.ready; });
+    await page.waitForFunction(() => navigator.serviceWorker.controller?.state === 'activated');
+    await page.evaluate(async () => {
+      const cache = await caches.open('unrelated-app-v1');
+      await cache.put('/unrelated-sentinel', new Response('keep'));
+    });
+    await disconnect(ctx, page);
+    for (const file of ['index.html', 'reader.html?c=maya', 'routes.html', 'objects.html', 'guide.html', 'tours.html', 'sf.html']) {
+      await visit(page, file);
+      await layout(page, `offline ${file}`);
+      if (file === 'routes.html') assert.equal(await page.locator('.map-pin').count(), 6);
+      if (file.startsWith('reader.html')) assert.match(await page.locator('#app h1').innerText(), /Maya/i, 'Offline query parameters still select the unvisited reader');
+    }
+    assert.ok(await page.evaluate(async () => (await caches.keys()).includes('unrelated-app-v1')));
+    const cacheURLs = await page.evaluate(async () => (await (await caches.open('civ-readers-v8')).keys()).map(r => r.url));
+    assert.ok(cacheURLs.length >= 23 && cacheURLs.every(url => url.startsWith(base.href)), 'Only the complete local app shell is cached');
+    await ctx.close();
+  });
+
+  if (server) for (const file of ['reader.html?c=maya#sec-context', 'index.html']) await test(`automatic recovery of an already-open broken v7 ${file}`, async () => {
+    const ctx = await context({ serviceWorkers: 'allow', viewport: { width: 390, height: 844 } });
+    const page = await ctx.newPage();
+    // A JSON page establishes the origin without booting the current app worker.
+    await page.goto(new URL('metadata.json', base).href);
+    await page.evaluate(async () => {
+      await navigator.serviceWorker.register('__qa_legacy_sw.js', { scope: './' });
+      await navigator.serviceWorker.ready;
+      const cache = await caches.open('unrelated-app-v1');
+      await cache.put('/unrelated-sentinel', new Response('keep'));
+    });
+    await page.waitForFunction(() => navigator.serviceWorker.controller?.state === 'activated');
+    const expectedURL = new URL(file, base).href;
+    const response = await page.goto(expectedURL);
+    assert.match(await response.text(), /legacy-reader/, 'The visit must initially use the broken legacy shell');
+    await page.locator('#app h1').waitFor({ timeout: 30000 });
+    assert.equal(page.url(), expectedURL, 'Upgrade preserves the exact reader/index and section URL');
+    if (file.startsWith('reader.html')) {
+      assert.match(await page.locator('#app h1').innerText(), /Maya/i);
+      await page.waitForFunction(() => document.getElementById('sec-context').getBoundingClientRect().top < 180);
+    } else assert.equal(await page.locator('.card').count(), 53);
+    await page.waitForFunction(async () => (await caches.keys()).includes('civ-readers-v8') && !(await caches.keys()).includes('civ-readers-v7'));
+    assert.ok(await page.evaluate(async () => (await caches.keys()).includes('unrelated-app-v1')), 'Upgrade must not delete another app’s cache');
+    await layout(page, 'legacy recovered');
+    await disconnect(ctx, page);
+    await visit(page, 'index.html');
+    assert.equal(await page.locator('.card').count(), 53);
+    await ctx.close();
+  });
+
   const viewports = [[320, 740], [390, 844], [768, 1024], [844, 390], [1024, 768], [1440, 1000], [1920, 1080]];
   await test(`all ${files.length} page shells at ${viewports.length} viewport sizes`, async () => {
     for (const [width, height] of viewports) {
@@ -388,52 +441,7 @@ try {
     }
   });
 
-  await test('complete offline shell, unvisited readers, no cross-app cache deletion', async () => {
-    const ctx = await context({ serviceWorkers: 'allow', viewport: { width: 390, height: 844 } });
-    const page = await ctx.newPage();
-    await visit(page, 'index.html');
-    await page.evaluate(async () => { await navigator.serviceWorker.ready; });
-    await page.waitForFunction(() => navigator.serviceWorker.controller?.state === 'activated');
-    await page.evaluate(async () => {
-      const cache = await caches.open('unrelated-app-v1');
-      await cache.put('/unrelated-sentinel', new Response('keep'));
-    });
-    await disconnect(ctx, page);
-    for (const file of ['index.html', 'reader.html?c=maya', 'routes.html', 'objects.html', 'guide.html', 'tours.html', 'sf.html']) {
-      await visit(page, file);
-      await layout(page, `offline ${file}`);
-      if (file === 'routes.html') assert.equal(await page.locator('.map-pin').count(), 6);
-    }
-    assert.ok(await page.evaluate(async () => (await caches.keys()).includes('unrelated-app-v1')));
-    const cacheURLs = await page.evaluate(async () => (await (await caches.open('civ-readers-v8')).keys()).map(r => r.url));
-    assert.ok(cacheURLs.length >= 23 && cacheURLs.every(url => url.startsWith(base.href)), 'Only the complete local app shell is cached');
-    await ctx.close();
-  });
 
-  if (server) await test('automatic recovery of an already-open broken v7 reader', async () => {
-    const ctx = await context({ serviceWorkers: 'allow', viewport: { width: 390, height: 844 } });
-    const page = await ctx.newPage();
-    // A JSON page establishes the origin without booting the current app worker.
-    await page.goto(new URL('metadata.json', base).href);
-    await page.evaluate(async () => {
-      await navigator.serviceWorker.register('__qa_legacy_sw.js', { scope: './' });
-      await navigator.serviceWorker.ready;
-      const cache = await caches.open('unrelated-app-v1');
-      await cache.put('/unrelated-sentinel', new Response('keep'));
-    });
-    await page.waitForFunction(() => navigator.serviceWorker.controller?.state === 'activated');
-    const response = await page.goto(new URL('reader.html?c=maya#sec-context', base).href);
-    assert.match(await response.text(), /legacy-reader/, 'The visit must initially use the broken legacy shell');
-    await page.locator('body[data-page="reader"] #sec-context').waitFor({ timeout: 30000 });
-    assert.match(page.url(), /reader\.html\?c=maya#sec-context$/, 'Upgrade preserves the reader and section URL');
-    await page.waitForFunction(async () => (await caches.keys()).includes('civ-readers-v8') && !(await caches.keys()).includes('civ-readers-v7'));
-    assert.ok(await page.evaluate(async () => (await caches.keys()).includes('unrelated-app-v1')), 'Upgrade must not delete another app’s cache');
-    await layout(page, 'legacy recovered');
-    await disconnect(ctx, page);
-    await visit(page, 'index.html');
-    assert.equal(await page.locator('.card').count(), 53);
-    await ctx.close();
-  });
 
   report.status = 'passed';
 } catch (error) {

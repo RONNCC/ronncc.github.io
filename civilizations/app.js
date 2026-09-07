@@ -2333,6 +2333,11 @@ const PAGES = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  const url = new URL(window.location.href);
+  if (url.searchParams.get("__civ_upgrade")?.startsWith("civ-readers-")) {
+    url.searchParams.delete("__civ_upgrade");
+    history.replaceState(history.state, "", url.href);
+  }
   initTheme();
   mountThemeToggle();
   const render = PAGES[document.body.dataset.page];
