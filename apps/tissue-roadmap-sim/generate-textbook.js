@@ -12,7 +12,9 @@ const repo = path.join(root, '..', '..');
 const context = { window: {}, console };
 vm.createContext(context);
 vm.runInContext(fs.readFileSync(path.join(root, 'factory.js'), 'utf8'), context, { filename: 'factory.js' });
+vm.runInContext(fs.readFileSync(path.join(root, 'beyond.js'), 'utf8'), context, { filename: 'beyond.js' });
 const F = context.window.Factory;
+const Beyond = context.window.Beyond;
 
 const esc = (s) => String(s)
   .replace(/&/g, '&amp;')
@@ -69,6 +71,24 @@ F.LEVELS.forEach((level) => {
 });
 toc += '</ol></nav>';
 
+// Part II — survey sections beyond the manufacturing line.
+let beyond = '';
+if (Beyond && Beyond.SECTIONS) {
+  toc += '<nav class="tt-toc"><p class="tt-toc-title">Part II — Beyond the line</p><ol>';
+  Beyond.SECTIONS.forEach((s) => { toc += `<li><a href="#bx-${s.id}">${esc(s.title)}</a></li>`; });
+  toc += '</ol></nav>';
+  beyond += '<section class="tt-chapter" id="part2"><p class="tt-kicker">Part II</p><h2>Beyond the line</h2><p>What the manufacturing line does not simulate, surveyed against Lanza et al., <em>Principles of Tissue Engineering</em> (5th ed.). Each section states its Lanza part, its one takeaway, and where the roadmap treats it in depth.</p></section>\n';
+  Beyond.SECTIONS.forEach((s) => {
+    beyond += `<section class="tt-chapter" id="bx-${s.id}">\n`;
+    beyond += `<p class="tt-kicker">Beyond the line · ${esc(s.lanza)}</p>\n`;
+    beyond += `<h2>${esc(s.title)}</h2>\n`;
+    beyond += `<p class="tt-objective"><strong>Roadmap depth.</strong> ${esc(s.roadmap)}</p>\n`;
+    s.body.forEach((p) => { beyond += `<p>${esc(p)}</p>\n`; });
+    beyond += `<p class="tt-takeaway"><strong>Takeaway.</strong> ${esc(s.takeaway)}</p>\n`;
+    beyond += `</section>\n`;
+  });
+}
+
 const out = `---
 layout: page
 title: Tissue Engineering Textbook
@@ -109,6 +129,8 @@ excerpt: A textbook-style companion to the TERM Lab Park simulation — five cha
 ${toc}
 
 ${chapters}
+
+${beyond}
 
 <p class="tt-provenance">Generated from <code>apps/tissue-roadmap-sim/factory.js</code> (the sim's source of truth) on ${today} — ${F.STATIONS.length} stations, ${F.LEVELS.length} chapters. If this page and the sim ever disagree, the sim's <code>LEVELS</code>/<code>GUIDE</code>/<code>QUIZ</code> win. See also the <a href="{{ site.baseurl }}/tissue-engineering-roadmap/">full learning roadmap</a>.</p>
 

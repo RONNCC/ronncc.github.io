@@ -213,7 +213,7 @@ redirect_from: /places/
         <span class="guide-row-title">Tissue Engineering Textbook</span>
         <span class="guide-badge-pill">Textbook</span>
       </div>
-      <p class="guide-row-desc">Literary companion to the TERM Lab Park sim — five chapters, fifteen stations, chapter checks with answers.</p>
+      <p class="guide-row-desc">Literary companion to the TERM Lab Park sim — five chapters, fifteen stations, chapter checks, plus beyond-the-line surveys mapped to Lanza et al.</p>
     </div>
     <div class="guide-row-arrow">&rarr;</div>
   </a>
