@@ -206,6 +206,18 @@ redirect_from: /places/
     <div class="guide-row-arrow">&rarr;</div>
   </a>
 
+  <a class="guide-row" href="{{ site.baseurl }}/apps/biomede-211/">
+    <div class="guide-icon-box icon-fifa">⚡</div>
+    <div class="guide-row-content">
+      <div class="guide-row-head">
+        <span class="guide-row-title">BIOMEDE 211 Lab</span>
+        <span class="guide-badge-pill">Interactive Lab</span>
+      </div>
+      <p class="guide-row-desc">Circuits, systems &amp; signals companion — 22 chapters, each with a working example and worksheet checks.</p>
+    </div>
+    <div class="guide-row-arrow">&rarr;</div>
+  </a>
+
   <a class="guide-row" href="{{ site.baseurl }}/tissue-syllabus/">
     <div class="guide-icon-box icon-fifa">🗺️</div>
     <div class="guide-row-content">

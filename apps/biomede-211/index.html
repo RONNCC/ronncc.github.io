@@ -1,0 +1,57 @@
+---
+layout: standalone
+permalink: /apps/biomede-211/
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>BIOMEDE 211 — Circuits, Systems &amp; Signals Lab</title>
+    <meta name="description" content="Interactive chapter-by-chapter companion to Belmont's BIOMEDE 211 notes: every chapter gets a working example." />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <h1>BIOMEDE 211 Lab</h1>
+            <p>Circuits, Systems &amp; Signals in BME — every chapter, one working example</p>
+          </div>
+        </div>
+        <div class="top-actions">
+          <label class="toggle"><input id="follow-book" type="checkbox" checked />Chapter order</label>
+          <button id="btn-quiz" class="ghost">Score: <b id="score">0 / 0</b></button>
+        </div>
+      </header>
+
+      <aside class="sidebar" id="sidebar" aria-label="Chapters">
+        <div class="search-row"><input id="search" placeholder="Filter chapters…" /></div>
+        <div id="nav"></div>
+      </aside>
+
+      <section class="content" aria-label="Chapter">
+        <div class="chap-head">
+          <div class="eyebrow"><span class="chip" id="chap-part">Part I</span><span id="chap-num"></span></div>
+          <h2 id="chap-title">Pick a chapter</h2>
+          <p class="lede" id="chap-lede"></p>
+        </div>
+        <div class="concepts" id="concepts"></div>
+        <div class="widget-card">
+          <h3>Interactive example</h3>
+          <div id="widget"></div>
+        </div>
+        <div class="ws-card">
+          <h3>Worksheet <span id="ws-count"></span></h3>
+          <div id="worksheet"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="chapters.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
