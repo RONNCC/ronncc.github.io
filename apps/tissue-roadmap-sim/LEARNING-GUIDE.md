@@ -1,3 +1,9 @@
+---
+layout: page
+title: TERM Lab Park — Learning Guide (source note, unpublished)
+published: false
+---
+
 # TERM Lab Park — Learning Guide
 
 **What this is:** the module/submodule map for the 15-station pipeline sim.
