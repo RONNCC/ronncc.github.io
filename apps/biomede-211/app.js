@@ -63,6 +63,9 @@
     });
     c.fillStyle = '#67727e'; c.font = '10px monospace';
     c.fillText(fmt(y1, 2), 4, 22); c.fillText(fmt(y0, 2), 4, h - 16);
+    c.fillText(fmt(x0, 2), 36, h - 3); var xr = fmt(x1, 2); c.fillText(xr, w - 10 - c.measureText(xr).width, h - 3);
+    if (opts.xlabel) { c.fillStyle = '#9aa7b4'; c.fillText(opts.xlabel, w - 10 - c.measureText(opts.xlabel).width, 12); }
+    if (opts.ylabel) { c.fillStyle = '#9aa7b4'; c.fillText(opts.ylabel, 4, 34); }
     return { px: px, py: py };
   }
 
@@ -74,7 +77,10 @@
   W.charge = function (el) {
     var iC = ctl('Current I', 0.1, 10, 0.1, 2, ' mA'), tC = ctl('Time t', 1, 120, 1, 60, ' s'), vC = ctl('Voltage V', 1, 12, 0.5, 5, ' V');
     var cv = document.createElement('canvas'); cv.className = 'plot';
-    el.append(iC, tC, vC); var ro = pills(el, []); el.appendChild(cv);
+    el.append(iC, tC, vC); var ro = pills(el, []);
+    var lg = document.createElement('div'); lg.className = 'readout';
+    [['— Q (mC)', '#58b7e8'], ['— E (J)', '#e8c35a']].forEach(function (L) { var s = document.createElement('span'); s.className = 'pill'; s.style.color = L[1]; s.textContent = L[0]; lg.appendChild(s); });
+    el.appendChild(lg); el.appendChild(cv);
     var dots = [];
     function draw() {
       var I = iC.get() / 1e3, t = tC.get(), V = vC.get();
@@ -199,6 +205,7 @@
     el.append(sel, a); var ro = pills(el, []); el.appendChild(cv);
     function draw() {
       var v = a.get(), k = sel.selectedIndex, F, desc;
+      a.style.display = k === 0 ? 'none' : '';
       if (k === 0) { F = '1/s — pole at 0'; }
       else if (k === 1) { F = '1/(s−(' + v + ')) — pole at ' + v; }
       else { F = v + '/(s²+' + v * v + ') — poles at ±j' + Math.abs(v); }
@@ -263,10 +270,9 @@
       var n = 200, x = [], y = [], T = 6 * tau;
       for (var k = 0; k < n; k++) { var tt = k / (n - 1) * T; x.push(tt); y.push(ch ? V0 * (1 - Math.exp(-tt / tau)) : V0 * Math.exp(-tt / tau)); }
       var marks = ch ? [{ y: V0 * 0.632, color: '#e8c35a' }] : [{ y: V0 * 0.368, color: '#e8c35a' }];
-      plot(cv, [{ x: x, y: y, color: '#58b7e8' }], { hlines: marks });
+      plot(cv, [{ x: x, y: y, color: '#58b7e8' }], { hlines: marks, xlabel: 's', ylabel: 'V' });
       var ct = Math.min(t, T), cy = ch ? V0 * (1 - Math.exp(-ct / tau)) : V0 * Math.exp(-ct / tau);
       var cc = cv.getContext('2d');
-      plot(cv, [{ x: x, y: y, color: '#58b7e8' }], { hlines: marks });
       var dpr = Math.min(2, global.devicePixelRatio || 1), Wd = cv.clientWidth || 600, H = 220;
       var X = 34 + (ct / T) * (Wd - 44), Y = H - 14 - (cy / (V0 * 1.05)) * (H - 28);
       cc.fillStyle = '#7bd88f'; cc.beginPath(); cc.arc(X, Y, 5, 0, 7); cc.fill();
@@ -337,7 +343,7 @@
       ro.innerHTML = ''; var sp = document.createElement('span'); sp.className = 'pill'; sp.textContent = '−3 dB at ' + Fc + ' Hz, ±20 dB/decade'; ro.appendChild(sp);
       var n = 120, x = [], y = [];
       for (var k = 0; k < n; k++) { var f = Math.pow(10, -1 + k / (n - 1) * 6); x.push(Math.log10(f)); var H = lp ? 1 / Math.sqrt(1 + Math.pow(f / Fc, 2)) : (f / Fc) / Math.sqrt(1 + Math.pow(f / Fc, 2)); y.push(20 * Math.log10(G * H)); }
-      plot(cv, [{ x: x, y: y, color: '#58b7e8' }], { hlines: [{ y: 20 * Math.log10(G) - 3, color: '#e8c35a' }] });
+      plot(cv, [{ x: x, y: y, color: '#58b7e8' }], { hlines: [{ y: 20 * Math.log10(G) - 3, color: '#e8c35a' }], xlabel: 'log f', ylabel: 'dB' });
     }
     [fc, g].forEach(function (c) { c.onchange = draw; }); type.onchange = draw; draw();
   };
@@ -388,11 +394,11 @@
     var ie = ctl('Iext step', 0, 30, 0.5, 10, ' µA/cm²');
     var cv = document.createElement('canvas'); cv.className = 'plot';
     el.append(ie); var ro = pills(el, []); el.appendChild(cv);
-    function am(v) { return 0.1 * (v + 40) / (1 - Math.exp(-(v + 40) / 10)); }
+    function am(v) { if (Math.abs(v + 40) < 1e-7) return 1; return 0.1 * (v + 40) / (1 - Math.exp(-(v + 40) / 10)); }
     function bm(v) { return 4 * Math.exp(-(v + 65) / 18); }
     function ah(v) { return 0.07 * Math.exp(-(v + 65) / 20); }
     function bh(v) { return 1 / (1 + Math.exp(-(v + 35) / 10)); }
-    function an(v) { return 0.01 * (v + 55) / (1 - Math.exp(-(v + 55) / 10)); }
+    function an(v) { if (Math.abs(v + 55) < 1e-7) return 0.1; return 0.01 * (v + 55) / (1 - Math.exp(-(v + 55) / 10)); }
     function bn(v) { return 0.125 * Math.exp(-(v + 65) / 80); }
     function draw() {
       var I = ie.get(), dt = 0.02, T = 60, V = -70, m = 0.05, h = 0.6, nn = 0.32;
@@ -409,7 +415,7 @@
       ro.innerHTML = ''; var sp = document.createElement('span'); sp.className = 'pill';
       sp.textContent = fired ? '✓ FIRED — peak ' + fmt(peak, 1) + ' mV (overshoot, all-or-none)' : '○ subthreshold — peak ' + fmt(peak, 1) + ' mV (raise Iext past ~6)';
       ro.appendChild(sp);
-      plot(cv, [{ x: x, y: y, color: fired ? '#7bd88f' : '#58b7e8' }], { hlines: [{ y: -70, color: '#67727e' }, { y: -55, color: '#e8c35a' }] });
+      plot(cv, [{ x: x, y: y, color: fired ? '#7bd88f' : '#58b7e8' }], { hlines: [{ y: -70, color: '#67727e' }, { y: -55, color: '#e8c35a' }], xlabel: 'ms', ylabel: 'mV' });
     }
     ie.onchange = draw; draw();
   };
@@ -451,7 +457,7 @@
       plot(c1, [{ x: x, y: y, color: '#58b7e8' }, { x: sx, y: sy, color: '#e8c35a', dots: 1 }], {});
       var lv = 8, x2 = [], y2 = [];
       for (var m = 0; m <= lv; m++) { var tm = m / lv * T; x2.push(tm * 1e3); y2.push(Math.round((Math.sin(2 * Math.PI * Fm * tm) + 1) / 2 * (Math.pow(2, N) - 1)) / (Math.pow(2, N) - 1) * 2 - 1); }
-      plot(c2, [{ x: x, y: y, color: '#2c3642' }, { x: x2, y: y2, color: '#7bd88f', dots: 1 }], {});
+      plot(c2, [{ x: x, y: y, color: '#66788c' }, { x: x2, y: y2, color: '#7bd88f', dots: 1 }], { xlabel: 'ms', ylabel: 'V' });
     }
     [fm, fs, nb].forEach(function (c) { c.onchange = draw; }); draw();
   };
@@ -554,13 +560,18 @@
     renderWorksheet(ch);
     paintNav();
     document.querySelector('.content').scrollTop = 0;
+    try { if (global.scrollTo && document.querySelector('.app-shell').clientHeight > global.innerHeight) global.scrollTo(0, 0); } catch (e) { /* desktop: internal scroll only */ }
   }
 
   function paintNav() {
     var q = ($('search').value || '').toLowerCase();
     var nv = $('nav'); nv.innerHTML = '';
     B.PARTS.forEach(function (p) {
-      var list = B.CHAPTERS.filter(function (c) { return c.part === p.id && (!q || (c.title + c.num).toLowerCase().includes(q)); });
+      var list = B.CHAPTERS.filter(function (c) {
+        if (!q) return c.part === p.id;
+        var hay = (c.title + ' ' + c.num + ' ' + c.lede + ' ' + c.concepts.join(' ')).replace(/<[^>]*>/g, ' ').toLowerCase();
+        return c.part === p.id && hay.includes(q);
+      });
       if (!list.length) return;
       var h = document.createElement('div'); h.className = 'part-title'; h.textContent = p.title; nv.appendChild(h);
       list.forEach(function (c) {
