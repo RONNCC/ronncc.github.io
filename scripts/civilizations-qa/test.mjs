@@ -47,7 +47,7 @@ async function context(options = {}) {
     await ctx.route('**/*', route => new URL(route.request().url()).origin === base.origin ? route.continue() : route.abort());
   }
   ctx.on('page', page => {
-    activePage = page;
+    if (!activePage || activePage.isClosed()) activePage = page;
     page.setDefaultTimeout(12000);
     page.on('pageerror', error => errors.push(`${page.url()}: ${error.message}`));
     page.on('response', response => {
@@ -65,6 +65,7 @@ async function disconnect(ctx, page) {
   }), 'An uncached request must fail after disconnecting the network');
 }
 async function visit(page, file) {
+  activePage = page;
   const response = await page.goto(new URL(file, base).href, { waitUntil: 'load' });
   assert.equal(response.status(), 200, `HTTP status: ${file}`);
   await page.locator('#app h1').waitFor();
@@ -109,6 +110,10 @@ async function layout(page, label) {
   report.layouts++;
 }
 async function axe(page, label) {
+  // DOM/load readiness can precede WebKit's inherited-color paint after the
+  // initial OS-theme selection. Audit the settled render, without exempting any
+  // elements or contrast rules. Also allow queued disclosure/layout work to paint.
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
   const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
   assert.deepEqual(result.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => ({ target: n.target, summary: n.failureSummary })) })), [], `${label}: accessibility violations`);
   report.accessibility++;
@@ -250,6 +255,14 @@ try {
       await shot(page, `index-theme-from-${colorScheme}`);
       await ctx.close();
     }
+    // Repeat the first dark page in a fresh context: it must also pass cold, not
+    // only after another page has already established a saved theme preference.
+    const cold = await context({ viewport: { width: 390, height: 844 }, colorScheme: 'dark' });
+    const page = await cold.newPage();
+    await visit(page, 'berlin.html');
+    await axe(page, 'Berlin cold-start dark theme');
+    await shot(page, 'berlin-cold-dark');
+    await cold.close();
   });
 
   await test('search AND region filtering, empty states, objects, glossary', async () => {
@@ -456,6 +469,9 @@ try {
     };
     return {
       url: location.href, width: innerWidth, height: innerHeight, scrollY,
+      theme: document.documentElement.dataset.theme,
+      bodyColor: getComputedStyle(document.body).color,
+      headings: [...document.querySelectorAll('h1, h2')].map(el => ({ text: el.textContent, color: getComputedStyle(el).color })),
       context: box('#sec-context'), toc: box('#reader-toc'), nav: box('#site-nav'),
       controller: navigator.serviceWorker?.controller?.state,
       caches: typeof caches !== 'undefined' ? await caches.keys() : []

@@ -86,3 +86,20 @@ network failure consistently in all engines, rather than WebKit's virtual offlin
 flag (which can reject navigation before asking its service worker). HTTPS uses
 an opaque CONNECT tunnel; no certificates or responses are modified. Third-party
 traffic is blocked and Google's measurement opt-out is set before page scripts.
+
+### Post-deployment audit without workflow-dispatch permission
+
+After Pages finishes deploying the same app assets as your branch, push a commit
+whose subject includes `[civilizations-live-audit]`. An empty commit is sufficient:
+
+```bash
+git commit --allow-empty -m "[civilizations-live-audit] Verify deployed readers"
+git push
+```
+
+Only a **push** in **Check analytics coverage** opts into the live target. PR checks
+and the Pages build still validate the checkout locally. No workflow edits or new
+GitHub permissions are required. Do not use this marker before the corresponding
+app assets are deployed: the byte-for-byte check should fail on an older release.
+The live audit also repeats a cold-start dark page and waits for completed paints
+before accessibility analysis; contrast rules are never disabled.
