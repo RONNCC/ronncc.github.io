@@ -114,6 +114,12 @@ async function axe(page, label) {
   // initial OS-theme selection. Audit the settled render, without exempting any
   // elements or contrast rules. Also allow queued disclosure/layout work to paint.
   await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  const wrongFill = await page.locator('#app h1, #app h2, #app h3').evaluateAll(headings => headings.flatMap(el => {
+    const style = getComputedStyle(el);
+    const fill = style.getPropertyValue('-webkit-text-fill-color');
+    return fill && fill !== style.color ? [{ text: el.textContent, color: style.color, fill }] : [];
+  }));
+  assert.deepEqual(wrongFill, [], `${label}: heading glyph fill must follow its theme color`);
   const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
   assert.deepEqual(result.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => ({ target: n.target, summary: n.failureSummary })) })), [], `${label}: accessibility violations`);
   report.accessibility++;
@@ -161,22 +167,22 @@ try {
       if (file.startsWith('reader.html')) assert.match(await page.locator('#app h1').innerText(), /Maya/i, 'Offline query parameters still select the unvisited reader');
     }
     assert.ok(await page.evaluate(async () => (await caches.keys()).includes('unrelated-app-v1')));
-    const cacheURLs = await page.evaluate(async () => (await (await caches.open('civ-readers-v8')).keys()).map(r => r.url));
+    const cacheURLs = await page.evaluate(async () => (await (await caches.open('civ-readers-v9')).keys()).map(r => r.url));
     assert.ok(cacheURLs.length >= 23 && cacheURLs.every(url => url.startsWith(base.href)), 'Only the complete local app shell is cached');
     await ctx.close();
   });
 
-  if (server) for (const file of ['reader.html?c=maya#sec-context', 'index.html']) await test(`automatic recovery of an already-open broken v7 ${file}`, async () => {
+  if (server) for (const [version, file] of [['v7', 'reader.html?c=maya#sec-context'], ['v7', 'index.html'], ['v8', 'reader.html?c=maya#sec-context']]) await test(`automatic recovery of an already-open ${version} ${file}`, async () => {
     const ctx = await context({ serviceWorkers: 'allow', viewport: { width: 390, height: 844 } });
     const page = await ctx.newPage();
     // A JSON page establishes the origin without booting the current app worker.
     await page.goto(new URL('metadata.json', base).href);
-    await page.evaluate(async () => {
-      await navigator.serviceWorker.register('__qa_legacy_sw.js', { scope: './' });
+    await page.evaluate(async previousVersion => {
+      await navigator.serviceWorker.register('__qa_legacy_sw.js?version=' + previousVersion, { scope: './' });
       await navigator.serviceWorker.ready;
       const cache = await caches.open('unrelated-app-v1');
       await cache.put('/unrelated-sentinel', new Response('keep'));
-    });
+    }, version);
     await page.waitForFunction(() => navigator.serviceWorker.controller?.state === 'activated');
     const expectedURL = new URL(file, base).href;
     const response = await page.goto(expectedURL);
@@ -187,7 +193,7 @@ try {
       assert.match(await page.locator('#app h1').innerText(), /Maya/i);
       await page.waitForFunction(() => document.getElementById('sec-context').getBoundingClientRect().top < 180);
     } else assert.equal(await page.locator('.card').count(), 53);
-    await page.waitForFunction(async () => (await caches.keys()).includes('civ-readers-v8') && !(await caches.keys()).includes('civ-readers-v7'));
+    await page.waitForFunction(async previousVersion => (await caches.keys()).includes('civ-readers-v9') && !(await caches.keys()).includes('civ-readers-' + previousVersion), version);
     assert.ok(await page.evaluate(async () => (await caches.keys()).includes('unrelated-app-v1')), 'Upgrade must not delete another app’s cache');
     await layout(page, 'legacy recovered');
     await disconnect(ctx, page);
@@ -471,7 +477,7 @@ try {
       url: location.href, width: innerWidth, height: innerHeight, scrollY,
       theme: document.documentElement.dataset.theme,
       bodyColor: getComputedStyle(document.body).color,
-      headings: [...document.querySelectorAll('h1, h2')].map(el => ({ text: el.textContent, color: getComputedStyle(el).color })),
+      headings: [...document.querySelectorAll('h1, h2')].map(el => ({ text: el.textContent, color: getComputedStyle(el).color, textFill: getComputedStyle(el).getPropertyValue('-webkit-text-fill-color') })),
       context: box('#sec-context'), toc: box('#reader-toc'), nav: box('#site-nav'),
       controller: navigator.serviceWorker?.controller?.state,
       caches: typeof caches !== 'undefined' ? await caches.keys() : []
