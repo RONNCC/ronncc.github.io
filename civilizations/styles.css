@@ -2108,3 +2108,13 @@ html[data-theme="dark"] .rel-type { color: var(--accent); }
     scroll-margin-top: calc(var(--toc-h) + env(safe-area-inset-top, 0px) + 12px);
   }
 }
+
+.to-top { display: grid; place-items: center; }
+/* Disclosure controls do not depend on a platform's symbol/emoji font. */
+.panel-chev, details.period summary .chev {
+  width: 9px; height: 9px; font-size: 0; flex: 0 0 auto;
+  border-right: 2px solid var(--ink-faint); border-bottom: 2px solid var(--ink-faint);
+}
+.panel-chev, details.period[open] summary .chev { transform: rotate(45deg); }
+details.panel:not([open]) .panel-chev, details.period summary .chev { transform: rotate(-45deg); }
+details.period[open] summary .chev { transform: rotate(45deg); }

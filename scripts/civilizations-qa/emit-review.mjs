@@ -11,7 +11,7 @@ try {
   const report = JSON.parse(await fs.readFile(path.join(dir, 'summary.json'), 'utf8'));
   console.log('CIV_SUMMARY ' + JSON.stringify(report));
   if (process.env.GITHUB_ACTIONS === 'true') {
-    const message = JSON.stringify({ engine, status: report.status, target: report.target, layouts: report.layouts, accessibility: report.accessibility, links: report.links, error: report.error || null });
+    const message = JSON.stringify({ engine, status: report.status, target: report.target, layouts: report.layouts, accessibility: report.accessibility, links: report.links, error: report.error || null, diagnostics: report.diagnostics || null });
     const escape = value => value.replaceAll('%', '%25').replaceAll('\r', '%0D').replaceAll('\n', '%0A');
     console.log(`::${report.status === 'passed' ? 'notice' : 'error'} title=Civilization Readers ${engine}::${escape(message)}`);
   }

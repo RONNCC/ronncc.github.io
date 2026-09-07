@@ -47,8 +47,10 @@ installed Chromium binary in a constrained sandbox.
 - Offline loading of precached pages/readers never visited before; app-scoped
   caches; automatic migration of a broken v7 page with **no update listener**.
   The legacy worker fixture is only served by the test server, never production.
-- All third-party browser requests are blocked during testing, so the app must
-  work without a CDN and tests do not send analytics.
+- Layout/interaction contexts block third-party requests, proving the app works
+  without a CDN. Worker tests use native networking (interception can break
+  WebKit's offline navigation). All contexts set Google's measurement opt-out
+  before page scripts execute, so the live audit does not send analytics.
 
 Screenshots and `summary.json` go under ignored `artifacts/<browser>/`.
 `script/check-civilizations.sh` runs all three engines. In GitHub Actions it is
@@ -61,8 +63,8 @@ commit/branch to repeat the audit against `https://sghose.me` (the script detect
 that validation workflow's `workflow_dispatch` event). A manual dispatch of the
 **deployment** workflow still tests locally before publishing.
 
-Each CI run writes the browser summaries and six selected review images into the
-job log; no new artifact action or extra GitHub permission is needed. Extract:
+Each CI run writes browser summaries as check annotations, and selected review
+images into a collapsed job-log group; no new artifact action or extra GitHub permission is needed. Extract:
 
 ```sh
 gh run view RUN_ID --log > artifacts/ci.log

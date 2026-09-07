@@ -147,7 +147,7 @@ function mountToTop() {
   btn.id = "to-top";
   btn.className = "to-top";
   btn.type = "button";
-  btn.textContent = "↑";
+  btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V4m-7 7 7-7 7 7"/></svg>';
   btn.setAttribute("aria-label", "Back to top");
   btn.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "auto" });
@@ -1479,7 +1479,7 @@ function renderGraph(container) {
       <label for="time-range">Year</label>
       <input id="time-range" aria-valuetext="All time" type="range" min="-4000" max="2025" step="25" value="2025" />
       <output id="time-out">all time</output>
-      <button type="button" class="time-btn" id="time-play" aria-label="Play through time">▶</button>
+      <button type="button" class="time-btn" id="time-play" aria-label="Play through time">Play</button>
       <button type="button" class="time-btn subtle" id="time-reset">All</button>
     </div>
     <div class="graph-controls" role="group" aria-label="Graph view controls">
@@ -1606,14 +1606,14 @@ function wireGraph(container, nodes, edges) {
   }
   function stopPlay() {
     if (timer) { clearInterval(timer); timer = null; }
-    if (playBtn) { playBtn.textContent = "▶"; playBtn.setAttribute("aria-label", "Play through time"); }
+    if (playBtn) { playBtn.textContent = "Play"; playBtn.setAttribute("aria-label", "Play through time"); }
   }
   if (playBtn) {
     playBtn.addEventListener("click", () => {
       if (timer) { stopPlay(); return; }
       let y = year == null ? -4000 : year;
       if (y >= 2025) y = -4000;
-      playBtn.textContent = "⏸";
+      playBtn.textContent = "Pause";
       playBtn.setAttribute("aria-label", "Pause");
       timer = setInterval(() => {
         y += 50;
@@ -2257,7 +2257,16 @@ function jumpToHash() {
   const el = document.getElementById(id);
   if (el) {
     if (el.matches("details")) el.open = true;
-    window.requestAnimationFrame(() => el.scrollIntoView({ block: "start" }));
+    // Firefox may perform its native fragment scroll after DOMContentLoaded.
+    // Resolve the final position after layout, using only the document scroller
+    // (not the reader's nested horizontal TOC/timeline scrollers).
+    if (jumpToHash.frame) cancelAnimationFrame(jumpToHash.frame);
+    jumpToHash.frame = requestAnimationFrame(() => {
+      jumpToHash.frame = requestAnimationFrame(() => {
+        const offset = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+        window.scrollTo({ top: window.scrollY + el.getBoundingClientRect().top - offset, behavior: "instant" });
+      });
+    });
   }
 }
 
@@ -2331,6 +2340,7 @@ document.addEventListener("DOMContentLoaded", () => {
   mountNav();
   mountToTop();
   jumpToHash();
+  window.addEventListener("load", jumpToHash, { once: true });
   wirePrint();
   registerOffline();
 });

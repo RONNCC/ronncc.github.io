@@ -31,8 +31,12 @@ function key(url) {
 }
 async function context(options = {}) {
   const ctx = await browser.newContext({ serviceWorkers: 'block', reducedMotion: 'reduce', ...options });
-  // Tests should neither send analytics nor depend on CDNs or other outside assets.
-  await ctx.route('**/*', route => new URL(route.request().url()).origin === base.origin ? route.continue() : route.abort());
+  // Native worker navigation must not be intercepted (WebKit's offline loader
+  // conflicts with interception). Opt out of Google measurement in every case.
+  await ctx.addInitScript(() => { window['ga-disable-G-WL390Z0Q0Y'] = true; });
+  if (options.serviceWorkers !== 'allow') {
+    await ctx.route('**/*', route => new URL(route.request().url()).origin === base.origin ? route.continue() : route.abort());
+  }
   ctx.on('page', page => {
     activePage = page;
     page.setDefaultTimeout(12000);
@@ -372,7 +376,7 @@ try {
     const page = await ctx.newPage();
     await visit(page, 'index.html');
     await page.evaluate(async () => { await navigator.serviceWorker.ready; });
-    await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+    await page.waitForFunction(() => navigator.serviceWorker.controller?.state === 'activated');
     await page.evaluate(async () => {
       const cache = await caches.open('unrelated-app-v1');
       await cache.put('/unrelated-sentinel', new Response('keep'));
@@ -400,7 +404,7 @@ try {
       const cache = await caches.open('unrelated-app-v1');
       await cache.put('/unrelated-sentinel', new Response('keep'));
     });
-    await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+    await page.waitForFunction(() => navigator.serviceWorker.controller?.state === 'activated');
     const response = await page.goto(new URL('reader.html?c=maya#sec-context', base).href);
     assert.match(await response.text(), /legacy-reader/, 'The visit must initially use the broken legacy shell');
     await page.locator('body[data-page="reader"] #sec-context').waitFor({ timeout: 30000 });
@@ -418,6 +422,20 @@ try {
 } catch (error) {
   report.status = 'failed';
   report.error = error.stack;
+  if (activePage && !activePage.isClosed()) report.diagnostics = await activePage.evaluate(async () => {
+    const box = selector => {
+      const el = document.querySelector(selector);
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      return { top: r.top, bottom: r.bottom, height: r.height, margin: getComputedStyle(el).scrollMarginTop };
+    };
+    return {
+      url: location.href, width: innerWidth, height: innerHeight, scrollY,
+      context: box('#sec-context'), toc: box('#reader-toc'), nav: box('#site-nav'),
+      controller: navigator.serviceWorker?.controller?.state,
+      caches: typeof caches !== 'undefined' ? await caches.keys() : []
+    };
+  }).catch(() => null);
   if (activePage && !activePage.isClosed()) await activePage.screenshot({ path: path.join(artifacts, 'failure.png') }).catch(() => {});
   console.error(error);
   process.exitCode = 1;
