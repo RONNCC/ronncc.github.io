@@ -15,7 +15,7 @@ permalink: /presentations/
     </div>
     <h3><a href="{{ site.baseurl }}/presentations/snoopy.html">Snoopy</a></h3>
     <div class="game-tags"><span>Peanuts</span><span>Pop culture</span></div>
-    <p>Schulz&rsquo;s beagle, the personas, NASA, and why he stuck as a cultural icon.</p>
+    <p>Schulz&rsquo;s beagle, the personas, the eight-puppy family tree, NASA, and why he stuck as a cultural icon.</p>
     <a class="game-play" href="{{ site.baseurl }}/presentations/snoopy.html">Open slides &rarr;</a>
   </div>
 
