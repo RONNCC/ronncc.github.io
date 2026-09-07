@@ -1,62 +1,61 @@
-/* Civilization Readers — service worker
- * Cache-first (stale-while-revalidate) so the site works offline,
- * e.g. in a museum basement with no signal.
+/* Civilization Readers — atomic, versioned offline app shell.
+ * Bump CACHE whenever a shipped HTML/CSS/JS asset changes. A complete release is
+ * cached before activation, so a reader never mixes an old shell with new styles.
+ * Only this app's assets/caches are touched; analytics and other apps pass through.
  */
-const CACHE = "civ-readers-v7";
+const CACHE_PREFIX = "civ-readers-";
+const CACHE = "civ-readers-v8";
 const ASSETS = [
-  "./",
-  "./index.html",
-  "./reader.html",
-  "./met.html",
-  "./routes.html",
-  "./world.js",
-  "./sf.html",
-  "./smithsonian.html",
-  "./london.html",
-  "./paris.html",
-  "./berlin.html",
-  "./template.html",
-  "./objects.html",
-  "./tours.html",
-  "./guide.html",
-  "./styles.css",
-  "./app.js",
-  "./data.js",
-  "./manifest.webmanifest",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png",
-  "./icons/maskable-512.png"
+  "./", "./index.html", "./reader.html", "./met.html", "./routes.html",
+  "./world.js", "./sf.html", "./smithsonian.html", "./london.html",
+  "./paris.html", "./berlin.html", "./template.html", "./objects.html",
+  "./tours.html", "./guide.html", "./styles.css", "./app.js", "./data.js",
+  "./manifest.webmanifest", "./icons/icon-180.png", "./icons/icon-192.png",
+  "./icons/icon-512.png", "./icons/maskable-512.png"
 ];
+const assetURLs = new Set(ASSETS.map((asset) => new URL(asset, self.registration.scope).href));
 
-self.addEventListener("install", (e) => {
-  e.waitUntil(
-    caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting())
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches.open(CACHE)
+      .then((cache) => cache.addAll(ASSETS.map((asset) => new Request(asset, { cache: "reload" }))))
+      .then(() => self.skipWaiting())
   );
 });
 
-self.addEventListener("activate", (e) => {
-  e.waitUntil(
-    caches
-      .keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
-      .then(() => self.clients.claim())
-  );
+self.addEventListener("activate", (event) => {
+  event.waitUntil((async () => {
+    const oldCaches = (await caches.keys()).filter((key) => key.startsWith(CACHE_PREFIX) && key !== CACHE);
+    // v7's broken index did not load app.js, so it has no update listener.
+    // Recover those already-open legacy pages once, without touching other apps.
+    const recoverLegacy = oldCaches.includes("civ-readers-v7");
+    await Promise.all(oldCaches.map((key) => caches.delete(key)));
+    await self.clients.claim();
+    if (recoverLegacy) {
+      const clients = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+      // A same-URL navigation with a fragment can be only a fragment jump,
+      // leaving the legacy document in place. Force a new document; app.js removes
+      // this temporary query flag before rendering and keeps the reader/hash.
+      // Do NOT await navigation inside activate: its fetch waits for activation
+      // to finish, so that would deadlock the upgrade.
+      clients.filter((client) => client.url.startsWith(self.registration.scope)).forEach((client) => {
+        const url = new URL(client.url);
+        url.searchParams.set("__civ_upgrade", CACHE);
+        client.navigate(url.href).catch(() => {});
+      });
+    }
+  })());
 });
 
-self.addEventListener("fetch", (e) => {
-  if (e.request.method !== "GET") return;
-  e.respondWith(
-    caches.match(e.request, { ignoreSearch: true }).then((cached) => {
-      const network = fetch(e.request)
-        .then((res) => {
-          if (res && res.status === 200 && (res.type === "basic" || res.type === "cors")) {
-            const clone = res.clone();
-            caches.open(CACHE).then((c) => c.put(e.request, clone));
-          }
-          return res;
-        })
-        .catch(() => cached);
-      return cached || network;
-    })
-  );
+self.addEventListener("fetch", (event) => {
+  if (event.request.method !== "GET") return;
+  const url = new URL(event.request.url);
+  // Query parameters choose content within the reader shell; they are not new assets.
+  url.search = "";
+  url.hash = "";
+  if (!assetURLs.has(url.href)) return;
+  event.respondWith((async () => {
+    const cache = await caches.open(CACHE);
+    return (await cache.match(url.href)) || fetch(event.request);
+  })());
 });

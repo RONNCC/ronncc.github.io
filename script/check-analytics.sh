@@ -43,4 +43,11 @@ fi
 if [ "$fail" -eq 0 ]; then
   echo "analytics coverage: OK"
 fi
-exit "$fail"
+if [ "$fail" -ne 0 ]; then exit "$fail"; fi
+
+# The same standalone HTML shells also need a browser regression gate. Keep the
+# local analytics guard lightweight; the existing CI workflows run the complete
+# three-engine Civilization Readers suite before a PR/deployment can pass.
+if [[ "${GITHUB_ACTIONS:-}" == true ]]; then
+  bash script/check-civilizations.sh
+fi

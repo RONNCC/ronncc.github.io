@@ -12,3 +12,7 @@ _site/
 # Local presentation browser checks
 /scripts/snoopy-qa/node_modules/
 /scripts/snoopy-qa/artifacts/
+
+# Civilization Readers browser checks
+/scripts/civilizations-qa/node_modules/
+/scripts/civilizations-qa/artifacts/

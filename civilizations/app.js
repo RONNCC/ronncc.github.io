@@ -111,7 +111,7 @@ function byGroup() {
 /* ---------------- shared chrome ---------------- */
 
 const NAV_LINKS = [
-  { href: "index.html", label: "Civilizations", icon: "🏺", page: "index" },
+  { href: "index.html", label: "Civilizations", shortLabel: "Readers", icon: "🏺", page: "index" },
   { href: "objects.html", label: "Objects", icon: "💎", page: "objects" },
   { href: "tours.html", label: "Tours", icon: "🧭", page: "tours" },
   { href: "routes.html", label: "Museums", icon: "🏛️", page: "routes" },
@@ -123,17 +123,17 @@ const NAV_LINKS = [
 function mountNav() {
   if (document.getElementById("site-nav")) return;
   const page = document.body.dataset.page || "";
-  const routePages = ["routes", "met", "sf", "smithsonian", "london", "paris", "berlin"];
-  const current = routePages.indexOf(page) !== -1 ? "routes" : page;
+  const routePages = ["routes", "met", "sf", "smithsonian", "london", "paris", "berlin", "template"];
+  const current = routePages.includes(page) ? "routes" : page === "reader" ? "index" : page;
   const nav = document.createElement("nav");
   nav.id = "site-nav";
   nav.className = "site-nav";
   nav.setAttribute("aria-label", "Sections");
   nav.innerHTML = NAV_LINKS.map(
     (l) =>
-      `<a class="nav-item${l.page === current ? " on" : ""}" href="${l.href}">
+      `<a class="nav-item${l.page === current ? " on" : ""}" href="${l.href}"${l.page === current ? ' aria-current="page"' : ""}>
         <span class="nav-ico" aria-hidden="true">${l.icon}</span>
-        <span class="nav-label">${esc(l.label)}</span>
+        <span class="nav-label"><span class="nav-long">${esc(l.label)}</span><span class="nav-short">${esc(l.shortLabel || l.label)}</span></span>
       </a>`
   ).join("");
   document.body.appendChild(nav);
@@ -147,11 +147,19 @@ function mountToTop() {
   btn.id = "to-top";
   btn.className = "to-top";
   btn.type = "button";
-  btn.textContent = "↑";
+  btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V4m-7 7 7-7 7 7"/></svg>';
   btn.setAttribute("aria-label", "Back to top");
-  btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  btn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+    document.getElementById("main-content").focus({ preventScroll: true });
+  });
   document.body.appendChild(btn);
-  const onScroll = () => btn.classList.toggle("show", window.scrollY > 700);
+  const onScroll = () => {
+    const show = window.scrollY > 700;
+    btn.classList.toggle("show", show);
+    btn.tabIndex = show ? 0 : -1;
+    btn.setAttribute("aria-hidden", String(!show));
+  };
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
 }
@@ -171,23 +179,23 @@ function renderIndex() {
 
   let html = `
   <header class="hero hero-compact">
-    <p class="kicker">Civilization Readers</p>
     <h1>Pick a civilization. Get the context before the gallery.</h1>
     <p class="lede">Pocket primers for <strong>${CIVILIZATIONS.length} civilizations</strong> across <strong>${groups.length} regions</strong> — visual timelines, key context, and a cheat sheet for what you'll actually see on display.</p>
     <div class="search-wrap search-wrap-prominent">
-      <input id="civ-search" type="search" placeholder="Search civilizations, terms, or objects…" autocomplete="off" enterkeyhint="search" />
+      <input id="civ-search" aria-label="Search civilizations, terms, or objects" type="search" placeholder="Search civilizations, terms, or objects…" autocomplete="off" enterkeyhint="search" />
     </div>
   </header>
 
   <div class="index-filter-bar" id="index-filter-bar">
     <div class="filter-pills-wrap">
-      <button class="filter-pill active" data-filter="all">All <span class="pill-count">${CIVILIZATIONS.length}</span></button>
+      <button type="button" class="filter-pill active" aria-pressed="true" data-filter="all">All <span class="pill-count">${CIVILIZATIONS.length}</span></button>
       ${groups.map(({ group, civs }) => `
-        <button class="filter-pill" data-filter="${esc(slugifyGroup(group))}">${esc(group)} <span class="pill-count">${civs.length}</span></button>
+        <button type="button" class="filter-pill" aria-pressed="false" data-filter="${esc(slugifyGroup(group))}">${esc(group)} <span class="pill-count">${civs.length}</span></button>
       `).join("")}
     </div>
   </div>
 
+  <p class="sr-only" id="search-status" role="status"></p>
   <div class="stat-strip stat-strip-compact">
     <span><b>${CIVILIZATIONS.length}</b> civilizations</span>
     <span><b>${museumCount}</b> museums</span>
@@ -225,7 +233,7 @@ function renderIndex() {
           <div class="card-top">
             <span class="card-emoji">${c.emoji}</span>
             <div class="card-title-block">
-              <h2>${esc(c.name)}</h2>
+              <h3>${esc(c.name)}</h3>
               <span class="card-span">${esc(c.spanLabel)}</span>
             </div>
           </div>
@@ -240,7 +248,7 @@ function renderIndex() {
     html += `</div></section>`;
   });
 
-  html += `<div class="no-results" id="no-results">No civilizations match "<span id="no-results-q"></span>".</div>`;
+  html += `<div class="no-results" id="no-results" role="status">No civilizations match "<span id="no-results-q"></span>".</div>`;
   html += `<footer class="foot">A high-level primer for gallery context — not an academic reference. Dates are approximate. <a href="reader.html?c=egypt">Start with Egypt →</a></footer>`;
   app.innerHTML = html;
   wireSearch();
@@ -297,7 +305,7 @@ function renderMasterTimeline(container) {
   });
 
   s += `</svg>`;
-  container.innerHTML = `<div class="tl-scroll">${s}</div>`;
+  container.innerHTML = `<div class="tl-scroll" tabindex="0" role="region" aria-label="Scrollable world history timeline">${s}</div>`;
 }
 
 /* Collapsible panels: any <details class="panel" data-collapse-key> remembers
@@ -311,9 +319,13 @@ function wireCollapsiblePanels() {
     try { saved = localStorage.getItem(key); } catch (e) {}
     if (saved === "1") d.open = false;
     else if (saved === "0") d.open = true;
-    d.addEventListener("toggle", () => {
+    const persist = () => {
+      if (d.dataset.printOpen) return;
       try { localStorage.setItem(key, d.open ? "0" : "1"); } catch (e) {}
-    });
+    };
+    d.addEventListener("toggle", persist);
+    // A quick navigation can happen before the queued toggle event is delivered.
+    window.addEventListener("pagehide", persist);
   });
 
   // Jump links (e.g. "Timeline" in the reader nav) should reopen a collapsed
@@ -346,7 +358,6 @@ function applyIndexFilters() {
 
   document.querySelectorAll(".card").forEach((card) => {
     const hay = card.dataset.search || "";
-    const group = (card.dataset.group || "").toLowerCase();
     const matchesSearch = !q || hay.includes(q);
     const matchesFilter = _indexFilter === "all" || slugifyGroup(card.dataset.group || "") === _indexFilter;
     const show = matchesSearch && matchesFilter;
@@ -358,10 +369,13 @@ function applyIndexFilters() {
   document.querySelectorAll(".group-section").forEach((section) => {
     const grid = section.querySelector(".grid");
     if (!grid) return;
-    const any = Array.from(grid.querySelectorAll(".card")).some((c) => c.style.display !== "none");
-    section.style.display = any ? "" : "none";
+    const count = Array.from(grid.querySelectorAll(".card")).filter((c) => c.style.display !== "none").length;
+    section.style.display = count ? "" : "none";
+    section.querySelector(".group-count").textContent = `${count} civilization${count === 1 ? "" : "s"}`;
   });
 
+  const status = document.getElementById("search-status");
+  if (status) status.textContent = `${visible} civilization${visible === 1 ? "" : "s"} shown`;
   if (noResults) {
     noResults.style.display = q && visible === 0 ? "block" : "none";
     if (noResultsQ) noResultsQ.textContent = input ? input.value.trim() : "";
@@ -380,8 +394,10 @@ function wireFilterPills() {
   bar.addEventListener("click", (e) => {
     const btn = e.target.closest(".filter-pill");
     if (!btn) return;
-    bar.querySelectorAll(".filter-pill").forEach((b) => b.classList.remove("active"));
-    btn.classList.add("active");
+    bar.querySelectorAll(".filter-pill").forEach((b) => {
+      b.classList.toggle("active", b === btn);
+      b.setAttribute("aria-pressed", String(b === btn));
+    });
     _indexFilter = btn.dataset.filter || "all";
     applyIndexFilters();
   });
@@ -390,121 +406,64 @@ function wireFilterPills() {
 /* ---------------- timeline (SVG) ---------------- */
 
 function renderTimeline(container, civ) {
-  const padX = 64;
-  let minY = civ.start, maxY = civ.end;
-  // Let the axis span any pre/post phases that extend beyond the headline dates.
-  civ.periods.forEach((p) => {
-    if (p.start < minY) minY = p.start;
-    if (p.end > maxY) maxY = p.end;
+  const W = 1080, pad = 48, eraY = 18, eraH = 48, axisY = 100;
+  const years = [civ.start, civ.end, ...civ.periods.flatMap((p) => [p.start, p.end]), ...civ.events.map((e) => e.year)];
+  const minYear = Math.min(...years), maxYear = Math.max(...years);
+  const span = Math.max(1, maxYear - minYear);
+  const X = (year) => pad + ((year - minYear) / span) * (W - pad * 2);
+  const measure = document.createElement("canvas").getContext("2d");
+  measure.font = `600 13px ${getComputedStyle(document.body).fontFamily}`;
+  const textWidth = (text) => measure.measureText(text).width;
+  const rows = [];
+  // All event labels sit below the periods. Add rows instead of overlapping
+  // labels when a long history ends in a cluster of closely spaced dates.
+  const placed = civ.events.map((event, i) => {
+    const x = X(event.year);
+    const label = `${i + 1}. ${event.label}`;
+    const width = Math.max(44, Math.ceil(textWidth(label)) + 24);
+    const labelX = Math.max(width / 2 + 8, Math.min(W - width / 2 - 8, x));
+    let row = rows.findIndex((items) => items.every((item) => Math.abs(item.x - labelX) >= (item.width + width) / 2 + 12));
+    if (row === -1) { row = rows.length; rows.push([]); }
+    rows[row].push({ x: labelX, width });
+    return { event, i, x, label, labelX, width, y: 140 + row * 48 };
   });
-  const span = Math.max(maxY - minY, 1);
-  const lo = minY - span * 0.06, hi = maxY + span * 0.06;
-
-  const eraY = 32, eraH = 42, axisY = 118;
-
-  // Lay event labels out in alternating rows above/below the axis, pushing a
-  // label to the next row when it would collide with one already placed there.
-  // Without this, civilizations with clustered dates (a 65,000-year span with
-  // four events since 1788, say) render as an unreadable pile.
-  const CHAR_W = 5.6, GAP = 10;
-
-  function layout(W) {
-    const X = (y) => padX + ((y - lo) / (hi - lo)) * (W - 2 * padX);
-    const rows = [[], [], [], []];    // even rows sit above the axis, odd below
-    const clearance = (row, x, halfW) =>
-      rows[row].reduce(
-        (worst, o) => Math.min(worst, Math.abs(o.x - x) - (o.halfW + halfW + GAP)),
-        Infinity
-      );
-    let worstClash = 0;
-    const placed = civ.events.map((e, i) => {
-      const x = X(e.year);
-      const halfW = (String(e.label).length * CHAR_W) / 2;
-      const side = i % 2;
-      // Preferred side first (inner tier, then outer), then the opposite side.
-      const order = [side, side + 2, 1 - side, 3 - side];
-      let row = order.find((r) => clearance(r, x, halfW) >= 0);
-      if (row === undefined) {
-        // Everything is crowded: take whichever row leaves the most room.
-        row = order.reduce((best, r) =>
-          clearance(r, x, halfW) > clearance(best, x, halfW) ? r : best
-        );
-        worstClash = Math.max(worstClash, -clearance(row, x, halfW));
-      }
-      rows[row].push({ x, halfW });
-      return { e, i, x, row };
-    });
-    return { W, X, placed, worstClash };
-  }
-
-  // Some civilizations bunch most of their events into a few decades at the end
-  // of a very long span (the Taino: five dates between 1492 and 1533). Four
-  // label rows can't untangle that, so widen the canvas instead — the timeline
-  // already scrolls horizontally, so the extra width costs nothing.
-  let L = layout(1080);
-  for (const wider of [1400, 1800, 2200]) {
-    if (!L.worstClash) break;
-    L = layout(wider);
-  }
-  const { W, X, placed } = L;
-
-  const usedRows = placed.reduce((m, p) => Math.max(m, p.row), 0);
-  // Grow the SVG only when the extra rows are actually needed.
-  const H = 186 + (usedRows >= 2 ? 34 : 0);
-
-  // A widened canvas must not simply be squashed back into the column by the
-  // viewBox, or the whole point is lost — scale its min-width to match.
-  const minW = Math.round((W / 1080) * 860);
-  let s = `<svg class="tl-svg" viewBox="0 0 ${W} ${H}" style="min-width:${minW}px" role="img" aria-label="Timeline of ${esc(civ.name)}">`;
-
-  // era bands
-  civ.periods.forEach((p) => {
-    const x0 = X(p.start), x1 = X(p.end);
-    const w = Math.max(x1 - x0, 6);
-    const cx = (x0 + x1) / 2;
-    s += `<rect x="${x0.toFixed(1)}" y="${eraY}" width="${w.toFixed(1)}" height="${eraH}" rx="7"
-        fill="${hexToRgba(civ.accent, 0.18)}" stroke="${hexToRgba(civ.accent, 0.55)}" stroke-width="1">
-        <title>${esc(p.name)} — ${esc(p.years)}</title></rect>`;
-    if (w > 64) {
-      s += `<text x="${cx.toFixed(1)}" y="${eraY + 19}" text-anchor="middle" class="tl-era-label" style="fill:${civ.accent};font-weight:700">${esc(p.name)}</text>`;
+  const H = 190 + Math.max(0, rows.length - 1) * 48;
+  let svg = `<svg class="tl-svg" viewBox="0 0 ${W} ${H}" style="min-width:${W}px" role="group" aria-label="Timeline of ${esc(civ.name)}. Select an event to read its detail.">`;
+  civ.periods.forEach((period) => {
+    const x = X(period.start), width = Math.max(2, X(period.end) - x);
+    svg += `<rect x="${x}" y="${eraY}" width="${width}" height="${eraH}" rx="6" fill="${hexToRgba(civ.accent, 0.16)}" stroke="${hexToRgba(civ.accent, 0.55)}">
+      <title>${esc(period.name)} — ${esc(period.years)}</title></rect>`;
+    if (textWidth(period.name) < width - 16) {
+      svg += `<text class="tl-era-label" x="${x + width / 2}" y="${eraY + 20}" text-anchor="middle">${esc(period.name)}</text>`;
     }
-    if (w > 108) {
-      s += `<text x="${cx.toFixed(1)}" y="${eraY + 34}" text-anchor="middle" class="tl-era-years">${esc(p.years)}</text>`;
+    if (textWidth(period.years) < width - 16) {
+      svg += `<text class="tl-era-years" x="${x + width / 2}" y="${eraY + 37}" text-anchor="middle">${esc(period.years)}</text>`;
     }
   });
-
-  // axis
-  s += `<line class="tl-axis" x1="${X(lo).toFixed(1)}" y1="${axisY}" x2="${X(hi).toFixed(1)}" y2="${axisY}" stroke-width="1.5"/>`;
-
-  // events
-  placed.forEach(({ e, i, x, row }) => {
-    const up = row % 2 === 0;
-    const tier = Math.floor(row / 2);          // 0 = nearest the axis
-    const labelY = up ? axisY - 26 - tier * 17 : axisY + 30 + tier * 17;
-    const tickEnd = up ? labelY + 8 : labelY - 12;
-    s += `<line x1="${x.toFixed(1)}" y1="${axisY}" x2="${x.toFixed(1)}" y2="${tickEnd}" stroke="${hexToRgba(civ.accent, 0.5)}" stroke-width="1" stroke-dasharray="2 2"/>`;
-    s += `<circle class="tl-dot" data-index="${i}" cx="${x.toFixed(1)}" cy="${axisY}" r="5" fill="${civ.accent}" stroke="#fff" stroke-width="1.5">
-        <title>${formatYear(e.year)} — ${esc(e.label)}</title></circle>`;
-    s += `<text x="${x.toFixed(1)}" y="${labelY}" text-anchor="middle" class="tl-ev-label">${esc(e.label)}</text>`;
+  svg += `<line class="tl-axis" x1="${pad}" y1="${axisY}" x2="${W - pad}" y2="${axisY}" stroke-width="2"/>`;
+  placed.forEach(({ event, i, x, label, labelX, width, y }) => {
+    svg += `<g class="tl-event" data-index="${i}" tabindex="0" role="button" aria-pressed="false" aria-controls="tl-detail" aria-label="${formatYear(event.year)}: ${esc(event.label)}">
+      <line class="tl-event-leader" x1="${x}" y1="${axisY}" x2="${labelX}" y2="${y - 20}"/>
+      <circle class="tl-dot" cx="${x}" cy="${axisY}" r="5" fill="${civ.accent}" stroke="var(--paper)" stroke-width="2"/>
+      <rect class="tl-event-hit" x="${labelX - width / 2}" y="${y - 22}" width="${width}" height="44" rx="8" fill="transparent"/>
+      <text class="tl-ev-label" x="${labelX}" y="${y + 5}" text-anchor="middle">${esc(label)}</text>
+    </g>`;
   });
-
-  // start / end year labels
-  s += `<text x="${X(minY).toFixed(1)}" y="${H - 12}" text-anchor="middle" class="tl-year">${formatYear(minY)}</text>`;
-  s += `<text x="${X(maxY).toFixed(1)}" y="${H - 12}" text-anchor="middle" class="tl-year">${formatYear(maxY)}</text>`;
-
-  s += `</svg>`;
-  container.innerHTML = `<div class="tl-scroll">${s}</div>`;
-
-  // clickable dots -> detail panel
-  const detailEl = document.getElementById("tl-detail");
-  const dots = container.querySelectorAll(".tl-dot");
-  dots.forEach((dot) => {
-    dot.addEventListener("click", () => {
-      const e = civ.events[parseInt(dot.getAttribute("data-index"), 10)];
-      detailEl.innerHTML = `
-        <div class="tl-detail-year">${formatYear(e.year)}</div>
-        <div class="tl-detail-title">${esc(e.label)}</div>
-        <p>${esc(e.detail)}</p>`;
+  svg += `<text class="tl-year" x="${pad}" y="${H - 10}">${formatYear(minYear)}</text>
+    <text class="tl-year" x="${W - pad}" y="${H - 10}" text-anchor="end">${formatYear(maxYear)}</text></svg>`;
+  container.innerHTML = `<div class="tl-scroll" tabindex="0" role="region" aria-label="Scrollable civilization timeline">${svg}</div>`;
+  const detail = document.getElementById("tl-detail");
+  const events = Array.from(container.querySelectorAll(".tl-event"));
+  events.forEach((element) => {
+    const select = () => {
+      const event = civ.events[Number(element.dataset.index)];
+      events.forEach((el) => el.setAttribute("aria-pressed", String(el === element)));
+      detail.innerHTML = `<div class="tl-detail-year">${formatYear(event.year)}</div>
+        <div class="tl-detail-title">${esc(event.label)}</div><p>${esc(event.detail)}</p>`;
+    };
+    element.addEventListener("click", select);
+    element.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") { event.preventDefault(); select(); }
     });
   });
 }
@@ -543,7 +502,7 @@ function renderWorldRuler(container, civ) {
   });
 
   s += `</svg>`;
-  container.innerHTML = `<div class="tl-scroll">${s}</div>`;
+  container.innerHTML = `<div class="tl-scroll" tabindex="0" role="region" aria-label="Scrollable world history timeline">${s}</div>`;
 }
 
 /* ---------------- reader ---------------- */
@@ -617,8 +576,8 @@ function renderReader() {
   const civ = getCiv(slug) || CIVILIZATIONS[0];
   const app = document.getElementById("app");
 
-  document.documentElement.style.setProperty("--accent", civ.accent);
-  document.documentElement.style.setProperty("--accent-soft", hexToRgba(civ.accent, 0.12));
+  // Keep functional text/controls contrast-safe; the civilization color is decorative.
+  document.documentElement.style.setProperty("--civ-accent", civ.accent);
 
   const idx = CIVILIZATIONS.indexOf(civ);
   const prev = CIVILIZATIONS[(idx - 1 + CIVILIZATIONS.length) % CIVILIZATIONS.length];
@@ -632,7 +591,7 @@ function renderReader() {
   <div class="reader-layout">
     <aside class="reader-toc" id="reader-toc" aria-label="On this page">
       <p class="reader-toc-title">On this page</p>
-      <nav class="toc-nav">
+      <nav class="toc-nav" aria-label="Reader sections">
         <a href="#sec-timeline">Timeline</a>
         <a href="#sec-context">Context</a>
         ${mp ? `<a href="#sec-object">The object</a>` : ""}
@@ -675,12 +634,12 @@ function renderReader() {
   <details class="panel" id="sec-timeline" data-collapse-key="reader-timeline" open>
     <summary class="panel-head">
       <h2>Timeline</h2>
-      <span class="hint">Hover a dot, or tap one for detail &middot; colored bands are periods</span>
+      <span class="hint">Scroll the timeline &middot; select an event for detail</span>
       <span class="panel-chev" aria-hidden="true">&#9662;</span>
     </summary>
     <div class="panel-body">
       <div id="timeline"></div>
-      <div class="tl-detail" id="tl-detail">
+      <div class="tl-detail" id="tl-detail" aria-live="polite">
         <div class="tl-detail-year">${formatYear(civ.start)} &ndash; ${formatYear(civ.end)}</div>
         <div class="tl-detail-title">The arc of ${esc(civ.name)}</div>
         <p>${esc(civ.overview)}</p>
@@ -830,7 +789,7 @@ function renderReader() {
       </a>`).join("")}
   </div>` : ""}
 
-  <nav class="pager">
+  <nav class="pager" aria-label="Previous and next civilizations">
     <a class="pager-link prev" href="reader.html?c=${esc(prev.slug)}">
       <span class="pager-label">&larr; Previous</span>
       <span class="pager-name">${prev.emoji} ${esc(prev.name)}</span>
@@ -879,12 +838,16 @@ function wireReaderToc() {
     .filter(Boolean);
   if (!items.length) return;
 
-  let ticking = false;
+  let ticking = false, lastActive = null;
   const setActive = () => {
     ticking = false;
     // A section is "current" once its top passes just below the fixed chrome
     // (the top nav on desktop, or the sticky TOC bar on phones).
-    const line = window.innerHeight < 680 ? 96 : 120;
+    const desktop = window.matchMedia("(min-width: 1080px)").matches;
+    const topNav = window.matchMedia("(min-width: 861px)").matches
+      ? (document.getElementById("site-nav")?.getBoundingClientRect().height || 64) : 0;
+    const safeTop = parseFloat(getComputedStyle(toc).top) || 0;
+    const line = desktop ? topNav + 24 : safeTop + toc.getBoundingClientRect().height + 24;
     let current = items[0];
     for (const it of items) {
       if (it.el.getBoundingClientRect().top - line <= 0) current = it;
@@ -893,6 +856,14 @@ function wireReaderToc() {
     if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
       current = items[items.length - 1];
     }
+    if (current !== lastActive && !desktop) {
+      const nav = toc.querySelector(".toc-nav");
+      const linkBox = current.a.getBoundingClientRect(), navBox = nav.getBoundingClientRect();
+      if (linkBox.left < navBox.left || linkBox.right > navBox.right) {
+        nav.scrollLeft += linkBox.left - navBox.left - (navBox.width - linkBox.width) / 2;
+      }
+    }
+    lastActive = current;
     items.forEach((it) => {
       const on = it === current;
       it.a.classList.toggle("active", on);
@@ -980,7 +951,6 @@ function renderRoutePage(museumIds, title, intro, footerHtml) {
   const app = document.getElementById("app");
   let html = `
   <header class="hero">
-    <p class="kicker">Civilization Readers</p>
     <h1>${title}</h1>
     <p class="lede">${intro}</p>
     <div class="how">
@@ -1080,7 +1050,7 @@ function renderTemplate() {
   renderRoutePage(
     ["template"],
     "Add your own museum.",
-    "This guide covers thirteen museums. Yours probably isn't one of them — so here is a generic encyclopedic-museum skeleton you can copy. Most large museums group their collections the same way, so the wings below will map onto yours with only the gallery names changed.",
+    "This guide covers twelve museums. Yours probably isn't one of them — so here is a generic encyclopedic-museum skeleton you can copy. Most large museums group their collections the same way, so the wings below will map onto yours with only the gallery names changed.",
     `<section class="panel">
       <div class="panel-head"><h2>How to add it</h2><span class="hint">about ten minutes of typing</span></div>
       <div class="panel-body">
@@ -1102,8 +1072,7 @@ function renderTemplate() {
 
 /* ---------------- geo map (routes.html) ---------------- */
 
-const MAP_W = 1000, MAP_H = 560;   // equirectangular world, latitude ±85°
-const MAP_LAT_TOP = 85, MAP_LAT_BOT = -85;
+const MAP_W = 1000, MAP_H = 560;   // bundled equirectangular land coordinates
 
 function mapXY(lat, lon) {
   return {
@@ -1133,136 +1102,159 @@ function geoClusters() {
   return clusters;
 }
 
-/* Fit the marker set into the viewBox, with padding; caps so a single-city
- * cluster can't zoom into empty ocean. */
-function mapFitTransform(clusters) {
-  const pts = clusters.map((c) => mapXY(c.lat, c.lon));
-  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-  pts.forEach((p) => {
-    minX = Math.min(minX, p.x); maxX = Math.max(maxX, p.x);
-    minY = Math.min(minY, p.y); maxY = Math.max(maxY, p.y);
-  });
-  const spanX = Math.max(maxX - minX, 40), spanY = Math.max(maxY - minY, 30);
-  const padX = spanX * 0.18, padY = spanY * 0.18;
-  minX -= padX; maxX += padX; minY -= padY; maxY += padY;
-  const k = Math.min(MAP_W / (maxX - minX), MAP_H / (maxY - minY), 6);
-  const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
-  return { k, tx: MAP_W / 2 - k * cx, ty: MAP_H / 2 - k * cy };
+/* Fit the land to the available pixel viewport; labels/targets stay screen-sized. */
+function mapFitTransform(clusters, width, height) {
+  const points = clusters.map((c) => mapXY(c.lat, c.lon));
+  const xs = points.map((p) => p.x), ys = points.map((p) => p.y);
+  const spanX = Math.max(Math.max(...xs) - Math.min(...xs), 40);
+  const spanY = Math.max(Math.max(...ys) - Math.min(...ys), 30);
+  const k = Math.min((width - 72) / (spanX * 1.18), (height - 100) / (spanY * 1.3), 6);
+  return {
+    k,
+    tx: width / 2 - k * (Math.min(...xs) + Math.max(...xs)) / 2,
+    ty: height / 2 - k * (Math.min(...ys) + Math.max(...ys)) / 2
+  };
 }
 
 function renderGeoMap(container) {
   if (!container) return;
   if (typeof WORLD_LAND === "undefined") {
-    container.innerHTML = `<p class="src-note">Map data not loaded.</p>`;
+    container.innerHTML = '<p class="src-note">The map is unavailable. All museum routes are listed below.</p>';
     return;
   }
-  const clusters = geoClusters();
-  if (!clusters.length) {
-    container.innerHTML = `<p class="src-note">No museums have coordinates yet — add <code>lat</code>/<code>lon</code> to a <code>MUSEUMS</code> entry.</p>`;
-    return;
-  }
+  const clusters = geoClusters().map((c, i) => ({
+    ...c, i,
+    label: c.city === "San Francisco" ? "Bay Area" : c.city.replace(" (Smithsonian)", "")
+  }));
+  if (!clusters.length) return;
 
-  // graticule every 30°
   let grid = "";
   for (let lon = -180; lon <= 180; lon += 30) {
-    const x = ((lon + 180) / 360) * MAP_W;
-    grid += `<line class="map-gridline" x1="${x.toFixed(1)}" y1="${((90 - MAP_LAT_TOP) / 180) * MAP_H}" x2="${x.toFixed(1)}" y2="${((90 - MAP_LAT_BOT) / 180) * MAP_H}"/>`;
+    const x = mapXY(0, lon).x;
+    grid += `<line class="map-gridline" x1="${x}" y1="0" x2="${x}" y2="${MAP_H}"/>`;
   }
   for (let lat = -60; lat <= 60; lat += 30) {
-    const y = ((90 - lat) / 180) * MAP_H;
-    grid += `<line class="map-gridline" x1="0" y1="${y.toFixed(1)}" x2="${MAP_W}" y2="${y.toFixed(1)}"/>`;
+    const y = mapXY(lat, 0).y;
+    grid += `<line class="map-gridline" x1="0" y1="${y}" x2="${MAP_W}" y2="${y}"/>`;
   }
-
-  let pins = "";
-  clusters.forEach((c, i) => {
-    const p = mapXY(c.lat, c.lon);
-    const n = c.museums.length;
-    pins += `<g class="map-pin" data-i="${i}" tabindex="0" role="button" aria-label="${esc(c.city)} — ${n} museum${n > 1 ? "s" : ""}">
-      <circle class="map-hit" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="22" fill="transparent"/>
-      <circle class="map-dot" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${n > 1 ? 11 : 9}"/>
-      ${n > 1 ? `<circle class="map-badge" cx="${(p.x + 8).toFixed(1)}" cy="${(p.y - 8).toFixed(1)}" r="7.5"/><text class="map-badge-n" x="${(p.x + 8).toFixed(1)}" y="${(p.y - 4.8).toFixed(1)}" text-anchor="middle">${n}</text>` : ""}
-      <text class="map-city" x="${p.x.toFixed(1)}" y="${(p.y + (n > 1 ? 26 : 24)).toFixed(1)}" text-anchor="middle">${esc(c.city)}</text>
-    </g>`;
-  });
-
-  const fit = mapFitTransform(clusters);
   container.innerHTML = `
     <div class="map-tools">
-      <button type="button" class="map-btn on" id="map-fit">Fit museums</button>
-      <button type="button" class="map-btn" id="map-world">World</button>
-      <span class="map-hint">${clusters.length} pins · ${clusters.reduce((s, c) => s + c.museums.length, 0)} museums · tap a pin</span>
+      <button type="button" class="map-btn on" id="map-fit" aria-pressed="true">Fit museums</button>
+      <button type="button" class="map-btn" id="map-world" aria-pressed="false">World</button>
+      <span class="map-hint">${clusters.length} cities · ${clusters.reduce((sum, c) => sum + c.museums.length, 0)} museums</span>
     </div>
     <div class="map-stage">
-      <svg class="map-svg" viewBox="0 0 ${MAP_W} ${MAP_H}" role="img" aria-label="World map showing where the museums in this guide are located">
-        <rect x="0" y="0" width="${MAP_W}" height="${MAP_H}" class="map-ocean"/>
-        <g class="map-view" id="map-view">
-          ${grid}
-          <path class="map-land" d="${WORLD_LAND}"/>
-          ${pins}
-        </g>
+      <svg class="map-svg" role="group" aria-label="Museum map. Numbered markers match the city buttons below.">
+        <rect width="100%" height="100%" class="map-ocean"/>
+        <g class="map-view" id="map-view">${grid}<path class="map-land" d="${WORLD_LAND}"/></g>
+        <g aria-hidden="true">${clusters.map((c) => `<line class="map-leader" data-i="${c.i}"/><circle class="map-location" data-i="${c.i}" r="3"/>`).join("")}</g>
+        ${clusters.map((c) => `
+          <g class="map-pin" data-i="${c.i}" tabindex="0" role="button" aria-controls="map-info" aria-pressed="false" aria-label="${esc(c.label)}: ${c.museums.length} museum${c.museums.length === 1 ? "" : "s"}">
+            <circle class="map-hit" r="22" fill="transparent"/>
+            <circle class="map-dot" r="15"/>
+            <text class="map-number" y="4.5" text-anchor="middle">${c.i + 1}</text>
+            <text class="map-city" y="34" text-anchor="middle">${esc(c.label)}</text>
+          </g>`).join("")}
       </svg>
-      <div class="map-info" id="map-info"></div>
-    </div>`;
+    </div>
+    <div class="map-cities" role="group" aria-label="Choose a museum city">
+      ${clusters.map((c) => `
+        <button class="map-city-btn" type="button" data-i="${c.i}" aria-controls="map-info" aria-pressed="false">
+          <span class="city-number" aria-hidden="true">${c.i + 1}</span>
+          <span>${esc(c.label)}<small>${c.museums.length} museum${c.museums.length === 1 ? "" : "s"}</small></span>
+        </button>`).join("")}
+    </div>
+    <div class="map-info" id="map-info" role="region" aria-label="Museums in the selected city" aria-live="polite"></div>`;
 
-  const view = container.querySelector("#map-view");
-  const applyView = (t) => {
-    view.setAttribute("transform", `translate(${t.tx.toFixed(2)},${t.ty.toFixed(2)}) scale(${t.k.toFixed(4)})`);
-  };
-  applyView(fit);
+  const svg = container.querySelector(".map-svg");
+  const land = container.querySelector("#map-view");
+  const pins = Array.from(container.querySelectorAll(".map-pin"));
+  const cities = Array.from(container.querySelectorAll(".map-city-btn"));
+  const fitButton = container.querySelector("#map-fit");
+  const worldButton = container.querySelector("#map-world");
+  let world = false;
 
-  const fitBtn = container.querySelector("#map-fit");
-  const worldBtn = container.querySelector("#map-world");
-  fitBtn.addEventListener("click", () => {
-    fitBtn.classList.add("on"); worldBtn.classList.remove("on");
-    applyView(fit);
-  });
-  worldBtn.addEventListener("click", () => {
-    worldBtn.classList.add("on"); fitBtn.classList.remove("on");
-    applyView({ k: 1, tx: 0, ty: 0 });
-  });
+  function draw() {
+    const { width, height } = svg.getBoundingClientRect();
+    if (!width || !height) return;
+    svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+    const k = Math.min(width / MAP_W, height / MAP_H);
+    const t = world ? { k, tx: (width - MAP_W * k) / 2, ty: (height - MAP_H * k) / 2 }
+      : mapFitTransform(clusters, width, height);
+    land.setAttribute("transform", `translate(${t.tx},${t.ty}) scale(${t.k})`);
+    // Greedy screen-space callouts prevent nearby cities from sharing a tap target.
+    // Geographic dots never move; leader lines connect them to their numbered markers.
+    const labelWidth = width < 600 ? 48 : 124;
+    const labelHeight = width < 600 ? 48 : 68;
+    svg.classList.toggle("compact", width < 600);
+    const placed = [];
+    clusters.forEach((c, i) => {
+      const p = mapXY(c.lat, c.lon);
+      const anchor = { x: t.tx + p.x * t.k, y: t.ty + p.y * t.k };
+      const candidates = [];
+      for (let x = labelWidth / 2 + 4; x <= width - labelWidth / 2 - 4; x += 8) {
+        for (let y = 28; y <= height - labelHeight + 20; y += 8) {
+          if (placed.some((b) => Math.abs(b.x - x) < labelWidth && Math.abs(b.y - y) < labelHeight)) continue;
+          candidates.push({ x, y, distance: Math.hypot(x - anchor.x, y - anchor.y) });
+        }
+      }
+      candidates.sort((a, b) => a.distance - b.distance);
+      const point = candidates[0] || anchor;
+      placed.push(point);
+      pins[i].setAttribute("transform", `translate(${point.x},${point.y})`);
+      const leader = container.querySelector(`.map-leader[data-i="${i}"]`);
+      leader.setAttribute("x1", anchor.x); leader.setAttribute("y1", anchor.y);
+      leader.setAttribute("x2", point.x); leader.setAttribute("y2", point.y);
+      const dot = container.querySelector(`.map-location[data-i="${i}"]`);
+      dot.setAttribute("cx", anchor.x); dot.setAttribute("cy", anchor.y);
+    });
+  }
+  [fitButton, worldButton].forEach((button) => button.addEventListener("click", () => {
+    world = button === worldButton;
+    fitButton.classList.toggle("on", !world); fitButton.setAttribute("aria-pressed", String(!world));
+    worldButton.classList.toggle("on", world); worldButton.setAttribute("aria-pressed", String(world));
+    draw();
+  }));
+  if (typeof ResizeObserver !== "undefined") new ResizeObserver(draw).observe(svg);
+  else window.addEventListener("resize", draw, { passive: true });
+  draw();
 
-  /* ---- tap a pin: list its museums ---- */
   const info = container.querySelector("#map-info");
-  const pinEls = Array.from(container.querySelectorAll(".map-pin"));
-  const setInfo = (c) => {
-    if (!c) {
-      info.classList.remove("active"); info.innerHTML = "";
-      pinEls.forEach((el) => el.classList.remove("on"));
-      return;
-    }
-    pinEls.forEach((el) => el.classList.toggle("on", el.getAttribute("data-i") === String(c.i)));
+  let active = null, opener = null;
+  function select(index, trigger) {
+    active = active === index ? null : index;
+    if (trigger) opener = trigger;
+    [...pins, ...cities].forEach((el) => {
+      const on = active === Number(el.dataset.i);
+      el.classList.toggle("on", on);
+      el.setAttribute("aria-pressed", String(on));
+    });
+    info.classList.toggle("active", active !== null);
+    if (active === null) { info.innerHTML = ""; return; }
+    const c = clusters[active];
     info.innerHTML = `
-      <button class="map-info-close" type="button" aria-label="Close">×</button>
-      <div class="map-info-title">${esc(c.city)} · ${c.museums.length} museum${c.museums.length > 1 ? "s" : ""}</div>
+      <button class="map-info-close" type="button" aria-label="Close museum details">×</button>
+      <h3 class="map-info-title">${esc(c.label)} · ${c.museums.length} museum${c.museums.length === 1 ? "" : "s"}</h3>
       <ul class="map-info-list">
-        ${c.museums.map((m) => `
-          <li>
-            <a href="${esc(routePageFor(m.id))}">${m.emoji} ${esc(m.name)}</a>
-            <div class="map-info-sub">${esc(m.tagline)}</div>
-          </li>`).join("")}
+        ${c.museums.map((m) => `<li>
+          <a href="${esc(routePageFor(m.id))}#${esc(m.id)}">${m.emoji} ${esc(m.name)} <span aria-hidden="true">→</span></a>
+          <p class="map-info-sub">${esc(m.tagline)}</p>
+        </li>`).join("")}
       </ul>`;
-    info.classList.add("active");
-  };
-
-  let active = null;
-  pinEls.forEach((el) => {
-    const select = () => {
-      const i = Number(el.getAttribute("data-i"));
-      active = active === i ? null : i;
-      setInfo(active == null ? null : clusters[active]);
-    };
-    el.addEventListener("click", select);
-    el.addEventListener("keydown", (ev) => {
-      if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); select(); }
+  }
+  [...pins, ...cities].forEach((el) => {
+    el.addEventListener("click", () => select(Number(el.dataset.i), el));
+    if (el.classList.contains("map-pin")) el.addEventListener("keydown", (ev) => {
+      if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); select(Number(el.dataset.i), el); }
     });
   });
-  info.addEventListener("click", (ev) => {
-    if (ev.target.closest(".map-info-close")) { active = null; setInfo(null); }
-  });
-  container.querySelector(".map-stage").addEventListener("click", (ev) => {
-    if (ev.target.closest(".map-pin") || ev.target.closest(".map-info")) return;
-    active = null; setInfo(null);
-  });
+  function close() {
+    if (active === null) return;
+    select(active);
+    if (opener) opener.focus({ preventScroll: true });
+  }
+  info.addEventListener("click", (ev) => { if (ev.target.closest(".map-info-close")) close(); });
+  container.addEventListener("keydown", (ev) => { if (ev.key === "Escape") close(); });
 }
 
 /* ---------------- graph ---------------- */
@@ -1286,7 +1278,7 @@ function buildGraph() {
   MUSEUMS.forEach((m) => {
     // The "add your own" template isn't a real place — keep it out of the graph.
     if (m.id === "template") return;
-    addNode(m.id, "museum", m.name, { emoji: m.emoji, city: m.city, href: routePageFor(m.id) });
+    addNode(m.id, "museum", m.name, { emoji: m.emoji, city: m.city, href: routePageFor(m.id) + "#" + m.id });
     m.floors.forEach((f) =>
       f.areas.forEach((a) => {
         addNode(a.id, "gallery", a.name, { museumId: m.id, galleries: a.galleries, href: routePageFor(m.id) + "#" + a.id });
@@ -1326,7 +1318,8 @@ function buildGraph() {
 
 function computeGraphLayout(nodes, edges, W, H) {
   const pos = {};
-  const rnd = () => (Math.random() - 0.5);
+  let seed = 42;
+  const rnd = () => { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; return seed / 4294967296 - 0.5; };
   nodes.forEach((n) => {
     pos[n.id] = { x: W / 2 + rnd() * W * 0.55, y: H / 2 + rnd() * H * 0.55 };
   });
@@ -1434,8 +1427,8 @@ function renderGraph(container) {
     : n.type === "object" ? "#f59e0b"
     : (n.accent || "#0f6ab4");
 
-  let s = `<svg class="graph-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Museums, galleries, civilizations, and objects as a graph">`;
-  s += `<rect x="0" y="0" width="${W}" height="${H}" fill="transparent" class="graph-bg"/>`;
+  let s = `<svg class="graph-svg" viewBox="0 0 ${W} ${H}" role="group" aria-label="Connection graph. Choose a node using the selector above or the markers.">`;
+  s += `<rect x="0" y="0" width="${W}" height="${H}" fill="transparent" class="graph-bg"/><g class="graph-view">`;
 
   edges.forEach((e, i) => {
     const a = pos[e.from.id], b = pos[e.to.id];
@@ -1457,10 +1450,10 @@ function renderGraph(container) {
       + ` data-start="${n.start != null ? n.start : ""}" data-end="${n.end != null ? n.end : ""}"`
       + ` data-museum="${esc(n.museumId || "")}" tabindex="0" role="button" aria-label="${esc(n.label)}">`;
     // A transparent fat circle underneath gives fingers a 44px target.
-    s += `<circle class="g-hit" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${Math.max(r + 10, 20)}" fill="transparent"/>`;
+    s += `<circle class="g-hit" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${Math.max(r + 10, 22)}" fill="transparent"/>`;
     s += `<circle class="g-circle" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${r}" fill="${col}" stroke="#fff" stroke-width="${isMuseum ? 2.5 : 1.4}"/>`;
     if (isMuseum || isCiv) {
-      const label = isMuseum ? n.label : (n.emoji ? n.emoji + " " + n.label : n.label);
+      const label = isMuseum ? (n.label.length > 28 ? n.label.slice(0, 27) + "…" : n.label) : (n.emoji ? n.emoji + " " + n.label : n.label);
       const fy = p.y + r + (isMuseum ? 16 : 13);
       s += `<text class="g-label ${isMuseum ? "g-label-museum" : "g-label-civ"}" x="${p.x.toFixed(1)}" y="${fy.toFixed(1)}" text-anchor="middle">${esc(label)}</text>`;
     } else {
@@ -1468,25 +1461,36 @@ function renderGraph(container) {
     }
     s += `</g>`;
   });
-  s += `</svg>`;
+  s += `</g></svg>`;
 
   container.innerHTML = `
+    <div class="graph-picker">
+      <label for="graph-node-select">Inspect a connection</label>
+      <select id="graph-node-select">
+        <option value="">Choose a museum, gallery, civilization, or object</option>
+        ${[...nodes].sort((a, b) => a.label.localeCompare(b.label)).map((n) => `<option value="${esc(n.id)}">${esc(n.label)} · ${n.type === "civ" ? "civilization" : n.type}</option>`).join("")}
+      </select>
+    </div>
     <div class="graph-toolbar">
       <div class="graph-legend" id="graph-legend"></div>
       <div class="graph-filters" id="graph-filters"></div>
     </div>
     <div class="graph-timeslider" id="graph-time">
       <label for="time-range">Year</label>
-      <input id="time-range" type="range" min="-4000" max="2025" step="25" value="2025" />
+      <input id="time-range" aria-valuetext="All time" type="range" min="-4000" max="2025" step="25" value="2025" />
       <output id="time-out">all time</output>
-      <button type="button" class="time-btn" id="time-play" aria-label="Play through time">▶</button>
+      <button type="button" class="time-btn" id="time-play" aria-label="Play through time">Play</button>
       <button type="button" class="time-btn subtle" id="time-reset">All</button>
     </div>
-    <div class="graph-stage">
-      ${s}
-      <div class="graph-info" id="graph-info"></div>
-      <div class="graph-hint" id="graph-hint">Tap a node · tap a museum to expand its galleries · drag to pan · pinch to zoom</div>
-    </div>`;
+    <div class="graph-controls" role="group" aria-label="Graph view controls">
+      <button type="button" class="map-btn" id="graph-zoom-out" aria-label="Zoom out">−</button>
+      <button type="button" class="map-btn" id="graph-zoom-in" aria-label="Zoom in">+</button>
+      <button type="button" class="map-btn" id="graph-reset">Fit graph</button>
+      <button type="button" class="map-btn" id="graph-interact" aria-pressed="false">Touch pan: off</button>
+    </div>
+    <p class="graph-help">Choose a node to read its connections. Use + / − to zoom, or drag with a mouse. On a phone, turn on touch pan to drag and pinch; leave it off to scroll the page.</p>
+    <div class="graph-stage">${s}</div>
+    <div class="graph-info" id="graph-info" role="region" aria-label="Selected connection" aria-live="polite"></div>`;
 
   wireGraph(container, nodes, edges);
 }
@@ -1496,6 +1500,7 @@ function wireGraph(container, nodes, edges) {
   const info = container.querySelector("#graph-info");
   const legend = container.querySelector("#graph-legend");
   const filters = container.querySelector("#graph-filters");
+  const nodeSelect = container.querySelector("#graph-node-select");
   if (!svg) return;
 
   legend.innerHTML = `
@@ -1510,12 +1515,12 @@ function wireGraph(container, nodes, edges) {
     <span class="lg"><span class="lg-line" style="background:#8b5cf6"></span>religion</span>`;
 
   const regions = Array.from(new Set(nodes.filter((n) => n.type === "civ").map((n) => n.group)));
-  let fhtml = `<span class="filt-chip on" data-type="museum">Museums</span>`
-    + `<span class="filt-chip on" data-type="gallery">Galleries</span>`
-    + `<span class="filt-chip on" data-type="civ">Civilizations</span>`
-    + `<span class="filt-chip on" data-type="object">Objects</span>`
-    + `<span class="filt-sep"></span>`;
-  regions.forEach((r) => { fhtml += `<span class="filt-chip on" data-region="${esc(r)}">${esc(r)}</span>`; });
+  let fhtml = `<button type="button" aria-pressed="true" class="filt-chip on" data-type="museum">Museums</button>`
+    + `<button type="button" aria-pressed="false" class="filt-chip" data-type="gallery">Galleries</button>`
+    + `<button type="button" aria-pressed="true" class="filt-chip on" data-type="civ">Civilizations</button>`
+    + `<button type="button" aria-pressed="true" class="filt-chip on" data-type="object">Objects</button>`
+    + `<span class="filt-sep" aria-hidden="true"></span>`;
+  regions.forEach((r) => { fhtml += `<button type="button" aria-pressed="true" class="filt-chip on" data-region="${esc(r)}">${esc(r)}</button>`; });
   filters.innerHTML = fhtml;
 
   const nodeEls = Array.from(container.querySelectorAll(".g-node"));
@@ -1528,7 +1533,7 @@ function wireGraph(container, nodes, edges) {
   const edgeMap = {};
   edges.forEach((e, i) => { edgeMap[i] = e; });
 
-  const visibleTypes = { museum: true, gallery: true, civ: true, object: true };
+  const visibleTypes = { museum: true, gallery: false, civ: true, object: true };
   const hiddenRegions = {};
   let year = null;                 // null = show all time
   const collapsed = {};            // museumId -> true when its galleries are hidden
@@ -1571,7 +1576,9 @@ function wireGraph(container, nodes, edges) {
     const r = chip.getAttribute("data-region");
     if (t) { visibleTypes[t] = !visibleTypes[t]; chip.classList.toggle("on", visibleTypes[t]); }
     if (r) { hiddenRegions[r] = !hiddenRegions[r]; chip.classList.toggle("on", !hiddenRegions[r]); }
+    chip.setAttribute("aria-pressed", String(chip.classList.contains("on")));
     applyVisibility();
+    if (selected && byId[selected].style.display === "none") closeInfo();
   });
 
   /* ---- time slider ---- */
@@ -1584,6 +1591,7 @@ function wireGraph(container, nodes, edges) {
   const setYear = (y) => {
     year = y;
     if (out) out.textContent = y == null ? "all time" : formatYear(y);
+    if (range) range.setAttribute("aria-valuetext", y == null ? "All time" : formatYear(y));
     applyVisibility();
   };
   if (range) {
@@ -1598,14 +1606,14 @@ function wireGraph(container, nodes, edges) {
   }
   function stopPlay() {
     if (timer) { clearInterval(timer); timer = null; }
-    if (playBtn) { playBtn.textContent = "▶"; playBtn.setAttribute("aria-label", "Play through time"); }
+    if (playBtn) { playBtn.textContent = "Play"; playBtn.setAttribute("aria-label", "Play through time"); }
   }
   if (playBtn) {
     playBtn.addEventListener("click", () => {
       if (timer) { stopPlay(); return; }
       let y = year == null ? -4000 : year;
       if (y >= 2025) y = -4000;
-      playBtn.textContent = "⏸";
+      playBtn.textContent = "Pause";
       playBtn.setAttribute("aria-label", "Pause");
       timer = setInterval(() => {
         y += 50;
@@ -1645,7 +1653,7 @@ function wireGraph(container, nodes, edges) {
       }).join("");
     const isMuseum = n.type === "museum";
     info.innerHTML = `
-      <button class="graph-info-close" type="button" aria-label="Close">×</button>
+      <button class="graph-info-close" type="button" aria-label="Close connection details">×</button>
       <div class="graph-info-title">${n.emoji ? esc(n.emoji) + " " : ""}${esc(n.label)}</div>
       <div class="graph-info-type">${typeLabelOf(n.type)}${n.group ? " · " + esc(n.group) : ""}${n.spanLabel ? " · " + esc(n.spanLabel) : ""}${n.galleries ? " · " + esc(n.galleries) : ""}${n.date ? " · " + esc(n.date) : ""}</div>
       ${links ? `<ul class="graph-info-links">${links}</ul>` : ""}
@@ -1658,7 +1666,9 @@ function wireGraph(container, nodes, edges) {
 
   if (info) {
     info.addEventListener("click", (ev) => {
-      if (ev.target.closest(".graph-info-close")) { setInfo(null); unhighlight(); return; }
+      if (ev.target.closest(".graph-info-close")) {
+        closeInfo(); nodeSelect.focus({ preventScroll: true }); return;
+      }
       const btn = ev.target.closest("[data-toggle]");
       if (btn) {
         const id = btn.getAttribute("data-toggle");
@@ -1690,7 +1700,27 @@ function wireGraph(container, nodes, edges) {
   const hasHover = window.matchMedia && window.matchMedia("(hover: hover)").matches;
   let selected = null;
 
+  function closeInfo() {
+    selected = null;
+    nodeSelect.value = "";
+    setInfo(null);
+    unhighlight();
+  }
   const select = (id) => {
+    const node = nodeMap[id];
+    if (!node) return;
+    // A selection from the native picker must be visible even if its type,
+    // region, or parent museum was filtered/collapsed. Museums reveal galleries.
+    visibleTypes[node.type] = true;
+    if (node.type === "museum") visibleTypes.gallery = true;
+    if (node.group) hiddenRegions[node.group] = false;
+    if (node.museumId) collapsed[node.museumId] = false;
+    filters.querySelectorAll("[data-type], [data-region]").forEach((chip) => {
+      const on = chip.dataset.type ? visibleTypes[chip.dataset.type] : !hiddenRegions[chip.dataset.region];
+      chip.classList.toggle("on", on);
+      chip.setAttribute("aria-pressed", String(on));
+    });
+    applyVisibility();
     if (selected === id) {
       // Second tap on a museum expands/collapses its galleries in place.
       const n = nodeMap[id];
@@ -1702,6 +1732,7 @@ function wireGraph(container, nodes, edges) {
       return;
     }
     selected = id;
+    nodeSelect.value = id;
     highlight(id);
     setInfo(nodeMap[id]);
   };
@@ -1709,8 +1740,8 @@ function wireGraph(container, nodes, edges) {
   nodeEls.forEach((el) => {
     const id = el.getAttribute("data-id");
     if (hasHover) {
-      el.addEventListener("mouseenter", () => { if (!selected) { highlight(id); setInfo(nodeMap[id]); } });
-      el.addEventListener("mouseleave", () => { if (!selected) { unhighlight(); setInfo(null); } });
+      el.addEventListener("mouseenter", () => { if (!selected) highlight(id); });
+      el.addEventListener("mouseleave", () => { if (!selected) unhighlight(); });
     }
     el.addEventListener("click", (ev) => { ev.stopPropagation(); select(id); });
     el.addEventListener("keydown", (ev) => {
@@ -1718,68 +1749,109 @@ function wireGraph(container, nodes, edges) {
     });
   });
 
-  /* ---- pan + zoom (mouse, wheel, and touch) ---- */
+  /* ---- explicit zoom controls; scrolling the page never traps you in the graph ---- */
   const stage = container.querySelector(".graph-stage");
-  const hint = container.querySelector("#graph-hint");
+  const graphView = container.querySelector(".graph-view");
+  const interactButton = container.querySelector("#graph-interact");
   const view = { x: 0, y: 0, k: 1 };
-  const applyView = () => {
-    svg.style.transform = `translate(${view.x}px, ${view.y}px) scale(${view.k})`;
-    svg.style.transformOrigin = "0 0";
-  };
-  const clampK = (k) => Math.max(0.35, Math.min(4, k));
-
-  let panning = false, sx = 0, sy = 0, moved = false;
-  const startPan = (x, y) => { panning = true; moved = false; sx = x - view.x; sy = y - view.y; };
-  const movePan = (x, y) => {
-    if (!panning) return;
-    view.x = x - sx; view.y = y - sy; moved = true; applyView();
-  };
-  const endPan = () => { panning = false; };
-
-  svg.addEventListener("mousedown", (ev) => {
-    if (ev.target.classList.contains("graph-bg") || ev.target.tagName === "svg") startPan(ev.clientX, ev.clientY);
-  });
-  window.addEventListener("mousemove", (ev) => movePan(ev.clientX, ev.clientY));
-  window.addEventListener("mouseup", endPan);
-
-  // Clicking empty canvas clears the selection.
-  svg.addEventListener("click", (ev) => {
-    if (moved) return;
-    if (ev.target.classList.contains("graph-bg") || ev.target.tagName === "svg") {
-      selected = null; unhighlight(); setInfo(null);
-    }
-  });
-
-  if (stage) {
-    stage.addEventListener("wheel", (ev) => {
-      ev.preventDefault();
-      view.k = clampK(view.k * (ev.deltaY > 0 ? 0.9 : 1.1));
-      applyView();
-    }, { passive: false });
-
-    let pinchDist = 0, pinchK = 1;
-    const dist = (t) => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
-    stage.addEventListener("touchstart", (ev) => {
-      if (hint) hint.classList.add("gone");
-      if (ev.touches.length === 2) {
-        pinchDist = dist(ev.touches); pinchK = view.k;
-      } else if (ev.touches.length === 1) {
-        startPan(ev.touches[0].clientX, ev.touches[0].clientY);
-      }
-    }, { passive: true });
-    stage.addEventListener("touchmove", (ev) => {
-      if (ev.touches.length === 2 && pinchDist) {
-        ev.preventDefault();
-        view.k = clampK(pinchK * (dist(ev.touches) / pinchDist));
-        applyView();
-      } else if (ev.touches.length === 1 && panning) {
-        ev.preventDefault();
-        movePan(ev.touches[0].clientX, ev.touches[0].clientY);
-      }
-    }, { passive: false });
-    stage.addEventListener("touchend", () => { endPan(); pinchDist = 0; }, { passive: true });
+  let interactive = false, moved = false;
+  function applyView() {
+    graphView.setAttribute("transform", `translate(${view.x},${view.y}) scale(${view.k})`);
+    container.querySelector("#graph-zoom-out").disabled = view.k <= 0.2;
+    container.querySelector("#graph-zoom-in").disabled = view.k >= 6;
   }
+  function zoom(factor, point = { x: 600, y: 450 }) {
+    const next = Math.max(0.2, Math.min(6, view.k * factor));
+    const ratio = next / view.k;
+    view.x = point.x - (point.x - view.x) * ratio;
+    view.y = point.y - (point.y - view.y) * ratio;
+    view.k = next;
+    applyView();
+  }
+  function svgPoint(event) {
+    return new DOMPoint(event.clientX, event.clientY).matrixTransform(svg.getScreenCTM().inverse());
+  }
+  container.querySelector("#graph-zoom-in").addEventListener("click", () => zoom(1.3));
+  container.querySelector("#graph-zoom-out").addEventListener("click", () => zoom(1 / 1.3));
+  container.querySelector("#graph-reset").addEventListener("click", () => {
+    const k = Math.max(0.2, Math.min(stage.clientWidth / 1200, stage.clientHeight / 900));
+    Object.assign(view, { x: 600 * (1 - k), y: 450 * (1 - k), k }); applyView();
+  });
+  interactButton.addEventListener("click", () => {
+    interactive = !interactive;
+    stage.classList.toggle("is-interactive", interactive);
+    interactButton.setAttribute("aria-pressed", String(interactive));
+    interactButton.textContent = interactive ? "Touch pan: on" : "Touch pan: off";
+  });
+  nodeSelect.addEventListener("change", () => {
+    if (!nodeSelect.value) { closeInfo(); return; }
+    select(nodeSelect.value);
+    const circle = byId[nodeSelect.value].querySelector(".g-circle");
+    view.k = 2;
+    view.x = 600 - Number(circle.getAttribute("cx")) * view.k;
+    view.y = 450 - Number(circle.getAttribute("cy")) * view.k;
+    applyView();
+  });
 
+  const pointers = new Map();
+  let gesture = null;
+  function beginGesture() {
+    const points = [...pointers.values()];
+    if (!points.length) { gesture = null; return; }
+    const center = points.length > 1
+      ? { x: (points[0].x + points[1].x) / 2, y: (points[0].y + points[1].y) / 2 }
+      : points[0];
+    gesture = { center, view: { ...view }, distance: points.length > 1 ? Math.hypot(points[1].x - points[0].x, points[1].y - points[0].y) : 0 };
+  }
+  svg.addEventListener("pointerdown", (event) => {
+    if (event.pointerType !== "mouse" && !interactive) return;
+    if (event.button !== 0) return;
+    moved = false;
+    pointers.set(event.pointerId, svgPoint(event));
+    beginGesture();
+  });
+  window.addEventListener("pointermove", (event) => {
+    if (!pointers.has(event.pointerId) || !gesture) return;
+    pointers.set(event.pointerId, svgPoint(event));
+    const points = [...pointers.values()];
+    const center = points.length > 1
+      ? { x: (points[0].x + points[1].x) / 2, y: (points[0].y + points[1].y) / 2 }
+      : points[0];
+    const deltaX = center.x - gesture.center.x, deltaY = center.y - gesture.center.y;
+    if (!moved && Math.hypot(deltaX, deltaY) * svg.getScreenCTM().a < 5 && points.length < 2) return;
+    moved = true;
+    if (!svg.hasPointerCapture(event.pointerId)) svg.setPointerCapture(event.pointerId);
+    const ratio = points.length > 1 && gesture.distance
+      ? Math.hypot(points[1].x - points[0].x, points[1].y - points[0].y) / gesture.distance : 1;
+    view.k = Math.max(0.2, Math.min(6, gesture.view.k * ratio));
+    view.x = center.x - (gesture.center.x - gesture.view.x) * view.k / gesture.view.k;
+    view.y = center.y - (gesture.center.y - gesture.view.y) * view.k / gesture.view.k;
+    applyView();
+  });
+  function endPointer(event) {
+    pointers.delete(event.pointerId);
+    beginGesture();
+  }
+  window.addEventListener("pointerup", endPointer);
+  window.addEventListener("pointercancel", endPointer);
+  // Suppress the synthetic click after a drag, but leave taps and keyboard use intact.
+  svg.addEventListener("click", (event) => {
+    if (moved) { event.preventDefault(); event.stopImmediatePropagation(); moved = false; return; }
+    if (!event.target.closest(".g-node")) closeInfo();
+  }, true);
+  svg.addEventListener("wheel", (event) => {
+    if (!interactive && !event.ctrlKey) return;
+    event.preventDefault();
+    zoom(event.deltaY > 0 ? 1 / 1.12 : 1.12, svgPoint(event));
+  }, { passive: false });
+  container.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeInfo();
+  });
+  applyView();
+
+  window.addEventListener("pagehide", stopPlay);
+  document.addEventListener("visibilitychange", () => { if (document.hidden) stopPlay(); });
+  container.closest("details").addEventListener("toggle", (event) => { if (!event.target.open) stopPlay(); });
   applyVisibility();
   setInfo(null);
 }
@@ -1795,26 +1867,25 @@ function renderRoutes() {
   ];
   let html = `
   <header class="hero">
-    <p class="kicker">Civilization Readers</p>
     <h1>Museums, on a map.</h1>
-    <p class="lede">Every museum in this guide plotted where it actually stands — New York, the San Francisco Bay Area, Washington, London, Paris, and Berlin. Tap a pin for the museums there, then open its route page for the floor-by-floor detail. <a href="#graph">Prefer the connection graph? It's further down.</a></p>
+    <p class="lede">${MUSEUMS.filter((m) => m.id !== "template").length} museums across ${geoClusters().length} cities. Pick a place for a floor-by-floor route and the civilizations you’ll meet.</p>
     <div class="route-links">
-      <a class="route-btn" href="tours.html">Start-here tours &rarr;</a>
-      <a class="route-btn subtle" href="index.html">All civilizations</a>
-      <a class="route-btn subtle" href="guide.html">Label decoder</a>
+      <a class="route-btn" href="#museum-list">Museum routes ↓</a>
+      <a class="route-btn subtle" href="tours.html">Timed tours &rarr;</a>
     </div>
   </header>
 
   <section class="panel map-panel">
     <div class="panel-head">
       <h2>Where the museums are</h2>
-      <span class="hint">tap a pin to see the museums there</span>
+      <span class="hint">Choose a numbered marker or a city</span>
     </div>
     <div class="panel-body">
       <div id="geo-map"></div>
     </div>
   </section>`;
 
+  html += `<div id="museum-list">`;
   groups.forEach(({ name, ids }) => {
     html += `<h2 class="group-head">${esc(name)}</h2><div class="route-grid">`;
     ids.forEach((id) => {
@@ -1823,11 +1894,11 @@ function renderRoutes() {
       const areaCount = m.floors.reduce((n, f) => n + f.areas.length, 0);
       const civCount = new Set(m.floors.flatMap((f) => f.areas.flatMap((a) => a.civs))).size;
       html += `
-      <a class="museum-card" href="${esc(routePageFor(m.id))}">
+      <a class="museum-card" href="${esc(routePageFor(m.id))}#${esc(m.id)}">
         <div class="museum-card-top"><span class="museum-card-emoji">${m.emoji}</span><h3>${esc(m.name)}</h3></div>
         <div class="museum-card-city">${esc(m.city)}</div>
         <p>${esc(m.tagline)}</p>
-        <div class="museum-card-meta">${areaCount} gallery areas · ${civCount} civilizations</div>
+        <div class="museum-card-meta">${areaCount} gallery area${areaCount === 1 ? "" : "s"} · ${civCount} civilizations</div>
         <span class="card-go">Open route &rarr;</span>
       </a>`;
     });
@@ -1835,20 +1906,27 @@ function renderRoutes() {
   });
 
   html += `
-  <section class="panel graph-panel" id="graph">
-    <div class="panel-head">
-      <h2>The connection graph</h2>
-      <span class="hint">museums → galleries → civilizations → objects, plus relationship edges between civilizations</span>
-    </div>
+  </div>
+  <details class="panel graph-panel" id="graph">
+    <summary class="panel-head">
+      <h2>Explore the connection graph</h2>
+      <span class="hint">Museums, galleries, civilizations &amp; objects</span>
+      <span class="panel-chev" aria-hidden="true">▾</span>
+    </summary>
     <div class="panel-body">
       <div id="graph-host"></div>
     </div>
-  </section>
+  </details>
   <footer class="foot">Gallery and exhibit names change with reinstalls — always cross-check the museum's current map. <a href="index.html">All civilization readers &rarr;</a></footer>`;
   app.innerHTML = html;
   document.title = "Museums, on a map — Civilization Readers";
   renderGeoMap(document.getElementById("geo-map"));
-  renderGraph(document.getElementById("graph-host"));
+  const graph = document.getElementById("graph");
+  const host = document.getElementById("graph-host");
+  graph.addEventListener("toggle", () => {
+    if (graph.open && !host.childElementCount && !graph.dataset.printOpen) renderGraph(host);
+  });
+  wireCollapsiblePanels();
 }
 
 /* ---------------- masterpieces (objects.html) ---------------- */
@@ -1859,11 +1937,10 @@ function renderObjects() {
 
   let html = `
   <header class="hero">
-    <p class="kicker">Civilization Readers</p>
     <h1>One object, sixty seconds.</h1>
     <p class="lede">A deep dive on a single iconic piece per civilization — what it is, why it matters, and the specific things to look for while you're standing in front of it. Read one before you get to the case; you'll see about three times as much.</p>
     <div class="search-wrap">
-      <input id="obj-search" type="search" placeholder="Search objects — try &ldquo;gold&rdquo;, &ldquo;helmet&rdquo;, &ldquo;bronze&rdquo;&hellip;" autocomplete="off" enterkeyhint="search" />
+      <input id="obj-search" aria-label="Search objects" type="search" placeholder="Search objects — try &ldquo;gold&rdquo;, &ldquo;helmet&rdquo;, &ldquo;bronze&rdquo;&hellip;" autocomplete="off" enterkeyhint="search" />
     </div>
     <div class="route-links">
       <a class="route-btn" href="index.html">All civilizations &rarr;</a>
@@ -1883,7 +1960,7 @@ function renderObjects() {
       <div class="mp-head">
         <span class="mp-emoji" aria-hidden="true">${m.emoji}</span>
         <div class="mp-titles">
-          <h3>${esc(m.name)}</h3>
+          <h2>${esc(m.name)}</h2>
           <div class="mp-meta">${esc(m.date)} &middot; ${esc(m.material)}</div>
           <div class="mp-where">📍 ${esc(m.where)}</div>
         </div>
@@ -1899,7 +1976,7 @@ function renderObjects() {
   });
 
   html += `</div>
-  <div class="no-results" id="no-results">No objects match &ldquo;<span id="no-results-q"></span>&rdquo;.</div>
+  <div class="no-results" id="no-results" role="status">No objects match &ldquo;<span id="no-results-q"></span>&rdquo;.</div>
   <footer class="foot">Locations change — objects go on loan, into storage, or into a new gallery. Check the museum's collection site with the accession number on the label. <a href="index.html">All civilization readers &rarr;</a></footer>`;
 
   app.innerHTML = html;
@@ -1916,7 +1993,6 @@ function renderTours() {
 
   let html = `
   <header class="hero">
-    <p class="kicker">Civilization Readers</p>
     <h1>Start here. You have ninety minutes.</h1>
     <p class="lede">Encyclopedic museums are unwinnable — the honest move is to pick a route and skip the rest without guilt. Each tour below is a timed sequence of stops with the reader to open at each one, ordered so you don't double back.</p>
     <div class="route-links">
@@ -2035,11 +2111,10 @@ function renderGuide() {
 
   let html = `
   <header class="hero">
-    <p class="kicker">Civilization Readers</p>
     <h1>The label said &ldquo;Figure. Wood.&rdquo; Now what?</h1>
     <p class="lede">A decoder for museum labels, a glossary of the words that show up on them, and the reference sites worth having bookmarked when the wall text gives you a title and no date.</p>
     <div class="search-wrap">
-      <input id="guide-search" type="search" placeholder="Search terms — try &ldquo;faience&rdquo;, &ldquo;provenance&rdquo;, &ldquo;stela&rdquo;&hellip;" autocomplete="off" enterkeyhint="search" />
+      <input id="guide-search" aria-label="Search the glossary" type="search" placeholder="Search terms — try &ldquo;faience&rdquo;, &ldquo;provenance&rdquo;, &ldquo;stela&rdquo;&hellip;" autocomplete="off" enterkeyhint="search" />
     </div>
     <div class="route-links">
       <a class="route-btn" href="index.html">All civilizations &rarr;</a>
@@ -2093,7 +2168,7 @@ function renderGuide() {
         <span class="gloss-civs">${g.civs.slice(0, 3).map((c) => `<a href="reader.html?c=${esc(c.slug)}">${c.emoji} ${esc(c.name)}</a>`).join("")}</span>
       </div>`).join("")}
   </div>
-  <div class="no-results" id="no-results">Nothing matches &ldquo;<span id="no-results-q"></span>&rdquo;.</div>
+  <div class="no-results" id="no-results" role="status">Nothing matches &ldquo;<span id="no-results-q"></span>&rdquo;.</div>
 
   <div class="section-title">
     <div>
@@ -2180,7 +2255,19 @@ function jumpToHash() {
   const id = (window.location.hash || "").replace("#", "");
   if (!id) return;
   const el = document.getElementById(id);
-  if (el) window.requestAnimationFrame(() => el.scrollIntoView({ block: "start" }));
+  if (el) {
+    if (el.matches("details")) el.open = true;
+    // Firefox may perform its native fragment scroll after DOMContentLoaded.
+    // Resolve the final position after layout, using only the document scroller
+    // (not the reader's nested horizontal TOC/timeline scrollers).
+    if (jumpToHash.frame) cancelAnimationFrame(jumpToHash.frame);
+    jumpToHash.frame = requestAnimationFrame(() => {
+      jumpToHash.frame = requestAnimationFrame(() => {
+        const offset = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+        window.scrollTo({ top: window.scrollY + el.getBoundingClientRect().top - offset, behavior: "instant" });
+      });
+    });
+  }
 }
 
 /* ---------------- theme ---------------- */
@@ -2200,8 +2287,11 @@ function applyTheme(theme) {
   try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
   const btn = document.getElementById("theme-toggle");
   if (btn) {
-    btn.textContent = theme === "dark" ? "☀️" : "🌙";
+    btn.innerHTML = theme === "dark"
+      ? '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>'
+      : '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.5 14A8.5 8.5 0 0 1 10 3.5 8.5 8.5 0 1 0 20.5 14Z"/></svg>';
     btn.title = theme === "dark" ? "Switch to light mode" : "Switch to dark mode (good for dim galleries)";
+    btn.setAttribute("aria-label", btn.title);
   }
 }
 
@@ -2216,7 +2306,11 @@ function mountThemeToggle() {
     const cur = document.documentElement.getAttribute("data-theme");
     applyTheme(cur === "dark" ? "light" : "dark");
   });
-  document.body.appendChild(btn);
+  const header = document.createElement("header");
+  header.className = "site-header wrap";
+  header.innerHTML = '<a class="brand" href="index.html"><span aria-hidden="true">🏺</span> Civilization Readers</a>';
+  header.appendChild(btn);
+  document.querySelector(".skip-link").after(header);
   applyTheme(document.documentElement.getAttribute("data-theme") || "light");
 }
 
@@ -2239,10 +2333,49 @@ const PAGES = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  const url = new URL(window.location.href);
+  if (url.searchParams.get("__civ_upgrade")?.startsWith("civ-readers-")) {
+    url.searchParams.delete("__civ_upgrade");
+    history.replaceState(history.state, "", url.href);
+  }
   initTheme();
   mountThemeToggle();
   const render = PAGES[document.body.dataset.page];
   if (render) render();
   mountNav();
   mountToTop();
+  jumpToHash();
+  window.addEventListener("load", jumpToHash, { once: true });
+  wirePrint();
+  registerOffline();
 });
+
+/* Browsers do not reliably print the contents of closed <details>. */
+function wirePrint() {
+  let closed = [], printing = false;
+  window.addEventListener("beforeprint", () => {
+    if (printing) return;
+    printing = true;
+    closed = Array.from(document.querySelectorAll("details:not([open])"));
+    closed.forEach((detail) => { detail.dataset.printOpen = "true"; detail.open = true; });
+  });
+  window.addEventListener("afterprint", () => {
+    if (!printing) return;
+    closed.forEach((detail) => { detail.open = false; delete detail.dataset.printOpen; });
+    closed = [];
+    printing = false;
+  });
+}
+
+function registerOffline() {
+  if (!("serviceWorker" in navigator)) return;
+  const wasControlled = Boolean(navigator.serviceWorker.controller);
+  let refreshing = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (wasControlled && !refreshing) {
+      refreshing = true;
+      window.location.reload();
+    }
+  });
+  navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).catch(() => {});
+}
