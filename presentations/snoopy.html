@@ -45,13 +45,55 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
 .slide{position:absolute;top:0;left:0;width:100%;height:100%;background:var(--color-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transform:scale(0.96);transition:opacity 0.65s ease,transform 0.65s ease;pointer-events:none;overflow:hidden;}
 .slide.active{opacity:1;transform:scale(1);pointer-events:all;}
 .slide>.content{position:relative;z-index:2;width:100%;max-width:1100px;padding:clamp(1.5rem,4vw,3.5rem);}
-.nav-controls{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;z-index:100;background:rgba(255,255,255,0.05);backdrop-filter:blur(12px);padding:8px 22px;border-radius:40px;border:1px solid rgba(255,255,255,0.08);}
-.nav-btn{width:36px;height:36px;border:none;background:rgba(255,255,255,0.06);color:#f7c948;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
+/* Responsive grid helpers (collapsable via media queries) */
+.g2{display:grid;grid-template-columns:1fr 1fr;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);}
+.float-img{position:absolute;top:.5rem;right:2rem;height:150px;width:auto;object-fit:contain;border-radius:12px;opacity:.85;filter:drop-shadow(0 0 18px rgba(167,139,250,.35));z-index:3;}
+.nav-controls{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;align-items:center;flex-wrap:nowrap;gap:14px;z-index:100;background:rgba(255,255,255,0.05);backdrop-filter:blur(12px);padding:8px 22px;border-radius:40px;border:1px solid rgba(255,255,255,0.08);max-width:calc(100vw - 24px);}
+.nav-btn{width:36px;height:36px;flex-shrink:0;border:none;background:rgba(255,255,255,0.06);color:#f7c948;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
 .nav-btn:hover{background:rgba(255,255,255,0.12);}
-.slide-dots{display:flex;gap:7px;flex-wrap:wrap;max-width:280px;justify-content:center;}
-.dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);cursor:pointer;transition:background 0.3s,transform 0.3s;}
-.dot.active{background:#f7c948;transform:scale(1.35);}
-.slide-counter{font-size:.75rem;color:#7a6fa8;min-width:38px;text-align:center;}
+/* Hierarchical section breadcrumbs */
+.section-dots{display:flex;align-items:center;gap:10px;}
+.section-group{display:flex;align-items:center;gap:7px;padding:5px 8px;border-radius:20px;border:1px solid transparent;cursor:pointer;position:relative;transition:background 0.25s,border-color 0.25s;}
+.section-group:hover{background:rgba(255,255,255,0.05);}
+.section-group.current{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.10);}
+.section-group::after{content:attr(data-name);position:absolute;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%) translateY(4px);background:rgba(20,18,42,0.96);border:1px solid rgba(255,255,255,0.14);color:#c4b8e8;font-size:.66rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.35rem .65rem;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity 0.2s,transform 0.2s;z-index:20;}
+.section-group::before{content:'';position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%) translateY(4px);border:5px solid transparent;border-top-color:rgba(20,18,42,0.96);opacity:0;pointer-events:none;transition:opacity 0.2s,transform 0.2s;z-index:20;}
+.section-group:hover::after,.section-group:hover::before{opacity:1;transform:translateX(-50%) translateY(0);}
+.dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.16);cursor:pointer;transition:background 0.3s,transform 0.3s,box-shadow 0.3s;flex-shrink:0;}
+.section-group.current .dot{background:rgba(255,255,255,0.34);}
+.dot.active{background:#f7c948;transform:scale(1.35);box-shadow:0 0 8px rgba(247,201,72,0.55);}
+.nav-section{font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#7a6fa8;white-space:nowrap;}
+.slide-counter{font-size:.75rem;color:#7a6fa8;min-width:44px;text-align:center;white-space:nowrap;}
+/* Mobile: scrollable slides, collapsing grids, compact nav */
+@media (max-width:768px){
+  .slide{justify-content:flex-start;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .slide::-webkit-scrollbar{display:none;}
+  .slide>.content{margin:auto 0;padding-top:2.4rem;padding-bottom:118px;}
+  .g2{grid-template-columns:1fr;gap:1.25rem !important;}
+  .g3{grid-template-columns:repeat(2,1fr);}
+  .g4{grid-template-columns:repeat(2,1fr);}
+  .float-img{position:relative;top:auto;right:auto;margin:0 auto 1.1rem;height:150px;display:block;}
+}
+@media (max-width:600px){
+  .g3{grid-template-columns:1fr;}
+}
+@media (max-width:560px){
+  .nav-controls{padding:8px 14px;gap:9px;bottom:14px;}
+  .nav-btn{width:32px;height:32px;font-size:1rem;}
+  .section-dots{gap:7px;}
+  .section-group{padding:3px 5px;gap:4px;}
+  .section-group::after,.section-group::before{display:none;}
+  .dot{width:7px;height:7px;}
+  .dot.active{transform:scale(1.3);}
+  .nav-section,.slide-counter{display:none;}
+}
+@media (max-width:360px){
+  .dot{width:6px;height:6px;}
+  .section-group{padding:3px 4px;gap:3px;}
+  .section-dots{gap:6px;}
+}
 .reveal{opacity:0;transform:translateY(18px);}
 @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
 @keyframes float-slow{0%{transform:translate(0,0) scale(1);}25%{transform:translate(55px,-45px) scale(1.1);}50%{transform:translate(-35px,35px) scale(0.92);}75%{transform:translate(45px,18px) scale(1.07);}100%{transform:translate(0,0) scale(1);}}
@@ -97,7 +139,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
   <div class="content">
     <div class="tag reveal">Meet Snoopy</div>
     <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 1rem;">Who Is Snoopy?</h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;">
+    <div class="g2" style="gap:2rem;align-items:center;">
       <div>
         <div class="gc reveal" style="margin-bottom:.75rem;border-left:3px solid #f7c948;">
           <strong style="color:#f7c948;font-size:.88rem;">Born</strong>
@@ -129,7 +171,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
   <div class="content">
     <div class="tag reveal" style="background:rgba(224,92,42,.1);border-color:rgba(224,92,42,.3);color:#e05c2a;">The Creator</div>
     <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 1rem;">Charles M. Schulz — "Sparky"</h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;">
+    <div class="g2" style="gap:2rem;align-items:start;">
       <div>
         <div class="gc reveal" style="margin-bottom:.7rem;border-left:3px solid #f7c948;">
           <strong style="color:#f7c948;font-size:.87rem;">Born November 26, 1922 — Minneapolis, MN</strong>
@@ -162,7 +204,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
   <div class="content" style="text-align:center;">
     <div class="tag reveal">By the numbers</div>
     <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.8rem);color:#f7c948;margin:.5rem 0 1.2rem;">17,897 Strips. Every One. By Hand.</h2>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-bottom:1.2rem;">
+    <div class="g4" style="gap:1.2rem;margin-bottom:1.2rem;">
       <div class="gc reveal" style="text-align:center;padding:1.2rem .8rem;">
         <div style="font-size:2rem;font-weight:900;color:#f7c948;line-height:1;" data-count="17897">0</div>
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#7a6fa8;margin-top:.4rem;">Total strips</div>
@@ -198,7 +240,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
     <div class="tag reveal">50 Years of Change</div>
     <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 .4rem;">How Snoopy Evolved</h2>
     <p class="reveal" style="color:#7a6fa8;font-size:.82rem;margin-bottom:1rem;">From dog-on-all-fours to walking philosopher</p>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;">
+    <div class="g4" style="gap:1rem;">
       <div class="gc reveal" style="border-top:2px solid #f7c948;">
         <div style="font-size:.72rem;font-weight:700;color:#f7c948;letter-spacing:.08em;text-transform:uppercase;">1950–1955</div>
         <p style="font-size:.78rem;color:#c4b8e8;margin:.35rem 0 0;">Walks on all fours. Round head, simple features. More dog, less philosopher.</p>
@@ -233,7 +275,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
     <div class="tag reveal">Alter Egos</div>
     <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 .3rem;">The Many Faces of Snoopy</h2>
     <p class="reveal" style="color:#7a6fa8;font-size:.82rem;margin-bottom:.9rem;">One beagle. Infinite imagination.</p>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+    <div class="g3" style="gap:1rem;">
       <div class="gc reveal" style="display:flex;gap:.75rem;align-items:center;">
         <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/7335d4d0858f811326352a50435981d97b0486d2.jpg" alt="WWI Flying Ace" style="width:56px;height:56px;object-fit:cover;border-radius:9px;flex-shrink:0;">
         <div><div style="font-size:.85rem;font-weight:700;color:#f7c948;">WWI Flying Ace</div><div style="font-size:.75rem;color:#c4b8e8;">Since 1965 — atop his doghouse "Sopwith Camel"</div></div>
@@ -270,7 +312,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
     <div class="blob" style="width:280px;height:280px;bottom:-60px;right:-50px;background:#f7c948;opacity:.09;"></div>
   </div>
   <div class="content">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;">
+    <div class="g2" style="gap:2rem;align-items:center;">
       <div>
         <div class="tag reveal" style="background:rgba(224,92,42,.1);border-color:rgba(224,92,42,.3);color:#e05c2a;">Alter Ego #1</div>
         <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 .9rem;">The WWI Flying Ace ✈️</h2>
@@ -302,7 +344,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
     <div class="blob" style="width:260px;height:260px;bottom:-60px;left:-45px;background:#f7c948;opacity:.09;"></div>
   </div>
   <div class="content">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;">
+    <div class="g2" style="gap:2rem;align-items:center;">
       <div>
         <div class="tag reveal" style="background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.3);color:#a78bfa;">Alter Ego #2</div>
         <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 .9rem;">Joe Cool 😎</h2>
@@ -342,7 +384,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
       <p style="font-size:1.1rem;color:#c4b8e8;font-style:italic;">"It's been a few years since Joe Cool first appeared…"</p>
       <p style="font-size:.82rem;color:#7a6fa8;margin-top:.5rem;">…like, approximately three days ago. Or 54 years and three days. <br>Joe Cool is too cool to count.</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:700px;margin:0 auto;">
+    <div class="g3" style="gap:1rem;max-width:700px;margin:0 auto;">
       <div class="gc reveal" style="text-align:center;padding:1rem;">
         <div style="font-size:1.8rem;font-weight:900;color:#a78bfa;">May 27</div>
         <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:#7a6fa8;margin-top:.3rem;">Original debut, 1971</div>
@@ -367,12 +409,11 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
     <div class="blob" style="width:280px;height:280px;bottom:-65px;left:-50px;background:#f7c948;opacity:.09;"></div>
   </div>
   <div class="content">
-    <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/27fc8f7ad8088b5797e1fd9983d935a399b63201.jpg" 
-         alt="Astronaut Snoopy" class="reveal"
-         style="position:absolute;top:1.5rem;right:2rem;height:190px;width:auto;object-fit:contain;border-radius:12px;opacity:.85;filter:drop-shadow(0 0 18px rgba(167,139,250,.35));z-index:3;">
+    <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/27fc8f7ad8088b5797e1fd9983d935a399b63201.jpg"
+         alt="Astronaut Snoopy" class="float-img reveal">
     <div class="tag reveal" style="background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.3);color:#a78bfa;">🚀 Space</div>
     <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 .9rem;">Snoopy Goes to Space</h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+    <div class="g2" style="gap:1.5rem;">
       <div>
         <div class="gc reveal" style="margin-bottom:.7rem;border-left:3px solid #a78bfa;">
           <strong style="color:#a78bfa;font-size:.87rem;">NASA Partnership, 1968</strong>
@@ -409,7 +450,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
     <div class="blob" style="width:260px;height:260px;bottom:-60px;left:-40px;background:#e05c2a;opacity:.09;"></div>
   </div>
   <div class="content">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;">
+    <div class="g2" style="gap:2rem;align-items:center;">
       <div>
         <div class="tag reveal" style="background:rgba(247,201,72,.1);border-color:rgba(247,201,72,.3);color:#f7c948;">Snoopy's Best Friend</div>
         <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 .9rem;">Woodstock 🐦</h2>
@@ -444,7 +485,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
     <div class="tag reveal" style="background:rgba(224,92,42,.1);border-color:rgba(224,92,42,.3);color:#e05c2a;">The Family Tree</div>
     <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 .3rem;">A Litter of Eight 🐶</h2>
     <p class="reveal" style="color:#7a6fa8;font-size:.82rem;margin-bottom:.9rem;">Born at Daisy Hill Puppy Farm to parents Baxter &amp; Missy — and Snoopy was NOT an only dog after all</p>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem;">
+    <div class="g3" style="gap:.85rem;">
       <div class="gc reveal" style="border-left:3px solid #f7c948; display:flex; flex-direction:column; gap:0.5rem;">
         <img src="/images/snoopy/spike.jpg" alt="Spike" style="width:100%;height:100px;object-fit:cover;object-position:top;border-radius:6px;">
         <div>
@@ -502,7 +543,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
     <div class="tag reveal">Family, Retconned</div>
     <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 .3rem;">"I Was an Only Dog" — Except He Wasn't</h2>
     <p class="reveal" style="color:#7a6fa8;font-size:.82rem;margin-bottom:.9rem;">How Schulz built a whole family out of his own real dogs</p>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-bottom:1rem;">
+    <div class="g4" style="gap:.9rem;margin-bottom:1rem;">
       <div class="gc reveal" style="text-align:center;padding:1.1rem .7rem;">
         <div style="font-size:1.9rem;font-weight:900;color:#f7c948;line-height:1;" data-count="8">0</div>
         <div style="font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;color:#7a6fa8;margin-top:.35rem;">Puppies in the litter</div>
@@ -520,7 +561,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
         <div style="font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;color:#7a6fa8;margin-top:.35rem;">Years to complete the family</div>
       </div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.9rem;">
+    <div class="g2" style="gap:.9rem;">
       <div class="gc reveal" style="border-left:3px solid #f7c948;">
         <strong style="color:#f7c948;font-size:.86rem;">The retcon: 1959 → 1965</strong>
         <p style="font-size:.78rem;color:#c4b8e8;margin:.2rem 0 0;">"I've never had any sisters or brothers. I was an only dog!" (June 6, 1959). Six years later Snoopy is suddenly one of eight, born at the Daisy Hill Puppy Farm. A 1989 Father's Day strip shows Dad's card signed with eight paw prints.</p>
@@ -552,7 +593,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
     <div class="tag reveal">Before It Was Cool</div>
     <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 .3rem;">Snoopy Was Doing It First 👆</h2>
     <p class="reveal" style="color:#7a6fa8;font-size:.8rem;margin-bottom:.9rem;">The strip was quietly decades ahead of its time</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+    <div class="g2" style="gap:1rem;">
       <div class="gc reveal" style="border-left:3px solid #f7c948;">
         <strong style="color:#f7c948;font-size:.85rem;">Therapy culture (1950s)</strong>
         <p style="font-size:.78rem;color:#c4b8e8;margin:.2rem 0 0;">Lucy's psychiatry booth — "The doctor is IN, 5¢" — was satirizing therapy culture before it was mainstream. Charlie Brown was openly anxious decades before that was a normal thing to discuss.</p>
@@ -591,7 +632,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
   <div class="content">
     <div class="tag reveal">Representation</div>
     <h2 class="font-display font-bold reveal" style="font-size:clamp(1.7rem,3.8vw,2.7rem);color:#f7c948;margin:.5rem 0 .8rem;">Franklin Armstrong — A Real First ✊🏾</h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.8rem;align-items:start;">
+    <div class="g2" style="gap:1.8rem;align-items:start;">
       <div>
         <div class="gc reveal" style="margin-bottom:.7rem;border-left:3px solid #f7c948;">
           <strong style="color:#f7c948;font-size:.87rem;">July 31, 1968 — First Appearance</strong>
@@ -630,7 +671,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
     <div class="tag reveal" style="background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.35);color:#a78bfa;">Hidden Depths</div>
     <h2 class="font-display font-bold reveal" style="font-size:clamp(1.6rem,3.6vw,2.5rem);color:#f7c948;margin:.5rem 0 .3rem;">Quiet Diversity in Peanuts</h2>
     <p class="reveal" style="color:#7a6fa8;font-size:.78rem;margin-bottom:.8rem;">Characters that were quietly miles ahead of mainstream America</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.3rem;">
+    <div class="g2" style="gap:1.3rem;">
       <div>
         <div class="gc reveal" style="border-left:3px solid #a78bfa;margin-bottom:.75rem;">
           <div style="display:flex;gap:.75rem;align-items:center;margin-bottom:.5rem;">
@@ -677,7 +718,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
   <div class="content">
     <div class="tag reveal">American Institution</div>
     <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 .9rem;">Peanuts &amp; American Culture 🇺🇸</h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+    <div class="g2" style="gap:1.5rem;">
       <div>
         <div class="gc reveal" style="margin-bottom:.75rem;border-left:3px solid #f7c948;">
           <strong style="color:#f7c948;font-size:.87rem;">Macy's Thanksgiving Parade — since 1968</strong>
@@ -721,7 +762,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
     <div class="tag reveal" style="background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.3);color:#a78bfa;">Gen Z Connection</div>
     <h2 class="font-display font-bold reveal" style="font-size:clamp(1.8rem,4vw,2.9rem);color:#f7c948;margin:.5rem 0 .3rem;">Why Gen Z Is Obsessed</h2>
     <p class="reveal" style="color:#7a6fa8;font-size:.8rem;margin-bottom:.9rem;">A 75-year-old beagle is having a full-on cultural moment — again</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;">
+    <div class="g2" style="gap:1.2rem;">
       <div class="gc reveal" style="border-left:3px solid #a78bfa;">
         <strong style="color:#a78bfa;font-size:.87rem;">TikTok &amp; Meme Culture</strong>
         <p style="font-size:.8rem;color:#c4b8e8;margin:.2rem 0 0;">Snoopy meme searches spiked 223.8% on TikTok in 2022-23. The "Snoopy and Charlie Brown silent stare" format went massively viral. He became the de facto mascot of "unbothered" energy.</p>
@@ -763,7 +804,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
     <div class="reveal" style="font-size:90px;line-height:1;margin-bottom:.5rem;animation:float 3.5s ease-in-out infinite;">🐾</div>
     <h2 class="font-display font-black reveal" style="font-size:clamp(2rem,5vw,4rem);background:linear-gradient(135deg,#f7c948 0%,#e05c2a 50%,#a78bfa 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.8rem;">Snoopy's World,<br>We're Just Living in It</h2>
     <p class="reveal" style="font-size:clamp(.85rem,1.4vw,1.1rem);color:#7a6fa8;letter-spacing:3px;text-transform:uppercase;margin-bottom:1.5rem;">Good grief. And good night.</p>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:700px;margin:0 auto;">
+    <div class="g4" style="gap:1rem;max-width:700px;margin:0 auto;">
       <div class="gc reveal" style="text-align:center;padding:.9rem .5rem;">
         <div style="font-size:1.6rem;font-weight:900;color:#f7c948;">1950</div>
         <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:#7a6fa8;">Born</div>
@@ -788,9 +829,10 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
 </div><!-- end .deck -->
 
 <div class="nav-controls">
-  <button class="nav-btn" onclick="changeSlide(-1)">&#8249;</button>
-  <div class="slide-dots" id="dots"></div>
-  <button class="nav-btn" onclick="changeSlide(1)">&#8250;</button>
+  <button class="nav-btn" onclick="changeSlide(-1)" aria-label="Previous slide">&#8249;</button>
+  <div class="section-dots" id="dots" aria-label="Slides, grouped by section"></div>
+  <button class="nav-btn" onclick="changeSlide(1)" aria-label="Next slide">&#8250;</button>
+  <span class="nav-section" id="sectionLabel"></span>
   <span class="slide-counter" id="counter">1 / 19</span>
 </div>
 
@@ -811,6 +853,15 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
   
   var dotsContainer = document.getElementById('dots');
   var counter = document.getElementById('counter');
+  var sectionLabel = document.getElementById('sectionLabel');
+
+  // Hierarchical sections: contiguous slide ranges
+  var SECTIONS = [
+    { name: 'Meet Snoopy', from: 1, to: 4 },
+    { name: 'Alter Egos', from: 5, to: 10 },
+    { name: 'Friends & Family', from: 11, to: 13 },
+    { name: 'Legacy', from: 14, to: 19 }
+  ];
 
   // Set initial active slide
   slides.forEach(function(s) {
@@ -819,15 +870,35 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
   var startSlide = document.querySelector('.slide[data-slide="' + current + '"]');
   if (startSlide) startSlide.classList.add('active');
 
-  for (var i = 1; i <= total; i++) {
-    var dot = document.createElement('div');
-    dot.className = 'dot' + (i === current ? ' active' : '');
-    dot.setAttribute('data-n', i);
-    dot.addEventListener('click', (function(n){ return function(){ goToSlide(n); }; })(i));
-    dotsContainer.appendChild(dot);
+  function sectionFor(n) {
+    for (var k = 0; k < SECTIONS.length; k++) {
+      if (n >= SECTIONS[k].from && n <= SECTIONS[k].to) return SECTIONS[k];
+    }
+    return null;
   }
-  
-  counter.textContent = current + ' / ' + total;
+
+  SECTIONS.forEach(function(sec) {
+    var group = document.createElement('div');
+    group.className = 'section-group';
+    group.setAttribute('data-name', sec.name);
+    group.setAttribute('data-from', String(sec.from));
+    group.setAttribute('data-to', String(sec.to));
+    group.title = sec.name;
+    group.addEventListener('click', (function(s0){ return function(){ goToSlide(s0.from); }; })(sec));
+    for (var i = sec.from; i <= sec.to; i++) {
+      (function(n){
+        var dot = document.createElement('div');
+        dot.className = 'dot';
+        dot.setAttribute('data-n', String(n));
+        dot.setAttribute('aria-label', 'Go to slide ' + n);
+        dot.addEventListener('click', function(e){ e.stopPropagation(); goToSlide(n); });
+        group.appendChild(dot);
+      })(i);
+    }
+    dotsContainer.appendChild(group);
+  });
+
+  updateNav();
 
   function goToSlide(n) {
     var prev = document.querySelector('.slide.active');
@@ -850,6 +921,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
     goToSlide(next);
   }
   window.changeSlide = changeSlide;
+  window.goToSlide = goToSlide;
 
   window.addEventListener('hashchange', function() {
     var hash = window.location.hash;
@@ -863,9 +935,14 @@ body{font-family:'DM Sans',sans-serif;color:var(--color-text);}
 
   function updateNav() {
     document.querySelectorAll('.dot').forEach(function(d) {
-      d.classList.toggle('active', parseInt(d.getAttribute('data-n')) === current);
+      d.classList.toggle('active', parseInt(d.getAttribute('data-n'), 10) === current);
+    });
+    var sec = sectionFor(current);
+    document.querySelectorAll('.section-group').forEach(function(g) {
+      g.classList.toggle('current', parseInt(g.getAttribute('data-from'), 10) === sec.from);
     });
     counter.textContent = current + ' / ' + total;
+    if (sectionLabel) sectionLabel.textContent = sec ? sec.name : '';
   }
 
   document.addEventListener('keydown', function(e) {
