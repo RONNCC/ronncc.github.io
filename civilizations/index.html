@@ -4,7 +4,7 @@ permalink: /civilizations/
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -13,14 +13,152 @@ permalink: /civilizations/
   <meta name="theme-color" content="#0f6ab4" />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="apple-touch-icon" href="icons/icon-180.png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
   <link rel="stylesheet" href="styles.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body data-page="index">
-  <div class="wrap">
-    <div id="app"></div>
-  </div>
+  <main class="container" x-data="civApp()">
+    <header>
+      <small>Civilization Readers</small>
+      <hgroup>
+        <h1>Pick a civilization. Get the context before the gallery.</h1>
+        <p>Pocket primers for <strong x-text="civilizations.length"></strong> civilizations across <strong x-text="groups.length"></strong> regions — visual timelines, key context, and a cheat sheet for what you'll actually see on display.</p>
+      </hgroup>
+      
+      <label>
+        <input 
+          type="search" 
+          placeholder="Search civilizations, terms, or objects…"
+          x-model="searchQuery"
+          autocomplete="off" />
+      </label>
+
+      <div class="filter-pills">
+        <button 
+          :class="{ 'outline': activeFilter !== 'all' }"
+          @click="activeFilter = 'all'">
+          All <span class="counter" x-text="civilizations.length"></span>
+        </button>
+        <template x-for="group in groups" :key="group.name">
+          <button
+            :class="{ 'outline': activeFilter !== group.slug }"
+            @click="activeFilter = group.slug"
+            x-text="group.name">
+          </button>
+        </template>
+      </div>
+    </header>
+
+    <section>
+      <article x-show="filteredCivilizations.length === 0">
+        <p>No civilizations match "<span x-text="searchQuery"></span>".</p>
+      </article>
+
+      <template x-for="group in filteredGroups" :key="group.slug">
+        <section>
+          <header>
+            <h2 x-text="group.name"></h2>
+            <small x-text="group.civs.length + ' civilizations'"></small>
+          </header>
+          
+          <div class="grid">
+            <template x-for="civ in group.civs" :key="civ.slug">
+              <article class="civ-card" :style="`--accent: ${civ.accent}`">
+                <div class="card-accent"></div>
+                <div class="card-content">
+                  <header>
+                    <span class="emoji" x-text="civ.emoji"></span>
+                    <div>
+                      <h3 x-text="civ.name"></h3>
+                      <small x-text="civ.spanLabel"></small>
+                    </div>
+                  </header>
+                  <p x-text="civ.tagline"></p>
+                  <footer>
+                    <small x-text="civ.region"></small>
+                    <a :href="`reader.html?c=${civ.slug}`" class="read-link">Read →</a>
+                  </footer>
+                </div>
+              </article>
+            </template>
+          </div>
+        </section>
+      </template>
+    </section>
+
+    <footer>
+      <p>
+        <strong x-text="civilizations.length"></strong> civilizations · 
+        <strong x-text="museumCount"></strong> museums · 
+        <strong x-text="objectCount"></strong> objects · 
+        <strong x-text="tourCount"></strong> tours
+      </p>
+      <nav>
+        <a href="tours.html">Tours</a> · 
+        <a href="objects.html">Objects</a> · 
+        <a href="routes.html">Museums</a> · 
+        <a href="guide.html">Guide</a>
+      </nav>
+      <p><small>A high-level primer for gallery context — not an academic reference. Dates are approximate. <a href="reader.html?c=egypt">Start with Egypt →</a></small></p>
+    </footer>
+  </main>
+
   <script src="data.js"></script>
-  <script src="app.js"></script>
+  <script>
+    function civApp() {
+      const groups = GROUP_ORDER.map(name => ({
+        name,
+        slug: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        civs: CIVILIZATIONS.filter(c => c.group === name)
+      })).filter(g => g.civs.length > 0);
+
+      return {
+        civilizations: CIVILIZATIONS,
+        groups,
+        searchQuery: '',
+        activeFilter: 'all',
+        museumCount: typeof MUSEUMS !== 'undefined' ? MUSEUMS.length - 1 : 0,
+        objectCount: typeof MASTERPIECES !== 'undefined' ? MASTERPIECES.length : 0,
+        tourCount: typeof TOURS !== 'undefined' ? TOURS.length : 0,
+        
+        get filteredCivilizations() {
+          let civs = this.civilizations;
+          
+          if (this.activeFilter !== 'all') {
+            const group = this.groups.find(g => g.slug === this.activeFilter);
+            if (group) civs = group.civs;
+          }
+          
+          if (this.searchQuery) {
+            const q = this.searchQuery.toLowerCase();
+            civs = civs.filter(c => {
+              const haystack = [
+                c.name, c.tagline, c.region, c.group, c.emoji, c.spanLabel,
+                ...(c.quick || []),
+                ...(c.context?.spotIt || []).map(s => s.t + ' ' + s.d),
+                ...(c.museum?.lingo || []).map(s => s.t)
+              ].join(' ').toLowerCase();
+              return haystack.includes(q);
+            });
+          }
+          
+          return civs;
+        },
+        
+        get filteredGroups() {
+          if (this.activeFilter !== 'all') {
+            return this.groups.filter(g => g.slug === this.activeFilter);
+          }
+          
+          return this.groups.map(g => ({
+            ...g,
+            civs: g.civs.filter(c => this.filteredCivilizations.includes(c))
+          })).filter(g => g.civs.length > 0);
+        }
+      };
+    }
+  </script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", function () {
