@@ -2100,3 +2100,11 @@ html[data-theme="dark"] .rel-type { color: var(--accent); }
   position: absolute; width: 1200px; height: 900px; max-width: none;
   left: 50%; top: 50%; transform: translate(-50%, -50%);
 }
+
+/* Installed/full-screen phones can expose a status-bar safe area above the TOC. */
+@media (max-width: 860px) {
+  .reader-toc, .index-filter-bar { top: env(safe-area-inset-top, 0px); }
+  [id^="sec-"], .museum, .museum-block, .route-area, .tour, .mp-card {
+    scroll-margin-top: calc(var(--toc-h) + env(safe-area-inset-top, 0px) + 12px);
+  }
+}

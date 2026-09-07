@@ -846,7 +846,8 @@ function wireReaderToc() {
     const desktop = window.matchMedia("(min-width: 1080px)").matches;
     const topNav = window.matchMedia("(min-width: 861px)").matches
       ? (document.getElementById("site-nav")?.getBoundingClientRect().height || 64) : 0;
-    const line = topNav + (desktop ? 0 : toc.getBoundingClientRect().height) + 24;
+    const safeTop = parseFloat(getComputedStyle(toc).top) || 0;
+    const line = desktop ? topNav + 24 : safeTop + toc.getBoundingClientRect().height + 24;
     let current = items[0];
     for (const it of items) {
       if (it.el.getBoundingClientRect().top - line <= 0) current = it;
@@ -2336,14 +2337,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /* Browsers do not reliably print the contents of closed <details>. */
 function wirePrint() {
-  let closed = [];
+  let closed = [], printing = false;
   window.addEventListener("beforeprint", () => {
+    if (printing) return;
+    printing = true;
     closed = Array.from(document.querySelectorAll("details:not([open])"));
     closed.forEach((detail) => { detail.dataset.printOpen = "true"; detail.open = true; });
   });
   window.addEventListener("afterprint", () => {
+    if (!printing) return;
     closed.forEach((detail) => { detail.open = false; delete detail.dataset.printOpen; });
     closed = [];
+    printing = false;
   });
 }
 
