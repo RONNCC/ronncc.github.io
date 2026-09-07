@@ -285,7 +285,7 @@
       body: [
         'Tissue procurement is the critical first step -- everything downstream depends on the quality of the starting material.',
         'Performed in a Class II biosafety cabinet (BSC) under ISO 5 conditions. The BSC protects both the operator (inward airflow) and the tissue (HEPA-filtered downflow).',
-        'Key parameters: cold ischemia time < 24h for most tissues; transport in chilled DMEM + antibiotics (pen/strep/gentamicin + amphotericin B); donor screening for infectious disease markers (HIV, HBV, HCV, syphilis) per 21 CFR 1271.',
+        'Key parameters: cold ischemia as short as possible (organ-dependent — hearts/lungs ~6 h, livers up to ~24 h); example transport is chilled DMEM + antibiotics (pen/strep/gentamicin + amphotericin B); donor screening for infectious disease markers (HIV, HBV, HCV, syphilis) per 21 CFR 1271.',
         'Tissue is rinsed 3x in sterile PBS + antibiotic cocktail before transfer to digestion station.'
       ]
     },
@@ -300,7 +300,7 @@
       short: 'Collagenase/dispase digestion to liberate cells from ECM.',
       body: [
         'Enzymatic digestion breaks down the extracellular matrix (ECM) to release viable single cells.',
-        'Standard cocktail: Collagenase Type I/II (1-2 mg/mL) + Dispase (2-4 U/mL) in DMEM/F12. Collagenase cleaves native collagen; Dispase (a neutral protease) cleaves fibronectin/laminin at the basement membrane.',
+        'Standard cocktail: Collagenase Type I/II (1-2 mg/mL) + Dispase (2-4 U/mL) in DMEM/F12. Collagenase cleaves native collagen; Dispase (a neutral protease) cleaves fibronectin and collagen IV at the basement membrane.',
         'Incubation: 37 C, 30-90 min with gentle agitation. Over-digestion damages surface receptors (integrins, CD markers) -- monitor viability with trypan blue every 15 min.',
         'Quench with 10% FBS/DMEM (serum inhibits proteases). Filter through 70 um cell strainer to remove undigested fragments.'
       ]
@@ -336,7 +336,7 @@
         'Traditional T-flasks don\'t scale -- hollow-fiber perfusion bioreactors achieve 10^9 cells in a single cartridge (vs. 10^7 per T-175).',
         'Hollow-fiber cartridge: extracapillary space (ECS) for cells, intracapillary space (ICS) for media perfusion. Nutrients diffuse across semi-permeable fibers (MWCO 10-30 kDa); waste diffuses out. No shear stress on cells.',
         'Perfusion rate: 20-50 mL/day per 10^8 cells. Glucose/lactate monitored inline; media refreshed automatically. pH controlled via CO2 overlay on ICS.',
-        'Typical expansion: P0 to P3 in 7-10 days, 20-40 population doublings. Harvest by enzymatic detachment (Accutase preferred over trypsin to preserve surface epitopes).',
+        'Typical expansion: P0 to P3 in 7-10 days (~4-6 population doublings, 20-40-fold expansion; MSCs senesce after ~15-40 doublings lifetime, so banks are planned, not passaged indefinitely). Harvest by enzymatic detachment (Accutase preferred over trypsin to preserve surface epitopes).',
         'Advantages: closed system (reduced contamination), lower media consumption, real-time metabolic monitoring, GMP-compatible.'
       ]
     },
@@ -355,7 +355,7 @@
         '2. Surface markers (flow cytometry): >=95% positive for CD105 (endoglin), CD73 (5\'-nucleotidase), CD90 (Thy-1); <2% positive for CD45, CD34, CD14/CD11b, CD79a/CD19, HLA-DR.',
         '3. Trilineage differentiation: demonstrated osteogenic (Alizarin Red), adipogenic (Oil Red O), chondrogenic (Alcian Blue) potential in vitro.',
         'Potency assay (beyond ISCT): IDO activity (immunosuppression), PGE2 secretion, T-cell suppression assay -- correlates with clinical efficacy.',
-        'Sterility: mycoplasma PCR (negative), endotoxin < 5 EU/mL, bioburden (negative). Karyotype (G-banding) at P3 to detect aneuploidy.'
+        'Sterility: mycoplasma PCR (negative), endotoxin by USP <85> bacterial endotoxins test with a dose-calculated K/M limit (K = 5 EU/kg — not a flat EU/mL number), bioburden (negative). Karyotype (G-banding, ≥20 metaphases) for extensively passaged banks — Dominici 2006 explicitly does not recommend it for routine MSC identification.'
       ]
     },
 
@@ -371,8 +371,8 @@
       short: 'PCL/gelatin electrospun scaffolds or PLGA 3D-printed constructs.',
       body: [
         'Scaffolds provide 3D architecture for cell attachment, proliferation, and tissue formation. Material choice defines degradation rate, mechanics, and bioactivity.',
-        'Electrospinning: PCL (polycaprolactone) + gelatin (80/20) spun at 15-20 kV, 1 mL/h, 15 cm tip-to-collector. Fiber diameter 300-800 nm mimics native ECM. Gelatin improves cell adhesion (RGD motifs) but requires crosslinking (EDC/NHS or genipin).',
-        '3D Printing (extrusion-based): PLGA or PCL printed at 85-110 C, 0.2-0.4 mm strand diameter, 300-500 um pore size. Allows patient-specific geometry from CT/MRI.',
+        'Example electrospin: PCL (polycaprolactone) + gelatin (80/20) spun at 15-20 kV, 1 mL/h, 15 cm tip-to-collector. Fiber diameter 300-800 nm mimics native ECM. Gelatin improves cell adhesion (RGD motifs) but requires crosslinking (EDC/NHS or genipin).',
+        'Example extrusion print: PLGA or PCL printed at 85-110 C, 0.2-0.4 mm strand diameter, 300-500 um pore size. Allows patient-specific geometry from CT/MRI.',
         'Sterilization: 70% EtOH soak 30 min -> PBS rinse x3 -> UV 30 min/side. For GMP: gamma irradiation (25 kGy) or ethylene oxide.',
         'Mechanical target: 0.5-2 MPa tensile modulus (matches early neo-tissue); degradation 6-12 months (PCL) / 3-6 months (PLGA).'
       ]
@@ -388,7 +388,7 @@
       short: 'Dynamic seeding in spinner flask -> uniform distribution, high efficiency.',
       body: [
         'Static seeding (pipetting cells onto scaffold) achieves only 10-30% efficiency with poor penetration. Dynamic seeding is standard for clinical constructs.',
-        'Spinner flask seeding: scaffold + 10-20x10^6 cells in 50 mL media, 40-60 rpm, 4-24h. Centrifugal force drives cells into pores; media perfusion enhances nutrient exchange.',
+        'Example dynamic seeding: scaffold + 10-20x10^6 cells in 50 mL media, 40-60 rpm, 4-24h. Centrifugal force drives cells into pores; media perfusion enhances nutrient exchange.',
         'Seeding density: 20-50x10^6 cells/cm^3 scaffold volume. Viability post-seeding >85% (calcein-AM/PI).',
         'Post-seed: 2-4h static incubation in BSC for attachment, then transfer to perfusion bioreactor. Media: alpha-MEM + 10% FBS + ascorbate-2-phosphate (50 ug/mL) for early matrix deposition.',
         'Real-time monitoring: inline glucose/lactate sensors track metabolic activity as proxy for cell engagement.'
@@ -408,8 +408,8 @@
       body: [
         'Perfusion bioreactors provide convective transport -- nutrients in, waste out -- enabling thick (>2 mm) constructs impossible in static culture.',
         'Direct perfusion: media pumped through scaffold interstitial pores at 0.5-2 mL/min. Shear stress (0.001-0.01 Pa) enhances osteogenic differentiation via MAPK/ERK and Wnt/beta-catenin pathways.',
-        'Media: osteogenic (DMEM + 10% FBS + 10 nM dexamethasone + 50 ug/mL ascorbate-2-P + 10 mM beta-glycerophosphate) or chondrogenic (DMEM + 1% ITS+ + 10 ng/mL TGF-beta3 + 100 nM dexamethasone).',
-        '21-day culture: weekly media analysis (glucose, lactate, pH, ALP activity). Construct swells 20-40% as ECM deposits.',
+        'Example media — osteogenic (DMEM + 10% FBS + 10 nM dexamethasone + 50 ug/mL ascorbate-2-P + 10 mM beta-glycerophosphate) or chondrogenic (DMEM + 1% ITS+ + 10 ng/mL TGF-beta3 + 100 nM dexamethasone). Titrate per line.',
+        'Example 21-day run: weekly media analysis (glucose, lactate, pH, ALP activity). Construct swells 20-40% as ECM deposits.',
         'Outlet sampling for glycosaminoglycan (GAG, DMMB assay) and calcium (o-cresolphthalein) quantification -- non-destructive quality tracking.'
       ]
     },
@@ -424,9 +424,9 @@
       short: 'Cyclic mechanical loading to mature neo-tissue mechanics.',
       body: [
         'Mechanical stimulation drives tissue maturation -- Wolff\'s law in a bioreactor. Biaxial or uniaxial cyclic loading aligns collagen, increases modulus 3-5x.',
-        'Regime: 0.5-1 Hz, 5-10% strain, 1h/day x 14 days (post-perfusion). Strain magnitude calibrated to construct stiffness (target 5-15% of failure strain).',
+        'Example regime (validate per construct): 0.5-1 Hz, 5-10% strain, 1h/day x 14 days (post-perfusion). Strain magnitude calibrated to construct stiffness (target 5-15% of failure strain).',
         'Loading system: custom bioreactor with linear actuators, load cell feedback, sterile chamber. Non-contact optical strain measurement (digital image correlation).',
-        'Outcomes: collagen I alignment (SHG imaging), increased GAG retention, modulus approaching native tissue (bone: 0.5-2 GPa; cartilage: 0.5-1 MPa).',
+        'Outcomes: collagen I alignment (SHG imaging), increased GAG retention, modulus rising toward engineered-bone targets (0.1-0.5 GPa, trabecular range — native cortical bone is ~10-30 GPa) or cartilage (0.5-1 MPa aggregate).',
         'Critical: avoid overloading -- microdamage triggers catabolic signaling (MMP upregulation). Ramp protocol: 2% -> 5% -> 10% over first week.'
       ]
     },
@@ -446,7 +446,7 @@
         'Micro-CT (10-20 um voxel): 3D architecture -- pore interconnectivity, mineral density (mg HA/cm^3), trabecular thickness/number. Non-destructive; construct proceeds to release.',
         'Destructive (sacrificial constructs): H&E (cellularity), Masson\'s Trichrome (collagen), Safranin-O/Fast Green (GAG), Immunohistochemistry (collagen I/II, osteocalcin, RUNX2).',
         'Quantitative histomorphometry: bone volume/total volume (BV/TV), osteoid surface, cellular density. Correlate with micro-CT for validation.',
-        'Release criteria: BV/TV > 15% (bone), GAG/DNA > 5% (cartilage), viable cell density > 5x10^6 cells/mL construct.'
+        'Example product release criteria (set per product, not compendial): BV/TV > 15% (bone), GAG/DNA > 5% (cartilage), viable cell density > 5x10^6 cells/mL construct.'
       ]
     },
     {
@@ -462,9 +462,9 @@
         'Mechanical competence is a release criterion for load-bearing constructs.',
         'Uniaxial compression: 1%/s strain rate to 70% strain or failure. Hydrated constructs tested in PBS at 37 C.',
         'Key metrics: elastic modulus (linear region 5-15% strain), yield strength (0.2% offset), ultimate strength, toughness (area under curve).',
-        'Target ranges: bone constructs 100-500 MPa modulus; cartilage 0.3-1 MPa aggregate modulus.',
+        'Target ranges for porous engineered constructs (far below native cortical bone at ~15-20 GPa): bone constructs 100-500 MPa modulus; cartilage 0.3-1 MPa aggregate modulus.',
         'Correlate with micro-CT density (rho) -- modulus proportional to rho^2 (Gibson-Ashby foam model). Non-destructive micro-CT can predict mechanical properties for release.',
-        'At least 3 sacrificial constructs per lot tested; lot passes if mean modulus > lower 95% CI of target.'
+        'Example lot rule (per SOP, not universal): at least 3 sacrificial constructs per lot tested; lot passes if mean modulus > lower 95% CI of target.'
       ]
     },
     {
@@ -478,8 +478,8 @@
       short: '14-day USP <71> sterility + endotoxin + mycoplasma PCR.',
       body: [
         'Sterility assurance is a regulatory requirement (21 CFR 1271, USP <71>, EP 2.6.1).',
-        'USP <71> sterility test: 14-day incubation in fluid thioglycollate medium (anaerobes/aerobes) + soybean-casein digest (fungi). Sample volume: 1 mL per 10 mL construct equivalent. Negative controls required.',
-        'Endotoxin (LAL assay): kinetic chromogenic, limit < 5 EU/mL (or < 20 EU/device per USP <151>). Test construct rinse + media supernatant.',
+        'USP <71> sterility test: 14-day incubation in fluid thioglycollate medium (anaerobes/aerobes) + soybean-casein digest (fungi). Example sampling: 1 mL per 10 mL construct equivalent. Negative controls required.',
+        'Endotoxin by bacterial endotoxins test (USP <85>, LAL kinetic chromogenic/turbidimetric or gel-clot): the limit is dose-calculated as K/M with K = 5 EU/kg — there is no universal EU/mL number. (USP <151> is the rabbit pyrogen test, a different assay.) Test construct rinse + media supernatant.',
         'Mycoplasma: PCR-based (FDA-approved kit), limit of detection 10 CFU/mL. Negative result required -- mycoplasma alters cell behavior irreparably.',
         'Environmental monitoring: ISO 5 (Class 100) at critical points, ISO 7 (Class 10,000) in background. Particle counts, viable air/surface sampling per shift.',
         'Rapid sterility (ATP bioluminescence, flow cytometry) under investigation for 24h release -- not yet compendial.'
@@ -495,10 +495,9 @@
       tag: 'FINAL RELEASE',
       short: 'Certificate of Analysis + sterile double-pouch packaging.',
       body: [
-        'Final release requires QP (Qualified Person) sign-off on Certificate of Analysis (CoA).',
-        'CoA includes: identity (STR profile), purity (flow markers), potency (assay), sterility, endotoxin, mycoplasma, viability, cell dose, mechanical properties, karyotype.',
-        'Packaging: primary sterile pouch (Tyvek/polyethylene), secondary pouch, rigid outer container. Labels: product name, lot #, expiry, storage (4 C / -80 C / LN2), handling warnings.',
-        'Cold chain: validated shipper maintains 2-8 C for 48h (fresh) or -150 C (cryopreserved). Temperature logger included.',
+        'Final release requires QP (Qualified Person) sign-off on a Certificate of Analysis (CoA). An example product CoA includes: identity (STR profile), purity (flow markers), potency (assay), sterility, endotoxin, mycoplasma, viability, cell dose, mechanical properties, karyotype.',
+        'Packaging: primary sterile pouch (Tyvek/polyethylene — both withstand gamma/EtO), secondary pouch, rigid outer container. Labels: product name, lot #, expiry, storage, handling warnings.',
+        'Cold chain: product-specific validated shipper (e.g. 2-8 C for 48h fresh, or -150 C cryopreserved). Temperature logger included.',
         'Chain of identity: barcode/QR on each pouch links to electronic batch record. 21 CFR 11 compliant audit trail.'
       ]
     },
@@ -515,7 +514,7 @@
       short: 'Thaw/rinse construct, verify identity, load delivery system.',
       body: [
         'Pre-op staging bridges GMP manufacturing and clinical delivery.',
-        'Cryopreserved construct: rapid thaw 37 C water bath (<2 min), dilute DMSO stepwise (12% -> 6% -> 0% in media + 10% human albumin) over 10 min to minimize osmotic shock.',
+        'Cryopreserved construct (example SOP — validate per product): rapid thaw 37 C water bath (<2 min), dilute DMSO stepwise (12% -> 6% -> 0% in media + 10% human albumin) over 10 min to minimize osmotic shock.',
         'Identity verification: barcode scan matches patient ID, surgical plan, and CoA. Two-person independent check.',
         'Rinse: 3x sterile saline + 5% human albumin to remove residual DMSO. Viability spot-check (trypan blue) -- must be >70%.',
         'Load into delivery device: syringe (injectable), arthroscopic inserter (solid), or custom deployment system. Maintain sterile field throughout.',
@@ -534,10 +533,10 @@
       body: [
         'The culmination: living construct meets patient. Procedure varies by indication.',
         'Bone defect (critical-size): open approach, defect debridement to bleeding bone, construct press-fit or screw-fixed. Periosteum closure if possible. Intra-op fluoroscopy/O-arm confirms position.',
-        'Cartilage (MACI-style): arthroscopic debridement to subchondral plate, construct trimmed to defect size, fibrin glue (Tisseel) or periosteal cover fixation. Microfracture of subchondral bone for vascular ingress.',
-        'Post-op: CPM (continuous passive motion) 0-30 deg x 6h/day x 6 weeks (cartilage); NWB (non-weight-bearing) 6-8 weeks (bone).',
-        'Follow-up: MRI at 3/6/12 months (MOAKS scoring), patient-reported outcomes (KOOS, IKDC), serum biomarkers (COMP, CTX-II).',
-        'Registry entry: mandatory for ATMPs (EU) / CBER tracking (US). Long-term safety: tumorigenicity monitoring 15 years.'
+        'Cartilage: distinguish three procedures that share a membrane. First-generation ACI (autologous chondrocyte implantation) covers expanded cells with a sutured periosteal patch. MACI (matrix-induced ACI, e.g. autologous cells on porcine collagen membrane, FDA 2016) eliminates the periosteum — membrane plus fibrin glue (Tisseel) fixation, bed debrided to but not through the subchondral plate. AMIC (autologous matrix-induced chondrogenesis) pairs microfracture bleeding with a covering membrane in one step. Do not mix them: periosteum = ACI, fibrin-glued membrane without microfracture = MACI, microfracture plus membrane = AMIC.',
+        'Post-op rehab is protocol-specific (e.g. CPM 0-30 deg several hours/day for weeks for cartilage; non-weight-bearing 6-8 weeks for bone).',
+        'Follow-up is institution-scheduled (e.g. MRI at intervals with MOAKS scoring, patient-reported outcomes such as KOOS/IKDC, serum biomarkers COMP/CTX-II).',
+        'Registry entry follows the regulatory pathway (e.g. ATMP tracking in the EU, CBER tracking in the US). Long-term safety follow-up is pathway-specific: the well-known 15-year observation rule is FDA long-term follow-up guidance for integrating-vector gene therapies, not a blanket rule for bone/cartilage constructs.'
       ]
     }
   ];
