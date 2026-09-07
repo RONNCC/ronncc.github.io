@@ -206,6 +206,18 @@ redirect_from: /places/
     <div class="guide-row-arrow">&rarr;</div>
   </a>
 
+  <a class="guide-row" href="{{ site.baseurl }}/tissue-syllabus/">
+    <div class="guide-icon-box icon-fifa">🗺️</div>
+    <div class="guide-row-content">
+      <div class="guide-row-head">
+        <span class="guide-row-title">TERM Syllabus</span>
+        <span class="guide-badge-pill">Structured Path</span>
+      </div>
+      <p class="guide-row-desc">Foundations-first study order across the roadmap, sim, and textbook — every stage exit-gated.</p>
+    </div>
+    <div class="guide-row-arrow">&rarr;</div>
+  </a>
+
   <a class="guide-row" href="{{ site.baseurl }}/tissue-textbook/">
     <div class="guide-icon-box icon-fifa">🧬</div>
     <div class="guide-row-content">
