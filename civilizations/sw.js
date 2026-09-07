@@ -4,7 +4,7 @@
  * Only this app's assets/caches are touched; analytics and other apps pass through.
  */
 const CACHE_PREFIX = "civ-readers-";
-const CACHE = "civ-readers-v8";
+const CACHE = "civ-readers-v9";
 const ASSETS = [
   "./", "./index.html", "./reader.html", "./met.html", "./routes.html",
   "./world.js", "./sf.html", "./smithsonian.html", "./london.html",

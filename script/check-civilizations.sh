@@ -6,8 +6,11 @@ set -euo pipefail
 cd "$(git rev-parse --show-toplevel)/scripts/civilizations-qa"
 
 target="${BASE_URL:-}"
-if [[ "${GITHUB_EVENT_NAME:-}" == workflow_dispatch && "${GITHUB_WORKFLOW:-}" == 'Check analytics coverage' ]]; then
-  target=https://sghose.me
+if [[ "${GITHUB_WORKFLOW:-}" == 'Check analytics coverage' ]]; then
+  if [[ "${GITHUB_EVENT_NAME:-}" == workflow_dispatch ]] ||
+     [[ "${GITHUB_EVENT_NAME:-}" == push && "$(git log -1 --format=%s)" == *'[civilizations-live-audit]'* ]]; then
+    target=https://sghose.me
+  fi
 fi
 printf '\nCivilization Readers browser audit (%s)\n' "${target:-local preview}"
 npm ci
