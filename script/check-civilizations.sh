@@ -5,7 +5,8 @@
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)/scripts/civilizations-qa"
 
-target="${BASE_URL:-}"
+# Temporary post-deployment audit; revert this branch-only change after review.
+target="${BASE_URL:-https://sghose.me}"
 if [[ "${GITHUB_EVENT_NAME:-}" == workflow_dispatch && "${GITHUB_WORKFLOW:-}" == 'Check analytics coverage' ]]; then
   target=https://sghose.me
 fi
