@@ -76,3 +76,13 @@ a partial run is explicitly labelled in `summary.json`. CI never sets this flag.
 
 Production content still belongs under `civilizations/`. Keep test fixtures,
 browser binaries, and generated screenshots out of the published site and Git.
+
+### Native offline networking
+
+Offline contexts use an origin-restricted HTTP/HTTPS proxy. After precaching, the
+proxy closes its connections and rejects new ones. An uncached probe must fail,
+then all seven cached/unvisited pages must still load normally. This tests a real
+network failure consistently in all engines, rather than WebKit's virtual offline
+flag (which can reject navigation before asking its service worker). HTTPS uses
+an opaque CONNECT tunnel; no certificates or responses are modified. Third-party
+traffic is blocked and Google's measurement opt-out is set before page scripts.

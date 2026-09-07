@@ -32,11 +32,21 @@ self.addEventListener("activate", (event) => {
     await Promise.all(oldCaches.map((key) => caches.delete(key)));
     await self.clients.claim();
     if (recoverLegacy) {
-      const clients = await self.clients.matchAll({ type: "window" });
-      // Do not await navigation inside activate: its fetch waits for activation
-      // to finish, so awaiting it here would deadlock the legacy upgrade.
-      clients.filter((client) => client.url.startsWith(self.registration.scope))
-        .forEach((client) => { client.navigate(client.url).catch(() => {}); });
+      const recover = async () => {
+        const clients = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+        await Promise.all(clients.filter((client) => client.url.startsWith(self.registration.scope))
+          .map((client) => client.navigate(client.url).catch(() => {})));
+      };
+      // Firefox rejects WindowClient.navigate while the worker is activating.
+      // Wait for the *activated* state outside activate.waitUntil: awaiting a
+      // navigation here would deadlock the fetch on completion of activation.
+      const worker = self.registration.active;
+      if (worker.state === "activated") recover();
+      else worker.addEventListener("statechange", function activated() {
+        if (worker.state !== "activated") return;
+        worker.removeEventListener("statechange", activated);
+        recover();
+      });
     }
   })());
 });

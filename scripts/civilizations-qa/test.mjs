@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { chromium, firefox, webkit } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 import { serve } from './serve.mjs';
+import { networkGate } from './network-gate.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const site = path.resolve(here, '../../civilizations');
@@ -23,6 +24,7 @@ const files = (await fs.readdir(site)).filter(f => f.endsWith('.html'));
 const report = { engine, target: base.href, filter: process.env.TEST_FILTER || null, started: new Date().toISOString(), layouts: 0, accessibility: 0, links: 0, tests: [], screenshots: [] };
 const errors = [], documents = new Map(), links = new Set();
 let activePage;
+const gates = [], workerNetworks = new WeakMap();
 
 function key(url) {
   const u = new URL(url, base);
@@ -30,9 +32,16 @@ function key(url) {
   return file === 'reader.html' ? `${file}?c=${u.searchParams.get('c') || 'egypt'}` : file;
 }
 async function context(options = {}) {
+  let gate;
+  if (options.serviceWorkers === 'allow') {
+    gate = await networkGate(base);
+    gates.push(gate);
+    options = { ...options, proxy: { server: gate.url } };
+  }
   const ctx = await browser.newContext({ serviceWorkers: 'block', reducedMotion: 'reduce', ...options });
-  // Native worker navigation must not be intercepted (WebKit's offline loader
-  // conflicts with interception). Opt out of Google measurement in every case.
+  if (gate) workerNetworks.set(ctx, gate);
+  // Use native worker networking and a real disconnect. Opt out of Google
+  // measurement before scripts execute; the worker proxy also blocks outsiders.
   await ctx.addInitScript(() => { window['ga-disable-G-WL390Z0Q0Y'] = true; });
   if (options.serviceWorkers !== 'allow') {
     await ctx.route('**/*', route => new URL(route.request().url()).origin === base.origin ? route.continue() : route.abort());
@@ -46,6 +55,14 @@ async function context(options = {}) {
     });
   });
   return ctx;
+}
+async function disconnect(ctx, page) {
+  workerNetworks.get(ctx).disconnect();
+  // Prove the browser cannot bypass the disconnected proxy or silently fetch
+  // from the origin. This URL is deliberately outside the worker's asset list.
+  assert.ok(await page.evaluate(async () => {
+    try { await fetch('__qa_offline_probe'); return false; } catch { return true; }
+  }), 'An uncached request must fail after disconnecting the network');
 }
 async function visit(page, file) {
   const response = await page.goto(new URL(file, base).href, { waitUntil: 'load' });
@@ -381,7 +398,7 @@ try {
       const cache = await caches.open('unrelated-app-v1');
       await cache.put('/unrelated-sentinel', new Response('keep'));
     });
-    await ctx.setOffline(true);
+    await disconnect(ctx, page);
     for (const file of ['index.html', 'reader.html?c=maya', 'routes.html', 'objects.html', 'guide.html', 'tours.html', 'sf.html']) {
       await visit(page, file);
       await layout(page, `offline ${file}`);
@@ -412,7 +429,7 @@ try {
     await page.waitForFunction(async () => (await caches.keys()).includes('civ-readers-v8') && !(await caches.keys()).includes('civ-readers-v7'));
     assert.ok(await page.evaluate(async () => (await caches.keys()).includes('unrelated-app-v1')), 'Upgrade must not delete another app’s cache');
     await layout(page, 'legacy recovered');
-    await ctx.setOffline(true);
+    await disconnect(ctx, page);
     await visit(page, 'index.html');
     assert.equal(await page.locator('.card').count(), 53);
     await ctx.close();
@@ -444,6 +461,7 @@ try {
   report.browserErrors = errors;
   await fs.writeFile(path.join(artifacts, 'summary.json'), JSON.stringify(report, null, 2) + '\n');
   await browser.close();
+  await Promise.all(gates.map(gate => gate.close()));
   if (server) await new Promise(resolve => server.close(resolve));
   console.log(`${report.status}: ${report.layouts} layout checks, ${report.accessibility} accessibility scans, ${report.links} internal links. Artifacts: ${artifacts}`);
 }
