@@ -206,6 +206,18 @@ redirect_from: /places/
     <div class="guide-row-arrow">&rarr;</div>
   </a>
 
+  <a class="guide-row" href="{{ site.baseurl }}/tissue-textbook/">
+    <div class="guide-icon-box icon-fifa">🧬</div>
+    <div class="guide-row-content">
+      <div class="guide-row-head">
+        <span class="guide-row-title">Tissue Engineering Textbook</span>
+        <span class="guide-badge-pill">Textbook</span>
+      </div>
+      <p class="guide-row-desc">Literary companion to the TERM Lab Park sim — five chapters, fifteen stations, chapter checks with answers.</p>
+    </div>
+    <div class="guide-row-arrow">&rarr;</div>
+  </a>
+
   <a class="guide-row" href="{{ site.baseurl }}/fifa2026/">
     <div class="guide-icon-box icon-fifa">⚽</div>
     <div class="guide-row-content">

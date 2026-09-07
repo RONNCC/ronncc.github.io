@@ -70,6 +70,11 @@
     // Serial number
     serialNumber: 'SN-001',
 
+    // Module quiz record: { moduleId: { answers: {qi: choiceIdx}, correct: n } }
+    // Non-blocking by design: the pipeline always advances; scores annotate
+    // the lot record so exit checks are real state, not prose.
+    quiz: {},
+
     // Simulation time (sim hours)
     simHours: 0,
 
@@ -316,6 +321,7 @@
     state.stationProgress = {};
     state.currentStation = null;
     state.currentStop = null;
+    state.quiz = {};
     emit('reset', { serialNumber: state.serialNumber });
     emit('start', { serialNumber: state.serialNumber });
     beginNextUnit();
@@ -333,6 +339,7 @@
     state.stationProgress = {};
     state.currentStation = null;
     state.currentStop = null;
+    state.quiz = {};
     state.dwellTimer = 0;
     state.dwellTotal = 0;
     state.readTimer = 0;
@@ -400,6 +407,44 @@
     }
   }
 
+  function getDwellProgress() {
+    if (state.phase !== 'dwell' || !state.dwellTotal) return 0;
+    return clamp(state.dwellTimer / state.dwellTotal, 0, 1);
+  }
+
+  function getPhaseLabel() {
+    switch (state.phase) {
+      case 'travel': return 'moving';
+      case 'dwell': return 'working';
+      case 'read': return 'review';
+      case 'complete': return 'done';
+      default: return state.phase;
+    }
+  }
+
+  function answerQuiz(moduleId, qIndex, choiceIdx) {
+    const bank = (typeof Factory !== 'undefined' && Factory.QUIZ) || {};
+    const questions = bank[moduleId];
+    if (!questions || !questions[qIndex]) return { ok: false };
+    const correct = questions[qIndex].answer === choiceIdx;
+    if (!state.quiz[moduleId]) state.quiz[moduleId] = { answers: {}, correct: 0 };
+    const rec = state.quiz[moduleId];
+    const prev = rec.answers[qIndex];
+    const wasCorrect = prev === questions[qIndex].answer;
+    rec.answers[qIndex] = choiceIdx;
+    if (correct && !wasCorrect) rec.correct++;
+    if (!correct && wasCorrect) rec.correct--;
+    emit('quizAnswer', { moduleId, qIndex, correct });
+    return { ok: true, correct, explain: questions[qIndex].explain };
+  }
+
+  function getQuizScore(moduleId) {
+    const bank = (typeof Factory !== 'undefined' && Factory.QUIZ) || {};
+    const total = (bank[moduleId] || []).length;
+    const rec = state.quiz[moduleId];
+    return { correct: rec ? rec.correct : 0, answered: rec ? Object.keys(rec.answers).length : 0, total };
+  }
+
   function getState() {
     return { ...state };
   }
@@ -433,8 +478,12 @@
     closeReadPanel,
     continueStation,
     nextStation,
+    answerQuiz,
+    getQuizScore,
     getState,
     getStationProgress,
+    getDwellProgress,
+    getPhaseLabel,
     getComputeOptions,
     on,
     off,

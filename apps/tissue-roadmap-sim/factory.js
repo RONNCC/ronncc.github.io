@@ -548,17 +548,69 @@
   const ORDER = STATIONS.map(s => s.id);
 
   // A level is a coherent learning chapter, not merely a color change on the floor.
+  // type: build = construct visibly grows; verify = gates unlock, construct held;
+  //        deliver = handoff to clinic. `watch` tells the learner what animation
+  //        beat to look for so content and canvas stay in sync.
   const LEVELS = [
-    { id: 'sourcing', number: 1, title: 'Cell Sourcing', objective: 'Turn donor tissue into a viable, enriched cell population.', stations: ['procurement', 'digestion', 'isolation'] },
-    { id: 'culture', number: 2, title: 'Cell Culture', objective: 'Expand cells and confirm identity before manufacturing.', stations: ['expansion', 'characterization'] },
-    { id: 'fabrication', number: 3, title: 'Build the Construct', objective: 'Combine cells, scaffold, flow, and loading into living tissue.', stations: ['scaffold', 'seeding', 'perfusion', 'conditioning'] },
-    { id: 'quality', number: 4, title: 'Quality and Release', objective: 'Verify structure, mechanics, sterility, and final release.', stations: ['histology', 'mechanical_test', 'sterility', 'release'] },
-    { id: 'implantation', number: 5, title: 'Clinical Delivery', objective: 'Prepare the construct and complete the clinical handoff.', stations: ['preop', 'implantation'] }
+    { id: 'sourcing', number: 1, title: 'Cell Sourcing', type: 'build', objective: 'Turn donor tissue into a viable, enriched cell population.', intro: 'Every construct starts as someone else\'s tissue. This module is about rescue: harvest cleanly, free single cells, enrich the right ones.', watch: 'Watch the carrier gain its first pink cell pellet after Isolation, and Live Cells jump 0 → 500k.', stations: ['procurement', 'digestion', 'isolation'] },
+    { id: 'culture', number: 2, title: 'Cell Culture', type: 'build', objective: 'Expand cells and confirm identity before manufacturing.', intro: 'Numbers then identity. Scale toward clinical dose in closed bioreactors, then prove the cells are what you claim.', watch: 'Watch Cells climb several-fold during Expansion (clinical hollow-fiber lines reach 10⁹; the sim shows the curve, not the full scale-up); Characterization changes nothing on the carrier — it is a verification gate.', stations: ['expansion', 'characterization'] },
+    { id: 'fabrication', number: 3, title: 'Build the Construct', type: 'build', objective: 'Combine cells, scaffold, flow, and loading into living tissue.', intro: 'The core equation: cells + scaffold + signals. Scaffold appears, cells seed it, perfusion feeds it, loading matures it.', watch: 'Watch the white scaffold appear, pink cells coat it, then green ECM bulk grow as GAG / collagen / modulus climb.', stations: ['scaffold', 'seeding', 'perfusion', 'conditioning'] },
+    { id: 'quality', number: 4, title: 'Quality and Release', type: 'verify', objective: 'Verify structure, mechanics, sterility, and final release.', intro: 'Nothing grows here on purpose. Each station is a gate: image it, crush sacrificial samples, prove sterility, sign the CoA.', watch: 'Watch the construct hold steady while gates unlock — scanner ring, test platens, sterile hold, parcel pack.', stations: ['histology', 'mechanical_test', 'sterility', 'release'] },
+    { id: 'implantation', number: 5, title: 'Clinical Delivery', type: 'deliver', objective: 'Prepare the construct and complete the clinical handoff.', intro: 'From GMP line to operating theater: thaw safely, verify identity twice, dock the construct with the patient.', watch: 'Watch the carrier travel to the gold surgical pad and dock — the run completes on implantation.', stations: ['preop', 'implantation'] }
   ];
   LEVELS.forEach(level => level.stations.forEach(id => {
     const station = STATIONS.find(item => item.id === id);
     if (station) { station.level = level.number; station.levelTitle = level.title; }
   }));
+
+  // Module exit checks: 2 questions per module, drawn from the station
+  // bodies. Non-blocking (the pipeline always advances); scores are recorded
+  // in Sim.state.quiz and summarized on the lot record. answer = index into
+  // choices.
+  const QUIZ = {
+    sourcing: [
+      { q: 'Why keep cold ischemia time under ~24 h?', choices: ['Cold damages the BSC filters', 'Cell viability and sterility decay with every hour', 'DMEM freezes below room temperature'], answer: 1, explain: 'Starting-material quality bounds everything downstream — time warm is viability lost.' },
+      { q: 'Which marker panel supports an MSC identity claim?', choices: ['CD105+/CD73+/CD90+, CD45−', 'CD45+/CD34+, CD90−', 'HLA-DR high, CD19 high'], answer: 0, explain: 'ISCT: ≥95% CD105/CD73/CD90, <2% hematopoietic/exclusion markers.' }
+    ],
+    culture: [
+      { q: 'Why hollow-fiber perfusion over stacked T-flasks?', choices: ['It is cheaper per flask', 'Closed, shear-free scale-up with metabolic monitoring', 'It needs no media changes'], answer: 1, explain: 'ECS/ICS separation feeds 10⁹ cells without shear in a GMP-compatible closed loop.' },
+      { q: 'A lot shows 8% CD45+. Release it?', choices: ['Yes — CD45 is an MSC marker', 'No — exclusion markers must be <2%', 'Yes if viability is high'], answer: 1, explain: 'ISCT exclusion panel ≥2% means hematopoietic contamination — gate fails.' }
+    ],
+    fabrication: [
+      { q: 'An engineered construct is 4 mm thick with no flow. What happens?', choices: ['Core cells starve past ~100–200 µm', 'It matures faster in the core', 'Nothing — diffusion is unlimited'], answer: 0, explain: 'Oxygen penetration caps at ~100–200 µm; perfusion/convection is the engineering answer.' },
+      { q: 'Scaffold degrades in 2 weeks but tissue needs 6 months. Result?', choices: ['Faster therapy', 'Collapse before neo-tissue bears load', 'Higher modulus'], answer: 1, explain: 'Degradation rate must match tissue formation — otherwise mechanics fail mid-course.' }
+    ],
+    quality: [
+      { q: 'How long does a compendial USP <71> sterility test incubate?', choices: ['24 hours', '14 days', '1 hour'], answer: 1, explain: '14 days in thioglycollate + soybean-casein media; rapid methods are not yet compendial.' },
+      { q: 'Modulus scales with micro-CT density (Gibson-Ashby) as…', choices: ['modulus ∝ density²', 'modulus ∝ 1/density', 'modulus is density-independent'], answer: 0, explain: 'Foam-model scaling lets non-destructive micro-CT predict sacrificial crush results.' }
+    ],
+    implantation: [
+      { q: 'Thaw-to-implantation window for a cryopreserved construct?', choices: ['Under ~4 h with stepwise DMSO dilution', 'Up to a week on the bench', 'No limit once thawed'], answer: 0, explain: 'Rapid 37 °C thaw, dilute DMSO 12%→6%→0%, viability spot-check >70%.' },
+      { q: 'Before loading the delivery device, you must…', choices: ['Match barcode to patient, plan, and CoA with a two-person check', 'Pool leftover constructs to top up the dose', 'Skip the rinse to save time'], answer: 0, explain: 'Chain of identity is the last gate — wrong construct to wrong patient is the catastrophic failure.' }
+    ]
+  };
+  // build = construct grows (metrics move); verify = gates unlock (construct held);
+  // prepare/deliver = staging beats (carrier state, not construct chemistry).
+  // Per-station learning guide: role drives what the animation should do.
+  // build = construct grows (metrics move); verify = gates unlock (construct held);
+  // prepare/deliver = staging beats (carrier state, not construct chemistry).
+  const GUIDE = {
+    procurement:      { role: 'prepare', takeaway: 'Quality in = quality out: cold ischemia + donor screening decide everything downstream.', watch: 'Pallet arrives empty — tissue enters. No cell count yet.' },
+    digestion:        { role: 'prepare', takeaway: 'Enzymes free cells from ECM; over-digestion strips the receptors you need later.', watch: 'No count change — viability is the hidden variable here.' },
+    isolation:        { role: 'build', takeaway: 'Enrichment (adherence / MACS / FACS) plus ISCT markers define the MSC population.', watch: 'Live Cells jumps 0 → 500k; pink pellet appears on the carrier.' },
+    expansion:        { role: 'build', takeaway: 'Hollow-fiber perfusion scales toward 10⁹ cells with no shear on the cells.', watch: 'Cell count climbs several-fold on the growth curve; the carrier pellet grows.' },
+    characterization: { role: 'verify', takeaway: 'ISCT criteria + potency + sterility gate everything before manufacturing.', watch: 'Construct unchanged by design — this station verifies. Read the checklist.' },
+    scaffold:         { role: 'build', takeaway: 'Material choice sets degradation rate, mechanics, and bioactivity.', watch: 'White scaffold block appears on the carrier; modulus baseline 0.5 MPa.' },
+    seeding:          { role: 'build', takeaway: 'Dynamic seeding beats pipetting ~10× on efficiency and penetration.', watch: 'Pink cells coat the scaffold; viability must stay >85%.' },
+    perfusion:        { role: 'build', takeaway: 'Convection beats the ~100–200 µm diffusion limit — flow is the enabler.', watch: 'GAG +8, collagen +15; green ECM bulk appears on the carrier.' },
+    conditioning:     { role: 'build', takeaway: 'Cyclic load aligns collagen and raises modulus 3–5×; ramp to avoid damage.', watch: 'GAG +12 more, modulus jumps; construct visibly bulks up.' },
+    histology:        { role: 'verify', takeaway: 'Micro-CT releases the lot; destructive histology validates the process.', watch: 'Construct held — BV/TV and GAG/DNA gates unlock instead of growth.' },
+    mechanical_test:  { role: 'verify', takeaway: 'Modulus ∝ density²; sacrificial crush tests predict release.', watch: 'Modulus line finalizes; lot passes on the lower 95% CI.' },
+    sterility:        { role: 'verify', takeaway: 'USP <71> (14-day) + LAL + mycoplasma PCR; mycoplasma is silent and irreparable.', watch: 'Construct held under sterile quarantine — no growth, by design.' },
+    release:          { role: 'verify', takeaway: 'QP signs the CoA; chain of identity plus validated cold chain.', watch: 'Parcel visuals pack the lot; construct frozen for handoff.' },
+    preop:            { role: 'deliver', takeaway: 'Thaw fast, dilute DMSO stepwise, implant within ~4 h.', watch: 'Carrier enters the gold zone; viability spot-check must exceed 70%.' },
+    implantation:     { role: 'deliver', takeaway: 'Fixation + imaging + registry; biology meets surgery, then 15 years of follow-up.', watch: 'Carrier docks on the surgical pad — the run completes here.' }
+  };
 
   // ============================================================
   // Read-time estimation (seconds) based on word count
@@ -626,6 +678,8 @@
     STATIONS,
     ORDER,
     LEVELS,
+    GUIDE,
+    QUIZ,
     C,
     Palette: C,   // render.js consumes F.Palette
     readSeconds,

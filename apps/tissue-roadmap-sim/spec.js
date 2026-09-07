@@ -81,19 +81,26 @@ const Spec = (() => {
   // STATION BUILD CONTRIBUTIONS
   // Keyed to Factory.STATIONS ids; consumed by compute() so the
   // live metrics reflect what the line has actually done so far.
-  // ============================================================
+  // Build stations move chemistry (cells / GAG / collagen / modulus).
+  // Verify stations (characterization, histology, sterility, release) and
+  // deliver stations (preop, implantation) are INTENTIONALLY empty:
+  // they unlock gates / move the carrier, never grow the construct.
+  // See Factory.GUIDE for the per-station role + what to watch.
+  // Cell counts are NOT accumulated here. They come from the logistic model
+  // in compute(), gated on isolation/expansion progress (see below): no cells
+  // until Isolation works, full growth curve only via Expansion.
   const STATION_ADDS = {
     procurement:      {},
     digestion:        {},
-    isolation:        { cells: 5e5 },
-    expansion:        { cells: 1.5e7 },
+    isolation:        {},
+    expansion:        {},
     characterization: {},
     scaffold:         { modulus: 0.5e6 },
     seeding:          {},
     perfusion:        { gag: 8, collagen: 15 },
     conditioning:     { gag: 12, collagen: 25, modulus: 5e6 },
     histology:        {},
-    mechanical_test:  { modulus: 8e6 },
+    mechanical_test:  {},
     sterility:        {},
     release:          {},
     preop:            {},
@@ -128,15 +135,23 @@ const Spec = (() => {
     const e = ENG;
 
     // ---- Cell population (logistic growth with death) ----
+    // Gated on sourcing progress so the animation matches the lesson:
+    // no cells until Isolation works, full growth curve only via Expansion.
     const k = Math.log(2) / e.cells.doublingTime; // per hour
     const dt = 1; // integration step (hour)
-    let N = e.cells.initial;
+    let Nlog = e.cells.initial;
     for (let t = 0; t < simHours; t += dt) {
-      const growth = k * N * (1 - N / e.cells.carryingCapacity);
-      const death = e.cells.deathRate * N;
-      N += (growth - death) * dt;
-      if (N > e.cells.carryingCapacity) N = e.cells.carryingCapacity;
+      const growth = k * Nlog * (1 - Nlog / e.cells.carryingCapacity);
+      const death = e.cells.deathRate * Nlog;
+      Nlog += (growth - death) * dt;
+      if (Nlog > e.cells.carryingCapacity) Nlog = e.cells.carryingCapacity;
     }
+    const isoP = clamp(stationProgress.isolation || 0, 0, 1);
+    const expP = clamp(stationProgress.expansion || 0, 0, 1);
+    let N;
+    if (isoP < 1 && expP <= 0) N = e.cells.initial * isoP;
+    else if (expP < 1) N = lerp(e.cells.initial, Nlog, expP);
+    else N = Nlog;
     const cellCount = Math.floor(N);
     const cellDensity = N / (e.scaffold.initialThickness * Math.PI * Math.pow(e.implantation.defectSize/2, 2)); // cells/m³
 
@@ -193,6 +208,20 @@ const Spec = (() => {
     const daysToImplant = Math.max(0, (e.implantation.integrationTime - simHours) / 24);
     const integrationProgress = clamp(simHours / e.implantation.integrationTime, 0, 1);
 
+    // ---- Lot-traveler release gates ----
+    // Verify stations hold the construct and stamp the lot record instead.
+    // A gate is 'locked' until its station completes, then 'pass' with the
+    // measured detail. The sim stipulates assays pass; the lesson is what
+    // each gate checks, matching Factory.GUIDE roles.
+    const gateDone = (id) => clamp(stationProgress[id] || 0, 0, 1) >= 1;
+    const gates = [
+      { id: 'characterization', label: 'ISCT identity', state: gateDone('characterization') ? 'pass' : 'locked', detail: 'CD105/CD73/CD90 ≥95%, exclusion <2%' },
+      { id: 'histology', label: 'Structure', state: gateDone('histology') ? 'pass' : 'locked', detail: 'BV/TV ' + (gateDone('histology') ? '≥15%' : 'pending') + ', GAG ' + gag + ' µg/mg' },
+      { id: 'mechanical_test', label: 'Mechanics', state: gateDone('mechanical_test') ? 'pass' : 'locked', detail: (Math.round(effectiveModulus / 1e6 * 10) / 10) + ' MPa final' },
+      { id: 'sterility', label: 'Sterility', state: gateDone('sterility') ? 'pass' : 'locked', detail: 'USP <71> + LAL + mycoplasma PCR' },
+      { id: 'release', label: 'CoA signed', state: gateDone('release') ? 'pass' : 'locked', detail: gateDone('release') ? 'frozen for handoff' : 'awaiting QP sign-off' }
+    ];
+
     return {
       // Cell metrics
       cellCount,
@@ -219,6 +248,9 @@ const Spec = (() => {
       implantationReady,
       daysToImplant: Math.ceil(daysToImplant),
       integrationProgress,
+
+      // Lot-traveler gates (verify-station record)
+      gates,
 
       // Formatted for HUD
         fmt: {
