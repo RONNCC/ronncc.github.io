@@ -158,56 +158,59 @@ function mountToTop() {
 
 /* ---------------- landing ---------------- */
 
+function slugifyGroup(str) {
+  return str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
 function renderIndex() {
   const app = document.getElementById("app");
   const groups = byGroup();
+  const museumCount = typeof MUSEUMS !== "undefined" ? MUSEUMS.length - 1 : 0;
+  const mpCount = typeof MASTERPIECES !== "undefined" ? MASTERPIECES.length : 0;
+  const tourCount = typeof TOURS !== "undefined" ? TOURS.length : 0;
+
   let html = `
-  <header class="hero">
+  <header class="hero hero-compact">
     <p class="kicker">Civilization Readers</p>
-    <h1>Read a civilization before you walk into the gallery.</h1>
-    <p class="lede">A pocket primer for the museum — the <strong>de Young</strong>, the <strong>Met</strong>, or anywhere the label says a title and nothing else. Each reader gives you a <strong>visual timeline</strong> up top (the high-level arc), then <strong>context</strong> and <strong>deeper detail</strong> below, plus a cheat sheet for what you'll actually see on display.</p>
-    <div class="how">
-      <span class="step"><b>1.</b> Pick a civilization</span>
-      <span class="step"><b>2.</b> Scan the timeline</span>
-      <span class="step"><b>3.</b> Read the context</span>
-      <span class="step"><b>4.</b> Go deeper before (or while) you look</span>
-    </div>
-    <div class="search-wrap">
-      <input id="civ-search" type="search" placeholder="Search — try &ldquo;pyramid&rdquo;, &ldquo;jade&rdquo;, &ldquo;bronze&rdquo;&hellip;" autocomplete="off" enterkeyhint="search" />
-    </div>
-    <div class="route-links">
-      <a class="route-btn" href="tours.html">Start-here tours &rarr;</a>
-      <a class="route-btn subtle" href="objects.html">Masterpieces</a>
-      <a class="route-btn subtle" href="routes.html">Museums on a map</a>
-      <a class="route-btn subtle" href="guide.html">Label decoder</a>
+    <h1>Pick a civilization. Get the context before the gallery.</h1>
+    <p class="lede">Pocket primers for <strong>${CIVILIZATIONS.length} civilizations</strong> across <strong>${groups.length} regions</strong> — visual timelines, key context, and a cheat sheet for what you'll actually see on display.</p>
+    <div class="search-wrap search-wrap-prominent">
+      <input id="civ-search" type="search" placeholder="Search civilizations, terms, or objects…" autocomplete="off" enterkeyhint="search" />
     </div>
   </header>
 
-  <div class="stat-strip">
-    <span><b>${CIVILIZATIONS.length}</b> civilizations</span>
-    <span><b>${typeof MUSEUMS !== "undefined" ? MUSEUMS.length - 1 : 0}</b> museums mapped</span>
-    <span><b>${typeof MASTERPIECES !== "undefined" ? MASTERPIECES.length : 0}</b> object deep-dives</span>
-    <span><b>${typeof TOURS !== "undefined" ? TOURS.length : 0}</b> timed tours</span>
-    <span class="offline-pill" id="offline-pill">Works offline</span>
+  <div class="index-filter-bar" id="index-filter-bar">
+    <div class="filter-pills-wrap">
+      <button class="filter-pill active" data-filter="all">All <span class="pill-count">${CIVILIZATIONS.length}</span></button>
+      ${groups.map(({ group, civs }) => `
+        <button class="filter-pill" data-filter="${esc(slugifyGroup(group))}">${esc(group)} <span class="pill-count">${civs.length}</span></button>
+      `).join("")}
+    </div>
   </div>
 
-  <details class="panel mt-panel" data-collapse-key="master-timeline" open>
-    <summary class="panel-head">
-      <h2>All civilizations at a glance</h2>
-      <span class="hint">scroll horizontally &middot; tap a bar to open its reader &middot; BCE counts down to 1 CE</span>
-      <span class="panel-chev" aria-hidden="true">&#9662;</span>
-    </summary>
-    <div class="panel-body">
-      <div id="master-timeline"></div>
-    </div>
-  </details>`;
+  <div class="stat-strip stat-strip-compact">
+    <span><b>${CIVILIZATIONS.length}</b> civilizations</span>
+    <span><b>${museumCount}</b> museums</span>
+    <span><b>${mpCount}</b> objects</span>
+    <span><b>${tourCount}</b> tours</span>
+    <span class="stat-sep"></span>
+    <a class="stat-link" href="tours.html">Tours →</a>
+    <a class="stat-link" href="objects.html">Objects</a>
+    <a class="stat-link" href="routes.html">Museums</a>
+    <a class="stat-link" href="guide.html">Guide</a>
+  </div>`;
 
   groups.forEach(({ group, civs }) => {
-    html += `<h2 class="group-head">${esc(group)}</h2><div class="grid">`;
+    const groupSlug = slugifyGroup(group);
+    html += `
+    <section class="group-section" data-group-slug="${esc(groupSlug)}" id="group-${groupSlug}">
+      <div class="group-head-row">
+        <h2 class="group-head">${esc(group)}</h2>
+        <span class="group-count">${civs.length} civilizations</span>
+      </div>
+      <div class="grid">`;
     civs.forEach((c) => {
       const mp = getMasterpiece(c.slug);
-      // Search across the quick read and spot-it terms too, so "cuneiform" or
-      // "bucchero" finds the right reader even if it isn't in the name.
       const hay = [
         c.name, c.tagline, c.region, c.group, c.emoji, c.spanLabel, c.slug,
         (c.quick || []).join(" "),
@@ -216,28 +219,32 @@ function renderIndex() {
         mp ? mp.name : ""
       ].join(" ").toLowerCase();
       html += `
-      <a class="card" data-search="${esc(hay)}" style="--c:${c.accent};--c-soft:${hexToRgba(c.accent, 0.13)}" href="reader.html?c=${esc(c.slug)}">
-        <div class="card-top">
-          <span class="card-emoji">${c.emoji}</span>
-          <div>
-            <h2>${esc(c.name)}</h2>
-            <span class="card-span">${esc(c.spanLabel)}</span>
+      <a class="card" data-search="${esc(hay)}" data-group="${esc(c.group)}" style="--c:${c.accent};--c-soft:${hexToRgba(c.accent, 0.13)}" href="reader.html?c=${esc(c.slug)}">
+        <div class="card-accent-bar"></div>
+        <div class="card-body">
+          <div class="card-top">
+            <span class="card-emoji">${c.emoji}</span>
+            <div class="card-title-block">
+              <h2>${esc(c.name)}</h2>
+              <span class="card-span">${esc(c.spanLabel)}</span>
+            </div>
+          </div>
+          <p class="card-tagline">${esc(c.tagline)}</p>
+          <div class="card-bottom-row">
+            <span class="card-region">${esc(c.region)}</span>
+            <span class="card-go">Read →</span>
           </div>
         </div>
-        <div class="card-region">${esc(c.region)}</div>
-        <p>${esc(c.tagline)}</p>
-        <span class="card-go">Open reader &rarr;</span>
       </a>`;
     });
-    html += `</div>`;
+    html += `</div></section>`;
   });
 
-  html += `<div class="no-results" id="no-results">No civilizations match &ldquo;<span id="no-results-q"></span>&rdquo;.</div>`;
-  html += `<footer class="foot">A high-level primer for gallery context — not an academic reference. Dates are approximate. <a href="reader.html?c=egypt">Start with Egypt &rarr;</a></footer>`;
+  html += `<div class="no-results" id="no-results">No civilizations match "<span id="no-results-q"></span>".</div>`;
+  html += `<footer class="foot">A high-level primer for gallery context — not an academic reference. Dates are approximate. <a href="reader.html?c=egypt">Start with Egypt →</a></footer>`;
   app.innerHTML = html;
-  renderMasterTimeline(document.getElementById("master-timeline"));
-  wireCollapsiblePanels();
   wireSearch();
+  wireFilterPills();
   document.title = "Civilization Readers — museum primers";
 }
 
@@ -326,36 +333,58 @@ function wireCollapsiblePanels() {
   }
 }
 
-function wireSearch() {
+/* Shared state for the index page: current search query + active group filter.
+ * Both wireSearch and wireFilterPills update this and call applyIndexFilters(). */
+let _indexFilter = "all";
+
+function applyIndexFilters() {
   const input = document.getElementById("civ-search");
   const noResults = document.getElementById("no-results");
   const noResultsQ = document.getElementById("no-results-q");
+  const q = input ? input.value.trim().toLowerCase() : "";
+  let visible = 0;
+
+  document.querySelectorAll(".card").forEach((card) => {
+    const hay = card.dataset.search || "";
+    const group = (card.dataset.group || "").toLowerCase();
+    const matchesSearch = !q || hay.includes(q);
+    const matchesFilter = _indexFilter === "all" || slugifyGroup(card.dataset.group || "") === _indexFilter;
+    const show = matchesSearch && matchesFilter;
+    card.style.display = show ? "" : "none";
+    if (show) visible++;
+  });
+
+  // Hide empty group sections entirely
+  document.querySelectorAll(".group-section").forEach((section) => {
+    const grid = section.querySelector(".grid");
+    if (!grid) return;
+    const any = Array.from(grid.querySelectorAll(".card")).some((c) => c.style.display !== "none");
+    section.style.display = any ? "" : "none";
+  });
+
+  if (noResults) {
+    noResults.style.display = q && visible === 0 ? "block" : "none";
+    if (noResultsQ) noResultsQ.textContent = input ? input.value.trim() : "";
+  }
+}
+
+function wireSearch() {
+  const input = document.getElementById("civ-search");
   if (!input) return;
+  input.addEventListener("input", () => applyIndexFilters());
+}
 
-  const apply = () => {
-    const q = input.value.trim().toLowerCase();
-    let visible = 0;
-    document.querySelectorAll(".card").forEach((card) => {
-      const hay = card.dataset.search || "";
-      const show = !q || hay.includes(q);
-      card.style.display = show ? "" : "none";
-      if (show) visible++;
-    });
-    document.querySelectorAll(".group-head").forEach((head) => {
-      const grid = head.nextElementSibling;
-      let any = false;
-      if (grid && grid.classList && grid.classList.contains("grid")) {
-        any = Array.from(grid.querySelectorAll(".card")).some((c) => c.style.display !== "none");
-      }
-      head.style.display = any ? "" : "none";
-    });
-    if (noResults) {
-      noResults.style.display = q && visible === 0 ? "block" : "none";
-      if (noResultsQ) noResultsQ.textContent = input.value.trim();
-    }
-  };
-
-  input.addEventListener("input", apply);
+function wireFilterPills() {
+  const bar = document.getElementById("index-filter-bar");
+  if (!bar) return;
+  bar.addEventListener("click", (e) => {
+    const btn = e.target.closest(".filter-pill");
+    if (!btn) return;
+    bar.querySelectorAll(".filter-pill").forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    _indexFilter = btn.dataset.filter || "all";
+    applyIndexFilters();
+  });
 }
 
 /* ---------------- timeline (SVG) ---------------- */
