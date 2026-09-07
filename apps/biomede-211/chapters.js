@@ -14,13 +14,21 @@
       concepts: ['Charge is discrete: <code>e = −1.602e−19 C</code>, <code>Q = #e · e</code>.', 'Current is flow: <code>i = dq/dt</code>, <code>Q = ∫ i dt</code>. 1 mA felt, 10 mA pain, 100 mA lethal.', 'Potential is height: <code>v = dw/dq</code> — only differences matter.', 'Power <code>p = v·i</code> (passive sign: +vi entering + terminal). Energy <code>E = ∫p dt</code>.', 'Conservation previews KCL/KVL: charge in = charge out; voltages sum to zero around a loop.'],
       worksheet: [
         { q: 'A 0.1 mA DC current flows for 60 s. Total charge?', choices: ['6 mC', '6 C', '0.6 mC'], answer: 0, explain: 'Q = i·t = 1e−4 × 60 = 6e−3 C.' },
-        { q: 'A pacemaker budgets 5000 J over 5 years from a 5 V battery, 40% spent. Required capacity?', choices: ['~111 mAh', '~11 mAh', '~1.1 Ah'], answer: 0, explain: '2000 J / 5 V = 400 C; 400/3600 h ≈ 0.111 Ah ≈ 111 mAh.' }
+        { q: 'A pacemaker delivers 5000 J over 5 years from a 5 V battery, using only 40% of its energy. Required capacity?', choices: ['~694 mAh', '~111 mAh', '~69 mAh'], answer: 0, explain: 'Total = 5000/0.4 = 12500 J; 12500/5 = 2500 C = 2500/3600 Ah ≈ 0.694 Ah ≈ 694 mAh. (111 mAh is only the spent 40%.)' },
+        { q: 'Current i(t) = 1/√(5t+2) A, t = 0–10 s. Total charge? (Book §1.8.2)', choices: ['~2.32 C', '~0.32 C', '~23.2 C'], answer: 0, explain: 'Q = ∫ = [2√(5t+2)/5]₀¹⁰ = 0.4(√52 − √2) ≈ 2.32 C.' },
+        { q: 'Current to transmit 1 terabyte in 1 hour as single electrons? (Book §1.8.3)', choices: ['~0.36 nA', '~3.6 A', '~0.36 mA'], answer: 0, explain: '8e12 e⁻/3600 s ≈ 2.2e9 e⁻/s × 1.602e−19 C ≈ 3.6e−10 A.' },
+        { q: 'Neuron with i = 3t, v = 10e^(6t), t in seconds. Energy 0–2 ms? (Book §1.8.5)', choices: ['~60 µJ', '~6 J', '~600 mJ'], answer: 0, explain: 'E = ∫30t·e^(6t)dt ≈ ∫30t dt = 15(2e−3)² = 6e−5 J.' },
+        { q: 'Drop a 300 g heart from what height to equal a 120 J defibrillator shock? (Book §1.8.6b)', choices: ['~41 m', '~4 m', '~410 m'], answer: 0, explain: 'h = E/mg = 120/(0.3×9.8) ≈ 41 m. (240 J → ~82 m, 360 J → ~122 m.)' }
       ] },
     { id: 'ch2', part: 'circuits', num: 2, title: 'Circuit elements', widget: 'equiv',
       lede: 'Resistors, capacitors, inductors — plus the impedance language that unifies them, and the series/parallel/Δ-Y reductions that tame networks.',
       concepts: ['Ohm generalized: <code>V = iR → V = iZ</code>; <code>R = ρ·l/A</code>, <code>G = 1/R</code>.', 'Capacitor: <code>i = C·dV/dt</code>; charged = open, uncharged = short (DC). Inductor: <code>v = L·di/dt</code>.', 'Impedance: <code>Z_R = R</code>, <code>Z_C = 1/jωC</code>, <code>Z_L = jωL</code>; <code>Z = R + jX</code>.', 'Series <code>Zeq = ΣZ</code>; parallel <code>1/Zeq = Σ1/Z</code>; two-element <code>Z1·Z2/(Z1+Z2)</code>.', 'Dividers: <code>Vx = Vs·Rx/ΣR</code>; Δ-Y transforms; grounds, diodes (one-way), switches, transistors, transformers.'],
       worksheet: [
         { q: 'A toaster draws 2 A at 120 V. Its resistance?', choices: ['60 Ω', '240 Ω', '0.5 Ω'], answer: 0, explain: 'R = V/i = 120/2 = 60 Ω.' },
+        { q: 'What current does a 10 Ω element draw at 110 V? (Book §2.16 P2)', choices: ['11 A', '1.1 A', '1100 A'], answer: 0, explain: 'i = V/R = 110/10 = 11 A.' },
+        { q: 'Power “in ohms” means… (Book §2.16 P1)', choices: ['P = V²/R = i²R', 'P = R/V', 'P = iR²'], answer: 0, explain: 'Substitute Ohm into P = vi.' },
+        { q: 'Na channel: G/A = 10 mS/cm², length 100 nm. Conductivity σ? (Book §2.16 P4)', choices: ['1e−5 S/m', '1e−3 S/m', '100 S/m'], answer: 0, explain: 'σ = (G/A)·l = 100 S/m² × 1e−7 m = 1e−5 S/m.' },
+        { q: 'Tissue slab: area y = 8−x² (cm²), x = −2…2 cm, length 10 cm, ρ = 80 Ω·m. R? (Book §2.16 P5)', choices: ['3 kΩ', '300 Ω', '30 kΩ'], answer: 0, explain: 'A = 80/3 cm² ≈ 26.7 cm²; R = 80×0.1/26.67e−4 = 3000 Ω.' },
         { q: 'Two 100 Ω in parallel, in series with 50 Ω. Total?', choices: ['100 Ω', '150 Ω', '250 Ω'], answer: 0, explain: '100‖100 = 50; +50 = 100 Ω.' }
       ] },
     { id: 'ch3', part: 'circuits', num: 3, title: 'Operational amplifiers', widget: 'opamp',
@@ -35,7 +43,8 @@
       concepts: ['Topology: <code>b = l + n − 1</code>; series = same current, parallel = same voltage.', 'KCL: <code>Σix = 0</code> (in = out). KVL: <code>Σvm = 0</code> around a loop.', 'Procedure: ground → label v1..vn−1 → KCL with <code>I = (Va−Vb)/R</code> → solve.', 'Cramer\'s rule: 2×2 <code>D = a1b2 − a2b1</code>, <code>x = D1/D</code>.', 'Ground is a choice (earth vs chassis); 0 V reference, not a current sink.'],
       worksheet: [
         { q: 'Two non-reference nodes means how many KCL equations?', choices: ['2', '3', '1'], answer: 0, explain: 'One KCL per non-reference node.' },
-        { q: 'Cramer needs…', choices: ['square system with det ≠ 0', 'symmetric matrix', 'integer coefficients'], answer: 0, explain: 'Otherwise no unique solution by division.' }
+        { q: 'Cramer needs…', choices: ['square system with det ≠ 0', 'symmetric matrix', 'integer coefficients'], answer: 0, explain: 'Otherwise no unique solution by division.' },
+        { q: 'Solve by Cramer: 2x + y = 5, x + 3y = 6. (Drill, cf. Book §4.5)', choices: ['x = 1.8, y = 1.4', 'x = 2, y = 1', 'x = 1, y = 3'], answer: 0, explain: 'D = 5, Dx = 9, Dy = 7.' }
       ] },
     { id: 'ch5', part: 'circuits', num: 5, title: 'Mesh analysis', widget: 'mesh',
       lede: 'KVL around each window-pane loop. Faster than nodal for planar circuits with few meshes — and the matrix writes itself.',
@@ -73,8 +82,10 @@
       ] },
     { id: 'ch10', part: 'systems', num: 10, title: 'Laplace II: how to use it', widget: 'polezero',
       lede: 'Zeros kill, poles explode. The damping ratio ζ and natural frequency ωn classify every second-order response at a glance.',
-      concepts: ['Zero: numerator → 0 kills output. Pole: denominator → 0, response → ∞.', 'Standard form <code>s² + 2ζωn s + ωn²</code>; <code>ωn = 1/√(LC)</code>, <code>ζ = R/2·√(C/L)</code>.', 'ζ = 0 undamped ±jωn; 0<ζ<1 underdamped ring; ζ = 1 critical; ζ>1 overdamped crawl.', 'Inverse Laplace in practice: partial fractions + cover-up, not contour integrals.', 'Example: series RLC L=1,R=7,C=10 → zero s=10, poles s=−2,−5.'],
+      concepts: ['Zero: numerator → 0 kills output. Pole: denominator → 0, response → ∞.', 'Standard form <code>s² + 2ζωn s + ωn²</code>; <code>ωn = 1/√(LC)</code>, <code>ζ = R/2·√(C/L)</code>.', 'ζ = 0 undamped ±jωn; 0<ζ<1 underdamped ring; ζ = 1 critical; ζ>1 overdamped crawl.', 'Inverse Laplace in practice: partial fractions + cover-up, not contour integrals.', 'Book example (note: text misprints C = 10; the factorization needs C = 0.1 = 100 mF): series RLC L=1, R=7 → zero s=10, poles s=−2,−5.'],
       worksheet: [
+        { q: 'L{9} = ? (Book §10.5.1)', choices: ['9/s', '9s', '0'], answer: 0, explain: 'Linearity: 9·L{1} = 9/s.' },
+        { q: 'L{e^(−3t/2)} = ? (Book §10.5.1)', choices: ['1/(s+3/2)', '1/(s−3/2)', 's/(s+3/2)'], answer: 0, explain: 'L{e^at} = 1/(s−a) with a = −3/2.' },
         { q: 'H = 4/(s²+4s+4). Damping?', choices: ['critically damped', 'underdamped', 'unstable'], answer: 0, explain: '(s+2)² — double pole at −2.' },
         { q: 'H = 4/(s²−4). Stable?', choices: ['no — pole at +2', 'yes', 'marginally'], answer: 0, explain: 'Right-half-plane pole grows without bound.' }
       ] },
@@ -137,7 +148,9 @@
       lede: 'NOT/AND/OR from NAND/NOR alone, Si doping to transistors — plus knights-and-knaves logic puzzles as the worksheet.',
       concepts: ['NOT ¬A; AND (only 11→1); OR (only 00→0); NAND; NOR; XOR (01,10); XNOR.', 'Functional completeness: everything from NOR alone.', 'Si: 4 valence e⁻ lattice; N-type (P/As, free electron); P-type (B/Ga, hole).', 'NPN on when Vb > Ve; PNP on when base low vs emitter.', 'Worksheet stars knights (truth) vs knaves (lies) puzzles + build gates from NOR.'],
       worksheet: [
-        { q: 'Roger says “both of us are knaves.” Roger and Oedipa are…', choices: ['lying knight + truthful knave', 'both knights', 'both knaves'], answer: 0, explain: 'Both knaves would make it true — impossible; so Roger lies (knight) and Oedipa tells truth (knave).' },
+        { q: 'Roger says “both of us are knaves.” Roger and Oedipa are… (Book §19.6.2)', choices: ['lying knave + truthful knight', 'both knights', 'both knaves'], answer: 0, explain: 'Both knaves would make it true — impossible; so Roger lies (knave) and Oedipa tells truth (knight).' },
+        { q: 'Pedro mumbles inaudibly; Apollonia claims he said “knave”; Peter calls that a lie. (Book §19.6.1)', choices: ['Peter is a knight; Pedro unknowable', 'Peter is a knave; Pedro is a knave', 'all three knights'], answer: 0, explain: 'Pedro must have said “knight” either way, so Apollonia lied (knave) and Peter told truth (knight). Pedro unknowable.' },
+        { q: 'One yes/no question to a knight-or-knave to find buried gold? (Book §19.6.3)', choices: ['“If I asked you whether gold is buried, would you say yes?”', '“Are you a knight?”', '“Is 2+2=4?”'], answer: 0, explain: 'Knight reports truthfully; knave lies about his lie — both answer the gold question truthfully.' },
         { q: 'XOR outputs 1 for…', choices: ['01 and 10', '00 and 11', 'only 11'], answer: 0, explain: 'Exclusive or: exactly one high.' }
       ] },
     { id: 'ch20', part: 'bme', num: 20, title: 'Digital II: discretization and acquisition', widget: 'nyquist',
@@ -158,7 +171,7 @@
       lede: 'Thirty-one quiz items spanning the book (22.1–22.31) plus HW map. Use the navigator: each card links back to its chapter.',
       concepts: ['Wound wire, inductor potential, op-amp bandwidth/phase, gyrator.', 'Transfer functions (V/V/I/Z), Bode, high/low-pass, inverting integrator.', 'Poles/zeros → response shape; bridges/amplifiers; block diagrams.', 'Convolution and pulse-in; silent knights/knaves; ECG heart; cell current.'],
       worksheet: [
-        { q: 'Response from poles −2, −5 with a zero at 0?', choices: ['decaying, zero initial slope', 'growing oscillation', 'pure sine'], answer: 0, explain: 'LHP poles decay; zero at origin kills the DC term.' }
+        { q: 'Step response with poles −2, −5 and a zero at 0? (cf. Book §10.5.5)', choices: ['decaying, zero initial slope', 'growing oscillation', 'pure sine'], answer: 0, explain: 'LHP poles decay; the zero at origin kills the DC term: y(0+) = y′(0+) = 0.' }
       ] }
   ];
   window.B211 = { PARTS: PARTS, CHAPTERS: CHAPTERS };

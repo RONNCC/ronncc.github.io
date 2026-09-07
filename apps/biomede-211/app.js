@@ -2,6 +2,8 @@
 (function (global) {
   'use strict';
   var B = global.B211, current = null, raf = 0;
+  // Book pages in Belmont W19 (verified against the PDF TOC).
+  var REFS = { ch1: '§§1.1–1.8, pp.3–10', ch2: '§§2.1–2.16, pp.11–22', ch3: '§§3.1–3.4, pp.23–28', ch4: '§§4.1–4.5, pp.29–40', ch5: 'pp.41–48', ch6: 'pp.49–58', ch7: 'pp.59–70', ch8: 'Review + Quiz I, pp.71–84', ch9: '§§9.1–9.4, pp.87–100', ch10: '§§10.1–10.5, pp.101–108', ch11: 'pp.109–110', ch12: 'p.111–112', ch13: 'pp.113–120', ch14: 'pp.121–130', ch15: 'pp.133–142', ch16: 'pp.143–168 + Quiz II', ch17: '§§17.1–17.6, pp.171–184', ch18: '§§18.1–18.7, pp.185–204', ch19: '§§19.1–19.6, pp.205–228', ch20: 'pp.229–230', ch21: '§§21.1–21.6, pp.231–244', ch22: '§§22.1–22.31, pp.245–282' };
   var score = { correct: 0, answered: 0 }, doneCh = {}, chapState = {};
   var $ = function (id) { return document.getElementById(id); };
   var els = {};
@@ -219,11 +221,11 @@
     function draw() {
       var zz = z.get(), ww = w.get();
       var label = zz < 1 ? 'underdamped — ringing decay' : Math.abs(zz - 1) < 0.05 ? 'critically damped' : 'overdamped — slow crawl';
-      var re, im;
+      var re, im, re2 = null;
       if (zz < 1) { re = -zz * ww; im = ww * Math.sqrt(1 - zz * zz); }
       else if (Math.abs(zz - 1) < 0.05) { re = -ww; im = 0; }
-      else { re = -ww * (zz - Math.sqrt(zz * zz - 1)); im = 0; }
-      ro.innerHTML = ''; var sp = document.createElement('span'); sp.className = 'pill'; sp.textContent = 'poles ' + fmt(re, 2) + ' ± j' + fmt(im, 2) + ' — ' + label; ro.appendChild(sp);
+      else { re = -ww * (zz - Math.sqrt(zz * zz - 1)); re2 = -ww * (zz + Math.sqrt(zz * zz - 1)); im = 0; }
+      ro.innerHTML = ''; var sp = document.createElement('span'); sp.className = 'pill'; sp.textContent = 'poles ' + fmt(re, 2) + (re2 === null ? ' ± j' + fmt(im, 2) : ' and ' + fmt(re2, 2) + ' (two real poles)') + ' — ' + label; ro.appendChild(sp);
       var c = c1.getContext('2d'), dpr = Math.min(2, global.devicePixelRatio || 1), Wd = c1.clientWidth || 600, H = 220;
       c1.width = Wd * dpr; c1.height = H * dpr; c.setTransform(dpr, 0, 0, dpr, 0, 0);
       c.fillStyle = '#0b0f13'; c.fillRect(0, 0, Wd, H);
@@ -233,7 +235,8 @@
       var sx = function (r) { return 34 + (r + 12) / 24 * (Wd - 44); }, sy = function (i) { return H / 2 - i / 12 * (H / 2 - 14); };
       c.fillStyle = '#e87a7a';
       if (zz < 1) { [[re, im], [re, -im]].forEach(function (p) { c.beginPath(); c.arc(sx(p[0]), sy(p[1]), 5, 0, 7); c.fill(); }); }
-      else { c.beginPath(); c.arc(sx(re), sy(0), 5, 0, 7); c.fill(); }
+      else if (re2 === null) { c.beginPath(); c.arc(sx(re), sy(0), 5, 0, 7); c.fill(); }
+      else { [[re, 0], [re2, 0]].forEach(function (p) { c.beginPath(); c.arc(sx(p[0]), sy(p[1]), 5, 0, 7); c.fill(); }); }
       var n = 200, x = [], y = [], T = 10 / Math.max(ww * Math.max(zz, 0.2), 0.5);
       for (var k = 0; k < n; k++) { var t = k / (n - 1) * T; x.push(t); y.push(stepResp(zz, ww, t)); }
       plot(c2, [{ x: x, y: y, color: '#7bd88f' }], { hlines: [{ y: 1, color: '#67727e' }] });
@@ -418,7 +421,7 @@
     function draw() {
       var g = sel.value, out = g === 'NOT' ? gates.NOT(A) : gates[g](A, B2);
       ro.innerHTML = ''; var sp = document.createElement('span'); sp.className = 'pill'; sp.textContent = g + ' → ' + (out ? 1 : 0); ro.appendChild(sp);
-      var sp2 = document.createElement('span'); sp2.className = 'pill'; sp2.textContent = g === 'NOT' ? 'NOR + tie inputs: NOT = A NOR A' : g === 'OR' ? 'OR = (A NOR B) NOR (A NOR B)' : g === 'AND' ? 'AND = (A NOR A) NOR (B NOR B), negated' : 'build it from NORs in Ch.19 §19.6'.
+      var sp2 = document.createElement('span'); sp2.className = 'pill'; sp2.textContent = g === 'NOT' ? 'NOR + tie inputs: NOT = A NOR A' : g === 'OR' ? 'OR = (A NOR B) NOR (A NOR B)' : g === 'AND' ? 'AND = (A NOR A) NOR (B NOR B), by De Morgan' : 'build it from NORs in Ch.19 §19.6'.
       ro.appendChild(sp2);
     }
     sel.onchange = draw; draw();
@@ -472,7 +475,7 @@
   };
 
   W.review = function (el) {
-    var topics = [['22.3', 'Wound wire + blood-vessel equivalents', 'ch2'], ['22.6', 'Op-amp bandwidth, phase, LM741', 'ch3'], ['22.9', 'Transfer functions V/V, I/V, I/I, Z', 'ch10'], ['22.12', 'Poles/zeros → response shape', 'ch10'], ['22.20', 'Convolution by hand', 'ch13'], ['22.24', 'Silent knights/knaves', 'ch19'], ['22.26', 'Block diagrams', 'ch16'], ['22.28', 'ECG heart + leads', 'ch18'], ['22.30', 'Cell current + bioimpedance', 'ch17']];
+    var topics = [['22.2', 'Wound wire', 'ch2'], ['22.3', 'Potential across an inductor', 'ch2'], ['22.4/22.5', 'Op-amp bandwidth + phase', 'ch3'], ['22.6', 'Design an arbitrary op-amp circuit', 'ch3'], ['22.12', 'More transfer functions', 'ch10'], ['22.21/22.22', 'Poles, zeros, response from poles', 'ch10'], ['22.26', 'Convolution', 'ch13'], ['22.24', 'Bridges and amplifiers', 'ch7'], ['22.28', 'Silent knights and knaves', 'ch19'], ['22.29', 'Block diagram', 'ch16'], ['22.30', 'Heart of the ECG', 'ch18'], ['22.31', 'Current through a cell', 'ch17']];
     var p = document.createElement('p'); p.textContent = 'Quiz navigator — jump to the chapter behind each review item:';
     el.appendChild(p);
     var box = document.createElement('div'); box.className = 'btnrow'; el.appendChild(box);
@@ -524,6 +527,7 @@
     var part = B.PARTS.find(function (p) { return p.id === ch.part; });
     $('chap-part').textContent = part.title;
     $('chap-num').textContent = 'Chapter ' + ch.num + ' / 22';
+    $('chap-ref').textContent = 'Belmont W19, ' + (REFS[ch.id] || '');
     $('chap-title').textContent = ch.title;
     $('chap-lede').textContent = ch.lede;
     $('concepts').innerHTML = ch.concepts.map(function (c) { return '<div class="concept">' + c + '</div>'; }).join('');
