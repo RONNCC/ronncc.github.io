@@ -52,9 +52,11 @@ below.
   stands — New York, the Bay Area, Washington DC, London, Paris, and Berlin — on an
   offline map bundled with the site (`world.js`, Natural Earth 1:110m land polygons
   projected to equirectangular). Museums within ~1.1° of each other share one pin (the
-  four Smithsonian buildings, the four Bay Area museums); tap a pin for the museums
-  there, and use **Fit museums** / **World** to zoom the view.
-- **A connection graph** (`routes.html`, below the map) — museums, galleries,
+  four Smithsonian buildings, the four Bay Area museums). Numbered callouts stay
+  44px and do not overlap at phone sizes; leader lines retain the exact location.
+  Tap a marker or its city button for the museums there, and use **Fit museums** /
+  **World** for the view. Details stay below the map, not in a clipped overlay.
+- **An optional connection graph** (`routes.html`, below the museum list) — museums, galleries,
   civilizations, **and objects** are structured internally as a graph (`MUSEUMS`,
   `CIV_RELATIONS`, `MASTERPIECES` in `data.js`) and rendered as an interactive
   force-directed network. Edges are typed and colour-coded: neighbour, contemporary,
@@ -62,15 +64,18 @@ below.
   (Phoenician→Greek), **conquest** (Persia→Egypt), and **religious spread**
   (Gupta→Southeast Asia). There's a **time slider** that fades civs in and out as the
   years scroll, **drill-down** (tap a museum twice to collapse or expand its galleries
-  in place), type/region filters, pinch-zoom and one-finger pan.
+  in place), keyboard-accessible type/region filters, and a full-name node picker.
+  Zoom/fit buttons work on every device. Touch pan/pinch is opt-in, so the canvas
+  does not trap normal one-finger page scrolling. The graph is rendered only when
+  opened; the museum map/list is immediately usable.
 - **A how-to-read-a-museum guide** (`guide.html`) — what to do when the label is thin, a
   20-term glossary of the words labels use without explaining (repoussé, faience, slip,
   provenance…), and a reference list of further reading and collection databases.
 
 ## Structure
 
-- `index.html` — landing page (cards grouped by region, a search box, and a master "all
-  civilizations at a glance" timeline)
+- `index.html` — landing page (cards grouped by region, combined search/region filters,
+  and direct links to readers, tours, objects, museums, and the guide)
 - `reader.html` — the reader template; load with `?c=<slug>` (e.g. `reader.html?c=egypt`)
 - `objects.html` / `tours.html` / `guide.html` — masterpieces, timed tours, and the
   how-to-read/glossary/references guide
@@ -87,6 +92,10 @@ below.
 - `styles.css` — styling (light + dark, mobile-first)
 - `sw.js` — service worker (offline cache); `manifest.webmanifest` + `icons/` — installable
 - `metadata.json` — app metadata
+
+All pages use the **same local stylesheet and renderer**. There are no Pico,
+Alpine, font, map-tile, or other CDN dependencies. Keep index-specific changes
+scoped so they cannot remove the layout contract used by the rest of the app.
 
 Every HTML page is the same shell: it differs only by `<title>`, its meta description, and
 its `data-page` attribute, which `app.js` uses to dispatch to the right render function.
@@ -137,3 +146,17 @@ entry pointing at your area ids.
 
 > Note: bump the `CACHE` version in `sw.js` when you change content — and add any new HTML
 > file to its `ASSETS` list — so returning visitors get fresh data.
+
+## Responsive regression checks
+
+See [`scripts/civilizations-qa/README.md`](../scripts/civilizations-qa/README.md).
+The suite covers all 13 shells, all 53 readers, seven viewport sizes, both themes,
+keyboard/map/graph/search interactions, anchors, accessibility, print, and offline
+cache upgrades. The existing CI validation script runs Chromium, Firefox, and
+WebKit before PR/deployment checks pass. After deployment, dispatch the existing
+validation workflow to repeat the audit against the live site.
+
+The offline cache is versioned as one complete release. Bump `CACHE` after edits
+and keep `ASSETS` complete. Only `civ-readers-*` caches may be cleaned up; other
+apps share this origin. The v7-to-v8 migration also reloads already-open legacy
+pages, whose old index had no update handler, so returning visitors recover.

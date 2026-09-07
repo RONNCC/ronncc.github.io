@@ -1,0 +1,13 @@
+{
+  "name": "civilization-readers-qa",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "preview": "node serve.mjs",
+    "test": "node test.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.11.1",
+    "playwright": "1.61.1"
+  }
+}
