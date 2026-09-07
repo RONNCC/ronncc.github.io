@@ -8,3 +8,7 @@ _site/
 # Logs / temp
 *.log
 *.tmp
+
+# Local presentation browser checks
+/scripts/snoopy-qa/node_modules/
+/scripts/snoopy-qa/artifacts/

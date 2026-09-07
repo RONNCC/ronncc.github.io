@@ -1,0 +1,55 @@
+{
+  "capturedAt": "2026-09-07T19:29:56.089Z",
+  "browser": "149.0.7827.0",
+  "viewports": [
+    {
+      "name": "small-phone",
+      "width": 320,
+      "height": 568,
+      "mobile": true
+    },
+    {
+      "name": "phone",
+      "width": 390,
+      "height": 844,
+      "mobile": true
+    },
+    {
+      "name": "large-phone",
+      "width": 430,
+      "height": 932,
+      "mobile": true
+    },
+    {
+      "name": "tablet",
+      "width": 768,
+      "height": 1024,
+      "mobile": true
+    },
+    {
+      "name": "landscape",
+      "width": 844,
+      "height": 390,
+      "mobile": true
+    },
+    {
+      "name": "laptop",
+      "width": 1366,
+      "height": 768
+    },
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "slideLayouts": 152,
+  "axeScans": 44,
+  "failures": [],
+  "scope": "Chromium desktop and mobile emulation, not physical iOS/Android devices.",
+  "sourceSha256": {
+    "presentations/snoopy.html": "9c6308cc98e58443e7610f9f3809ebaa1dda936bf30fe1931e6154bc3064222c",
+    "presentations/snoopy.css": "9186b1a28c3073c99c65159c25f5affefe123c039c1f89fa8b37c8fe3663be9e",
+    "presentations/snoopy.js": "dc1f8a275cd393f897f1731cdd38a884c80201e7f5b830b7a1a52c1559bf748e"
+  }
+}

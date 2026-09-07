@@ -1,0 +1,223 @@
+[
+  {
+    "file": "spike.webp",
+    "url": "https://static.wixstatic.com/media/3c3602_a302bee85e5f4144aae0bc92901abbcc~mv2.jpg",
+    "source": "https://www.peanuts.com/about/spike",
+    "credit": "Peanuts Worldwide",
+    "trim_white": true,
+    "retrieved_dimensions": [
+      238,
+      238
+    ],
+    "width": 155,
+    "height": 212
+  },
+  {
+    "file": "belle.webp",
+    "url": "https://static.wikia.nocookie.net/peanuts/images/5/53/Belle.png/revision/latest",
+    "source": "https://peanuts.fandom.com/wiki/Belle",
+    "credit": "Peanuts Worldwide",
+    "trim_white": true,
+    "retrieved_dimensions": [
+      268,
+      382
+    ],
+    "width": 287,
+    "height": 400
+  },
+  {
+    "file": "andy.webp",
+    "url": "https://static.wikia.nocookie.net/peanuts/images/f/fd/Andy.png/revision/latest",
+    "source": "https://peanuts.fandom.com/wiki/Andy",
+    "credit": "Peanuts Worldwide",
+    "trim_white": true,
+    "retrieved_dimensions": [
+      268,
+      268
+    ],
+    "width": 175,
+    "height": 222
+  },
+  {
+    "file": "olaf.webp",
+    "url": "https://static.wixstatic.com/media/3c3602_4c1b312712ff4993b969a97a863ce21e~mv2.jpg",
+    "source": "https://www.peanuts.com/about/olaf",
+    "credit": "Peanuts Worldwide",
+    "trim_white": true,
+    "retrieved_dimensions": [
+      238,
+      238
+    ],
+    "width": 198,
+    "height": 190
+  },
+  {
+    "file": "joe-cool.webp",
+    "url": "https://static.wixstatic.com/media/3c3602_b3624d3df2e34b27823234bbeb7ac298~mv2.jpg",
+    "source": "https://www.peanuts.com/about/joe-cool",
+    "credit": "Peanuts Worldwide",
+    "trim_white": true,
+    "retrieved_dimensions": [
+      499,
+      499
+    ],
+    "width": 258,
+    "height": 355
+  },
+  {
+    "file": "flying-ace.webp",
+    "url": "https://static.wixstatic.com/media/999c17_dfdb32fca7214f9ea8fee52555d7cc7c~mv2.jpg",
+    "source": "https://www.peanuts.com/about/world-war-i-flying-ace",
+    "credit": "Peanuts Worldwide",
+    "trim_white": true,
+    "retrieved_dimensions": [
+      480,
+      480
+    ],
+    "width": 273,
+    "height": 394
+  },
+  {
+    "file": "scouts.webp",
+    "url": "https://static.wixstatic.com/media/999c17_ae378132b3ca4774a395a489c2856c02~mv2.jpg",
+    "source": "https://www.peanuts.com/about/woodstock",
+    "credit": "Peanuts Worldwide",
+    "trim_white": true,
+    "retrieved_dimensions": [
+      480,
+      480
+    ],
+    "width": 461,
+    "height": 236
+  },
+  {
+    "file": "woodstock.webp",
+    "url": "https://static.wixstatic.com/media/999c17_32f7f49cfb23478b972dfc1d0e4d3826~mv2.jpg",
+    "source": "https://www.peanuts.com/about/woodstock",
+    "credit": "Peanuts Worldwide",
+    "trim_white": true,
+    "retrieved_dimensions": [
+      480,
+      480
+    ],
+    "width": 391,
+    "height": 322
+  },
+  {
+    "file": "franklin.webp",
+    "url": "https://static.wixstatic.com/media/449abe_d53e7b869d28455d98529feca068328e~mv2.jpg",
+    "source": "https://www.peanuts.com/about/franklin",
+    "credit": "Peanuts Worldwide",
+    "trim_white": true,
+    "retrieved_dimensions": [
+      238,
+      238
+    ],
+    "width": 149,
+    "height": 248
+  },
+  {
+    "file": "peppermint-patty.webp",
+    "url": "https://static.wixstatic.com/media/449abe_178c9678f5144aa69be63e29e081e539~mv2.jpg",
+    "source": "https://www.peanuts.com/about/peppermint-patty",
+    "credit": "Peanuts Worldwide",
+    "trim_white": true,
+    "retrieved_dimensions": [
+      499,
+      499
+    ],
+    "width": 320,
+    "height": 479
+  },
+  {
+    "file": "marcie.webp",
+    "url": "https://static.wixstatic.com/media/449abe_45ce1a3d5cbc47658edc1bfe617390e4~mv2.jpg",
+    "source": "https://www.peanuts.com/about/marcie",
+    "credit": "Peanuts Worldwide",
+    "trim_white": true,
+    "retrieved_dimensions": [
+      499,
+      499
+    ],
+    "width": 256,
+    "height": 477
+  },
+  {
+    "file": "marbles.webp",
+    "url": "https://static.wikia.nocookie.net/peanuts/images/c/ce/Marbles-1.png/revision/latest",
+    "source": "https://peanuts.fandom.com/wiki/Marbles",
+    "credit": "Peanuts Worldwide",
+    "trim_white": true,
+    "retrieved_dimensions": [
+      500,
+      500
+    ],
+    "width": 262,
+    "height": 382
+  },
+  {
+    "file": "molly.webp",
+    "url": "https://static.wikia.nocookie.net/peanuts/images/7/7f/Molly.jpg/revision/latest",
+    "source": "https://peanuts.fandom.com/wiki/Molly_and_Rover",
+    "credit": "Peanuts Worldwide / Snoopy\u2019s Reunion (1991)",
+    "trim_white": false,
+    "retrieved_dimensions": [
+      268,
+      246
+    ],
+    "width": 268,
+    "height": 246
+  },
+  {
+    "file": "rover.webp",
+    "url": "https://static.wikia.nocookie.net/peanuts/images/9/96/Rover.jpg/revision/latest",
+    "source": "https://peanuts.fandom.com/wiki/Molly_and_Rover",
+    "credit": "Peanuts Worldwide / Snoopy\u2019s Reunion (1991)",
+    "trim_white": false,
+    "retrieved_dimensions": [
+      268,
+      260
+    ],
+    "width": 268,
+    "height": 260
+  },
+  {
+    "file": "doghouse.webp",
+    "url": "https://schulzmuseum.org/wp-content/themes/schulzmuseum-child/characters/snoopy_doghouse-400.jpg",
+    "source": "https://schulzmuseum.org/dream-a-little-dream/",
+    "credit": "Peanuts Worldwide / Charles M. Schulz Museum",
+    "trim_white": true,
+    "retrieved_dimensions": [
+      400,
+      596
+    ],
+    "width": 423,
+    "height": 620
+  },
+  {
+    "file": "schulz.webp",
+    "url": "https://cdn.britannica.com/47/194747-004-1306F4C3/Charles-Schulz-Snoopy-drawing-Peanuts-1995.jpg",
+    "source": "https://www.britannica.com/biography/Charles-Schulz",
+    "credit": "Ben Margot / AP Images, via Encyclopaedia Britannica",
+    "trim_white": false,
+    "retrieved_dimensions": [
+      550,
+      419
+    ],
+    "width": 550,
+    "height": 419
+  },
+  {
+    "file": "artemis.webp",
+    "url": "https://cdn.mos.cms.futurecdn.net/UxzjLbnToqhihcwVtMJwyL.jpg",
+    "source": "https://www.space.com/snoopy-nasa-artemis-1-zero-g-indicator",
+    "credit": "NASA / collectSPACE.com",
+    "trim_white": false,
+    "retrieved_dimensions": [
+      1024,
+      768
+    ],
+    "width": 1000,
+    "height": 750
+  }
+]
