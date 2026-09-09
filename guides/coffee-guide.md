@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default
 title: Coffee Guide
 permalink: /coffee-guide/
 description: A cute, searchable guide to coffee drinks, ingredients, SF café menu names, and the cafés that serve them.
@@ -30,9 +30,9 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
   --shadow-soft: 0 2px 10px rgba(93, 64, 42, .08), 0 10px 28px rgba(93, 64, 42, .07);
 }
 .cg-app {
-  width: min(1180px, calc(100vw - 2rem));
-  margin-left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
   color: var(--ink);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -42,6 +42,14 @@ excerpt: A cute, searchable guide to coffee drinks, ingredients, SF café menu n
   background-size: 26px 26px;
 }
 .cg-app *, .cg-app *::before, .cg-app *::after { box-sizing: border-box; }
+/* Page-shell overrides (scoped to this page only): the site `page` shell caps
+   content at 740px, so the app gets the wider `default` shell plus room to
+   breathe — no margin/transform breakout hack needed. */
+#main.container { max-width: min(1220px, 94vw); }
+.cg-section-head { flex-wrap: wrap; }
+.cg-section-head > div, .cg-section-head p,
+.cg-results-count, .cg-results-hint { min-width: 0; }
+.cg-results-hint, .cg-section-head p { overflow-wrap: anywhere; }
 .cg-app button, .cg-app input { font: inherit; }
 .cg-app a { color: var(--coral); }
 .cg-app a:hover { color: #a3432c; }
@@ -655,7 +663,7 @@ button.cg-tag:hover { border-color: #d8a87b; background: #fdf3ea; }
 .cg-sources li { margin: .18rem 0; }
 /* ── responsive ───────────────────────────────────────────────────────────── */
 @media screen and (max-width: 700px) {
-  .cg-app { width: 100%; margin-left: 0; transform: none; }
+  .cg-app { max-width: none; }
   .cg-board-header { padding: 1.9rem .75rem 1rem; }
   .cg-section { margin-top: 2.5rem; }
   .cg-section-head { display: block; }
@@ -861,7 +869,7 @@ body.cg-modal-open { overflow: hidden; }
 
   <header class="cg-board-header" aria-labelledby="cg-hero-title">
     <p class="cg-eyebrow">san francisco coffee field notes ✎</p>
-    <h2 id="cg-hero-title" class="cg-board-title">Read the menu.<br />Order the thing.</h2>
+    <h1 id="cg-hero-title" class="cg-board-title">Read the menu.<br />Order the thing.</h1>
     <div class="cg-board-flourish" aria-hidden="true">✦</div>
     <p class="cg-board-dek">A friendly decoder for espresso ratios, milk textures, cold coffee, and the wonderfully specific names you’ll run into at SF cafés — plus where to actually find them.</p>
     <p class="cg-updated">128 drinks · classic definitions + SF menu sightings · last checked August 27, 2026</p>
