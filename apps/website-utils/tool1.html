@@ -14,8 +14,9 @@ permalink: /apps/website-utils/tool1.html
   <style>
     /* page-specific: collage grid + tiles */
     .grid { display: grid; gap: 16px; width: 100%; padding-bottom: 4px; }
-    .grid.horizontal { grid-auto-flow: column; grid-auto-columns: max-content; }
+    .grid.horizontal, .grid.split5050, .grid.diagonal, .grid.pip { grid-auto-flow: column; grid-auto-columns: max-content; }
     .grid.vertical { grid-auto-flow: row; grid-auto-rows: max-content; }
+    .grid.grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
     .tile { position: relative; width: fit-content; height: fit-content; }
     .tile.dragging { opacity: 0.4; }
     .tile img.tile-img {
@@ -30,6 +31,15 @@ permalink: /apps/website-utils/tool1.html
     .tile:hover .remove { opacity: 1; }
     .empty-hint { text-align: center; color: #97a3b8; font-size: 0.85rem; margin: 24px 0 0; }
     .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .controls { display: flex; align-items: flex-end; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+    .control-group { display: flex; flex-direction: column; gap: 4px; }
+    .control-group label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; }
+    .select-control { height: 40px; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0 12px; font-size: 13px; background: #f8fafc; color: #1e293b; cursor: pointer; font-weight: 500; }
+    .checkbox-group { display: inline-flex; align-items: center; gap: 6px; height: 40px; cursor: pointer; font-size: 13px; font-weight: 600; color: #334155; user-select: none; margin-bottom: 0; }
+    .checkbox-group input { width: 16px; height: 16px; accent-color: #6366f1; cursor: pointer; margin: 0; }
+    .result-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+    .result-header h3 { margin: 0; }
+    .dimensions-badge { font-size: 12px; font-weight: 600; color: #64748b; background: #f1f5f9; padding: 4px 10px; border-radius: 6px; }
   </style>
 </head>
 <body>
@@ -54,12 +64,56 @@ permalink: /apps/website-utils/tool1.html
 
       <div class="card">
         <div class="controls">
-          <label class="sr-only" for="layout">Select layout</label>
-          <select id="layout" class="select-layout" aria-label="Select layout">
-            <option value="horizontal">Horizontal</option>
-            <option value="vertical">Vertical</option>
-          </select>
-          <button id="generate" class="btn btn-blue">Generate Collage</button>
+          <div class="control-group">
+            <label for="layout">Layout</label>
+            <select id="layout" class="select-control" aria-label="Layout">
+              <option value="horizontal">Side by Side (Horizontal)</option>
+              <option value="vertical">Stacked (Vertical)</option>
+              <option value="split5050">Equal Split (50 / 50)</option>
+              <option value="diagonal">Diagonal Split (2 Images)</option>
+              <option value="pip">Picture-in-Picture (Inset)</option>
+              <option value="grid">Grid (Auto / 2×2)</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="sizing">Dimensions</label>
+            <select id="sizing" class="select-control" aria-label="Dimensions">
+              <option value="match-largest">Match Largest (Scale up)</option>
+              <option value="match-smallest">Match Smallest (Scale down)</option>
+              <option value="equal-crop">Equal Crop (Cover)</option>
+              <option value="original">Original Proportions</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="spacing">Spacing / Line</label>
+            <select id="spacing" class="select-control" aria-label="Spacing / Line">
+              <option value="0">None / Seamless (0px)</option>
+              <option value="2">Hairline (2px)</option>
+              <option value="6">Thin Line (6px)</option>
+              <option value="16">Standard (16px)</option>
+              <option value="32">Wide (32px)</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="bgColor">Separator / BG</label>
+            <select id="bgColor" class="select-control" aria-label="Separator or background color">
+              <option value="#ffffff">White</option>
+              <option value="#000000">Black</option>
+              <option value="#64748b">Slate Gray</option>
+              <option value="transparent">Transparent</option>
+            </select>
+          </div>
+
+          <label class="checkbox-group" title="Include outer border frame around the entire collage">
+            <input type="checkbox" id="outerFrame" />
+            <span>Outer frame</span>
+          </label>
+
+          <button id="swap" type="button" class="btn btn-outline" title="Swap order of images" style="margin-top:auto">⇄ Swap</button>
+          <button id="generate" type="button" class="btn btn-blue" style="margin-top:auto">Generate Collage</button>
         </div>
 
         <div id="dropzone" class="dropzone" tabindex="0">
@@ -68,7 +122,10 @@ permalink: /apps/website-utils/tool1.html
         </div>
 
         <div id="result" class="result" hidden>
-          <h3>Generated Collage</h3>
+          <div class="result-header">
+            <h3>Generated Collage</h3>
+            <span id="dimensionsBadge" class="dimensions-badge"></span>
+          </div>
           <img id="preview" alt="Generated Collage" />
           <div class="result-actions">
             <button id="download" class="btn btn-green">Download Collage</button>
@@ -88,18 +145,28 @@ permalink: /apps/website-utils/tool1.html
 
       var state = {
         images: [],              // [{ id, dataUrl }]
-        layout: "horizontal",    // "horizontal" | "vertical"
+        layout: "horizontal",    // "horizontal" | "vertical" | "split5050" | "diagonal" | "pip" | "grid"
+        sizing: "match-largest", // "match-largest" | "match-smallest" | "equal-crop" | "original"
+        spacing: "0",            // "0" | "2" | "6" | "16" | "32"
+        bgColor: "#ffffff",      // "#ffffff" | "#000000" | "#64748b" | "transparent"
+        outerFrame: false,       // boolean
         generated: null,         // dataURL of generated collage
         dragging: null           // id of tile being dragged (for reorder)
       };
 
       var el = {
         layout: document.getElementById("layout"),
+        sizing: document.getElementById("sizing"),
+        spacing: document.getElementById("spacing"),
+        bgColor: document.getElementById("bgColor"),
+        outerFrame: document.getElementById("outerFrame"),
+        swap: document.getElementById("swap"),
         generate: document.getElementById("generate"),
         dropzone: document.getElementById("dropzone"),
         dropText: document.getElementById("dropzoneText"),
         grid: document.getElementById("grid"),
         result: document.getElementById("result"),
+        dimensionsBadge: document.getElementById("dimensionsBadge"),
         preview: document.getElementById("preview"),
         download: document.getElementById("download"),
         copy: document.getElementById("copy"),
@@ -120,11 +187,17 @@ permalink: /apps/website-utils/tool1.html
       }
 
       function layoutClass() {
-        return state.layout === "horizontal" ? "horizontal" : "vertical";
+        if (state.layout === "vertical") return "vertical";
+        if (state.layout === "grid") return "grid";
+        return "horizontal";
       }
 
       function render() {
         el.layout.value = state.layout;
+        el.sizing.value = state.sizing;
+        el.spacing.value = state.spacing;
+        el.bgColor.value = state.bgColor;
+        el.outerFrame.checked = state.outerFrame;
         el.grid.className = "grid " + layoutClass();
         el.grid.innerHTML = "";
 
@@ -249,10 +322,65 @@ permalink: /apps/website-utils/tool1.html
         render();
       }
 
-      el.layout.addEventListener("change", function () {
+      function onSettingChange() {
         state.layout = el.layout.value;
+        state.sizing = el.sizing.value;
+        state.spacing = el.spacing.value;
+        state.bgColor = el.bgColor.value;
+        state.outerFrame = el.outerFrame.checked;
         render();
+        if (state.generated) generate();
+      }
+
+      el.layout.addEventListener("change", onSettingChange);
+      el.sizing.addEventListener("change", onSettingChange);
+      el.spacing.addEventListener("change", onSettingChange);
+      el.bgColor.addEventListener("change", onSettingChange);
+      el.outerFrame.addEventListener("change", onSettingChange);
+
+      el.swap.addEventListener("click", function () {
+        if (state.images.length < 2) {
+          showToast("Add at least 2 images to swap.", "error");
+          return;
+        }
+        var temp = state.images[0];
+        state.images[0] = state.images[1];
+        state.images[1] = temp;
+        render();
+        if (state.generated) generate();
       });
+
+      function drawCover(ctx, img, dx, dy, dw, dh) {
+        var imgRatio = img.width / img.height;
+        var slotRatio = dw / dh;
+        var sx = 0, sy = 0, sw = img.width, sh = img.height;
+        if (imgRatio > slotRatio) {
+          sh = img.height;
+          sw = Math.round(sh * slotRatio);
+          sx = Math.round((img.width - sw) / 2);
+        } else {
+          sw = img.width;
+          sh = Math.round(sw / slotRatio);
+          sy = Math.round((img.height - sh) / 2);
+        }
+        ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
+      }
+
+      function drawContain(ctx, img, dx, dy, dw, dh) {
+        var imgRatio = img.width / img.height;
+        var slotRatio = dw / dh;
+        var rw, rh;
+        if (imgRatio > slotRatio) {
+          rw = dw;
+          rh = Math.round(dw / imgRatio);
+        } else {
+          rh = dh;
+          rw = Math.round(dh * imgRatio);
+        }
+        var rx = dx + Math.round((dw - rw) / 2);
+        var ry = dy + Math.round((dh - rh) / 2);
+        ctx.drawImage(img, rx, ry, rw, rh);
+      }
 
       function generate() {
         if (state.images.length === 0 || !el.canvas) return;
@@ -261,58 +389,279 @@ permalink: /apps/website-utils/tool1.html
         var imgs = state.images.map(function (x) { var im = new Image(); im.src = x.dataUrl; return im; });
 
         Promise.all(imgs.map(function (im) { return im.decode(); })).then(function () {
-          var acc = imgs.reduce(function (o, t) {
-            return {
-              totalWidth: o.totalWidth + t.width,
-              totalHeight: o.totalHeight + t.height,
-              maxWidth: Math.max(o.maxWidth, t.width),
-              maxHeight: Math.max(o.maxHeight, t.height)
-            };
-          }, { totalWidth: 0, totalHeight: 0, maxWidth: 0, maxHeight: 0 });
+          var gap = parseInt(state.spacing, 10) || 0;
+          var outerPad = state.outerFrame ? (gap || 16) : 0;
+          var bgColor = state.bgColor;
+          var layout = state.layout;
+          var sizing = state.sizing;
+          var num = imgs.length;
+          var MAX_DIM = 2400;
 
-          var width, height, scale;
-          if (state.layout === "horizontal") {
-            scale = (Math.min(acc.totalWidth + 20 * (imgs.length + 1), 2000) - 20 * (imgs.length + 1)) / acc.totalWidth;
-            height = Math.max.apply(null, imgs.map(function (im) { return im.height * scale; })) + 40;
-            width = Math.min(acc.totalWidth + 20 * (imgs.length + 1), 2000);
+          var canvasWidth, canvasHeight;
+          var drawList = [];
+
+          if (layout === "split5050" && num >= 2) {
+            var targetH = (sizing === "match-smallest")
+              ? Math.min(imgs[0].height, imgs[1].height)
+              : Math.max(imgs[0].height, imgs[1].height);
+            var targetW = (sizing === "match-smallest")
+              ? Math.min(imgs[0].width, imgs[1].width)
+              : Math.max(imgs[0].width, imgs[1].width);
+
+            var halfW = targetW;
+            var halfH = targetH;
+            canvasWidth = outerPad * 2 + halfW * 2 + gap;
+            canvasHeight = outerPad * 2 + halfH;
+
+            drawList.push({ img: imgs[0], x: outerPad, y: outerPad, w: halfW, h: halfH, mode: "cover" });
+            drawList.push({ img: imgs[1], x: outerPad + halfW + gap, y: outerPad, w: halfW, h: halfH, mode: "cover" });
+
+          } else if (layout === "diagonal" && num >= 2) {
+            var diagW = (sizing === "match-smallest")
+              ? Math.min(imgs[0].width, imgs[1].width)
+              : Math.max(imgs[0].width, imgs[1].width);
+            var diagH = (sizing === "match-smallest")
+              ? Math.min(imgs[0].height, imgs[1].height)
+              : Math.max(imgs[0].height, imgs[1].height);
+
+            canvasWidth = outerPad * 2 + diagW;
+            canvasHeight = outerPad * 2 + diagH;
+
+          } else if (layout === "pip" && num >= 2) {
+            var baseW = imgs[0].width;
+            var baseH = imgs[0].height;
+            if (sizing === "match-largest") {
+              baseW = Math.max(imgs[0].width, imgs[1].width);
+              baseH = Math.round(baseW * (imgs[0].height / imgs[0].width));
+            } else if (sizing === "match-smallest") {
+              baseW = Math.min(imgs[0].width, imgs[1].width);
+              baseH = Math.round(baseW * (imgs[0].height / imgs[0].width));
+            }
+            canvasWidth = outerPad * 2 + baseW;
+            canvasHeight = outerPad * 2 + baseH;
+
+          } else if (layout === "grid" || (num > 2 && layout !== "horizontal" && layout !== "vertical")) {
+            var cols = Math.ceil(Math.sqrt(num));
+            var rows = Math.ceil(num / cols);
+
+            var cellW, cellH;
+            if (sizing === "match-smallest") {
+              cellW = Math.min.apply(null, imgs.map(function(im){ return im.width; }));
+              cellH = Math.min.apply(null, imgs.map(function(im){ return im.height; }));
+            } else {
+              cellW = Math.max.apply(null, imgs.map(function(im){ return im.width; }));
+              cellH = Math.max.apply(null, imgs.map(function(im){ return im.height; }));
+            }
+            if (sizing === "equal-crop") {
+              var minSide = Math.min(cellW, cellH);
+              cellW = minSide; cellH = minSide;
+            }
+
+            canvasWidth = outerPad * 2 + cols * cellW + (cols - 1) * gap;
+            canvasHeight = outerPad * 2 + rows * cellH + (rows - 1) * gap;
+
+            for (var idx = 0; idx < num; idx++) {
+              var c = idx % cols;
+              var r = Math.floor(idx / cols);
+              var gx = outerPad + c * (cellW + gap);
+              var gy = outerPad + r * (cellH + gap);
+              drawList.push({
+                img: imgs[idx],
+                x: gx, y: gy, w: cellW, h: cellH,
+                mode: (sizing === "original" ? "contain" : "cover")
+              });
+            }
+
+          } else if (layout === "vertical") {
+            var targetWidth;
+            if (sizing === "match-largest") {
+              targetWidth = Math.max.apply(null, imgs.map(function(im){ return im.width; }));
+            } else if (sizing === "match-smallest") {
+              targetWidth = Math.min.apply(null, imgs.map(function(im){ return im.width; }));
+            } else {
+              targetWidth = Math.max.apply(null, imgs.map(function(im){ return im.width; }));
+            }
+
+            var itemHeights = imgs.map(function(im) {
+              if (sizing === "equal-crop") {
+                return Math.round(targetWidth * 0.75);
+              } else if (sizing === "original") {
+                return im.height;
+              } else {
+                return Math.round(im.height * (targetWidth / im.width));
+              }
+            });
+
+            var totalH = itemHeights.reduce(function(a, b){ return a + b; }, 0) + gap * (num - 1);
+            canvasWidth = outerPad * 2 + targetWidth;
+            canvasHeight = outerPad * 2 + totalH;
+
+            var currY = outerPad;
+            imgs.forEach(function(im, i) {
+              var ih = itemHeights[i];
+              drawList.push({
+                img: im,
+                x: outerPad,
+                y: currY,
+                w: targetWidth,
+                h: ih,
+                mode: (sizing === "original" ? "contain" : "cover")
+              });
+              currY += ih + gap;
+            });
+
           } else {
-            scale = (Math.min(acc.totalHeight + 20 * (imgs.length + 1), 2000) - 20 * (imgs.length + 1)) / acc.totalHeight;
-            width = Math.max.apply(null, imgs.map(function (im) { return im.width * scale; })) + 40;
-            height = Math.min(acc.totalHeight + 20 * (imgs.length + 1), 2000);
+            // Horizontal (Side by Side)
+            var targetHeight;
+            if (sizing === "match-largest") {
+              targetHeight = Math.max.apply(null, imgs.map(function(im){ return im.height; }));
+            } else if (sizing === "match-smallest") {
+              targetHeight = Math.min.apply(null, imgs.map(function(im){ return im.height; }));
+            } else {
+              targetHeight = Math.max.apply(null, imgs.map(function(im){ return im.height; }));
+            }
+
+            var itemWidths = imgs.map(function(im) {
+              if (sizing === "equal-crop") {
+                return Math.round(targetHeight * 1.0);
+              } else if (sizing === "original") {
+                return im.width;
+              } else {
+                return Math.round(im.width * (targetHeight / im.height));
+              }
+            });
+
+            var totalW = itemWidths.reduce(function(a, b){ return a + b; }, 0) + gap * (num - 1);
+            canvasWidth = outerPad * 2 + totalW;
+            canvasHeight = outerPad * 2 + targetHeight;
+
+            var currX = outerPad;
+            imgs.forEach(function(im, i) {
+              var iw = itemWidths[i];
+              drawList.push({
+                img: im,
+                x: currX,
+                y: outerPad,
+                w: iw,
+                h: targetHeight,
+                mode: (sizing === "original" ? "contain" : "cover")
+              });
+              currX += iw + gap;
+            });
           }
 
-          if (width > 2000) {
-            var ew = 2000 / width;
-            width = 2000; height *= ew; scale *= ew;
-          } else if (height > 2000) {
-            var eh = 2000 / height;
-            height = 2000; width *= eh; scale *= eh;
+          var scale = 1;
+          if (canvasWidth > MAX_DIM || canvasHeight > MAX_DIM) {
+            scale = Math.min(MAX_DIM / canvasWidth, MAX_DIM / canvasHeight);
+            canvasWidth = Math.round(canvasWidth * scale);
+            canvasHeight = Math.round(canvasHeight * scale);
+            gap = Math.round(gap * scale);
+            outerPad = Math.round(outerPad * scale);
           }
 
-          el.canvas.width = width;
-          el.canvas.height = height;
-          ctx.fillStyle = "white";
-          ctx.fillRect(0, 0, width, height);
+          el.canvas.width = canvasWidth;
+          el.canvas.height = canvasHeight;
+          ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-          var padLeft = 20, padTop = 20;
-          imgs.forEach(function (im) {
-            var w = im.width * scale;
-            var h = im.height * scale;
-            var x = padLeft, y = padTop;
-            if (state.layout === "horizontal") { y = (height - h) / 2; }
-            else { x = (width - w) / 2; }
-            ctx.drawImage(im, x, y, w, h);
-            if (state.layout === "horizontal") { padLeft += w + 20; }
-            else { padTop += h + 20; }
-          });
+          if (bgColor !== "transparent") {
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+          }
+
+          if (layout === "diagonal" && num >= 2) {
+            var dw = canvasWidth - outerPad * 2;
+            var dh = canvasHeight - outerPad * 2;
+            var ox = outerPad, oy = outerPad;
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(ox, oy);
+            ctx.lineTo(ox + dw, oy);
+            ctx.lineTo(ox, oy + dh);
+            ctx.closePath();
+            ctx.clip();
+            drawCover(ctx, imgs[0], ox, oy, dw, dh);
+            ctx.restore();
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(ox + dw, oy);
+            ctx.lineTo(ox + dw, oy + dh);
+            ctx.lineTo(ox, oy + dh);
+            ctx.closePath();
+            ctx.clip();
+            drawCover(ctx, imgs[1], ox, oy, dw, dh);
+            ctx.restore();
+
+            if (gap > 0) {
+              ctx.beginPath();
+              ctx.moveTo(ox, oy + dh);
+              ctx.lineTo(ox + dw, oy);
+              ctx.lineWidth = gap;
+              ctx.strokeStyle = (bgColor === "transparent" ? "#ffffff" : bgColor);
+              ctx.stroke();
+            }
+
+            if (outerPad > 0 && bgColor !== "transparent") {
+              ctx.lineWidth = outerPad * 2;
+              ctx.strokeStyle = bgColor;
+              ctx.strokeRect(0, 0, canvasWidth, canvasHeight);
+            }
+
+          } else if (layout === "pip" && num >= 2) {
+            var pw = canvasWidth - outerPad * 2;
+            var ph = canvasHeight - outerPad * 2;
+            var pox = outerPad, poy = outerPad;
+
+            drawCover(ctx, imgs[0], pox, poy, pw, ph);
+
+            var insetW = Math.round(pw * 0.35);
+            var insetH = Math.round(insetW * (imgs[1].height / imgs[1].width));
+            var margin = Math.max(16, gap * 2 || 16);
+            var ix = pox + pw - insetW - margin;
+            var iy = poy + ph - insetH - margin;
+
+            ctx.save();
+            ctx.shadowColor = "rgba(0,0,0,0.4)";
+            ctx.shadowBlur = 12;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 4;
+            var borderThickness = Math.max(3, gap || 3);
+            ctx.fillStyle = (bgColor === "transparent" ? "#ffffff" : bgColor);
+            ctx.fillRect(ix - borderThickness, iy - borderThickness, insetW + borderThickness * 2, insetH + borderThickness * 2);
+            ctx.restore();
+
+            drawCover(ctx, imgs[1], ix, iy, insetW, insetH);
+
+            if (outerPad > 0 && bgColor !== "transparent") {
+              ctx.lineWidth = outerPad * 2;
+              ctx.strokeStyle = bgColor;
+              ctx.strokeRect(0, 0, canvasWidth, canvasHeight);
+            }
+
+          } else {
+            drawList.forEach(function (item) {
+              var ix = Math.round(item.x * scale);
+              var iy = Math.round(item.y * scale);
+              var iw = Math.round(item.w * scale);
+              var ih = Math.round(item.h * scale);
+              if (item.mode === "contain") {
+                drawContain(ctx, item.img, ix, iy, iw, ih);
+              } else {
+                drawCover(ctx, item.img, ix, iy, iw, ih);
+              }
+            });
+          }
 
           state.generated = el.canvas.toDataURL("image/png");
           el.preview.src = state.generated;
+          if (el.dimensionsBadge) {
+            el.dimensionsBadge.textContent = canvasWidth + " \u00d7 " + canvasHeight + " px \u00b7 PNG";
+          }
           el.result.hidden = false;
         });
       }
       el.generate.addEventListener("click", generate);
-
       el.download.addEventListener("click", function () {
         if (state.generated) {
           var a = document.createElement("a");
