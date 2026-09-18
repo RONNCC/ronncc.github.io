@@ -362,7 +362,12 @@ permalink: /apps/website-utils/tool1.html
       });
 
       el.swatches.forEach(function (s) {
-        if (s.getAttribute("data-color") === "custom") return;
+        if (s.getAttribute("data-color") === "custom") {
+          s.addEventListener("click", function (e) {
+            if (e.target !== el.bgCustom) el.bgCustom.click();
+          });
+          return;
+        }
         s.addEventListener("click", function () {
           state.dividerColor = s.getAttribute("data-color");
           render();
