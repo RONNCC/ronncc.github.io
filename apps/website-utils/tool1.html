@@ -13,7 +13,8 @@ permalink: /apps/website-utils/tool1.html
   <link rel="stylesheet" href="styles.css" />
   <style>
     /* page-specific: collage grid + tiles */
-    .grid { display: grid; gap: 16px; width: 100%; padding-bottom: 4px; }
+    .grid { display: grid; gap: 16px; width: 100%; padding-bottom: 4px; justify-content: center; }
+    .grid.empty { display: flex; justify-content: center; width: 100%; }
     .grid.horizontal, .grid.split5050, .grid.diagonal, .grid.pip { grid-auto-flow: column; grid-auto-columns: max-content; }
     .grid.vertical { grid-auto-flow: row; grid-auto-rows: max-content; }
     .grid.grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
@@ -29,7 +30,7 @@ permalink: /apps/website-utils/tool1.html
       opacity: 0; transition: opacity 0.15s; border-top-right-radius: 8px;
     }
     .tile:hover .remove { opacity: 1; }
-    .empty-hint { text-align: center; color: #97a3b8; font-size: 0.85rem; margin: 24px 0 0; }
+    .empty-hint { text-align: center; color: #97a3b8; font-size: 0.85rem; margin: 12px 0 0; width: 100%; }
     .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
     .controls { display: flex; align-items: flex-end; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
     .control-group { display: flex; flex-direction: column; gap: 4px; }
@@ -198,13 +199,14 @@ permalink: /apps/website-utils/tool1.html
         el.spacing.value = state.spacing;
         el.bgColor.value = state.bgColor;
         el.outerFrame.checked = state.outerFrame;
-        el.grid.className = "grid " + layoutClass();
         el.grid.innerHTML = "";
 
         if (state.images.length === 0) {
+          el.grid.className = "grid empty";
           el.grid.innerHTML = '<p class="empty-hint">No images added yet.</p>';
           return;
         }
+        el.grid.className = "grid " + layoutClass();
 
         state.images.forEach(function (img, i) {
           var tile = document.createElement("div");
