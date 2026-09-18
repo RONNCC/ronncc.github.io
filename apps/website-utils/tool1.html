@@ -38,6 +38,17 @@ permalink: /apps/website-utils/tool1.html
     .select-control { height: 40px; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0 12px; font-size: 13px; background: #f8fafc; color: #1e293b; cursor: pointer; font-weight: 500; }
     .checkbox-group { display: inline-flex; align-items: center; gap: 6px; height: 40px; cursor: pointer; font-size: 13px; font-weight: 600; color: #334155; user-select: none; margin-bottom: 0; }
     .checkbox-group input { width: 16px; height: 16px; accent-color: #6366f1; cursor: pointer; margin: 0; }
+    .divider-row { display: flex; gap: 4px; }
+    .divider-btn { height: 40px; padding: 0 12px; border: 1px solid #e2e8f0; background: #f8fafc; color: #475569; font-size: 13px; font-weight: 500; cursor: pointer; }
+    .divider-btn:first-child { border-radius: 10px 0 0 10px; }
+    .divider-btn:last-child { border-radius: 0 10px 10px 0; }
+    .divider-btn + .divider-btn { border-left: none; }
+    .divider-btn.active { background: #6366f1; border-color: #6366f1; color: #fff; font-weight: 600; }
+    .swatch-row { display: flex; gap: 6px; align-items: center; height: 40px; }
+    .swatch { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #e2e8f0; cursor: pointer; padding: 0; }
+    .swatch.active { border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99,102,241,0.25); }
+    .swatch-custom { position: relative; overflow: hidden; background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red); }
+    .swatch-custom input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
     .result-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
     .result-header h3 { margin: 0; }
     .dimensions-badge { font-size: 12px; font-weight: 600; color: #64748b; background: #f1f5f9; padding: 4px 10px; border-radius: 6px; }
@@ -88,24 +99,22 @@ permalink: /apps/website-utils/tool1.html
           </div>
 
           <div class="control-group">
-            <label for="spacing">Spacing / Line</label>
-            <select id="spacing" class="select-control" aria-label="Spacing / Line">
-              <option value="0">None / Seamless (0px)</option>
-              <option value="2">Hairline (2px)</option>
-              <option value="6">Thin Line (6px)</option>
-              <option value="16">Standard (16px)</option>
-              <option value="32">Wide (32px)</option>
-            </select>
-          </div>
-
-          <div class="control-group">
-            <label for="bgColor">Separator / BG</label>
-            <select id="bgColor" class="select-control" aria-label="Separator or background color">
-              <option value="#ffffff">White</option>
-              <option value="#000000">Black</option>
-              <option value="#64748b">Slate Gray</option>
-              <option value="transparent">Transparent</option>
-            </select>
+            <label id="dividerLabel">Divider</label>
+            <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+              <div class="divider-row" role="group" aria-labelledby="dividerLabel">
+                <button type="button" class="divider-btn" data-divider="none" title="No divider, images touch edge to edge">None</button>
+                <button type="button" class="divider-btn" data-divider="2" title="2px hairline divider">2px</button>
+                <button type="button" class="divider-btn" data-divider="6" title="6px thin divider">6px</button>
+                <button type="button" class="divider-btn" data-divider="16" title="16px spaced divider">16px</button>
+                <button type="button" class="divider-btn" data-divider="32" title="32px wide divider">32px</button>
+              </div>
+              <div class="swatch-row" role="group" aria-label="Divider color">
+                <button type="button" class="swatch" data-color="#ffffff" style="background:#ffffff" title="White" aria-label="White"></button>
+                <button type="button" class="swatch" data-color="#000000" style="background:#000000" title="Black" aria-label="Black"></button>
+                <button type="button" class="swatch" data-color="#64748b" style="background:#64748b" title="Slate" aria-label="Slate"></button>
+                <button type="button" class="swatch swatch-custom" data-color="custom" title="Custom color" aria-label="Custom color"><input type="color" id="bgCustom" value="#6366f1" /></button>
+              </div>
+            </div>
           </div>
 
           <label class="checkbox-group" title="Include outer border frame around the entire collage">
@@ -148,8 +157,8 @@ permalink: /apps/website-utils/tool1.html
         images: [],              // [{ id, dataUrl }]
         layout: "horizontal",    // "horizontal" | "vertical" | "split5050" | "diagonal" | "pip" | "grid"
         sizing: "match-largest", // "match-largest" | "match-smallest" | "equal-crop" | "original"
-        spacing: "0",            // "0" | "2" | "6" | "16" | "32"
-        bgColor: "#ffffff",      // "#ffffff" | "#000000" | "#64748b" | "transparent"
+        divider: "none",         // "none" | "2" | "6" | "16" | "32"
+        dividerColor: "#ffffff", // hex color for divider / background
         outerFrame: false,       // boolean
         generated: null,         // dataURL of generated collage
         dragging: null           // id of tile being dragged (for reorder)
@@ -158,8 +167,9 @@ permalink: /apps/website-utils/tool1.html
       var el = {
         layout: document.getElementById("layout"),
         sizing: document.getElementById("sizing"),
-        spacing: document.getElementById("spacing"),
-        bgColor: document.getElementById("bgColor"),
+        bgCustom: document.getElementById("bgCustom"),
+        dividerBtns: Array.prototype.slice.call(document.querySelectorAll(".divider-btn")),
+        swatches: Array.prototype.slice.call(document.querySelectorAll(".swatch")),
         outerFrame: document.getElementById("outerFrame"),
         swap: document.getElementById("swap"),
         generate: document.getElementById("generate"),
@@ -193,11 +203,18 @@ permalink: /apps/website-utils/tool1.html
         return "horizontal";
       }
 
+      function syncDividerUI() {
+        el.dividerBtns.forEach(function (b) { b.classList.toggle("active", b.getAttribute("data-divider") === state.divider); });
+        el.swatches.forEach(function (s) {
+          var c = s.getAttribute("data-color");
+          s.classList.toggle("active", c === state.dividerColor || (c === "custom" && state.dividerColor.charAt(0) === "#" && ["#ffffff", "#000000", "#64748b"].indexOf(state.dividerColor.toLowerCase()) === -1));
+        });
+      }
+
       function render() {
         el.layout.value = state.layout;
         el.sizing.value = state.sizing;
-        el.spacing.value = state.spacing;
-        el.bgColor.value = state.bgColor;
+        syncDividerUI();
         el.outerFrame.checked = state.outerFrame;
         el.grid.innerHTML = "";
 
@@ -327,8 +344,6 @@ permalink: /apps/website-utils/tool1.html
       function onSettingChange() {
         state.layout = el.layout.value;
         state.sizing = el.sizing.value;
-        state.spacing = el.spacing.value;
-        state.bgColor = el.bgColor.value;
         state.outerFrame = el.outerFrame.checked;
         render();
         if (state.generated) generate();
@@ -336,9 +351,30 @@ permalink: /apps/website-utils/tool1.html
 
       el.layout.addEventListener("change", onSettingChange);
       el.sizing.addEventListener("change", onSettingChange);
-      el.spacing.addEventListener("change", onSettingChange);
-      el.bgColor.addEventListener("change", onSettingChange);
       el.outerFrame.addEventListener("change", onSettingChange);
+
+      el.dividerBtns.forEach(function (b) {
+        b.addEventListener("click", function () {
+          state.divider = b.getAttribute("data-divider");
+          render();
+          if (state.generated) generate();
+        });
+      });
+
+      el.swatches.forEach(function (s) {
+        if (s.getAttribute("data-color") === "custom") return;
+        s.addEventListener("click", function () {
+          state.dividerColor = s.getAttribute("data-color");
+          render();
+          if (state.generated) generate();
+        });
+      });
+
+      el.bgCustom.addEventListener("input", function () {
+        state.dividerColor = el.bgCustom.value;
+        render();
+        if (state.generated) generate();
+      });
 
       el.swap.addEventListener("click", function () {
         if (state.images.length < 2) {
@@ -391,9 +427,9 @@ permalink: /apps/website-utils/tool1.html
         var imgs = state.images.map(function (x) { var im = new Image(); im.src = x.dataUrl; return im; });
 
         Promise.all(imgs.map(function (im) { return im.decode(); })).then(function () {
-          var gap = parseInt(state.spacing, 10) || 0;
+          var gap = state.divider === "none" ? 0 : (parseInt(state.divider, 10) || 0);
           var outerPad = state.outerFrame ? (gap || 16) : 0;
-          var bgColor = state.bgColor;
+          var bgColor = state.dividerColor;
           var layout = state.layout;
           var sizing = state.sizing;
           var num = imgs.length;
