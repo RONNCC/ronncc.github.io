@@ -7,7 +7,7 @@ A small suite of client-side browser tools, each a self-contained static HTML pa
 | Page | Tool | How it works |
 |---|---|---|
 | `index.html` | Landing page | Links to the four tools below. |
-| `tool1.html` | **Image Collage Creator** | Paste or drop in images, arrange them, choose a Horizontal/Vertical layout, then generate a downloadable/copyable PNG collage. Runs entirely in the browser. |
+| `tool1.html` | **Image Collage Creator** | Add images (paste, drag/drop, or browse), reorder, pick a layout (side-by-side, stacked, 50/50, diagonal, inset, grid), dimension matching, divider width/color, then generate a downloadable/copyable PNG collage. Runs entirely in the browser. |
 | `tool2.html` | **Video to GIF Converter** | Convert a video to an animated GIF in-browser using FFmpeg WASM (loaded from unpkg CDN). Choose frame rate, width, start time, and duration. |
 | `tool3.html` | **Log Sanitizer** | Paste terminal logs and scrub PII/secrets with 37 built-in regex patterns plus custom rules, whole-word/case toggles, a line-diff view, and localStorage persistence. 100% client-side. |
 | `tool4.html` | **MMS Image Resizer** | Paste, drag/drop, or browse an image, pick a size target under 1 MB, and downscale in-browser so it fits carrier MMS attachment limits. Copy to clipboard, download as JPG, or send via mailto/sms links. |

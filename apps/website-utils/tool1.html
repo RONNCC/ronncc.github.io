@@ -102,11 +102,11 @@ permalink: /apps/website-utils/tool1.html
             <label id="dividerLabel">Divider</label>
             <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
               <div class="divider-row" role="group" aria-labelledby="dividerLabel">
-                <button type="button" class="divider-btn" data-divider="none" title="No divider, images touch edge to edge">None</button>
-                <button type="button" class="divider-btn" data-divider="2" title="2px hairline divider">2px</button>
-                <button type="button" class="divider-btn" data-divider="6" title="6px thin divider">6px</button>
-                <button type="button" class="divider-btn" data-divider="16" title="16px spaced divider">16px</button>
-                <button type="button" class="divider-btn" data-divider="32" title="32px wide divider">32px</button>
+                <button type="button" class="divider-btn" data-divider="none" title="No divider — images touch edge to edge">None</button>
+                <button type="button" class="divider-btn" data-divider="2" title="Thin 2px colored divider line">Line 2px</button>
+                <button type="button" class="divider-btn" data-divider="6" title="6px colored divider line">Line 6px</button>
+                <button type="button" class="divider-btn" data-divider="16" title="16px spaced divider band">Gap 16px</button>
+                <button type="button" class="divider-btn" data-divider="32" title="32px wide spaced divider band">Gap 32px</button>
               </div>
               <div class="swatch-row" role="group" aria-label="Divider color">
                 <button type="button" class="swatch" data-color="#ffffff" style="background:#ffffff" title="White" aria-label="White"></button>
@@ -126,9 +126,10 @@ permalink: /apps/website-utils/tool1.html
           <button id="generate" type="button" class="btn btn-blue" style="margin-top:auto">Generate Collage</button>
         </div>
 
-        <div id="dropzone" class="dropzone" tabindex="0">
-          <p id="dropzoneText" class="drop-hint">Paste your images here or drag and drop image files to add them</p>
+        <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Add images: paste, drag and drop, or press Enter to browse">
+          <p id="dropzoneText" class="drop-hint">Paste images here, drag and drop files, or click to browse</p>
           <div id="grid" class="grid horizontal"></div>
+          <input type="file" id="fileInput" accept="image/*" multiple hidden />
         </div>
 
         <div id="result" class="result" hidden>
@@ -182,6 +183,7 @@ permalink: /apps/website-utils/tool1.html
         download: document.getElementById("download"),
         copy: document.getElementById("copy"),
         canvas: document.getElementById("canvas"),
+        fileInput: document.getElementById("fileInput"),
       };
 
       function showToast(message, type) {
@@ -302,13 +304,13 @@ permalink: /apps/website-utils/tool1.html
       el.dropzone.addEventListener("dragleave", function (e) {
         e.preventDefault(); e.stopPropagation();
         dropDepth--;
-        if (dropDepth <= 0) { dropDepth = 0; el.dropzone.classList.remove("over"); el.dropText.textContent = "Paste your images here or drag and drop image files to add them"; }
+        if (dropDepth <= 0) { dropDepth = 0; el.dropzone.classList.remove("over"); el.dropText.textContent = "Paste images here, drag and drop files, or click to browse"; }
       });
       el.dropzone.addEventListener("drop", function (e) {
         e.preventDefault(); e.stopPropagation();
         dropDepth = 0;
         el.dropzone.classList.remove("over");
-        el.dropText.textContent = "Paste your images here or drag and drop image files to add them";
+        el.dropText.textContent = "Paste images here, drag and drop files, or click to browse";
         var files = Array.prototype.filter.call(e.dataTransfer.files, function (f) { return f.type.startsWith("image"); });
         if (files.length === 0) {
           showToast("Please drop image files only.", "error");
@@ -317,6 +319,18 @@ permalink: /apps/website-utils/tool1.html
         }
       });
 
+      el.dropzone.addEventListener("click", function (e) {
+        if (e.target.closest && (e.target.closest("button") || e.target.closest("img") || e.target === el.fileInput)) return;
+        el.fileInput.click();
+      });
+      el.dropzone.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); el.fileInput.click(); }
+      });
+      el.fileInput.addEventListener("change", function () {
+        var files = Array.prototype.filter.call(el.fileInput.files, function (f) { return f.type.indexOf("image") === 0; });
+        files.forEach(function (f, idx) { readAsDataURL(f, idx); });
+        el.fileInput.value = "";
+      });
       el.dropzone.addEventListener("paste", function (e) {
         var items = Array.prototype.slice.call(e.clipboardData.items).filter(function (it) { return it.type.indexOf("image") === 0; });
         items.forEach(function (it, idx) {
@@ -324,6 +338,7 @@ permalink: /apps/website-utils/tool1.html
           if (f) addFile(f, idx);
         });
       });
+
 
       function readAsDataURL(file, idx) {
         var reader = new FileReader();
