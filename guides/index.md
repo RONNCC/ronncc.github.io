@@ -60,6 +60,7 @@ redirect_from: /places/
 .icon-coffee    { background: #fffbeb; border-color: #fef3c7; }
 .icon-civ       { background: #f8fafc; border-color: #e2e8f0; }
 .icon-fifa      { background: #f0fdf4; border-color: #dcfce7; }
+.icon-dvt       { background: #eef2ff; border-color: #e0e7ff; }
 
 .guide-row-content {
   flex-grow: 1;
@@ -238,6 +239,18 @@ redirect_from: /places/
         <span class="guide-badge-pill">Textbook</span>
       </div>
       <p class="guide-row-desc">Literary companion to the TERM Lab Park sim — five chapters, fifteen stations, chapter checks, plus beyond-the-line surveys mapped to Lanza et al.</p>
+    </div>
+    <div class="guide-row-arrow">&rarr;</div>
+  </a>
+
+  <a class="guide-row" href="{{ site.baseurl }}/apps/dvt-explainer/">
+    <div class="guide-icon-box icon-dvt">🦵</div>
+    <div class="guide-row-content">
+      <div class="guide-row-head">
+        <span class="guide-row-title">Deep Vein Thrombosis, Up Close</span>
+        <span class="guide-badge-pill">Interactive Explainer</span>
+      </div>
+      <p class="guide-row-desc">Twelve-plate anatomy of a calf clot — the veins it lives in, what ultrasound sees, the report phrases decoded, and how teams decide what to do. Sourced, plain-language, not medical advice.</p>
     </div>
     <div class="guide-row-arrow">&rarr;</div>
   </a>

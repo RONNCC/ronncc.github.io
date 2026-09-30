@@ -1,0 +1,16 @@
+{
+  "name": "dvt-explainer-qa",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DOM-level regression checks and plate rasteriser for apps/dvt-explainer",
+  "scripts": {
+    "test": "node dom-test.js",
+    "render": "node render-plates.mjs",
+    "gallery": "node plate-gallery.mjs",
+    "check": "npm run test"
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "jsdom": "^24.0.0"
+  }
+}
