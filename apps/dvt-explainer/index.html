@@ -353,7 +353,7 @@ permalink: /apps/dvt-explainer/
             can switch on and off.</p>
           </div>
           <div class="measure-panel">
-            <p class="sym-note" id="sym-note"></p>
+            <p class="sym-note" id="sym-note" aria-live="polite"></p>
             <label class="measure-label" for="swell-slider">Calf circumference — dial in the difference</label>
             <input type="range" id="swell-slider" min="0" max="6" step="0.5" value="3"
                    aria-describedby="swell-readout" />
@@ -466,7 +466,7 @@ permalink: /apps/dvt-explainer/
                 <button type="button" class="btn btn--press" id="us-press-hold">Hold to press</button>
                 <button type="button" class="btn btn--ghost" id="us-release">Release</button>
               </div>
-              <p class="us-lumen"><span>Lumen area</span> <b id="us-lumen">100%</b></p>
+              <p class="us-lumen" aria-live="polite"><span>Lumen area</span> <b id="us-lumen">100%</b></p>
             </div>
             <div class="us-verdict" id="us-verdict" aria-live="polite"></div>
             <div class="us-legend" id="us-legend"></div>
@@ -1023,7 +1023,7 @@ permalink: /apps/dvt-explainer/
           <label for="glossary-filter">Filter terms</label>
           <input type="search" id="glossary-filter" placeholder="clot, calf, test, DOAC…"
                  autocomplete="off" />
-          <span class="glossary-status" id="glossary-status"></span>
+          <span class="glossary-status" id="glossary-status" aria-live="polite"></span>
         </div>
         <div class="plate-stage plate-stage--glossary" data-figure="glossary">
           <p class="fig-fallback">Enable JavaScript for the glossary.</p>
@@ -1034,6 +1034,12 @@ permalink: /apps/dvt-explainer/
           definition.</span>
         </figcaption>
       </figure>
+
+      <div class="print-only" id="print-decoder" aria-hidden="true">
+        <h3>Appendix — the decoder, on paper</h3>
+        <p>Every phrase on this page with its translation and the question worth asking,
+          so the printed copy is still useful in the room.</p>
+      </div>
 
       <nav class="chapter-nav" aria-label="Chapter navigation">
         <a class="prev" href="#s-help"><span aria-hidden="true">←</span> What helps</a>

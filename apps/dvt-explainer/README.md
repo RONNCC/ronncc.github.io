@@ -36,6 +36,21 @@ node apps/dvt-explainer/dev-server.js 8080
 | 11 | Report decoder | Picks a phrase — or pastes their own report — and reads what it means plus the question worth asking; vessel names jump back to Fig. 2 |
 | 12 | Glossary | Filters thirty terms by word or by definition |
 
+## Reading it out loud, printing, or tabbing through it
+
+- **Screen readers.** Every plate root carries an `aria-label` describing what it shows; the
+  interactive plates (the vein map, Virchow's triad) expose their parts as buttons and declare
+  `role="group"` rather than `role="img"`, which would have made the whole subtree presentational.
+  Every panel that updates (`#vein-panel`, `#scale-readout`, `#us-lumen`, `#tree-output`, …) is an
+  `aria-live` region, and selected vessels report `aria-pressed`.
+- **Keyboard.** Vessels and triad arms are focusable and respond to Enter and Space; the chip row
+  under the vein panel is rebuilt after each selection so there is always a way to move to another
+  vessel without hunting for the map.
+- **Print.** `styles.css` has a print block built for the appointment: controls disappear, plates
+  keep their content, source entries print their URLs, and the decoder is restated as an appendix
+  (`Fig.decoderSheet()`) of every phrase, its translation and its question — the part of the page
+  that is most useful on paper.
+
 ## Files
 
 - `index.html` — the page shell: prose, chapter structure, plate markup, front matter.
@@ -64,8 +79,13 @@ the pump caption bug were caught.
 
 ```sh
 cd scripts/dvt-explainer-qa && npm ci && npm test
-npm run render   # artifacts/*.png, gitignored
+npm run render    # artifacts/*.png, gitignored
+npm run gallery   # artifacts/plate-gallery.html — every plate state on one page
 ```
+
+The gallery is the review surface: all 28 plate states reassembled with the app's own stylesheet,
+readable in a browser (the dev server will serve it at
+`/scripts/dvt-explainer-qa/artifacts/plate-gallery.html`) or printed.
 
 `smoke-test.js` runs without a browser and verifies:
 
@@ -82,6 +102,8 @@ npm run render   # artifacts/*.png, gitignored
    every category has enough phrases to be worth a tab.
 6. **Self-contained figures** — a figure whose styling depends on its mode (the pump) must emit
    that state itself, and the decoder/glossary plates only use classes that exist in `styles.css`.
+7. **Accessibility** — every plate names itself, focusable plates do not claim to be a single
+   image, and the printed appendix restates all 38 phrases with their questions.
 
 ## Editorial policy
 
@@ -100,6 +122,9 @@ npm run render   # artifacts/*.png, gitignored
 - **Nothing is uploaded.** The report decoder matches phrases in the browser; the page says so next
   to the box, and the plate carries the same "a decoder cannot read your scan" caveat as the rest
   of the page.
+- **Reachable without a mouse.** The plates are the content, so they are labelled for screen
+  readers, operable from the keyboard, and legible in print — including a paper version of the
+  decoder for the appointment itself.
 - **Numbers are rounded and attributed.** 8–15% proximal extension, ~50% of DVTs asymptomatic,
   900,000 VTE events a year in the US, one third to one half developing post-thrombotic
   complications, 40–60% of calf venous volume ejected per contraction.

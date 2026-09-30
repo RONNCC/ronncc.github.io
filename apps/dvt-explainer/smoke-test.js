@@ -182,7 +182,8 @@ const plates = {
   glossary: [
     ['glossary/all', Fig.glossary({})],
     ['glossary/filtered', Fig.glossary({ query: 'clot' })],
-    ['glossary/no-matches', Fig.glossary({ query: 'zzz' })]
+    ['glossary/no-matches', Fig.glossary({ query: 'zzz' })],
+    ['decoder/sheet', Fig.decoderSheet()]
   ]
 };
 
@@ -474,6 +475,54 @@ check('the decoder and glossary plates only use styled classes', () => {
   classes.forEach((c) => {
     assert(css.includes('.' + c), 'class "' + c + '" is not styled in styles.css');
   });
+});
+
+check('every figure names itself for a screen reader', () => {
+  Object.keys(plates).forEach((name) => {
+    if (name === 'decoder' || name === 'glossary' || name === 'timeline') return;
+    plates[name].forEach(([label, markup]) => {
+      const root = markup.slice(0, markup.indexOf('>') + 1);
+      const label_ = (root.match(/aria-label="([^"]*)"/) || [])[1];
+      assert(label_, label + ' has no aria-label on its root');
+      assert(label_.length > 25, label + ' aria-label is too thin: ' + label_);
+      assert(!/undefined|NaN/.test(label_), label + ' aria-label contains undefined/NaN');
+    });
+  });
+});
+
+check('plates with focusable children are not role="img"', () => {
+  // role="img" makes the subtree presentational, which would hide the
+  // clickable vessels and triad arms from assistive technology.
+  ['calfVeins', 'triad'].forEach((name) => {
+    plates[name].forEach(([label, markup]) => {
+      const root = markup.slice(0, markup.indexOf('>') + 1);
+      assert(/role="group"/.test(root), label + ' should be a group, not an image');
+      assert((markup.match(/role="button"/g) || []).length >= 3,
+        label + ' should expose its interactive parts as buttons');
+    });
+  });
+  ['scale', 'legs', 'ultrasound', 'embolus', 'pump'].forEach((name) => {
+    plates[name].forEach(([label, markup]) => {
+      const root = markup.slice(0, markup.indexOf('>') + 1);
+      assert(/role="img"/.test(root), label + ' should announce itself as an image');
+      assert(!/role="button"/.test(markup), label + ' has focusable children but claims to be an image');
+    });
+  });
+});
+
+check('the printed decoder appendix carries every phrase', () => {
+  const sheet = Fig.decoderSheet();
+  Data.reportPhrases.forEach((p) => {
+    assert(sheet.includes(p.term), 'appendix is missing "' + p.term + '"');
+    assert(sheet.includes(p.ask), 'appendix is missing the question for ' + p.id);
+  });
+  Data.reportCategories.forEach((c) => {
+    assert(sheet.includes(c.label), 'appendix is missing the "' + c.label + '" group');
+  });
+  const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
+  assert(/\.print-only\s*\{[^}]*display:\s*none/.test(css), '.print-only must be hidden on screen');
+  assert(/@media print[\s\S]*\.print-only\s*\{[^}]*display:\s*block/.test(css),
+    'and shown when printing');
 });
 
 /* ---------- summary ---------- */

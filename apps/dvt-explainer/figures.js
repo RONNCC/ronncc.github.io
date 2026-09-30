@@ -18,13 +18,41 @@
       .replace(/"/g, '&quot;');
   }
 
+  /* SVG attribute names are case-sensitive and hyphenated, so `textAnchor`
+   * is simply ignored by the renderer. Anything written in camelCase has to
+   * be translated on the way out; viewBox and preserveAspectRatio are the
+   * two that really are camelCase and are passed through untouched. */
+  var ATTR_CASE = {
+    textAnchor: 'text-anchor',
+    strokeWidth: 'stroke-width',
+    strokeLinecap: 'stroke-linecap',
+    strokeLinejoin: 'stroke-linejoin',
+    strokeDasharray: 'stroke-dasharray',
+    strokeDashoffset: 'stroke-dashoffset',
+    strokeOpacity: 'stroke-opacity',
+    fillOpacity: 'fill-opacity',
+    fillRule: 'fill-rule',
+    fontFamily: 'font-family',
+    fontSize: 'font-size',
+    fontWeight: 'font-weight',
+    fontStyle: 'font-style',
+    letterSpacing: 'letter-spacing',
+    dominantBaseline: 'dominant-baseline',
+    pointerEvents: 'pointer-events',
+    vectorEffect: 'vector-effect',
+    stopColor: 'stop-color',
+    stopOpacity: 'stop-opacity',
+    clipPath_attr: 'clip-path'
+  };
+
   function attrs(map) {
     var out = '';
     for (var key in map) {
       if (!Object.prototype.hasOwnProperty.call(map, key)) continue;
       var value = map[key];
       if (value === undefined || value === null || value === false) continue;
-      out += ' ' + key + '="' + esc(value) + '"';
+      var name = ATTR_CASE[key] || key;
+      out += ' ' + name + '="' + esc(value) + '"';
     }
     return out;
   }
@@ -422,10 +450,16 @@
 
   function buildScale(index) {
     var scenes = [scaleLegScene, scaleSliceScene, scaleVeinScene, scaleValveScene];
+    var names = [
+      'A whole calf, with the clot drawn actual size in the deep veins',
+      'A cross-section slice through the calf, showing muscle, bone and the deep veins',
+      'One deep vein opened up, with a clot forming against the wall',
+      'A single venous valve pocket, where a clot begins'
+    ];
     var i = Math.max(0, Math.min(scenes.length - 1, index || 0));
     return svg('0 0 560 400', 'fig-scale', [
       group({ 'class': 'v-scene', 'data-scene': i }, scenes[i]())
-    ].join(''));
+    ].join(''), { 'aria-label': 'Scale explorer, step ' + (i + 1) + ' of 4: ' + names[i] });
   }
 
   /* ==================================================================
@@ -549,7 +583,7 @@
       ]),
       textBlock(258, 730, ['Posterior view. Vein positions are schematic.'],
         { cls: 'v-fig-footnote' })
-    ].join(''));
+    ].join(''), { role: 'group', 'aria-label': 'Veins of the calf. Nine vessels are selectable: the popliteal, posterior tibial, peroneal, soleal sinus, gastrocnemius, anterior tibial and deep femoral veins plus the great and small saphenous veins' + (s.zones ? ', with the proximal and distal halves of the calf shaded' : '') + '.' });
   }
 
   /* ==================================================================
@@ -668,7 +702,7 @@
         'the bony bump under the kneecap. Schematic, not to scale:',
         'sizes are exaggerated so the difference is visible.'],
       { cls: 'v-fig-footnote', lh: 16 })
-    ].join(''));
+    ].join(''), { 'aria-label': 'Both calves side by side, comparing the affected leg with the other one. The affected calf is swollen by ' + diff.toFixed(1) + ' cm' + (active.length ? ' and ' + active.length + ' symptom findings are highlighted' : '') + '.' });
   }
 
   /* ==================================================================
@@ -822,8 +856,11 @@
       art.push(path('M 326 152 C 316 200, 250 206, 236 220 L 236 430', { 'class': 'v-us-veinwall v-us-veinwall--long' }));
       art.push(txt(300, 96, 'popliteal vein', { 'class': 'v-us-vessel-label' }));
       art.push(txt(300, 112, 'proximal', { 'class': 'v-us-vessel-label v-us-vessel-label--sub' }));
-      art.push(txt(360, 424, 'peroneal', { 'class': 'v-us-vessel-label v-us-vessel-label--sub' }));
-      art.push(txt(214, 424, 'post. tibial', { 'class': 'v-us-vessel-label v-us-vessel-label--sub' }));
+      /* Both labels sit under the end of their own vein: at 424 they were
+       * struck through by the vein wall they name, which is the one piece
+       * of this plate a reader is most likely to be reading. */
+      art.push(txt(336, 440, 'peroneal', { 'class': 'v-us-vessel-label v-us-vessel-label--sub' }));
+      art.push(txt(236, 440, 'post. tibial', { 'class': 'v-us-vessel-label v-us-vessel-label--sub' }));
       art.push(line(20, 168, 586, 168, { 'class': 'v-us-boundary' }));
       if (s.patient === 'dvt') {
         art.push(path('M 340 214 C 366 260, 368 340, 358 400 C 352 424, 344 430, 338 430 '
@@ -881,7 +918,7 @@
         group({ 'class': 'v-us-annotations' + (s.labels === false ? ' is-hidden' : '') }, annotations.join(''))
       ].join('')),
       usProbe(s.pressure) // drawn above the screen edge on purpose
-    ].join(''));
+    ].join(''), { 'aria-label': 'Ultrasound screen showing a ' + (s.patient === 'normal' ? 'normal, healthy vein' : 'vein containing a clot') + ' in ' + (s.view === 'long' ? 'longitudinal' : 'transverse') + ' view' + (s.doppler ? ' with colour Doppler flow' : '') + '.' });
   }
 
   /* ==================================================================
@@ -935,7 +972,7 @@
         textBlock(n.x, n.y + 68, n.label, { cls: 'tri-node-label', lh: 14 })
       ]));
     });
-    return svg('0 0 440 420', 'fig-triad', out.join(''));
+    return svg('0 0 440 420', 'fig-triad', out.join(''), { role: 'group', 'aria-label': 'Virchow\'s triad: three circles labelled stasis, endothelial injury and hypercoagulability, joined by edges that light up when a risk factor pulls on two arms.' });
   }
 
   /* ==================================================================
@@ -1054,7 +1091,7 @@
         circle(0, 0, 15, { 'class': 'emb-dot-glow' }),
         circle(0, 0, 7, { 'class': 'emb-dot' })
       ])
-    ].join(''));
+    ].join(''), { 'aria-label': 'A clot travelling from a calf vein up the deep veins towards the lungs, drawn as a route in six steps. Step ' + ((s.step || 0) + 1) + ' of 6 is highlighted.' });
   }
 
   /* ==================================================================
@@ -1166,7 +1203,11 @@
         leader(302, 330, 406, 306, ['calf muscle'], { dir: 1, cls: 'v-leader' }),
         leader(PUMP.rightX - 3, 404, 406, 396, ['one-way valves'], { dir: 1, cls: 'v-leader' })
       ])
-    ].join(''), { 'data-mode': mode });
+    ].join(''), {
+      'data-mode': mode,
+      'aria-label': 'Calf muscle pump drawn as two deep veins inside the calf, with '
+        + (mode === 'still' ? 'the muscle relaxed and flow stagnant' : 'the muscle squeezing and blood moving upward') + '.'
+    });
   }
 
   /* ==================================================================
@@ -1242,6 +1283,22 @@
       + (category ? '<p class="decode-hint">' + esc(category.hint) + '</p>' : '');
   }
 
+  /* Printed pages cannot be clicked, so the decoder travels to the
+   * appointment on paper: every phrase, its translation and its question. */
+  function buildDecoderSheet() {
+    var data = window.DVTData;
+    return data.reportCategories.map(function (category) {
+      var items = data.reportPhrases.filter(function (p) { return p.category === category.id; });
+      return '<section class="sheet-group"><h4>' + esc(category.label) + '</h4><dl>'
+        + items.map(function (p) {
+          return '<div class="sheet-entry"><dt>' + esc(p.term) + '</dt>'
+            + '<dd>' + esc(p.plain)
+            + (p.ask ? '<span class="sheet-ask">Ask: ' + esc(p.ask) + '</span>' : '')
+            + '</dd></div>';
+        }).join('') + '</dl></section>';
+    }).join('');
+  }
+
   function buildGlossary(state) {
     var s = state || {};
     var data = window.DVTData;
@@ -1281,6 +1338,7 @@
     pump: buildPump,
     decoder: buildDecoder,
     decoderChips: buildDecoderChips,
+    decoderSheet: buildDecoderSheet,
     glossary: buildGlossary,
     /* shared geometry, exported for app.js and the smoke test */
     helpers: {

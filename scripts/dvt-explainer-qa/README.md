@@ -7,8 +7,9 @@ markup with no DOM at all.
 ```sh
 cd scripts/dvt-explainer-qa
 npm ci
-npm test      # 40 DOM checks
-npm run render   # optional: rasterise every plate to artifacts/*.png
+npm test         # 39 DOM checks
+npm run render   # optional: rasterise every plate state to artifacts/*.png
+npm run gallery  # optional: every plate on one reviewable page
 ```
 
 ## What `npm test` covers
@@ -33,6 +34,9 @@ the way a reader would.
 - **Chrome** — every table-of-contents link resolves to a chapter, and no
   `jsdomError`, `console.error` or uncaught window error is raised during the
   entire run.
+- **Accessibility & print** — every plate has an accessible name, focusable
+  plates are groups rather than images, every updating panel is a live region,
+  and the printed appendix restates all 38 phrases with their questions.
 
 `npm run render` writes PNGs to `artifacts/` (gitignored). It resolves the CSS
 custom properties from `styles.css` first, because resvg does not evaluate

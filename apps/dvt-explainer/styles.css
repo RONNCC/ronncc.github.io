@@ -1054,6 +1054,14 @@ figcaption {
 .gloss-entry dd { margin: .2em 0 0; font-size: .86rem; color: var(--ink-2); }
 .gloss-none { font-size: .9rem; color: var(--ink-3); }
 
+/* the chip row reappears under a selected vessel so the reader can keep
+ * switching without going back to the map */
+.chip-row--switch { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--rule); }
+.panel-hint-kbd { color: var(--ink-3); }
+
+/* on-paper decoder appendix: hidden on screen, filled by app.js */
+.print-only { font-size: .9rem; }
+
 @media (max-width: 1000px) {
   .plate-stage--tall { min-height: 300px; }
   .plate-stage--us { min-height: 240px; }
@@ -1124,10 +1132,44 @@ figcaption {
   .v-scene { animation: none; }
 }
 
+/* The printed page is a different reader: no hover, no clicks, no colour
+ * Doppler. Keep the teaching content, drop the controls, and give the
+ * decoder a paper appendix so the phrases survive the trip to an
+ * appointment. */
+.print-only { display: none; }
+
 @media print {
-  .readbar, .toc, .plate-toolbar, .skip-link, .tree-form, .wells-list, .site-foot { display: none; }
-  .shell { display: block; padding: 0; }
-  .plate { break-inside: avoid; box-shadow: none; }
-  body { background: #fff; font-size: 11pt; }
+  .readbar, .toc, .plate-toolbar, .skip-link, .tree-form, .wells-list, .site-foot,
+  .chapter-nav, .decoder-toolbar, .glossary-toolbar, .decode-scan, .decode-scan-row,
+  .plate-hint, .fig-fallback, .card-actions, button { display: none !important; }
+
+  .shell { display: block; padding: 0; max-width: none; }
+  body { background: #fff; font-size: 10.5pt; color: #000; }
+
+  h1, h2, h3 { break-after: avoid; }
+  .plate, figure, .callout, .gloss-entry, .sheet-entry { break-inside: avoid; }
+  .plate { box-shadow: none; border: 1px solid #bbb; margin: 18px 0; }
+  .plate-stage--tall, .plate-stage--us, .plate-stage--triad, .plate-stage--pump,
+  .plate--decoder .plate-stage--decode { min-height: 0; }
   .plate-panel, .tree-output, .wells-output { border: 1px solid #ccc; }
+
+  /* the appendix replaces the interactive decoder */
+  .print-only { display: block; }
+  #print-decoder { break-before: page; }
+  #print-decoder h3 { margin-top: 0; }
+  .sheet-group { break-inside: avoid; margin: 0 0 14px; }
+  .sheet-group h4 {
+    margin: 0 0 4px; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase;
+  }
+  .sheet-entry { display: flex; gap: 8px; margin: 0 0 6px; }
+  .sheet-entry dt { font-weight: 600; flex: 0 0 34%; }
+  .sheet-entry dd { margin: 0; }
+  .sheet-ask { display: block; font-style: italic; }
+
+  /* a printed source list is useless without its URLs */
+  .sources .source-link::after {
+    content: " — " attr(href);
+    font-size: .8rem; word-break: break-all; color: #444;
+  }
+  .source-link, .source-used { color: #000; }
 }

@@ -99,6 +99,32 @@ t('vein map exposes 9 vessels and 9 chips', () => {
   assert(doc.querySelectorAll('[data-vein-chip]').length === 9, 'expected 9 chips');
 });
 
+t('every plate names itself and marks its interactive parts', () => {
+  const svgs = Array.from(doc.querySelectorAll('.fig-svg'));
+  svgs.forEach((svg) => {
+    const name = svg.getAttribute('aria-label');
+    assert(name && name.length > 25, svg.getAttribute('class') + ' has no accessible name');
+  });
+  const veins = doc.querySelector('.fig-veins');
+  assert(veins.getAttribute('role') === 'group',
+    'the vein map must expose its buttons, not claim to be one image');
+  const tri = doc.querySelector('.fig-triad');
+  assert(tri.getAttribute('role') === 'group', 'the triad should be a group');
+  assert(doc.querySelectorAll('.fig-veins [role="button"]').length === 9, 'nine vessels, nine buttons');
+});
+
+t('output panels announce their updates', () => {
+  ['vein-panel', 'scale-readout', 'sym-note', 'triad-panel', 'emb-panel', 'pump-panel',
+    'tree-output', 'wells-output', 'glossary-status'].forEach((id) => {
+    const node = doc.getElementById(id);
+    assert(node, 'missing #' + id);
+    assert(node.getAttribute('aria-live') === 'polite',
+      '#' + id + ' should be a polite live region');
+  });
+  const lumen = doc.querySelector('.us-lumen');
+  assert(lumen.getAttribute('aria-live') === 'polite', 'the lumen percentage should be announced');
+});
+
 t('sources rendered with https links and annotations', () => {
   const links = doc.querySelectorAll('#source-list .source-link');
   assert(links.length >= 14, 'expected >= 14 sources, saw ' + links.length);
@@ -146,6 +172,18 @@ t('vein chip fills the panel and marks the vessel', () => {
   assert(doc.querySelector('#vein-panel').textContent.includes('Peroneal'), 'panel did not update');
   assert(doc.querySelector('.vein-group[data-vein="peroneal"]').classList.contains('is-selected'),
     'no selection class');
+  // selecting rebuilds the chip row, so re-query rather than holding a stale node
+  const chip = doc.querySelector('[data-vein-chip="peroneal"]');
+  assert(chip.getAttribute('aria-pressed') === 'true', 'chip should announce itself as selected');
+  // the chip row is the keyboard route to the other vessels, so it must
+  // survive a selection rather than leaving the reader at a dead end
+  assert(doc.querySelectorAll('[data-vein-chip]').length === 9,
+    'the chip row disappeared after selecting a vessel');
+  click(doc.querySelector('[data-vein-chip="popliteal"]'));
+  assert(doc.querySelector('#vein-panel').textContent.includes('Popliteal'),
+    'switching vessels straight from the chips failed');
+  assert(doc.querySelector('[data-vein-chip="peroneal"]').getAttribute('aria-pressed') === 'false',
+    'the old chip should have been released');
 });
 
 t('vein zone toggle hides and shows the proximal/distal layer', () => {
@@ -372,6 +410,16 @@ t('every phrase in the data can be decoded without throwing', () => {
  * glossary
  * ========================================================== */
 console.log('\nglossary');
+
+t('the printed appendix restates the whole decoder', () => {
+  const host = doc.querySelector('#print-decoder');
+  assert(host, 'no print appendix');
+  assert(host.getAttribute('aria-hidden') === 'true', 'the appendix must stay out of the a11y tree');
+  assert(host.querySelectorAll('.sheet-entry').length === 38,
+    'expected 38 phrases on paper, saw ' + host.querySelectorAll('.sheet-entry').length);
+  assert(host.querySelectorAll('.sheet-group').length === 5, 'expected 5 printed category groups');
+  assert(/Ask:/.test(host.textContent), 'each printed phrase should carry its question');
+});
 
 t('filter narrows the list and reports the count', () => {
   const total = doc.querySelectorAll('.gloss-entry').length;

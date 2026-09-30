@@ -89,22 +89,20 @@
       g.classList.toggle('is-selected', g.getAttribute('data-vein') === id);
     });
     $$('[data-vein-chip]').forEach(function (c) {
-      c.classList.toggle('is-selected', c.getAttribute('data-vein-chip') === id);
+      var on = c.getAttribute('data-vein-chip') === id;
+      c.classList.toggle('is-selected', on);
+      c.setAttribute('aria-pressed', String(on));
     });
   }
 
   function selectVein(id) {
-    state.veins.selected = id;
-    paintVein(id);
-    var chip = $('[data-vein-chip="' + id + '"]');
-    if (chip) chip.classList.add('is-selected');
     var vein = Data.veins.filter(function (v) { return v.id === id; })[0];
     var panel = $('#vein-panel');
     if (!vein || !panel) return;
-    var typeName = vein.typeLabel;
+    state.veins.selected = id;
     panel.innerHTML = [
       '<div class="panel-head">',
-      '<p class="panel-kicker">', typeName, '</p>',
+      '<p class="panel-kicker">', vein.typeLabel, '</p>',
       '<h4>', vein.name, '</h4>',
       '</div>',
       '<p class="panel-body">', vein.drains, '</p>',
@@ -113,9 +111,16 @@
       '<p>', vein.why, '</p>',
       '</div>',
       '<p class="panel-ask"><span>Ask your team</span>', vein.ask, '</p>',
-      '<p class="panel-hint panel-hint--small">Click another vein, or press '
-      + '<button type="button" class="linkish" data-vein-clear>clear</button>.</p>'
+      /* The chip row is the keyboard-and-screen-reader route to the other
+       * eight vessels, so it has to survive a selection: rebuild it here
+       * rather than leaving the reader with a dead end. */
+      '<div class="chip-row chip-row--switch" id="vein-chips"></div>',
+      '<p class="panel-hint panel-hint--small">Jump to another vessel, or press '
+      + '<button type="button" class="linkish" data-vein-clear>clear</button>.'
+      + ' <span class="panel-hint-kbd">Tab reaches these chips and every vessel on the plate.</span></p>'
     ].join('');
+    renderVeinChips();
+    paintVein(id);
   }
 
   function clearVein() {
@@ -574,6 +579,12 @@
     return stage;
   }
 
+  function renderDecoderSheet() {
+    var host = $('#print-decoder');
+    if (!host) return;
+    host.insertAdjacentHTML('beforeend', Fig.decoderSheet());
+  }
+
   function renderGlossary() {
     render('glossary', Fig.glossary({ query: state.glossary.query }));
     var status = $('#glossary-status');
@@ -1008,6 +1019,7 @@
     renderSourcesList();
     buildPump();
     renderDecoder();
+    renderDecoderSheet();
     renderGlossary();
     bind();
     initChrome();
