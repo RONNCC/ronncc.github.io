@@ -27,8 +27,8 @@ permalink: /apps/dvt-explainer/
     Different from the diagrams you get handed: you can poke at this one.
   </p>
   <ul class="masthead-meta">
-    <li><span>Reading time</span> ~18 min, or wander</li>
-    <li><span>Figures</span> 9 interactive plates</li>
+    <li><span>Reading time</span> ~22 min, or wander</li>
+    <li><span>Figures</span> 12 interactive plates</li>
     <li><span>Best on</span> a laptop or tablet</li>
   </ul>
   <p class="disclaimer-banner">
@@ -52,7 +52,8 @@ permalink: /apps/dvt-explainer/
         <li><a href="#s-next"><span>07</span> What could happen next</a></li>
         <li><a href="#s-management"><span>08</span> What your care team is weighing</a></li>
         <li><a href="#s-help"><span>09</span> What helps</a></li>
-        <li><a href="#s-sources"><span>10</span> Sources &amp; how to read them</a></li>
+        <li><a href="#s-report"><span>10</span> Reading your own report</a></li>
+        <li><a href="#s-sources"><span>11</span> Sources &amp; how to read them</a></li>
       </ol>
     </details>
     <p class="toc-hint">
@@ -334,7 +335,7 @@ permalink: /apps/dvt-explainer/
         walk, skin that's stretched and shiny.
       </p>
 
-      <figure class="plate plate--legs" id="fig-legs">
+      <figure class="plate" id="fig-legs">
         <div class="plate-toolbar plate-toolbar--wrap" role="group" aria-label="Symptoms to display">
           <span class="plate-toolbar-label">Show</span>
           <button type="button" class="pill" data-sym="swelling" aria-pressed="true">Swelling</button>
@@ -629,7 +630,7 @@ permalink: /apps/dvt-explainer/
         </li>
       </ol>
 
-      <figure class="plate plate--timeline">
+      <figure class="plate">
         <div class="plate-stage plate-stage--timeline" id="timeline-stage" data-figure="timeline">
           <p class="fig-fallback">A timeline of what typically happens over the first months after a
           calf DVT is diagnosed.</p>
@@ -651,14 +652,14 @@ permalink: /apps/dvt-explainer/
         aggressively.
       </p>
 
-      <figure class="plate plate--embolus" id="fig-embolus">
+      <figure class="plate" id="fig-embolus">
         <div class="plate-toolbar" role="group" aria-label="Embolism step controls">
           <button type="button" class="btn btn--primary" id="emb-play">Play the journey</button>
           <button type="button" class="pill pill--ghost" data-emb-step="-1" aria-label="Previous step">←</button>
           <button type="button" class="pill pill--ghost" data-emb-step="1" aria-label="Next step">→</button>
           <span class="plate-toolbar-label" id="emb-counter">Step 1 of 6</span>
         </div>
-        <div class="plate-split plate-split--embolus">
+        <div class="plate-split">
           <div class="plate-stage plate-stage--tall" data-figure="embolus">
             <p class="fig-fallback">An interactive tour of the venous route from the calf to the
             lungs.</p>
@@ -739,7 +740,7 @@ permalink: /apps/dvt-explainer/
         input into that decision, not a footnote.
       </p>
 
-      <figure class="plate plate--tree" id="fig-tree">
+      <figure class="plate" id="fig-tree">
         <div class="tree" id="tree">
           <form class="tree-form" id="tree-form" aria-label="Decision factors">
             <fieldset>
@@ -811,7 +812,7 @@ permalink: /apps/dvt-explainer/
         Because the plan you got was driven by it, it's worth seeing what your own picture scores.
       </p>
 
-      <figure class="plate plate--wells" id="fig-wells">
+      <figure class="plate" id="fig-wells">
         <div class="wells" id="wells">
           <fieldset class="wells-list" id="wells-list" aria-label="Wells score criteria">
             <p class="fig-fallback">Enable JavaScript to score these criteria.</p>
@@ -937,16 +938,115 @@ permalink: /apps/dvt-explainer/
 
       <nav class="chapter-nav" aria-label="Chapter navigation">
         <a class="prev" href="#s-management"><span aria-hidden="true">←</span> What your team is weighing</a>
+        <a class="next" href="#s-report">Next: reading your own report <span aria-hidden="true">→</span></a>
+      </nav>
+    </section>
+
+    <!-- ==================================================================
+         10 — READING YOUR OWN REPORT
+         ================================================================== -->
+    <section class="chapter" id="s-report" aria-labelledby="h-report">
+      <header class="chapter-head">
+        <p class="chapter-num">10</p>
+        <h2 id="h-report">Reading your own report</h2>
+      </header>
+
+      <p>
+        At some point you will be handed a page of phrases like
+        <em>"non-occlusive thrombus within the left peroneal veins, extending to within 1.5 cm of
+        the popliteal confluence"</em> and be expected to feel something about it. Reporting
+        language is compressed because it is written for other clinicians, not because it is
+        secret. Below is a decoder for the phrases you are most likely to meet — and a box you can
+        paste your own report into, which is decoded entirely on your device.
+      </p>
+
+      <div class="callout callout--calm">
+        <p class="callout-title">Before you decode anything</p>
+        <p>
+          A decoder explains what a phrase means <em>in general</em>. It cannot read your scan, and
+          it does not know your history, your other conditions or your bleeding risk. Use it to
+          arrive at your appointment with better questions — not to reach a conclusion on your own.
+        </p>
+      </div>
+
+      <figure class="plate plate--decoder" id="fig-decoder">
+        <div class="decoder-toolbar" role="group" aria-label="Decoder categories">
+          <span class="plate-toolbar-label">Phrases about</span>
+          <button type="button" class="pill" data-decode-tab="location" aria-pressed="true">Where it is</button>
+          <button type="button" class="pill" data-decode-tab="extent" aria-pressed="false">How much of it</button>
+          <button type="button" class="pill" data-decode-tab="character" aria-pressed="false">What it looks like</button>
+          <button type="button" class="pill" data-decode-tab="tests" aria-pressed="false">Tests and numbers</button>
+          <button type="button" class="pill" data-decode-tab="plan" aria-pressed="false">The plan</button>
+        </div>
+
+        <div class="decode-scan">
+          <label class="decode-scan-label" for="decode-input">
+            Paste the text of your report (optional)
+          </label>
+          <textarea id="decode-input" rows="5" spellcheck="false"
+            placeholder="e.g. Acute non-occlusive thrombus in the left peroneal and posterior tibial veins, extending to within 2 cm of the popliteal vein. No extension on repeat scan."></textarea>
+          <div class="decode-scan-row">
+            <p class="decode-privacy">
+              <b>Nothing is uploaded.</b> The decoding happens in your browser only — no text is
+              sent anywhere, and nothing is stored.
+            </p>
+            <button type="button" class="btn btn--ghost" id="decode-clear">Clear</button>
+          </div>
+          <p class="decode-scan-status" id="decode-scan-status" role="status" aria-live="polite">
+            Nothing pasted yet — your text never leaves this page.
+          </p>
+        </div>
+
+        <div class="plate-split plate-split--decoder">
+          <div class="plate-panel plate-panel--decode" id="decode-chips"></div>
+          <div class="plate-stage plate-stage--decode" data-figure="decoder">
+            <p class="fig-fallback">Enable JavaScript to decode report phrases.</p>
+          </div>
+        </div>
+
+        <figcaption>
+          <span class="fig-num">Fig. 11</span>
+          <span class="fig-cap">A decoder for ultrasound and clinic language. Where a phrase names
+          a vessel, the link jumps back to <a href="#fig-veins">Fig. 2</a> and selects it on the
+          anatomy map.</span>
+        </figcaption>
+      </figure>
+
+      <h3>Terms, in one line each</h3>
+      <p>
+        The same vocabulary, stripped of context, for when you just need to know what a word
+        means.
+      </p>
+
+      <figure class="plate plate--glossary" id="fig-glossary">
+        <div class="glossary-toolbar">
+          <label for="glossary-filter">Filter terms</label>
+          <input type="search" id="glossary-filter" placeholder="clot, calf, test, DOAC…"
+                 autocomplete="off" />
+          <span class="glossary-status" id="glossary-status"></span>
+        </div>
+        <div class="plate-stage plate-stage--glossary" data-figure="glossary">
+          <p class="fig-fallback">Enable JavaScript for the glossary.</p>
+        </div>
+        <figcaption>
+          <span class="fig-num">Fig. 12</span>
+          <span class="fig-cap">Thirty terms, grouped. Filtering searches both the term and its
+          definition.</span>
+        </figcaption>
+      </figure>
+
+      <nav class="chapter-nav" aria-label="Chapter navigation">
+        <a class="prev" href="#s-help"><span aria-hidden="true">←</span> What helps</a>
         <a class="next" href="#s-sources">Next: sources <span aria-hidden="true">→</span></a>
       </nav>
     </section>
 
     <!-- ==================================================================
-         10 — SOURCES
+         11 — SOURCES
          ================================================================== -->
     <section class="chapter" id="s-sources" aria-labelledby="h-sources">
       <header class="chapter-head">
-        <p class="chapter-num">10</p>
+        <p class="chapter-num">11</p>
         <h2 id="h-sources">Sources &amp; how to read them</h2>
       </header>
 

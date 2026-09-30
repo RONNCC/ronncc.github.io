@@ -87,14 +87,21 @@
     return el('g', map, children);
   }
 
-  function svg(viewBox, className, children) {
-    return el('svg', {
+  function svg(viewBox, className, children, attrs) {
+    var root = {
       viewBox: viewBox,
       'class': 'fig-svg ' + (className || ''),
       role: 'img',
       xmlns: 'http://www.w3.org/2000/svg',
       preserveAspectRatio: 'xMidYMid meet'
-    }, children);
+    };
+    /* Some figures are styled off their own root state (the pump's
+     * still/walking caption), so a builder has to emit that state itself
+     * rather than relying on app.js to set it after the fact. */
+    if (attrs) {
+      Object.keys(attrs).forEach(function (key) { root[key] = attrs[key]; });
+    }
+    return el('svg', root, children);
   }
 
   /* Callout used all over the plates: dot + elbow + text.
@@ -1141,10 +1148,14 @@
           ])
         ]),
 
-        // low-oxygen caption, shown in "sitting still"
+        // low-oxygen caption, shown in "sitting still"; anchored to the vein
+        // with its own leader so it reads as a callout rather than floating
+        // in the margin
         group({ 'class': 'pump-o2' }, [
-          txt(cx + 108, 520, 'O₂ ↓', { 'class': 'pump-o2-tag' }),
-          txt(cx + 108, 538, 'stagnant', { 'class': 'pump-o2-tag pump-o2-tag--sub' })
+          path('M ' + (PUMP.rightX + 4) + ' 520 L 352 520 L 361 520', { 'class': 'v-leader-line' }),
+          circle(PUMP.rightX + 4, 520, 3.2, { 'class': 'v-leader-dot' }),
+          txt(368, 516, 'O₂ ↓', { 'class': 'pump-o2-tag' }),
+          txt(368, 534, 'stagnant', { 'class': 'pump-o2-tag pump-o2-tag--sub' })
         ])
       ]),
       txt(cx, 44, mode === 'still' ? 'Sitting still' : 'Walking', { 'class': 'pump-mode-title' }),
@@ -1155,7 +1166,104 @@
         leader(302, 330, 406, 306, ['calf muscle'], { dir: 1, cls: 'v-leader' }),
         leader(PUMP.rightX - 3, 404, 406, 396, ['one-way valves'], { dir: 1, cls: 'v-leader' })
       ])
-    ].join(''));
+    ].join(''), { 'data-mode': mode });
+  }
+
+  /* ==================================================================
+   * 9. Fig. 11 — report decoder, and Fig. 12 — glossary (HTML plates)
+   * ================================================================== */
+
+  var decoderCardHtml = function (entry) {
+    var category = (window.DVTData.reportCategories || []).filter(function (c) {
+      return c.id === entry.category;
+    })[0];
+    return '<div class="decode-card decode-card--' + esc(entry.tone || 'neutral') + '">'
+      + '<p class="decode-kicker">' + esc(category ? category.label : '') + '</p>'
+      + '<h4 class="decode-term">' + esc(entry.term) + '</h4>'
+      + '<p class="decode-plain">' + esc(entry.plain) + '</p>'
+      + (entry.ask ? '<p class="decode-ask"><span>Ask</span>' + esc(entry.ask) + '</p>' : '')
+      + ((entry.veins && entry.veins.length)
+        ? '<p class="decode-link">On the map: '
+          + entry.veins.map(function (id) {
+            var vein = (window.DVTData.veins || []).filter(function (v) { return v.id === id; })[0];
+            if (!vein) return '';
+            return '<button type="button" class="linkish" data-vein-link="' + esc(id) + '">'
+              + esc(vein.name) + '</button>';
+          }).filter(Boolean).join(', ')
+          + '</p>'
+        : '')
+      + '</div>';
+  };
+
+  function buildDecoder(state) {
+    var s = state || {};
+    var data = window.DVTData;
+    var selected = s.selected || null;
+    var matches = s.matches || null;
+    return [
+      s.entry ? decoderCardHtml(s.entry) : [
+        '<div class="decode-empty">',
+        '<p class="decode-empty-title">Pick a phrase — or paste your report</p>',
+        '<p>Reporting language is terse by design. Every phrase below is one you may find in an '
+        + 'ultrasound report or a clinic letter, translated into what it actually means and the '
+        + 'question worth asking about it.</p>',
+        '</div>'
+      ].join(''),
+      matches ? decoderMatchesHtml(matches) : '',
+      '<p class="decode-note">' + esc(data.reportNumberNote.title) + '. '
+        + esc(data.reportNumberNote.body) + '</p>'
+    ].join('');
+  }
+
+  var decoderMatchesHtml = function (matches) {
+    if (!matches.length) {
+      return '<div class="decode-none"><p><b>No phrases from this list were recognised.</b> '
+        + 'That does not mean anything is wrong with your report — it may just be worded '
+        + 'differently. Try the phrase list, or bring the report to your appointment and go '
+        + 'through it line by line.</p></div>';
+    }
+    return '<div class="decode-results"><p class="decode-results-title">Recognised '
+      + matches.length + ' phrase' + (matches.length === 1 ? '' : 's') + ' in your text:</p>'
+      + '<ul>' + matches.map(function (entry) {
+        return '<li><b>' + esc(entry.term) + '</b> — ' + esc(entry.plain) + '</li>';
+      }).join('') + '</ul></div>';
+  };
+
+  function buildDecoderChips(state) {
+    var s = state || {};
+    var data = window.DVTData;
+    var active = s.category || data.reportCategories[0].id;
+    var category = data.reportCategories.filter(function (c) { return c.id === active; })[0];
+    var items = data.reportPhrases.filter(function (p) { return p.category === active; });
+    return '<div class="decode-chips">' + items.map(function (p) {
+      return '<button type="button" class="pill" data-decode="' + esc(p.id) + '">'
+        + esc(p.term) + '</button>';
+    }).join('') + '</div>'
+      + (category ? '<p class="decode-hint">' + esc(category.hint) + '</p>' : '');
+  }
+
+  function buildGlossary(state) {
+    var s = state || {};
+    var data = window.DVTData;
+    var query = (s.query || '').trim().toLowerCase();
+    var terms = data.glossary.filter(function (item) {
+      if (!query) return true;
+      return (item.term + ' ' + item.def).toLowerCase().indexOf(query) !== -1;
+    });
+    if (!terms.length) {
+      return '<p class="gloss-none">Nothing matches <b>' + esc(s.query) + '</b>. '
+        + 'Try a shorter word — "clot", "calf", "test" — or look the whole phrase up in '
+        + 'the decoder above, which covers the wording reports actually use.</p>';
+    }
+    return data.glossaryGroups.map(function (group) {
+      var items = terms.filter(function (t) { return t.group === group.id; });
+      if (!items.length) return '';
+      return '<section class="gloss-group"><h4>' + esc(group.label) + '</h4><dl>'
+        + items.map(function (t) {
+          return '<div class="gloss-entry" data-gloss="' + esc(t.term) + '">'
+            + '<dt>' + esc(t.term) + '</dt><dd>' + esc(t.def) + '</dd></div>';
+        }).join('') + '</dl></section>';
+    }).join('');
   }
 
   /* ==================================================================
@@ -1171,6 +1279,9 @@
     timeline: buildTimeline,
     embolus: buildEmbolus,
     pump: buildPump,
+    decoder: buildDecoder,
+    decoderChips: buildDecoderChips,
+    glossary: buildGlossary,
     /* shared geometry, exported for app.js and the smoke test */
     helpers: {
       legOutline: legOutline,

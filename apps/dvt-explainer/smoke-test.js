@@ -170,16 +170,32 @@ const plates = {
   triad: [['triad', Fig.triad({ active: 'stasis' })]],
   timeline: [['timeline', Fig.timeline()]],
   embolus: Data.embolusSteps.map((s, i) => ['embolus[' + i + ']', Fig.embolus({ step: i })]),
-  pump: [['pump/walk', Fig.pump({ mode: 'walk' })], ['pump/still', Fig.pump({ mode: 'still' })]]
+  pump: [['pump/walk', Fig.pump({ mode: 'walk' })], ['pump/still', Fig.pump({ mode: 'still' })]],
+  decoder: [
+    ['decoder/empty', Fig.decoder({})],
+    ['decoder/entry', Fig.decoder({ entry: Data.reportPhrases[0] })],
+    ['decoder/entry+vessels', Fig.decoder({ entry: Data.reportPhrases.filter((p) => p.veins && p.veins.length)[0] })],
+    ['decoder/matches', Fig.decoder({ matches: Data.reportPhrases.slice(0, 4) })],
+    ['decoder/none', Fig.decoder({ matches: [] })],
+    ['decoder/chips', Fig.decoderChips({ category: 'location' })]
+  ],
+  glossary: [
+    ['glossary/all', Fig.glossary({})],
+    ['glossary/filtered', Fig.glossary({ query: 'clot' })],
+    ['glossary/no-matches', Fig.glossary({ query: 'zzz' })]
+  ]
 };
 
 console.log('\nfigures');
 Object.keys(plates).forEach((name) => {
   plates[name].forEach(([label, markup]) => {
     check(label + ' renders + parses', () => {
-      assert(typeof markup === 'string' && markup.length > 200, 'suspiciously small output');
+      const floor = (name === 'decoder' || name === 'glossary') ? 60 : 200;
+      assert(typeof markup === 'string' && markup.length > floor, 'suspiciously small output');
       if (name === 'timeline') {
         assert(markup.startsWith('<ol'), 'timeline should be an HTML list');
+      } else if (name === 'decoder' || name === 'glossary') {
+        assert(!markup.includes('<svg'), name + ' should be an HTML plate');
       } else {
         assert(markup.startsWith('<svg'), 'expected an <svg> root');
         assert(markup.includes('viewBox='), 'missing viewBox');
@@ -354,6 +370,109 @@ check('embolus segments are drawn from points on the route', () => {
       const onRoute = route.some((p) => Math.abs(p[0] - point[0]) < 0.001 && Math.abs(p[1] - point[1]) < 0.001);
       assert(onRoute, 'segment ' + id + ' uses a point off the route: ' + point.join(','));
     });
+  });
+});
+
+/* ---------- 6. report decoder data ---------- */
+
+check('every decoder phrase is complete and well-formed', () => {
+  assert(Data.reportPhrases.length >= 30, 'expected at least 30 phrases');
+  const ids = new Set();
+  const categories = new Set(Data.reportCategories.map((c) => c.id));
+  Data.reportPhrases.forEach((p) => {
+    assert(!ids.has(p.id), 'duplicate phrase id ' + p.id);
+    ids.add(p.id);
+    assert(categories.has(p.category), p.id + ' has unknown category ' + p.category);
+    assert(['neutral', 'info', 'watch', 'good'].includes(p.tone), p.id + ' has odd tone ' + p.tone);
+    assert(p.term && p.term.length > 2, p.id + ' needs a term');
+    assert(p.plain && p.plain.length > 40, p.id + ' needs a real explanation');
+    assert(p.ask && p.ask.length > 20, p.id + ' needs a question to ask');
+    assert(p.match && p.match.length, p.id + ' needs at least one match alias');
+    const seen = new Set();
+    p.match.forEach((alias) => {
+      assert(alias === alias.toLowerCase(), p.id + ' alias must be lowercase: ' + alias);
+      assert(alias.trim() === alias, p.id + ' alias has stray whitespace: ' + alias);
+      assert(!seen.has(alias), p.id + ' repeats the alias ' + alias);
+      assert(alias.length > 1, p.id + ' has a one-character alias');
+      seen.add(alias);
+    });
+  });
+});
+
+check('match aliases only ever point at one phrase', () => {
+  // Two entries claiming the same word would make the decoder's output depend
+  // on data order, which is exactly the kind of ambiguity the plate explains.
+  const owner = new Map();
+  Data.reportPhrases.forEach((p) => {
+    p.match.forEach((alias) => {
+      if (owner.has(alias)) {
+        throw new Error('alias "' + alias + '" is claimed by ' + owner.get(alias) + ' and ' + p.id);
+      }
+      owner.set(alias, p.id);
+    });
+  });
+});
+
+check('phrases that name vessels point at real vessels', () => {
+  const veinIds = new Set(Data.veins.map((v) => v.id));
+  Data.reportPhrases.forEach((p) => {
+    (p.veins || []).forEach((id) => {
+      assert(veinIds.has(id), p.id + ' links to unknown vein ' + id);
+    });
+  });
+  assert(Data.reportPhrases.some((p) => p.veins && p.veins.length),
+    'at least one phrase should cross-link to the anatomy map');
+});
+
+check('the decoder covers every category and warns about numbers', () => {
+  Data.reportCategories.forEach((c) => {
+    assert(c.label && c.hint, c.id + ' needs a label and a hint');
+    assert(Data.reportPhrases.filter((p) => p.category === c.id).length >= 5,
+      c.id + ' has too few phrases to be worth a tab');
+  });
+  assert(Data.reportNumberNote && Data.reportNumberNote.body.length > 60,
+    'the plate needs its "numbers need context" note');
+});
+
+check('glossary terms are grouped, unique and self-explaining', () => {
+  const groups = new Set(Data.glossaryGroups.map((g) => g.id));
+  assert(groups.size === Data.glossaryGroups.length, 'duplicate glossary group id');
+  const seen = new Set();
+  Data.glossary.forEach((t) => {
+    const key = t.term.toLowerCase();
+    assert(!seen.has(key), 'duplicate glossary term ' + t.term);
+    seen.add(key);
+    assert(groups.has(t.group), t.term + ' has unknown group ' + t.group);
+    assert(t.def && t.def.length > 30, t.term + ' needs a fuller definition');
+  });
+  Data.glossaryGroups.forEach((g) => {
+    assert(Data.glossary.some((t) => t.group === g.id), g.id + ' group is empty');
+  });
+});
+
+check('a stateful figure carries its own state, not just app.js', () => {
+  // The pump's still/walking caption is styled off the figure root, so the
+  // builder has to emit the attribute itself; relying on app.js to set it
+  // afterwards silently loses the caption anywhere the figure is rendered
+  // on its own.
+  assert(Fig.pump({ mode: 'still' }).includes('data-mode="still"'), 'pump/still must emit its mode');
+  assert(Fig.pump({ mode: 'walk' }).includes('data-mode="walk"'), 'pump/walk must emit its mode');
+});
+
+check('the decoder and glossary plates only use styled classes', () => {
+  const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
+  const markup = plates.decoder.concat(plates.glossary)
+    .map(([label, m]) => m)
+    .join('\n');
+  const classes = new Set();
+  let match;
+  const re = /class="([^"]+)"/g;
+  while ((match = re.exec(markup)) !== null) {
+    match[1].split(/\s+/).forEach((c) => classes.add(c));
+  }
+  assert(classes.size > 8, 'suspiciously few classes found');
+  classes.forEach((c) => {
+    assert(css.includes('.' + c), 'class "' + c + '" is not styled in styles.css');
   });
 });
 

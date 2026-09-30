@@ -25,7 +25,9 @@
     us: { patient: 'dvt', view: 'transverse', doppler: false, labels: true, pressure: 0 },
     triad: { active: null },
     emb: { step: 0, playing: false, distance: 0 },
-    pump: { mode: 'walk', speed: 1, steps: 0, fill: 0 }
+    pump: { mode: 'walk', speed: 1, steps: 0, fill: 0 },
+    decode: { category: 'location', selected: null, matches: null },
+    glossary: { query: '' }
   };
 
   var stages = {};
@@ -94,6 +96,8 @@
   function selectVein(id) {
     state.veins.selected = id;
     paintVein(id);
+    var chip = $('[data-vein-chip="' + id + '"]');
+    if (chip) chip.classList.add('is-selected');
     var vein = Data.veins.filter(function (v) { return v.id === id; })[0];
     var panel = $('#vein-panel');
     if (!vein || !panel) return;
@@ -507,7 +511,114 @@
    * 10. Sources
    * ================================================================== */
 
-  function renderSources() {
+  /* ==================================================================
+   * 11. Report decoder + glossary
+   * ================================================================== */
+
+  function escapeRe(text) {
+    return String(text).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  /* Whole-word alias matching, so "acute" does not fire inside "subacute"
+   * and "inr" does not fire inside "internal". */
+  function aliasPattern(alias) {
+    var escaped = escapeRe(alias).replace(/[\s-]+/g, '[\\s-]+');
+    return new RegExp('(^|[^\\w-])' + escaped + '(?![\\w-])', 'i');
+  }
+
+  var compiledPhrases = null;
+  function phrasePatterns() {
+    if (compiledPhrases) return compiledPhrases;
+    compiledPhrases = Data.reportPhrases.map(function (entry) {
+      return {
+        entry: entry,
+        patterns: (entry.match || []).map(aliasPattern)
+      };
+    });
+    return compiledPhrases;
+  }
+
+  function decodeText(text) {
+    var haystack = String(text || '');
+    if (!haystack.trim()) return [];
+    var found = [];
+    phrasePatterns().forEach(function (item) {
+      for (var i = 0; i < item.patterns.length; i++) {
+        var hit = item.patterns[i].exec(haystack);
+        if (hit) {
+          found.push({ entry: item.entry, at: hit.index });
+          return;
+        }
+      }
+    });
+    // order by where they first appear in the text
+    found.sort(function (a, b) { return a.at - b.at; });
+    return found.map(function (item) { return item.entry; });
+  }
+
+  function renderDecoder() {
+    var stage = render('decoder', Fig.decoder({
+      entry: state.decode.selected,
+      matches: state.decode.matches
+    }));
+    var chips = $('#decode-chips');
+    if (chips) chips.innerHTML = Fig.decoderChips({ category: state.decode.category });
+    $$('[data-decode-tab]').forEach(function (btn) {
+      btn.setAttribute('aria-pressed',
+        String(btn.getAttribute('data-decode-tab') === state.decode.category));
+    });
+    $$('[data-decode]').forEach(function (btn) {
+      btn.setAttribute('aria-pressed', String(
+        state.decode.selected && btn.getAttribute('data-decode') === state.decode.selected.id));
+    });
+    return stage;
+  }
+
+  function renderGlossary() {
+    render('glossary', Fig.glossary({ query: state.glossary.query }));
+    var status = $('#glossary-status');
+    if (status) {
+      var count = state.glossary.query
+        ? Data.glossary.filter(function (t) {
+          return (t.term + ' ' + t.def).toLowerCase().indexOf(state.glossary.query.toLowerCase()) !== -1;
+        }).length
+        : Data.glossary.length;
+      status.textContent = count + ' of ' + Data.glossary.length + ' terms';
+    }
+  }
+
+  function showDecode(id) {
+    var entry = Data.reportPhrases.filter(function (p) { return p.id === id; })[0];
+    if (!entry) return;
+    state.decode.selected = entry;
+    state.decode.category = entry.category;
+    state.decode.matches = null;
+    renderDecoder();
+    var card = $('#decoder [data-figure="decoder"] .decode-card');
+    if (card) card.setAttribute('tabindex', '-1');
+  }
+
+  function runScan() {
+    var box = $('#decode-input');
+    if (!box) return;
+    var text = box.value;
+    var matches = decodeText(text);
+    state.decode.matches = matches;
+    state.decode.selected = null;
+    renderDecoder();
+    var summary = $('#decode-scan-status');
+    if (summary) {
+      summary.textContent = !text.trim()
+        ? 'Nothing pasted yet — your text never leaves this page.'
+        : matches.length
+          ? 'Recognised ' + matches.length + ' phrase' + (matches.length === 1 ? '' : 's') + '.'
+          : 'No listed phrases recognised in that text.';
+    }
+    var results = $('#decoder .decode-results');
+    if (results) results.setAttribute('tabindex', '-1');
+  }
+
+  function renderSourcesList() {
     var host = $('#source-list');
     if (!host) return;
     host.innerHTML = Data.sources.map(function (s) {
@@ -519,7 +630,7 @@
   }
 
   /* ==================================================================
-   * 11. Calf pump
+   * 12. Calf pump
    * ================================================================== */
 
   var particles = [];
@@ -627,7 +738,7 @@
   }
 
   /* ==================================================================
-   * 12. Chrome: TOC spy, reading progress, keyboard
+   * 13. Chrome: TOC spy, reading progress, keyboard
    * ================================================================== */
 
   function initChrome() {
@@ -665,7 +776,7 @@
   }
 
   /* ==================================================================
-   * 13. Wiring
+   * 14. Wiring
    * ================================================================== */
 
   function bind() {
@@ -756,6 +867,28 @@
       // ---- pump ----
       var pumpMode = event.target.closest && event.target.closest('[data-pump-mode]');
       if (pumpMode) { setPumpMode(pumpMode.getAttribute('data-pump-mode')); return; }
+
+      // ---- report decoder ----
+      var tab = event.target.closest && event.target.closest('[data-decode-tab]');
+      if (tab) {
+        state.decode.category = tab.getAttribute('data-decode-tab');
+        state.decode.selected = null;
+        state.decode.matches = null;
+        renderDecoder();
+        return;
+      }
+      var phrase = event.target.closest && event.target.closest('[data-decode]');
+      if (phrase) { showDecode(phrase.getAttribute('data-decode')); return; }
+      var veinLink = event.target.closest && event.target.closest('[data-vein-link]');
+      if (veinLink) {
+        // jump the reader to the anatomy plate with that vessel selected
+        selectVein(veinLink.getAttribute('data-vein-link'));
+        var plate = $('#fig-veins');
+        if (plate && plate.scrollIntoView) {
+          plate.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+        }
+        return;
+      }
     });
 
     document.addEventListener('keydown', function (event) {
@@ -814,6 +947,30 @@
     if (releaseBtn) {
       releaseBtn.addEventListener('click', function () { applyPressure(0); });
     }
+    var decodeInput = $('#decode-input');
+    if (decodeInput) {
+      decodeInput.addEventListener('input', runScan);
+      decodeInput.addEventListener('change', runScan);
+    }
+    var decodeClear = $('#decode-clear');
+    if (decodeClear) {
+      decodeClear.addEventListener('click', function () {
+        if (decodeInput) decodeInput.value = '';
+        state.decode.matches = null;
+        state.decode.selected = null;
+        renderDecoder();
+        var summary = $('#decode-scan-status');
+        if (summary) summary.textContent = 'Nothing pasted yet — your text never leaves this page.';
+        if (decodeInput) decodeInput.focus();
+      });
+    }
+    var glossaryFilter = $('#glossary-filter');
+    if (glossaryFilter) {
+      glossaryFilter.addEventListener('input', function () {
+        state.glossary.query = glossaryFilter.value;
+        renderGlossary();
+      });
+    }
     var pumpSpeed = $('#pump-speed');
     if (pumpSpeed) {
       pumpSpeed.addEventListener('input', function () {
@@ -824,7 +981,7 @@
   }
 
   /* ==================================================================
-   * 14. Boot
+   * 15. Boot
    * ================================================================== */
 
   function init() {
@@ -836,6 +993,8 @@
     stages.timeline = $('[data-figure="timeline"]');
     stages.embolus = $('[data-figure="embolus"]');
     stages.pump = $('[data-figure="pump"]');
+    stages.decoder = $('[data-figure="decoder"]');
+    stages.glossary = $('[data-figure="glossary"]');
 
     renderScale();
     renderVeins();
@@ -846,8 +1005,10 @@
     setStep(0);
     buildTreeForm();
     buildWells();
-    renderSources();
+    renderSourcesList();
     buildPump();
+    renderDecoder();
+    renderGlossary();
     bind();
     initChrome();
 
@@ -857,17 +1018,33 @@
       note.innerHTML = first ? '<b>' + first.label + '</b> — ' + first.note : '';
     }
 
+    /* The two animated plates are far down a long page, so only run their
+     * frames while they are actually on screen and the tab is visible. */
+    var visible = { embolus: false, pump: false };
+    function watchPlate(name, node) {
+      if (!node) return;
+      if (!('IntersectionObserver' in window)) { visible[name] = true; return; }
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) { visible[name] = entry.isIntersecting; });
+      }, { rootMargin: '120px' }).observe(node);
+    }
+
     var loop = function (now) {
       var dt = Math.min(0.05, (now - (loop.last || now)) / 1000);
       loop.last = now;
-      if (!reduceMotion) {
-        embolusFrame(dt);
-        pumpFrame(dt);
-      } else if (state.emb.playing) {
-        state.emb.playing = false;
-      }
+      var active = !document.hidden && !reduceMotion;
+      if (active && visible.embolus) embolusFrame(dt);
+      if (active && visible.pump) pumpFrame(dt);
+      if (reduceMotion && state.emb.playing) state.emb.playing = false;
       window.requestAnimationFrame(loop);
     };
+    watchPlate('embolus', stages.embolus);
+    watchPlate('pump', stages.pump);
+    if (!('IntersectionObserver' in window)) {
+      // no observer support: animation is on, but the frame cost is tiny
+      visible.embolus = true;
+      visible.pump = true;
+    }
     window.requestAnimationFrame(loop);
   }
 

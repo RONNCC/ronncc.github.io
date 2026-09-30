@@ -649,10 +649,476 @@
       }
     },
 
+
+    /* ------------------------------------------------------------------
+     * Fig. 11 — report decoder
+     * `match` holds lowercase aliases searched as whole words; `veins`
+     * cross-links an entry to a vessel in the Fig. 2 map.
+     * tone: neutral | info | watch | good
+     * ---------------------------------------------------------------- */
+    reportCategories: [
+      { id: 'location', label: 'Where it is', hint: 'Location language maps onto the distal/proximal line.' },
+      { id: 'extent', label: 'How much of it', hint: 'Extent and the top end of the clot are what change the plan.' },
+      { id: 'character', label: 'What it looks like', hint: 'Descriptions of the clot itself, and its age.' },
+      { id: 'tests', label: 'Tests and numbers', hint: 'Blood tests and scores you may see quoted in the same report.' },
+      { id: 'plan', label: 'The plan', hint: 'Phrases that describe what is being proposed.' }
+    ],
+
+    reportPhrases: [
+      /* ---------- where ---------- */
+      {
+        id: 'proximal', category: 'location', term: 'Proximal',
+        match: ['proximal', 'above the knee', 'popliteal or above'],
+        tone: 'watch',
+        plain: 'At or above the popliteal vein — the vein behind the knee. This is the line that '
+          + 'matters most: a clot that reaches it is treated as a proximal DVT, which means '
+          + 'anticoagulation rather than a watching brief.',
+        ask: 'Is any part of my clot proximal, and if not how far is it from the line?'
+      },
+      {
+        id: 'popliteal', category: 'location', term: 'Popliteal vein',
+        match: ['popliteal vein', 'popliteal veins', 'popliteal'],
+        veins: ['popliteal'], tone: 'watch',
+        plain: 'The collecting vein behind the knee where the calf veins join. It is the boundary '
+          + 'between a distal (calf) clot and a proximal one.',
+        ask: 'How far is the top of my clot from the popliteal vein?'
+      },
+      {
+        id: 'distal', category: 'location', term: 'Distal / infrapopliteal',
+        match: ['distal', 'below the knee', 'infrapopliteal', 'calf vein', 'calf veins'],
+        tone: 'info',
+        plain: 'Below the popliteal vein — the calf. "Distal" describes where the clot sits, not '
+          + 'how serious it is; a short clot in one vein and an extensive clot filling several '
+          + 'are both technically distal, and they behave very differently.',
+        ask: 'How extensive is mine compared with the ones usually watched?'
+      },
+      {
+        id: 'trifurcation', category: 'location', term: 'Trifurcation / tibioperoneal trunk',
+        match: ['trifurcation', 'tibioperoneal', 'tibio-peroneal'],
+        veins: ['trunk'], tone: 'watch',
+        plain: 'The short segment just below the knee where the peroneal and posterior tibial '
+          + 'veins merge. Because it sits only centimetres below the proximal line, clot here '
+          + 'is watched closely.',
+        ask: 'Is the clot at or below the trifurcation?'
+      },
+      {
+        id: 'axial', category: 'location', term: 'Peroneal / posterior tibial veins',
+        match: ['peroneal', 'posterior tibial', 'fibular vein', 'fibular veins', 'tibial veins'],
+        veins: ['peroneal', 'posttibial'], tone: 'info',
+        plain: 'The paired axial veins that run beside the bones of the lower leg. These and the '
+          + 'muscular veins are the two families a calf clot belongs to; axial involvement is '
+          + 'generally taken a little more seriously than a clot confined to muscle veins.',
+        ask: 'Is mine in the axial veins, the muscle veins, or both?'
+      },
+      {
+        id: 'muscular', category: 'location', term: 'Soleal / gastrocnemius veins',
+        match: ['soleal', 'soleus vein', 'gastrocnemius vein', 'gastrocnemius veins',
+          'muscular vein', 'muscular veins', 'calf muscle veins'],
+        veins: ['soleal', 'gastrocnemius'], tone: 'info',
+        plain: 'The wide, slow venous pouches inside the calf muscles. A very common place for a '
+          + 'calf clot to start, often sore, and generally a lower risk of extension than a clot '
+          + 'in the axial veins.',
+        ask: 'If it is only in the muscle veins, does that change my treatment?'
+      },
+      {
+        id: 'side', category: 'location', term: 'Left / right / bilateral',
+        match: ['left leg', 'right leg', 'left lower extremity', 'right lower extremity',
+          'left calf', 'right calf', 'bilateral', 'both legs', 'both lower extremities'],
+        tone: 'info',
+        plain: 'Which leg — named on its own when one side is involved, or "bilateral" when both '
+          + 'are. Bilateral clot is less common and is one of the findings that pushes toward '
+          + 'treating rather than watching.',
+        ask: 'Were both legs scanned, or just the symptomatic one?'
+      },
+      {
+        id: 'superficial', category: 'location', term: 'Superficial vein / thrombophlebitis',
+        match: ['superficial vein', 'superficial veins', 'superficial thrombophlebitis',
+          'superficial venous thrombosis', 'great saphenous', 'small saphenous'],
+        veins: ['grt_saph', 'sm_saph'], tone: 'info',
+        plain: 'The veins just under the skin, not the deep system. A clot here is superficial '
+          + 'thrombophlebitis, managed differently — it matters most when it sits near a junction '
+          + 'with a deep vein, such as the small saphenous meeting the popliteal vein.',
+        ask: 'Is anything here superficial rather than deep?'
+      },
+
+      /* ---------- how much ---------- */
+      {
+        id: 'occlusive', category: 'extent', term: 'Occlusive',
+        match: ['occlusive', 'occluding', 'complete occlusion', 'fully occluded', 'occlusion of'],
+        tone: 'watch',
+        plain: 'The clot fills the vein, so blood is not getting through that segment and is '
+          + 'finding other routes. "Occlusive" describes the blockage, not the risk: a shorter '
+          + 'occlusive clot can still be lower risk than a long partial one.',
+        ask: 'Is mine occlusive, and is any part of it mobile?'
+      },
+      {
+        id: 'nonocclusive', category: 'extent', term: 'Non-occlusive / partially occlusive',
+        match: ['non-occlusive', 'nonocclusive', 'partially occlusive', 'partial occlusion',
+          'non occlusive'],
+        tone: 'info',
+        plain: 'Clot is present but a channel of blood still flows past it. A fresh, non-occlusive '
+          + 'clot can have a free edge that moves with the blood flow, which is why reports often '
+          + 'mention it separately.',
+        ask: 'Is the clot attached to the wall, or is part of it free?'
+      },
+      {
+        id: 'extensive', category: 'extent', term: 'Extensive / extending / propagation',
+        match: ['extensive', 'extending', 'extension', 'propagating', 'propagation',
+          'extended into', 'propagated'],
+        tone: 'watch',
+        plain: 'Language about how much of the vein is involved. In guidelines, an extensive clot, '
+          + 'a clot filling more than one vein, or one that has grown upward are all risk factors '
+          + 'for further extension — which is what tips the balance toward treating. Watch for '
+          + 'the opposite phrasing too: "no extension" on a repeat scan is the reassuring version.',
+        ask: 'Is this the first time it has been measured, or has it grown since the last scan?'
+      },
+      {
+        id: 'length', category: 'extent', term: 'Length of the thrombus',
+        match: ['in length', 'thrombus length', 'length of the thrombus', 'measures'],
+        tone: 'info',
+        plain: 'The sonographer measures the clot from its lowest to its highest point. A length '
+          + 'over about 5 cm is one of the classic things that raises the estimated risk of the '
+          + 'clot growing upward.',
+        ask: 'How long is it, and does that number change my treatment?'
+      },
+      {
+        id: 'multivein', category: 'extent', term: 'Multiple veins involved',
+        match: ['multiple veins', 'multiple deep veins', 'more than one vein', 'two veins',
+          'several veins', 'multivessel'],
+        tone: 'watch',
+        plain: 'The clot is not confined to one vessel. Involvement of more than one deep vein is '
+          + 'a recognised risk factor for extension and is a common reason a calf clot is treated '
+          + 'rather than monitored.',
+        ask: 'How many veins are involved, and which ones?'
+      },
+      {
+        id: 'tip', category: 'extent', term: 'Tip / proximal extent of the clot',
+        match: ['tip of the thrombus', 'thrombus tip', 'proximal extent', 'upper extent',
+          'apex of the thrombus', 'free tip'],
+        tone: 'watch',
+        plain: 'The top end of the clot, and the most useful number in the report. Its distance '
+          + 'below the popliteal vein is what the decision to treat versus watch turns on, and a '
+          + 'free tip is what a sonographer looks at to judge mobility.',
+        ask: 'Where exactly is the top of my clot relative to the popliteal vein?'
+      },
+      {
+        id: 'freefloating', category: 'extent', term: 'Free-floating / mobile thrombus',
+        match: ['free-floating', 'free floating', 'floating thrombus', 'mobile thrombus',
+          'mobile component', 'non-adherent', 'nonadherent'],
+        tone: 'watch',
+        plain: 'Used when a clot is attached at its base but has a tip that moves in the blood '
+          + 'stream rather than sitting against the vein wall. A meta-analysis found a higher '
+          + 'chance of pulmonary embolism associated with this appearance, though the evidence '
+          + 'is limited and management is debated — it is one of the findings that prompts closer '
+          + 'follow-up.',
+        ask: 'Does mine have a free-floating component, and does that change how closely I am watched?'
+      },
+
+      /* ---------- what it looks like ---------- */
+      {
+        id: 'acute', category: 'character', term: 'Acute',
+        match: ['acute'],
+        tone: 'info',
+        plain: 'A statement about age and appearance: the clot is new — days to a few weeks old. On '
+          + 'the screen a fresh clot is dark (hypoechoic) and the vein is swollen around it. The '
+          + 'first weeks are when a clot is most likely to grow or break up.',
+        ask: 'How new is it judged to be?'
+      },
+      {
+        id: 'chronic', category: 'character', term: 'Chronic',
+        match: ['chronic'],
+        tone: 'good',
+        plain: 'An older clot, or the scar it left behind. It appears brighter on ultrasound, '
+          + 'often retracted from the wall with the vein narrowed around it, and flow has usually '
+          + 'returned. Chronic change is not the same as a new clot. Beware a report that says '
+          + '"chronic" about a leg you have never had scanned — that happens, and it is worth '
+          + 'clarifying.',
+        ask: 'Is this new, old, or a new clot on top of old scarring?'
+      },
+      {
+        id: 'acuteonchronic', category: 'character', term: 'Acute on chronic',
+        match: ['acute on chronic', 'acute-on-chronic', 'acute superimposed'],
+        tone: 'watch',
+        plain: 'A new clot sitting inside a vein that was already scarred from an older one. It is '
+          + 'a common and genuinely awkward pattern to interpret, because the vein was never going '
+          + 'to compress normally.',
+        ask: 'Which part is the new clot, and which part is old?'
+      },
+      {
+        id: 'echo', category: 'character', term: 'Hypoechoic / echogenic',
+        match: ['hypoechoic', 'hypo-echoic', 'echogenic', 'hyperechoic', 'isoechoic', 'anechoic'],
+        tone: 'info',
+        plain: 'Echogenicity is how bright something looks on ultrasound. Fresh clot tends to be '
+          + 'dark (hypoechoic) and easy to miss; older clot is brighter (echogenic) because it has '
+          + 'organised into firm tissue. It is one of the clues used to age a clot.',
+        ask: 'Does the appearance suggest this clot is fresh?'
+      },
+      {
+        id: 'recanalisation', category: 'character', term: 'Recanalised',
+        match: ['recanaliz', 'recanalis', 'recanalized', 'recanalised'],
+        tone: 'good',
+        plain: 'Flow has returned through or around an older clot as the body broke it down and '
+          + 'drilled a new channel. It is a sign of healing, and it often goes with a stiffened, '
+          + 'less elastic vein segment that can cause long-term aching or swelling.',
+        ask: 'Has the vein recanalised since the first scan?'
+      },
+      {
+        id: 'noncompressible', category: 'character', term: 'Non-compressible',
+        match: ['non-compressible', 'noncompressible', 'incompressible', 'non compressible'],
+        tone: 'watch',
+        plain: 'The primary sign of a DVT on ultrasound: the sonographer presses the probe on the '
+          + 'vein and it does not flatten the way a normal vein does, because the clot is holding '
+          + 'it open. If you read only one phrase in your report, this is the one that made the '
+          + 'diagnosis.',
+        ask: 'Which veins did not compress?'
+      },
+      {
+        id: 'flow', category: 'character', term: 'Phasic / augmentation',
+        match: ['phasic', 'phasicity', 'augmentation', 'spontaneous flow', 'respiratory variation'],
+        tone: 'good',
+        plain: 'Descriptions of normal venous flow: a normal vein changes with breathing and speeds '
+          + 'up when the calf is squeezed. A report that mentions these features is describing the '
+          + 'veins that were working.',
+        ask: 'Which segments had normal flow?'
+      },
+      {
+        id: 'collaterals', category: 'character', term: 'Collateral veins',
+        match: ['collateral', 'collaterals', 'collateral vessels', 'collateral veins'],
+        tone: 'info',
+        plain: 'Small veins that widen to carry blood around a blockage. They appear over weeks, '
+          + 'which is why their presence suggests an older process — and why visible new surface '
+          + 'veins over your calf are a symptom worth mentioning.',
+        ask: 'Are the collaterals new, and do they suggest how long this has been there?'
+      },
+
+      /* ---------- tests ---------- */
+      {
+        id: 'ddimer', category: 'tests', term: 'D-dimer',
+        match: ['d-dimer', 'd dimer', 'ddimer', 'd-dimers'],
+        tone: 'info',
+        plain: 'A blood test for fragments released when the body breaks down fibrin. It is very '
+          + 'sensitive — a negative result is good at ruling a clot out — but not specific: '
+          + 'surgery, infection, pregnancy, cancer and simply getting older can all raise it. A '
+          + 'raised D-dimer on its own does not mean a clot.',
+        ask: 'Was my D-dimer used to decide on imaging, and what was the number?'
+      },
+      {
+        id: 'wells', category: 'tests', term: 'Wells score / clinical probability',
+        match: ['wells score', 'wells', 'clinical probability', 'pretest probability',
+          'pre-test probability', 'likely dvt', 'unlikely dvt'],
+        tone: 'info',
+        plain: 'A checklist score built from your symptoms and risk factors that estimates how '
+          + 'likely a DVT is before any scan. It decides whether a negative ultrasound or a '
+          + 'D-dimer can be trusted enough to send you home. It is a probability estimate, not a '
+          + 'diagnosis.',
+        ask: 'What was my Wells score, and what did it lead to?'
+      },
+      {
+        id: 'inr', category: 'tests', term: 'INR',
+        match: ['inr', 'international normalized ratio'],
+        tone: 'info',
+        plain: 'A measure of how slowly blood clots, used to dose warfarin. If you are on a direct '
+          + 'oral anticoagulant you will not have an INR — those drugs do not need one and are '
+          + 'usually not monitored with it.',
+        ask: 'If I am on warfarin, what is my target INR range?'
+      },
+      {
+        id: 'renal', category: 'tests', term: 'Renal function / creatinine',
+        match: ['creatinine', 'egfr', 'renal function', 'kidney function'],
+        tone: 'info',
+        plain: 'Kidney function is checked because some anticoagulants are cleared by the kidneys '
+          + 'and need dose adjustment, or are avoided, when function is reduced. It is a routine '
+          + 'safety test, not a sign that anything is wrong with you.',
+        ask: 'Does my kidney function change which anticoagulant I should be on?'
+      },
+      {
+        id: 'platelets', category: 'tests', term: 'Platelet count',
+        match: ['platelet', 'platelets', 'platelet count'],
+        tone: 'info',
+        plain: 'A baseline before starting anticoagulation, because a low platelet count raises '
+          + 'bleeding risk. It also shows up in a rare reaction to heparin.',
+        ask: 'Was my platelet count normal, and does it change my bleeding risk?'
+      },
+      {
+        id: 'thrombophilia', category: 'tests', term: 'Thrombophilia screen',
+        match: ['thrombophilia', 'factor v leiden', 'prothrombin gene', 'antiphospholipid',
+          'lupus anticoagulant', 'protein c deficiency', 'protein s deficiency', 'antithrombin'],
+        tone: 'info',
+        plain: 'Tests for inherited or acquired tendencies to clot. They are not done for every '
+          + 'DVT — usually when the clot was unprovoked, happened young, was unusual in pattern, '
+          + 'or there is a strong family history — because the result often does not change '
+          + 'treatment.',
+        ask: 'Am I a candidate for a thrombophilia screen, and would a positive result change anything?'
+      },
+      {
+        id: 'pe', category: 'tests', term: 'Pulmonary embolism (PE)',
+        match: ['pulmonary embolism', 'subsegmental', 'saddle embolus', 'lungs'],
+        tone: 'watch',
+        plain: 'Where a piece of clot has travelled to the lungs. If it appears in your report it '
+          + 'will usually be in a separate CT scan section — a small PE is common alongside a leg '
+          + 'clot, sometimes with no symptoms at all, and it is treated with the same '
+          + 'anticoagulation.',
+        ask: 'Was my chest scanned too, and was anything found there?'
+      },
+
+      /* ---------- the plan ---------- */
+      {
+        id: 'surveillance', category: 'plan', term: 'Surveillance / serial ultrasound',
+        match: ['surveillance', 'serial ultrasound', 'serial imaging', 'repeat ultrasound',
+          'repeat scan', 'interval scan', 'follow-up scan', 'follow up scan'],
+        tone: 'info',
+        plain: 'A watch-and-wait plan: repeat scans rather than anticoagulation, typically about '
+          + 'once a week for two weeks. The guidelines suggest this for calf clots without severe '
+          + 'symptoms or risk factors for extension, on the reasoning that most do not grow — and '
+          + 'that anticoagulation carries its own risk.',
+        ask: 'When is my next scan, and what would make us switch to treatment?'
+      },
+      {
+        id: 'anticoagulation', category: 'plan', term: 'Anticoagulation',
+        match: ['anticoagul', 'blood thinner', 'blood thinners', 'apixaban', 'rivaroxaban',
+          'edoxaban', 'dabigatran', 'enoxaparin', 'lmwh', 'heparin', 'warfarin', 'eliquis',
+          'xarelto', 'lovenox', 'coumadin'],
+        tone: 'info',
+        plain: 'Medication that slows clotting so the clot stops growing while the body breaks it '
+          + 'down. It does not dissolve an existing clot — the body does that. Three months is the '
+          + 'usual minimum when it is used for a DVT; whether you continue past that depends on '
+          + 'whether the clot was provoked, your bleeding risk, and your preference.',
+        ask: 'Which drug, what dose, for how long — and what happens at the end of that?'
+      },
+      {
+        id: 'dose', category: 'plan', term: 'Therapeutic vs prophylactic dose',
+        match: ['therapeutic dose', 'therapeutic anticoagulation', 'treatment dose',
+          'prophylactic dose', 'prophylaxis dose'],
+        tone: 'info',
+        plain: 'Two different strengths of the same idea. A therapeutic dose treats a clot that '
+          + 'already exists; a prophylactic (preventive) dose is the lower strength given to keep '
+          + 'one from forming. They are not interchangeable, so it is worth knowing which one you '
+          + 'are on.',
+        ask: 'Am I on a therapeutic or a prophylactic dose?'
+      },
+      {
+        id: 'compression', category: 'plan', term: 'Compression',
+        match: ['compression stocking', 'compression stockings', 'compression therapy',
+          'graduated compression', '30-40 mmhg', '30–40 mmhg', 'class ii'],
+        tone: 'info',
+        plain: 'Stockings or bandaging that support the leg veins and reduce swelling and aching. '
+          + 'They can help symptoms, but the 2021 CHEST guideline suggests against using them '
+          + 'routinely to prevent post-thrombotic syndrome, because a large trial found no '
+          + 'reduction in its development.',
+        ask: 'Are these stockings for my symptoms, or to prevent long-term changes?'
+      },
+      {
+        id: 'interventional', category: 'plan', term: 'Thrombolysis / thrombectomy',
+        match: ['thrombectomy', 'thrombolysis', 'thrombolytic', 'catheter-directed',
+          'catheter directed', 'clot retrieval', 'interventional radiology'],
+        tone: 'info',
+        plain: 'Physically removing or dissolving clot — used in selected situations such as a '
+          + 'threatening limb or extensive iliofemoral clot. For most calf clots, anticoagulation '
+          + 'is the treatment and these are not part of the plan.',
+        ask: 'Would these ever be considered for me, and why or why not?'
+      },
+      {
+        id: 'ivcfilter', category: 'plan', term: 'IVC filter',
+        match: ['ivc filter', 'inferior vena cava filter', 'caval filter'],
+        tone: 'info',
+        plain: 'A small device placed in the main vein from the legs to catch emboli, used when '
+          + 'anticoagulation is impossible or has failed. It is a niche tool, usually temporary, '
+          + 'not part of routine DVT care.',
+        ask: 'Why is a filter being considered instead of anticoagulation?'
+      },
+      {
+        id: 'duration', category: 'plan', term: 'Three months / extended therapy',
+        match: ['three months', '3 months', 'six months', '6 months', 'twelve months',
+          'indefinite anticoagulation', 'extended anticoagulation', 'duration of anticoagulation'],
+        tone: 'info',
+        plain: 'Duration language. Three months is the standard minimum course. "Extended" means '
+          + 'continuing with a planned review rather than a fixed stop date, which is decided by '
+          + 'balancing recurrence risk against bleeding risk.',
+        ask: 'What is the review point, and what would make you extend or stop treatment?'
+      },
+      {
+        id: 'activity', category: 'plan', term: 'Mobilisation / activity',
+        match: ['bed rest', 'ambulation', 'mobilization', 'mobilisation', 'activity restriction',
+          'no exercise'],
+        tone: 'good',
+        plain: 'Early walking is part of treatment for a DVT — guidance does not support strict '
+          + 'bed rest for an uncomplicated clot. Very strenuous or impact-heavy exercise in the '
+          + 'first days is usually eased into rather than resumed outright.',
+        ask: 'What activity level is right for me in the next two weeks?'
+      }
+    ],
+
+    /* Numbers worth noticing when they appear next to a phrase. */
+    reportNumberNote: {
+      title: 'Numbers in the report',
+      body: 'The two measurements that carry the most weight are how long the clot is '
+        + '(over roughly 5 cm is one recognised risk factor for extension) and how far its top '
+        + 'end sits from the popliteal vein. Ask for both in plain language — they are the '
+        + 'numbers that tend to decide between treating and watching.'
+    },
+
+    /* ------------------------------------------------------------------
+     * Fig. 12 — glossary
+     * ---------------------------------------------------------------- */
+    glossaryGroups: [
+      { id: 'anatomy', label: 'Anatomy & location' },
+      { id: 'diagnosis', label: 'Diagnosis & imaging' },
+      { id: 'tests', label: 'Tests' },
+      { id: 'treatment', label: 'Treatment' },
+      { id: 'after', label: 'Risk and aftermath' }
+    ],
+
+    glossary: [
+      { term: 'DVT', group: 'diagnosis', def: 'Deep vein thrombosis: a blood clot inside a deep vein, usually in the leg.' },
+      { term: 'VTE', group: 'diagnosis', def: 'Venous thromboembolism: the umbrella term for DVT and pulmonary embolism together — the same disease at two addresses.' },
+      { term: 'PE', group: 'diagnosis', def: 'Pulmonary embolism: clot that has travelled to the arteries of the lung.' },
+      { term: 'Thrombus', group: 'diagnosis', def: 'The clot itself, attached where it formed.' },
+      { term: 'Embolus', group: 'diagnosis', def: 'A piece of clot that has broken free and is travelling through the bloodstream.' },
+      { term: 'Proximal', group: 'anatomy', def: 'At or above the popliteal vein — behind the knee and upward. Proximal clots cause most of the serious trouble.' },
+      { term: 'Distal', group: 'anatomy', def: 'Below the popliteal vein: the calf. Also called a calf DVT.' },
+      { term: 'Popliteal vein', group: 'anatomy', def: 'The collecting vein behind the knee where the calf veins join. The dividing line between distal and proximal.' },
+      { term: 'Soleal sinuses', group: 'anatomy', def: 'Wide venous pouches inside the soleus muscle. A very common place for calf clots to start.' },
+      { term: 'Collateral veins', group: 'anatomy', def: 'Small veins that widen to carry blood around a blockage. Their presence usually means the process is weeks old.' },
+      { term: 'Calf muscle pump', group: 'anatomy', def: 'The calf muscles squeezing the deep veins, with one-way valves keeping flow upward. Roughly 40–60% of the calf\'s venous volume moves with each contraction, which is why walking protects you.' },
+      { term: 'Compression ultrasound', group: 'diagnosis', def: 'The scan that diagnoses a DVT. A normal vein flattens under the probe; a clotted one does not. The failure to flatten — non-compressibility — is the primary finding.' },
+      { term: 'Occlusive', group: 'diagnosis', def: 'The clot completely fills the vein. Non-occlusive means some flow still passes.' },
+      { term: 'Hypoechoic / echogenic', group: 'diagnosis', def: 'How bright tissue looks on ultrasound. Fresh clot is dark (hypoechoic); older, organised clot is brighter (echogenic).' },
+      { term: 'Recanalisation', group: 'diagnosis', def: 'Flow returning through or around a clot as the body breaks it down. A sign of healing, often with lasting stiffness in that vein segment.' },
+      { term: 'Acute on chronic', group: 'diagnosis', def: 'A new clot inside a vein already damaged by an older one — a genuinely tricky pattern to read.' },
+      { term: 'D-dimer', group: 'tests', def: 'A blood test for fibrin breakdown products. Very good at ruling a clot out when negative; easily raised by other things, so a high value proves little by itself.' },
+      { term: 'Wells score', group: 'tests', def: 'A checklist that estimates how likely a DVT is before imaging, used to decide whether a negative scan or a D-dimer can be trusted.' },
+      { term: 'INR', group: 'tests', def: 'A measure of clotting speed used to dose warfarin. Not used for the direct oral anticoagulants.' },
+      { term: 'Thrombophilia', group: 'tests', def: 'An inherited or acquired tendency to clot — for example factor V Leiden or antiphospholipid syndrome. Tested only in selected cases.' },
+      { term: 'Anticoagulant', group: 'treatment', def: 'A drug that slows clotting so a clot stops growing. It does not dissolve the clot; your body does that over weeks.' },
+      { term: 'DOAC', group: 'treatment', def: 'Direct oral anticoagulant — apixaban, rivaroxaban, edoxaban or dabigatran. Recommended over warfarin for most people with a DVT.' },
+      { term: 'LMWH', group: 'treatment', def: 'Low molecular weight heparin — an injected anticoagulant, still used in pregnancy, some cancers, and severe kidney impairment.' },
+      { term: 'Therapeutic dose', group: 'treatment', def: 'The treatment strength of an anticoagulant, used when a clot already exists. Distinct from the lower prophylactic dose used to prevent one.' },
+      { term: 'Serial ultrasound', group: 'treatment', def: 'A watch-and-wait plan: repeat scans, usually about weekly for two weeks, instead of anticoagulation for a low-risk calf clot.' },
+      { term: 'Compression stocking', group: 'treatment', def: 'Support hosiery that eases swelling and aching. Guidelines suggest against routine use purely to prevent post-thrombotic syndrome.' },
+      { term: 'Provoked / unprovoked', group: 'after', def: 'Whether a clot had an identifiable trigger (surgery, immobility, cancer, oestrogen) or none. Unprovoked clots have a higher chance of recurring, which affects how long treatment lasts.' },
+      { term: 'Post-thrombotic syndrome', group: 'after', def: 'Long-term swelling, aching, discolouration or skin changes in a leg that had a DVT, caused by valve and vein-wall damage. Reported in roughly one third to one half of people after a DVT.' },
+      { term: 'Recurrence risk', group: 'after', def: 'The chance of another clot. About one in three people with a VTE has another event within ten years.' },
+      { term: 'IVC filter', group: 'after', def: 'A small device in the main vein from the legs that traps emboli, used only when anticoagulation is impossible or has failed.' }
+    ],
+
     /* ------------------------------------------------------------------
      * Sources
      * ---------------------------------------------------------------- */
     sources: [
+      {
+        id: 'fft',
+        label: 'Deep venous free-floating thrombus: a review and meta-analysis',
+        publisher: 'PubMed-indexed meta-analysis',
+        url: 'https://pubmed.ncbi.nlm.nih.gov/41421955/',
+        used: 'Free-floating thrombus associated with a higher risk of pulmonary embolism at diagnosis (77% vs 23%; OR 3.3) and of secondary PE, though not clearly of secondary symptomatic PE — the source of the page\'s cautious wording about mobility.'
+      },
+      {
+        id: 'ddimeracc',
+        label: 'Accuracy of D-dimers to rule out venous thromboembolism',
+        publisher: 'PMC, prospective cohort',
+        url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC3195346/',
+        used: 'D-dimer sensitivity ~96% with specificity around 57%, and a very high negative predictive value — the basis for describing D-dimer as good at ruling a clot out and poor at proving one.'
+      },
       {
         id: 'cdc',
         label: 'Data and statistics on venous thromboembolism',
