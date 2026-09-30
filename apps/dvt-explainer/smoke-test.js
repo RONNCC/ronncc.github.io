@@ -525,6 +525,48 @@ check('the printed decoder appendix carries every phrase', () => {
     'and shown when printing');
 });
 
+check('no text run escapes the edge of its plate', () => {
+  /* Every label position in figures.js is hand-placed, and three separate
+   * layout bugs (a footnote off the right edge, a callout off the left edge,
+   * labels clashing with the vessel they name) only showed up when the
+   * plates were rasterised. Character width is estimated from the font size
+   * resolved out of styles.css, so this is a coarse guard — when it fires,
+   * move the elbow or shorten the line rather than loosening the tolerance. */
+  const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
+  const sizeFor = new Map();
+  const rule = /\.([\w-]+)\s*(?:,[^{]*)?\{([^}]*)\}/g;
+  let ruleMatch;
+  while ((ruleMatch = rule.exec(css)) !== null) {
+    const size = ruleMatch[2].match(/font-size:\s*([\d.]+)(px|rem)/);
+    if (size) sizeFor.set(ruleMatch[1], size[2] === 'rem' ? parseFloat(size[1]) * 16 : parseFloat(size[1]));
+  }
+  const AVG_GLYPH = 0.53;
+  const escapes = [];
+  Object.keys(plates).forEach((name) => {
+    plates[name].forEach(([label, markup]) => {
+      const viewBox = (markup.match(/viewBox="([^"]+)"/) || [])[1];
+      if (!viewBox) return;
+      const [vx, , vw] = viewBox.split(/[\s,]+/).map(Number);
+      const text = /<text([^>]*)>([^<]*)<\/text>/g;
+      let match;
+      while ((match = text.exec(markup)) !== null) {
+        const x = parseFloat((match[1].match(/\sx="([-\d.]+)"/) || [])[1]);
+        if (isNaN(x)) continue;
+        const cls = (match[1].match(/class="([^"]+)"/) || [])[1] || '';
+        let size = 11.5;
+        cls.split(/\s+/).forEach((c) => { if (sizeFor.has(c)) size = Math.max(size, sizeFor.get(c)); });
+        const anchor = (match[1].match(/text-anchor="(\w+)"/) || [])[1] || 'start';
+        const width = match[2].length * AVG_GLYPH * size;
+        const left = anchor === 'middle' ? x - width / 2 : anchor === 'end' ? x - width : x;
+        if (left < vx - 4 || left + width > vx + vw + 4) {
+          escapes.push(label + ': "' + match[2].slice(0, 40) + '"');
+        }
+      }
+    });
+  });
+  assert(escapes.length === 0, 'text may run outside its plate:\n       ' + escapes.join('\n       '));
+});
+
 /* ---------- summary ---------- */
 
 console.log('');

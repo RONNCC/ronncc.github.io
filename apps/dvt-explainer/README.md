@@ -104,6 +104,9 @@ readable in a browser (the dev server will serve it at
    that state itself, and the decoder/glossary plates only use classes that exist in `styles.css`.
 7. **Accessibility** — every plate names itself, focusable plates do not claim to be a single
    image, and the printed appendix restates all 38 phrases with their questions.
+8. **Layout** — no text run is estimated to fall outside its plate's viewBox. Coarse on purpose:
+   it caught a footnote off the right edge, a callout off the left edge, and the long-view vessel
+   labels sitting under the vein walls they name.
 
 ## Editorial policy
 

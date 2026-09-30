@@ -138,6 +138,7 @@
     var o = opts || {};
     var dir = o.dir === -1 ? -1 : 1;
     var cls = o.cls || 'v-leader';
+    var groupCls = cls + (o.extra ? ' ' + o.extra : '');
     var textX = tx + dir * 14;
     var anchor = dir === 1 ? 'start' : 'end';
     var parts = [
@@ -152,7 +153,7 @@
       parts.unshift(rect(textX - (anchor === 'start' ? 6 : w - 6), ty - h / 2 - 1, w, h,
         { 'class': cls + '-box', rx: 6 }));
     }
-    return group({ 'class': cls }, parts);
+    return group({ 'class': groupCls }, parts);
   }
 
   /* Deterministic pseudo-random, so plates render identically every time. */
@@ -387,10 +388,12 @@
       ]),
       leader(150, 112, 62, 56, ['thin, floppy wall'], { cls: 'v-leader' }),
       leader(396, 106, 294, 46, ['wall stretched', 'by the clot'], { cls: 'v-leader' }),
-      leader(452, 246, 428, 244, ['flow runs around', 'the clot, not', 'through it'], { cls: 'v-leader' }),
-      textBlock(276, 382, ['Press a normal vein and the walls meet. Press a clotted one and it stays open —',
-        'and any flow that remains runs in the crescent between the clot and the wall, not through the middle.'],
-      { cls: 'v-fig-footnote' }),
+      /* The distended vein reaches to x≈514, so a right-hand callout at its
+       * waist has nowhere to sit: this point is carried by the caption and
+       * the footnote instead. */
+      textBlock(282, 364, ['Press a normal vein and the walls meet; press a',
+        'clotted one and it stays open. Flow only runs around the clot.'],
+      { cls: 'v-fig-footnote', lh: 14 }),
       scaleBar(24, 384, '5 mm')
     ].join('');
   }
@@ -430,10 +433,18 @@
           path('M 272 232 C 300 240, 330 240, 350 232', { 'class': 'v-thrombus-line' })
         ])
       ]),
-      txt(96, 92, 'vein wall', { 'class': 'v-anat-label' }),
-      leader(250, 142, 176, 116, ['valve leaflet'], { dir: -1, cls: 'v-leader' }),
+      /* Five labels compete for the empty space around a single valve, so
+       * each one gets its own band: the wall label sits inside the wall it
+       * names at the right-hand end, the leaflet callout takes the strip
+       * under the top edge, the pocket callout sits above it, and the
+       * fibrin callout — the payoff of the scene — gets the clear bottom
+       * left. Overlapping these was the worst readability problem on the
+       * page, and it only showed up when the plate was rasterised. */
+      txt(500, 132, 'vein wall', { 'class': 'v-anat-label', textAnchor: 'end' }),
+      leader(250, 150, 176, 92, ['valve leaflet'], { dir: -1, cls: 'v-leader' }),
       leader(306, 198, 372, 66, ['inside the pocket:', 'slow, swirling, low O₂'], { cls: 'v-leader' }),
-      leader(286, 236, 150, 322, ['fibrin and red cells collect', 'on the pocket floor — this', 'is a clot starting'], { dir: -1, cls: 'v-leader' }),
+      leader(286, 236, 206, 322, ['fibrin and red cells', 'collect here — this is',
+        'where a clot starts'], { dir: -1, cls: 'v-leader' }),
       txt(500, 330, 'low O₂', { 'class': 'v-o2-tag', textAnchor: 'end' }),
       scaleBar(24, 384, '0.5 mm')
     ].join('');
@@ -902,13 +913,26 @@
      * shallow tissue on the left, vessel callouts top-right, depth along the bottom. */
     var annotations = [];
     if (s.labels !== false && s.view === 'transverse') {
-      if (labelMap.skin) annotations.push(leader(180, 96, 44, 78, [labelMap.skin], { dir: -1, cls: 'v-us-leader' }));
-      if (labelMap.probe) annotations.push(leader(300, 62, 402, 84, [labelMap.probe], { dir: 1, cls: 'v-us-leader' }));
-      if (labelMap.vein) annotations.push(leader(196, 292, 44, 208, [labelMap.vein], { dir: -1, cls: 'v-us-leader' }));
-      if (labelMap.thrombus) annotations.push(leader(268, 226, 400, 172, [labelMap.thrombus], { dir: 1, cls: 'v-us-leader' }));
-      if (labelMap.artery) annotations.push(leader(452, 240, 470, 268, [labelMap.artery], { dir: 1, cls: 'v-us-leader' }));
-      if (labelMap.muscle) annotations.push(leader(120, 372, 44, 388, [labelMap.muscle], { dir: -1, cls: 'v-us-leader' }));
-      if (labelMap.depth) annotations.push(leader(578, 428, 420, 452, [labelMap.depth], { dir: -1, cls: 'v-us-leader' }));
+      /* Everything except the depth note is written on the dark screen, so
+       * those callouts carry `is-screen` and are painted light; depth sits
+       * below the screen on paper and keeps the normal ink. */
+      var onScreen = { cls: 'v-us-leader', extra: 'is-screen' };
+      function screenLabel(source, tx, ty, dir) {
+        return leader(source[0], source[1], tx, ty, [labelMap[source[2]]],
+          { dir: dir, cls: onScreen.cls, extra: onScreen.extra });
+      }
+      /* Labels on the left run to the right of their elbow: anchoring them
+       * leftwards pushed the text off the edge of the plate. */
+      if (labelMap.skin) annotations.push(screenLabel([180, 96, 'skin'], 44, 78, 1));
+      if (labelMap.probe) annotations.push(screenLabel([300, 62, 'probe'], 402, 84, 1));
+      if (labelMap.vein) annotations.push(screenLabel([196, 292, 'vein'], 44, 200, 1));
+      if (labelMap.thrombus) annotations.push(screenLabel([268, 226, 'thrombus'], 400, 172, 1));
+      if (labelMap.artery) annotations.push(screenLabel([452, 240, 'artery'], 486, 268, 1));
+      if (labelMap.muscle) annotations.push(screenLabel([120, 372, 'muscle'], 44, 396, 1));
+      /* the depth note sits below the screen, not on it: at y=452 the screen
+       * edge cut through the text */
+      if (labelMap.depth) annotations.push(leader(578, 428, 420, 468, [labelMap.depth],
+        { dir: -1, cls: 'v-us-leader' }));
     }
 
     return svg('0 -40 620 546', 'fig-us', [
@@ -968,7 +992,9 @@
       }, [
         circle(n.x, n.y, 48, { 'class': 'tri-node-ring' }),
         circle(n.x, n.y, 40, { 'class': 'tri-node-disc' }),
-        group({ transform: 'translate(' + n.x + ' ' + (n.y - 4) + ')' }, glyphs[n.id]),
+        /* the glyph is drawn at a nominal 40 px radius, so it is scaled to
+         * sit inside the 40 px disc rather than crossing its ring */
+        group({ transform: 'translate(' + n.x + ' ' + (n.y - 4) + ') scale(.82)' }, glyphs[n.id]),
         textBlock(n.x, n.y + 68, n.label, { cls: 'tri-node-label', lh: 14 })
       ]));
     });
