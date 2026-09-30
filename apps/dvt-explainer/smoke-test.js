@@ -263,6 +263,51 @@ check('figure builders referenced by app.js exist', () => {
   });
 });
 
+/* There is no bundler or linter in this app, so a mistyped local helper would
+ * only surface as a runtime ReferenceError. Walk every `name(` call that is not
+ * a method call and check it resolves to a declaration in the same file. */
+check('every bare function call in app.js resolves to a declaration', () => {
+  const KEYWORDS = new Set([
+    'function', 'return', 'if', 'else', 'for', 'while', 'do', 'switch', 'case',
+    'break', 'continue', 'throw', 'try', 'catch', 'finally', 'new', 'delete',
+    'typeof', 'void', 'in', 'of', 'instanceof', 'var', 'let', 'const', 'class',
+    'this', 'super', 'await', 'yield', 'import', 'export'
+  ]);
+  const BROWSER_GLOBALS = new Set([
+    'document', 'window', 'performance', 'navigator', 'console', 'Math', 'Number',
+    'String', 'Boolean', 'Array', 'Object', 'JSON', 'Date', 'Set', 'Map',
+    'setTimeout', 'setInterval', 'clearInterval', 'clearTimeout', 'parseInt',
+    'parseFloat', 'isNaN', 'requestAnimationFrame', 'IntersectionObserver'
+  ]);
+  // strip comments and string literals so prose never looks like a call
+  const code = appJs
+    .replace(/\/\*[\s\S]*?\*\//g, ' ')
+    .replace(/(^|[^:])\/\/[^\n]*/g, '$1 ')
+    .replace(/'(?:[^'\\]|\\.)*'/g, "''")
+    .replace(/"(?:[^"\\]|\\.)*"/g, '""');
+
+  const declared = new Set();
+  code.replace(/\bfunction\s+([A-Za-z_$][\w$]*)\s*\(/g, (m, name) => {
+    declared.add(name);
+    return m;
+  });
+  code.replace(/\b(?:var|let|const)\s+([A-Za-z_$][\w$]*)\s*=\s*(?:function|\()/g, (m, name) => {
+    declared.add(name);
+    return m;
+  });
+
+  const called = new Set();
+  code.replace(/(^|[^.\w$])([a-z_$][\w$]*)\s*\(/g, (m, pre, name) => {
+    if (KEYWORDS.has(name)) return m;
+    called.add(name);
+    return m;
+  });
+
+  const missing = [...called].filter((name) => !declared.has(name) && !BROWSER_GLOBALS.has(name));
+  assert(missing.length === 0, 'app.js calls undeclared helpers: ' + missing.join(', '));
+  assert(declared.size > 20, 'expected to find app.js helper declarations, saw ' + declared.size);
+});
+
 /* ---------- 6. shared geometry ---------- */
 
 console.log('\ngeometry');

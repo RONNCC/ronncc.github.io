@@ -329,6 +329,22 @@
     return target;
   }
 
+  /* The marker parks in the middle of the segment being described, so
+   * "calf veins" reads as the calf rather than as the knee it ends at. */
+  function segMidDistance(id) {
+    var end = segEndDistance(id);
+    var start = embSegments[id][0];
+    var travelled = 0;
+    var from = 0;
+    for (var i = 1; i < embRoute.length; i++) {
+      var a = embRoute[i - 1];
+      var b = embRoute[i];
+      travelled += Math.hypot(b[0] - a[0], b[1] - a[1]);
+      if (!from && a[0] === start[0] && a[1] === start[1]) from = travelled;
+    }
+    return from + (end - from) / 2;
+  }
+
   function renderEmbolus() {
     render('embolus', Fig.embolus(state.emb));
     moveEmbolusDot(state.emb.distance);
@@ -367,7 +383,7 @@
     var max = Data.embolusSteps.length - 1;
     state.emb.step = Math.max(0, Math.min(max, index));
     if (moveDot !== false) {
-      state.emb.distance = segEndDistance(embOrder[state.emb.step]);
+      state.emb.distance = segMidDistance(embOrder[state.emb.step]);
     }
     renderEmbolus();
   }

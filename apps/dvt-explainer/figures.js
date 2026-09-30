@@ -1098,10 +1098,10 @@
             { 'class': 'pump-tendon' }),
 
           // superficial vein (dashed) running up the medial side
-          path('M ' + PUMP.superficialX + ' 556 C ' + (PUMP.superficialX + 2) + ' 460, '
-            + (PUMP.superficialX + 12) + ' 330, ' + (PUMP.superficialX + 34) + ' 214 '
-            + 'C ' + (PUMP.superficialX + 46) + ' 168, ' + (PUMP.superficialX + 58) + ' 144, '
-            + (PUMP.superficialX + 72) + ' 128', { 'class': 'pump-superficial' }),
+          path('M ' + (PUMP.superficialX + 6) + ' 556 C ' + (PUMP.superficialX + 4) + ' 460, '
+            + (PUMP.superficialX + 6) + ' 336, ' + (PUMP.superficialX + 14) + ' 250 '
+            + 'C ' + (PUMP.superficialX + 20) + ' 190, ' + (PUMP.superficialX + 28) + ' 152, '
+            + (PUMP.superficialX + 40) + ' 132', { 'class': 'pump-superficial' }),
           // perforating veins: superficial -> deep
           path('M ' + (PUMP.superficialX + 10) + ' 452 C ' + (PUMP.superficialX + 30) + ' 450, '
             + (PUMP.leftX - PUMP.halfL - 24) + ' 446, ' + (PUMP.leftX - PUMP.halfL) + ' 442',
