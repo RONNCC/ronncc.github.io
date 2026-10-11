@@ -882,7 +882,7 @@ body.cg-modal-open { overflow: hidden; }
         <p class="cg-eyebrow">the useful bit</p>
         <h2 id="cg-lookup-title" class="cg-display">Look it up at the counter.</h2>
       </div>
-      <p>Search a drink, ingredient, alias, or shop. Try <em>tonic</em>, <em>macadamia</em>, <em>Philz</em>, or <em>cortado</em>.</p>
+      <p>Search a drink, ingredient, alias, or shop. Best matches come first, and small spelling slips are okay. Try <em>tonic</em>, <em>macadamia</em>, <em>Philz</em>, or <em>cortado</em>.</p>
     </div>
 
     <div class="cg-search-panel">
@@ -1077,6 +1077,7 @@ body.cg-modal-open { overflow: hidden; }
     <p>Menu vocabulary cross-checked against <a href="https://www.saintfrankcoffee.com/" target="_blank" rel="noopener">Saint Frank</a>, <a href="https://blog.bluebottlecoffee.com/posts/blue-bottle-reopening-menu" target="_blank" rel="noopener">Blue Bottle’s drink menu notes</a>, <a href="https://ritualcoffee.com/news/signature-beverages-fall-23/" target="_blank" rel="noopener">Ritual’s signature-beverage notes</a>, <a href="https://sightglasscoffee.com/blogs/blog/signature-espresso-beverages" target="_blank" rel="noopener">Sightglass’s signature-beverage notes</a>, <a href="https://philzcoffee.com/menu/coffee" target="_blank" rel="noopener">Philz’s coffee menu</a>, <a href="https://lineacaffe.com/drink-menu/" target="_blank" rel="noopener">Linea’s drink menu</a>, <a href="https://vervecoffeeroasters.toast.site/menu/verve-coffee-roasters-pacific-avenue-1540-pacific-avenue" target="_blank" rel="noopener">Verve’s SF menu</a>, <a href="https://order.toasttab.com/online/equator-coffees-fort-mason" target="_blank" rel="noopener">Equator’s Fort Mason menu</a>, <a href="https://www.fourbarrelcoffee.com/pages/about-us" target="_blank" rel="noopener">Four Barrel</a>, <a href="https://flywheelcoffee.com/" target="_blank" rel="noopener">Flywheel</a>, <a href="https://www.thecoffeemovement.com/menu" target="_blank" rel="noopener">The Coffee Movement’s menu</a>, <a href="https://dailycoffeenews.com/2021/06/02/abanico-coffee-roasters-is-right-at-home-in-the-mission/" target="_blank" rel="noopener">Daily Coffee News on Abanico</a>, <a href="https://sf.eater.com/2024/3/15/24102109/sextant-coffee-opening-mission-district-cafe" target="_blank" rel="noopener">Eater’s Sextant profile</a>, <a href="https://mazarinecoffee.com/food-print-menu/" target="_blank" rel="noopener">Mazarine’s menu</a>, <a href="https://www.sfchronicle.com/recipes/article/Recipe-Karl-the-Latte-Wrecking-Ball-s-Spiced-6582045.php" target="_blank" rel="noopener">the Karl the Latte recipe</a>, <a href="https://www.coffee-consulate.com/en/blog/spain" target="_blank" rel="noopener">Coffee Consulate’s Spain glossary</a>, <a href="https://visiteurope.com/experiences/portugal-coffee-culture" target="_blank" rel="noopener">Visit Europe’s Portugal guide</a>, <a href="https://ny.eater.com/2022/10/5/23386042/egg-creams-in-nyc-beanmonger-s-and-p-agis-counter" target="_blank" rel="noopener">Eater NY on egg creams</a>, <a href="https://gosimplyfrench.com/blog/how-to-order-coffee-in-french-and-sound-like-a-local/31dcd2e1-d4c4-80aa-a307-f53c31abd3ab" target="_blank" rel="noopener">a French café glossary</a>, <a href="https://coffeewise.com.au/what-is-magic-coffee/" target="_blank" rel="noopener">an Australian magic guide</a>, <a href="https://cubancoffeequeen.com/company/what-is-cuban-coffee/make-your-own/cafe-colada/" target="_blank" rel="noopener">Cuban Coffee Queen’s colada guide</a>, <a href="https://www.middleeasteye.net/discover/coffee-turkey-yemen-morocco-middle-east-around" target="_blank" rel="noopener">Middle East Eye’s Moroccan coffee note</a>, <a href="https://eskedarcoffee.com/blogs/conversations-over-coffee/what-is-the-ethiopian-coffee-ceremony-a-guide-to-buna" target="_blank" rel="noopener">Eskedar’s buna guide</a>, and <a href="https://sf.eater.com/2019/2/5/18212681/andytown-cafe-downtown-san-francisco-open" target="_blank" rel="noopener">Eater’s Andytown profile</a>.</p>
   </footer>
 </div>
+<script src="{{ '/guides/coffee-guide-search.js' | relative_url }}"></script>
 <script>
 (function () {
   "use strict";
@@ -2563,29 +2564,11 @@ function cupArt(item) {
       .replace(/'/g, "&#039;");
   }
 
-  function normalize(value) {
-    var text = String(value).toLowerCase();
-    if (text.normalize) text = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    return text.replace(/[-_/]+/g, " ").replace(/\s+/g, " ").trim();
-  }
-
-  function matches(item) {
-    var haystack = normalize([
-      item.name,
-      (item.aliases || []).join(" "),
-      item.category,
-      (item.shops || []).join(" "),
-      item.region,
-      (item.tags || []).join(" "),
-      item.meaning,
-      item.ingredients,
-      item.order
-    ].join(" "));
-    var queryMatch = !state.query || haystack.indexOf(normalize(state.query)) !== -1;
+  function matchesFilters(item) {
     var categoryMatch = state.category === "all" || item.category === state.category;
     var shopMatch = state.shop === "all" || (item.shops || []).indexOf(state.shop) !== -1;
     var regionMatch = state.region === "all" || item.region === state.region || (item.tags || []).indexOf(state.region) !== -1;
-    return queryMatch && categoryMatch && shopMatch && regionMatch;
+    return categoryMatch && shopMatch && regionMatch;
   }
 
   function shopChipHTML(shop) {
@@ -2617,12 +2600,14 @@ function cupArt(item) {
   }
 
   function render() {
-    var visible = drinks.filter(matches);
+    var visible = CoffeeGuideSearch.rank(drinks, state.query).filter(function (result) {
+      return matchesFilters(result.item);
+    });
     var defaultView = !state.query && state.category === "all" && state.shop === "all" && state.region === "all";
     var initialLimit = 18;
     var shown = defaultView && !state.showAll ? visible.slice(0, initialLimit) : visible;
     results.innerHTML = shown.length
-      ? shown.map(function (item) { return renderCard(item, drinks.indexOf(item)); }).join("")
+      ? shown.map(function (result) { return renderCard(result.item, result.index); }).join("")
       : '<div class="cg-no-results">No menu term matched that combination. Try a broader search, or clear one of the filters.</div>';
 
     var resultLabel = visible.length === 1 ? "term" : "terms";
