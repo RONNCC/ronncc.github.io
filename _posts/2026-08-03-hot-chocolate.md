@@ -159,8 +159,8 @@ redirect_from: /2026/hot-chocolate
 <script>
 (function(){
   /* `status` on each spot is only the fallback shown while loading (or if the
-     gist can't be fetched). The source of truth is the YAML gist loaded by
-     /js/visited-status.js, section `hot_chocolate`. */
+     file can't be fetched). The source of truth is sf-spots-visited-status.yml,
+     loaded by /js/visited-status.js, section `hot_chocolate`. */
   var SPOTS = [
     {key:'buenavista', name:'Buena Vista Cafe', nb:'Fisherman\'s Wharf', lat:37.8063, lng:-122.4206,
      status:'notyet', drink:'Irish whiskey hot chocolate',
@@ -382,7 +382,7 @@ redirect_from: /2026/hot-chocolate
     });
   });
 
-  /* ── visited status from the gist ── */
+  /* ── visited status from sf-spots-visited-status.yml ── */
   var syncEl = document.getElementById('hcSync');
 
   function setSyncNote(state, html){
@@ -421,11 +421,11 @@ redirect_from: /2026/hot-chocolate
         return;
       }
       applyStatuses(statuses);
-      setSyncNote('ok', 'Visited status synced from gist · <a href="' + VS.GIST_URL + '" target="_blank" rel="noopener" title="Only the gist owner can edit">edit ↗</a>');
+      setSyncNote('ok', 'Visited status from ' + VS.SOURCE_NAME + ' · <a href="' + VS.EDIT_URL + '" target="_blank" rel="noopener" title="Edit ' + VS.SOURCE_NAME + ' (owner only)">edit ↗</a>');
     });
   }
 
-  // Re-check when the tab regains focus (e.g. after editing the gist in another tab).
+  // Re-check when the tab regains focus (e.g. after editing the YAML in another tab).
   document.addEventListener('visibilitychange', function(){
     if(!document.hidden) loadVisitedStatus(true);
   });
@@ -444,7 +444,7 @@ redirect_from: /2026/hot-chocolate
     setTimeout(function(){ map.invalidateSize(); }, 300);
   });
 
-  // Render with the fallback statuses right away, then swap in the gist's.
+  // Render with the fallback statuses right away, then swap in the YAML's.
   updateCounts();
   renderList();
   loadVisitedStatus();

@@ -59,7 +59,7 @@ test("normalizeStatus maps the documented aliases onto the three statuses", () =
 
 /* ── parse / statusesFor ─────────────────────────────────────────── */
 
-test("parse understands the two-level YAML subset used by the gist", () => {
+test("parse understands the two-level YAML subset used by the status file", () => {
   const parsed = VisitedStatus.parse(SAMPLE_YAML);
   assert.deepEqual(Object.keys(parsed).sort(), ["hot_chocolate", "sandwiches"], "only mapping sections are kept");
   assert.deepEqual(parsed.sandwiches, {
@@ -98,7 +98,7 @@ test("statusesFor returns canonical statuses for one section and drops junk", ()
   assert.deepEqual(VisitedStatus.statusesFor("just some text\nno colons here", "sandwiches"), {});
 });
 
-test("parse handles CRLF files and a Windows-style edit of the gist", () => {
+test("parse handles CRLF files and a Windows-style edit of the status file", () => {
   const crlf = "sandwiches:\r\n  oceansubs: visited\r\n  palmcity: notyet\r\n";
   assert.deepEqual(VisitedStatus.statusesFor(crlf, "sandwiches"), { oceansubs: "visited", palmcity: "notyet" });
 });
@@ -106,9 +106,10 @@ test("parse handles CRLF files and a Windows-style edit of the gist", () => {
 /* ── fetch chain ─────────────────────────────────────────────────── */
 
 // Evaluate the loader in a sandbox with a fake fetch so the real network is
-// never touched. `gistId` lets us exercise both the configured and the
-// placeholder states regardless of what js/visited-status.js currently holds.
-function loadInSandbox({ gistId, responses }) {
+// never touched. `sourceUrl` swaps the configured SOURCE_URL so both the
+// site-hosted and the gist-hosted shapes are exercised regardless of which
+// one js/visited-status.js currently points at.
+function loadInSandbox({ sourceUrl, responses }) {
   const calls = [];
   const fetch = async (url, init) => {
     calls.push({ url, init });
@@ -123,7 +124,7 @@ function loadInSandbox({ gistId, responses }) {
       json: async () => JSON.parse(hit.body)
     };
   };
-  const src = gistId ? LOADER_SRC.replace("__GIST_ID__", gistId) : LOADER_SRC;
+  const src = sourceUrl ? LOADER_SRC.replace(/var SOURCE_URL = "[^"]*";/, `var SOURCE_URL = ${JSON.stringify(sourceUrl)};`) : LOADER_SRC;
   const sandbox = { fetch, console, Promise, module: { exports: {} } };
   sandbox.globalThis = sandbox;
   vm.runInNewContext(src, sandbox, { filename: "visited-status.js" });
@@ -134,78 +135,89 @@ function loadInSandbox({ gistId, responses }) {
 // deepStrictEqual rejects; round-trip through JSON before comparing.
 const plain = (value) => JSON.parse(JSON.stringify(value));
 
+const FILE = "sf-spots-visited-status.yml";
 const FAKE_ID = "0123456789abcdef0123456789abcdef";
-const RAW = `https://gist.githubusercontent.com/RONNCC/${FAKE_ID}/raw/visited.yml`;
-const API = `https://api.github.com/gists/${FAKE_ID}`;
+const GIST_RAW = `https://gist.githubusercontent.com/RONNCC/${FAKE_ID}/raw/${FILE}`;
+const GIST_API = `https://api.github.com/gists/${FAKE_ID}`;
 const BODY = "sandwiches:\n  oceansubs: visited\n";
+const escapeRe = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-test("load() uses the cache-busted raw gist URL first", async () => {
-  const { api, calls } = loadInSandbox({ gistId: FAKE_ID, responses: [{ match: /raw\/visited\.yml\?t=\d+$/, body: BODY }] });
-  assert.equal(api.isConfigured(), true);
-  assert.equal(api.RAW_URL, RAW);
-  assert.equal(api.GIST_URL, `https://gist.github.com/RONNCC/${FAKE_ID}`);
+test("the default source is the YAML served from this repo, with a matching edit link", () => {
+  assert.equal(VisitedStatus.SOURCE_URL, `/data/${FILE}`);
+  assert.equal(VisitedStatus.SOURCE_NAME, FILE);
+  assert.equal(VisitedStatus.EDIT_URL, `https://github.com/RONNCC/ronncc.github.io/edit/master/data/${FILE}`);
+  assert.ok(fs.existsSync(path.join(__dirname, "..", "data", FILE)), `data/${FILE} exists`);
+  assert.doesNotMatch(fs.readFileSync(path.join(__dirname, "..", "data", FILE), "utf8"), /^---/, "must not start with --- or Jekyll treats it as front matter");
+});
 
+test("gistFor recognises gist raw URLs (with or without a revision) and nothing else", () => {
+  assert.deepEqual(VisitedStatus.gistFor(GIST_RAW), { id: FAKE_ID, file: FILE, apiUrl: GIST_API });
+  assert.deepEqual(VisitedStatus.gistFor(`https://gist.githubusercontent.com/RONNCC/${FAKE_ID}/raw/abc123def/${FILE}`), { id: FAKE_ID, file: FILE, apiUrl: GIST_API });
+  assert.equal(VisitedStatus.gistFor(`/data/${FILE}`), null);
+  assert.equal(VisitedStatus.gistFor(`https://sghose.me/data/${FILE}`), null);
+  assert.equal(VisitedStatus.gistFor(""), null);
+});
+
+test("load() fetches SOURCE_URL with a cache-buster first", async () => {
+  const { api, calls } = loadInSandbox({ responses: [{ match: new RegExp(`/data/${escapeRe(FILE)}\\?t=\\d+$`), body: BODY }] });
   let cbArgs;
   const result = await api.load("sandwiches", (...args) => { cbArgs = args; });
   assert.deepEqual(plain(result), { oceansubs: "visited" });
   assert.deepEqual(plain(cbArgs), [null, { oceansubs: "visited" }]);
   assert.equal(calls.length, 1);
-  assert.match(calls[0].url, new RegExp("^" + RAW.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\?t=\\d+$"));
+  assert.match(calls[0].url, new RegExp(`^/data/${escapeRe(FILE)}\\?t=\\d+$`));
   assert.equal(calls[0].init.cache, "no-store");
   assert.equal(calls[0].init.credentials, "omit");
 });
 
-test("load() falls back to the plain raw URL, then to the gists API", async () => {
-  const plainRaw = loadInSandbox({
-    gistId: FAKE_ID,
+test("load() falls back to the plain URL; a site-hosted file has no third fallback", async () => {
+  const plainUrl = loadInSandbox({
     responses: [
       { match: /\?t=\d+$/, status: 404, body: "" },
-      { match: "/raw/visited.yml", body: BODY }
+      { match: `/data/${FILE}`, body: BODY }
     ]
   });
-  assert.deepEqual(plain(await plainRaw.api.load("sandwiches")), { oceansubs: "visited" });
-  assert.deepEqual(plainRaw.calls.map((c) => c.url.split("?")[0]), [RAW, RAW]);
+  assert.deepEqual(plain(await plainUrl.api.load("sandwiches")), { oceansubs: "visited" });
+  assert.deepEqual(plainUrl.calls.map((c) => c.url.split("?")[0]), [`/data/${FILE}`, `/data/${FILE}`]);
 
-  const viaApi = loadInSandbox({
-    gistId: FAKE_ID,
-    responses: [
-      { match: "/raw/visited.yml", throws: true },
-      { match: API, body: JSON.stringify({ files: { "visited.yml": { content: BODY } } }) }
-    ]
-  });
-  assert.deepEqual(plain(await viaApi.api.load("sandwiches")), { oceansubs: "visited" });
-  assert.deepEqual(viaApi.calls.map((c) => c.url.split("?")[0]), [RAW, RAW, API]);
-  assert.equal(viaApi.calls[2].init.headers.Accept, "application/vnd.github+json");
-});
-
-test("load() reports failure (and an empty map) when every source fails", async () => {
-  const { api, calls } = loadInSandbox({ gistId: FAKE_ID, responses: [] });
+  const failing = loadInSandbox({ responses: [] });
   let cbArgs;
-  const result = await api.load("sandwiches", (...args) => { cbArgs = args; });
+  const result = await failing.api.load("sandwiches", (...args) => { cbArgs = args; });
   assert.deepEqual(plain(result), {});
   assert.match(String(cbArgs[0] && cbArgs[0].message), /network down/, "callback receives the error");
   assert.deepEqual(plain(cbArgs[1]), {});
-  assert.equal(calls.length, 3, "raw (busted), raw (plain), API");
+  assert.equal(failing.calls.length, 2, "busted + plain, then give up");
 });
 
-test("load() refuses to hit the network while the gist id is still the placeholder", async () => {
-  const { api, calls } = loadInSandbox({ gistId: null, responses: [{ match: /./, body: BODY }] });
-  assert.equal(api.isConfigured(), false);
+test("once SOURCE_URL points at a gist, the gists API is the last-resort fallback", async () => {
+  const viaApi = loadInSandbox({
+    sourceUrl: GIST_RAW,
+    responses: [
+      { match: `/raw/${FILE}`, throws: true },
+      { match: GIST_API, body: JSON.stringify({ files: { [FILE]: { content: BODY } } }) }
+    ]
+  });
+  assert.equal(viaApi.api.SOURCE_NAME, FILE);
+  assert.deepEqual(plain(await viaApi.api.load("sandwiches")), { oceansubs: "visited" });
+  assert.deepEqual(viaApi.calls.map((c) => c.url.split("?")[0]), [GIST_RAW, GIST_RAW, GIST_API]);
+  assert.equal(viaApi.calls[2].init.headers.Accept, "application/vnd.github+json");
+
+  const allDown = loadInSandbox({ sourceUrl: GIST_RAW, responses: [] });
   let err;
-  await api.load("sandwiches", (e) => { err = e; });
-  assert.match(err.message, /not configured/);
-  assert.equal(calls.length, 0);
+  await allDown.api.load("sandwiches", (e) => { err = e; });
+  assert.match(String(err && err.message), /network down/);
+  assert.equal(allDown.calls.length, 3, "raw (busted), raw (plain), API");
 });
 
-test("an explicit URL (window.VISITED_STATUS_URL / options.url) bypasses the gist entirely", async () => {
-  const { api, calls } = loadInSandbox({ gistId: null, responses: [{ match: "/visited.yml", body: BODY }] });
-  assert.deepEqual(plain(await api.load("sandwiches", null, { url: "/visited.yml" })), { oceansubs: "visited" });
+test("an explicit URL (window.VISITED_STATUS_URL / options.url) overrides SOURCE_URL", async () => {
+  const { api, calls } = loadInSandbox({ responses: [{ match: "/local.yml", body: BODY }] });
+  assert.deepEqual(plain(await api.load("sandwiches", null, { url: "/local.yml" })), { oceansubs: "visited" });
   assert.equal(calls.length, 1);
-  assert.match(calls[0].url, /^\/visited\.yml\?t=\d+$/);
+  assert.match(calls[0].url, /^\/local\.yml\?t=\d+$/);
 
-  const failing = loadInSandbox({ gistId: FAKE_ID, responses: [] });
-  await failing.api.load("sandwiches", null, { url: "/visited.yml" });
-  assert.deepEqual(failing.calls.map((c) => c.url.split("?")[0]), ["/visited.yml", "/visited.yml"], "no API fallback for a custom URL");
+  const failing = loadInSandbox({ sourceUrl: GIST_RAW, responses: [] });
+  await failing.api.load("sandwiches", null, { url: "/local.yml" });
+  assert.deepEqual(failing.calls.map((c) => c.url.split("?")[0]), ["/local.yml", "/local.yml"], "no gist API fallback for an override URL");
 });
 
 /* ── the pages ───────────────────────────────────────────────────── */
@@ -225,11 +237,12 @@ test("both map pages load the shared visited-status script and ask for their own
     assert.match(inlineScript(page), new RegExp(`VS\\.load\\('${section}'`), `${name} page loads section ${section}`);
     assert.doesNotThrow(() => new vm.Script(inlineScript(page)), `${name} inline script parses`);
     assert.match(page, /visibilitychange/, `${name} page re-syncs when the tab regains focus`);
-    assert.match(page, /GIST_URL/, `${name} page links to the gist for editing`);
+    assert.match(page, /VS\.EDIT_URL/, `${name} page links to the YAML for editing`);
+    assert.match(page, /VS\.SOURCE_NAME/, `${name} page names the YAML file in its sync note`);
   }
 });
 
-test("the gist is the only place visited marks live — no localStorage, toggles, or reset button", () => {
+test("the YAML is the only place visited marks live — no localStorage, toggles, or reset button", () => {
   assert.doesNotMatch(SANDWICH_PAGE, /localStorage|sessionStorage/);
   assert.doesNotMatch(SANDWICH_PAGE, /toggleSpotVisited|ssResetBtn|ss-check-btn|ss-detail-toggle-btn|Mark as Visited/);
   assert.doesNotMatch(HOT_CHOCOLATE_PAGE, /localStorage|sessionStorage/);
@@ -244,7 +257,20 @@ test("spot keys are unique and look like YAML-friendly identifiers", () => {
   }
 });
 
-test("every spot keeps a fallback status for when the gist is unreachable", () => {
+test("data/sf-spots-visited-status.yml covers every spot key in both posts (and nothing else)", () => {
+  const yaml = fs.readFileSync(path.join(__dirname, "..", "data", FILE), "utf8");
+  for (const [name, page, section] of [["sandwich", SANDWICH_PAGE, "sandwiches"], ["hot chocolate", HOT_CHOCOLATE_PAGE, "hot_chocolate"]]) {
+    const statuses = VisitedStatus.statusesFor(yaml, section);
+    assert.deepEqual(Object.keys(statuses).sort(), spotKeys(page).sort(), `${name}: YAML keys match the post's spot keys`);
+  }
+  assert.deepEqual(Object.keys(VisitedStatus.parse(yaml)).sort(), ["hot_chocolate", "sandwiches"], "only the two known sections");
+  const hotChocolate = VisitedStatus.statusesFor(yaml, "hot_chocolate");
+  const sandwiches = VisitedStatus.statusesFor(yaml, "sandwiches");
+  assert.ok(Object.values(sandwiches).every((v) => v === "visited" || v === "notyet"), "sandwich page only knows visited/notyet");
+  assert.ok(Object.values(hotChocolate).every((v) => VisitedStatus.STATUSES.includes(v)));
+});
+
+test("every spot keeps a fallback status for when the YAML is unreachable", () => {
   const sandwiches = inlineScript(SANDWICH_PAGE).match(/defaultStatus:'(visited|notyet)'/g) || [];
   assert.equal(sandwiches.length, 21);
   const hotChocolate = inlineScript(HOT_CHOCOLATE_PAGE).match(/\bstatus:'(visited|notyet|unknown)'/g) || [];

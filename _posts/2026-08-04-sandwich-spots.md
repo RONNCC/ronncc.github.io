@@ -56,7 +56,7 @@ permalink: /sandwich-spots/
 .ss-item:hover{background:#fffaf6;border-color:#f2dacb;transform:translateY(-1px);box-shadow:0 2px 6px rgba(0,0,0,.04)}
 .ss-item.on{background:#fcf1e9;border-color:#e8c3a4;box-shadow:inset 3px 0 0 #c1440e, 0 2px 8px rgba(193,68,14,.08)}
 
-/* status icon in list (read-only — status comes from the gist) */
+/* status icon in list (read-only — status comes from sf-spots-visited-status.yml) */
 .ss-status-icon{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;flex-shrink:0;border:2px solid #ddd;background:#fff;color:#aaa;transition:all .15s;margin-top:2px;padding:0}
 .ss-status-icon.visited{background:#e8f5e9;border-color:#4caf50;color:#2e7d32;font-weight:bold}
 .ss-status-icon.notyet{background:#fff8ee;border-color:#ff9800;color:#e65100}
@@ -431,13 +431,13 @@ permalink: /sandwich-spots/
   ];
 
   /* ── Visited status ──
-     Single source of truth is the YAML gist loaded by /js/visited-status.js
-     (section `sandwiches`). `defaultStatus` above is only the fallback used
-     while loading or if the gist can't be fetched. */
-  var gistStatus = {};
+     Single source of truth is sf-spots-visited-status.yml, loaded by
+     /js/visited-status.js (section `sandwiches`). `defaultStatus` above is
+     only the fallback used while loading or if that file can't be fetched. */
+  var yamlStatus = {};
 
   function getSpotStatus(spot){
-    var st = gistStatus[spot.key];
+    var st = yamlStatus[spot.key];
     return (st === 'visited' || st === 'notyet') ? st : spot.defaultStatus;
   }
 
@@ -775,7 +775,7 @@ permalink: /sandwich-spots/
     if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
   }
 
-  /* ── Load visited status from the gist ── */
+  /* ── Load visited status from sf-spots-visited-status.yml ── */
   var syncEl = document.getElementById('ssSync');
 
   function setSyncNote(state, html){
@@ -809,13 +809,13 @@ permalink: /sandwich-spots/
         if(retry) retry.addEventListener('click', function(e){ e.preventDefault(); loadVisitedStatus(); });
         return;
       }
-      gistStatus = statuses;
+      yamlStatus = statuses;
       rerenderStatuses();
-      setSyncNote('ok', 'Visited status synced from gist · <a href="' + VS.GIST_URL + '" target="_blank" rel="noopener" title="Only the gist owner can edit">edit ↗</a>');
+      setSyncNote('ok', 'Visited status from ' + VS.SOURCE_NAME + ' · <a href="' + VS.EDIT_URL + '" target="_blank" rel="noopener" title="Edit ' + VS.SOURCE_NAME + ' (owner only)">edit ↗</a>');
     });
   }
 
-  // Re-check when the tab regains focus (e.g. after editing the gist in another tab).
+  // Re-check when the tab regains focus (e.g. after editing the YAML in another tab).
   document.addEventListener('visibilitychange', function(){
     if(!document.hidden) loadVisitedStatus(true);
   });
@@ -881,7 +881,7 @@ permalink: /sandwich-spots/
     renderList();
   }, 60000);
 
-  // Initial load: render with defaults right away, then swap in the gist's statuses.
+  // Initial load: render with defaults right away, then swap in the YAML's statuses.
   updateCounts();
   renderList();
   refreshMapMarkers();

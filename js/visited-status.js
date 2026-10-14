@@ -1,8 +1,8 @@
 /* Visited status for the SF spot maps (/sandwich-spots/, /hot-chocolate/).
  *
- * The single source of truth is a secret GitHub gist containing a YAML
- * file (visited.yml). Only the gist owner can edit it; the pages fetch it
- * on every load, so an edit shows up on every device without a deploy.
+ * The single source of truth is one YAML file, sf-spots-visited-status.yml.
+ * The pages fetch it on every load, so editing that file (and nothing else)
+ * is how a spot gets marked visited:
  *
  *   sandwiches:
  *     oceansubs: visited      # comments are fine
@@ -27,18 +27,26 @@
 }(typeof globalThis !== "undefined" ? globalThis : this, function (root) {
   "use strict";
 
-  /* ── Where the YAML lives ──────────────────────────────────────────── */
-  var GIST_OWNER = "RONNCC";
-  var GIST_ID = "__GIST_ID__"; // ← paste the id from https://gist.github.com/<owner>/<id>
-  var GIST_FILE = "visited.yml";
+  /* ── Where the YAML lives ──────────────────────────────────────────────
+   * SOURCE_URL is fetched by the pages; EDIT_URL is where the "edit" link
+   * in the page footer points. For now the file is served from this repo
+   * (edits go live on the next Pages deploy). To move it to a secret gist
+   * that only the owner can edit, create the gist with the same filename
+   * and swap these two lines:
+   *   SOURCE_URL = "https://gist.githubusercontent.com/RONNCC/<gist id>/raw/sf-spots-visited-status.yml"
+   *   EDIT_URL   = "https://gist.github.com/RONNCC/<gist id>"
+   * (no revision hash in the raw URL → always the latest; gist CORS is open).
+   */
+  var SOURCE_URL = "/data/sf-spots-visited-status.yml";
+  var EDIT_URL = "https://github.com/RONNCC/ronncc.github.io/edit/master/data/sf-spots-visited-status.yml";
 
-  var GIST_URL = "https://gist.github.com/" + GIST_OWNER + "/" + GIST_ID;
-  // No revision hash in the path → always the latest revision. CORS is open.
-  var RAW_URL = "https://gist.githubusercontent.com/" + GIST_OWNER + "/" + GIST_ID + "/raw/" + GIST_FILE;
-  var API_URL = "https://api.github.com/gists/" + GIST_ID;
+  var SOURCE_NAME = SOURCE_URL.split("?")[0].split("/").pop();
 
-  function isConfigured() {
-    return /^[0-9a-f]{20,}$/i.test(GIST_ID);
+  // If SOURCE_URL is a gist raw URL, the gists REST API doubles as a last-resort fallback.
+  var GIST_RAW = /^https:\/\/gist\.githubusercontent\.com\/[^/]+\/([0-9a-f]+)\/raw\/(?:[0-9a-f]+\/)?([^/?#]+)/i;
+  function gistFor(url) {
+    var m = GIST_RAW.exec(url || "");
+    return m ? { id: m[1], file: decodeURIComponent(m[2]), apiUrl: "https://api.github.com/gists/" + m[1] } : null;
   }
 
   /* ── Status vocabulary ─────────────────────────────────────────────── */
@@ -153,37 +161,36 @@
     });
   }
 
-  function fetchFromApi() {
-    return root.fetch(API_URL, { cache: "no-store", credentials: "omit", headers: { Accept: "application/vnd.github+json" } })
+  function fetchFromGistApi(gist) {
+    return root.fetch(gist.apiUrl, { cache: "no-store", credentials: "omit", headers: { Accept: "application/vnd.github+json" } })
       .then(function (res) {
-        if (!res.ok) throw new Error("HTTP " + res.status + " for " + API_URL);
+        if (!res.ok) throw new Error("HTTP " + res.status + " for " + gist.apiUrl);
         return res.json();
       })
-      .then(function (gist) {
-        var file = gist && gist.files && gist.files[GIST_FILE];
-        if (!file || typeof file.content !== "string") throw new Error("gist has no " + GIST_FILE);
+      .then(function (payload) {
+        var file = payload && payload.files && payload.files[gist.file];
+        if (!file || typeof file.content !== "string") throw new Error("gist has no " + gist.file);
         return file.content;
       });
   }
 
   // Resolves with the YAML text. Tries, in order:
-  //   1. raw gist URL with a cache-buster (the raw CDN otherwise caches ~5 min)
-  //   2. plain raw gist URL
-  //   3. the gists REST API (60 req/h/IP unauthenticated, so only as a fallback)
+  //   1. SOURCE_URL with a cache-buster (Pages / the gist CDN otherwise cache for minutes)
+  //   2. plain SOURCE_URL
+  //   3. if SOURCE_URL is a gist: the gists REST API (60 req/h/IP unauthenticated, so last resort)
   function fetchYaml(options) {
     options = options || {};
-    var override = options.url || (root && root.VISITED_STATUS_URL);
-    var base = override || RAW_URL;
+    var base = options.url || (root && root.VISITED_STATUS_URL) || SOURCE_URL;
 
     if (!root || typeof root.fetch !== "function") return Promise.reject(new Error("fetch is not available"));
-    if (!override && !isConfigured()) return Promise.reject(new Error("visited-status gist id is not configured"));
 
     var busted = base + (base.indexOf("?") === -1 ? "?" : "&") + "t=" + Date.now();
     return fetchText(busted)
       .catch(function () { return fetchText(base); })
       .catch(function (err) {
-        if (override) throw err;
-        return fetchFromApi();
+        var gist = gistFor(base);
+        if (!gist) throw err;
+        return fetchFromGistApi(gist);
       });
   }
 
@@ -201,14 +208,11 @@
   }
 
   return {
-    GIST_OWNER: GIST_OWNER,
-    GIST_ID: GIST_ID,
-    GIST_FILE: GIST_FILE,
-    GIST_URL: GIST_URL,
-    RAW_URL: RAW_URL,
-    API_URL: API_URL,
+    SOURCE_URL: SOURCE_URL,
+    SOURCE_NAME: SOURCE_NAME,
+    EDIT_URL: EDIT_URL,
     STATUSES: STATUSES,
-    isConfigured: isConfigured,
+    gistFor: gistFor,
     normalizeStatus: normalizeStatus,
     parse: parse,
     statusesFor: statusesFor,
