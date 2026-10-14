@@ -45,8 +45,8 @@ if [ "$fail" -eq 0 ]; then
 fi
 if [ "$fail" -ne 0 ]; then exit "$fail"; fi
 
-# Exercise the Coffee Guide's pure ranking/fuzzy-search logic on every CI run.
-node --test scripts/coffee-guide-search.test.js
+# Exercise guide search and the sandwich map configuration on every CI run.
+node --test scripts/coffee-guide-search.test.js scripts/sandwich-map.test.js
 
 # The same standalone HTML shells also need a browser regression gate. Keep the
 # local analytics guard lightweight; the existing CI workflows run the complete
