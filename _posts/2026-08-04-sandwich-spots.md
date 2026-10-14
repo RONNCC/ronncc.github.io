@@ -724,8 +724,10 @@ permalink: /sandwich-spots/
 
   /* ── Map Setup & Markers ── */
   var map = L.map('ssMap', {zoomControl:true}).setView([37.771, -122.443], 12.5);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution:'&copy; OpenStreetMap &copy; CARTO'
+  // Standard OpenStreetMap tiles need no API key; keep attribution visible.
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
 
   var STATUS_COLOR = {visited: '#2e7d32', notyet: '#c1440e'};
