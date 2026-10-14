@@ -56,11 +56,10 @@ permalink: /sandwich-spots/
 .ss-item:hover{background:#fffaf6;border-color:#f2dacb;transform:translateY(-1px);box-shadow:0 2px 6px rgba(0,0,0,.04)}
 .ss-item.on{background:#fcf1e9;border-color:#e8c3a4;box-shadow:inset 3px 0 0 #c1440e, 0 2px 8px rgba(193,68,14,.08)}
 
-/* toggle check button in list */
-.ss-check-btn{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;flex-shrink:0;border:2px solid #ddd;background:#fff;color:#aaa;cursor:pointer;transition:all .15s;margin-top:2px;padding:0}
-.ss-check-btn:hover{transform:scale(1.08)}
-.ss-check-btn.visited{background:#e8f5e9;border-color:#4caf50;color:#2e7d32;font-weight:bold}
-.ss-check-btn.notyet{background:#fff8ee;border-color:#ff9800;color:#e65100}
+/* status icon in list (read-only — status comes from the gist) */
+.ss-status-icon{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;flex-shrink:0;border:2px solid #ddd;background:#fff;color:#aaa;transition:all .15s;margin-top:2px;padding:0}
+.ss-status-icon.visited{background:#e8f5e9;border-color:#4caf50;color:#2e7d32;font-weight:bold}
+.ss-status-icon.notyet{background:#fff8ee;border-color:#ff9800;color:#e65100}
 
 .ss-item-body{min-width:0;flex:1}
 .ss-item-top{display:flex;align-items:baseline;justify-content:space-between;gap:6px;margin-bottom:2px}
@@ -99,11 +98,6 @@ permalink: /sandwich-spots/
 .ss-detail-status-badge{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px}
 .ss-detail-status-badge.visited{background:#e8f5e9;color:#2e7d32}
 .ss-detail-status-badge.notyet{background:#fff3e0;color:#e65100}
-
-.ss-detail-toggle-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;border:1px solid #ddd;background:#fff;cursor:pointer;transition:all .15s;font-family:inherit}
-.ss-detail-toggle-btn:hover{border-color:#999;background:#f5f5f5}
-.ss-detail-toggle-btn.is-visited{border-color:#4caf50;color:#2e7d32;background:#f1f8f2}
-.ss-detail-toggle-btn.is-visited:hover{background:#e4f4e6}
 
 .ss-detail h3{margin:0 0 2px;font-size:18px;font-weight:800;color:#1a1a1a}
 .ss-detail-nb{font-size:11.5px;color:#888;text-transform:uppercase;letter-spacing:.04em;margin-bottom:12px;font-weight:600}
@@ -167,8 +161,11 @@ permalink: /sandwich-spots/
 .ss-panes.left-collapsed .ss-list{height:0;padding:0;overflow:hidden}
 
 .ss-footer-note{max-width:900px;margin:16px auto 0;padding:0 20px;font-size:12.5px;color:#888;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-.ss-reset-btn{background:none;border:none;color:#999;text-decoration:underline;font-size:11.5px;cursor:pointer;padding:0}
-.ss-reset-btn:hover{color:#c1440e}
+.ss-sync{font-size:11.5px;color:#999;white-space:nowrap}
+.ss-sync a{color:#999;text-decoration:underline}
+.ss-sync a:hover{color:#c1440e}
+.ss-sync.err{color:#c1440e}
+.ss-sync.err a{color:#c1440e}
 </style>
 
 <div class="ss-app">
@@ -231,14 +228,14 @@ permalink: /sandwich-spots/
   <span>
     Reference: <a href="https://www.theinfatuation.com/san-francisco/guides/best-sandwich-spots-in-sf" target="_blank" rel="noopener">The Infatuation — The Best Sandwich Spots In San Francisco</a> · Hours approximated via Google Maps/official listings.
   </span>
-  <button class="ss-reset-btn" id="ssResetBtn" title="Reset visited marks to original defaults">Reset visited marks</button>
+  <span class="ss-sync" id="ssSync" aria-live="polite">Loading visited status…</span>
 </div>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/js/visited-status.js?v=20261013"></script>
 <script>
 (function(){
-  var STORAGE_KEY = 'sf_sandwiches_visited_v2';
   var DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   var FULL_DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -433,36 +430,15 @@ permalink: /sandwich-spots/
             {t:'Directions',u:'https://www.google.com/maps/search/?api=1&query=Guerrero+Market+and+Deli+701+Guerrero+St+San+Francisco+CA+94110'}]}
   ];
 
-  /* ── User Visited state from localStorage ── */
-  function loadVisitedOverrides(){
-    try {
-      var saved = localStorage.getItem(STORAGE_KEY);
-      return saved ? JSON.parse(saved) : {};
-    } catch(e){
-      return {};
-    }
-  }
-
-  function saveVisitedOverride(key, status){
-    try {
-      var overrides = loadVisitedOverrides();
-      overrides[key] = status;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(overrides));
-    } catch(e){}
-  }
-
-  function clearAllOverrides(){
-    try {
-      localStorage.removeItem(STORAGE_KEY);
-    } catch(e){}
-  }
+  /* ── Visited status ──
+     Single source of truth is the YAML gist loaded by /js/visited-status.js
+     (section `sandwiches`). `defaultStatus` above is only the fallback used
+     while loading or if the gist can't be fetched. */
+  var gistStatus = {};
 
   function getSpotStatus(spot){
-    var overrides = loadVisitedOverrides();
-    if(overrides && typeof overrides[spot.key] === 'string'){
-      return overrides[spot.key];
-    }
-    return spot.defaultStatus;
+    var st = gistStatus[spot.key];
+    return (st === 'visited' || st === 'notyet') ? st : spot.defaultStatus;
   }
 
   /* ── SF Time calculation & Open/Closed evaluation ── */
@@ -630,7 +606,7 @@ permalink: /sandwich-spots/
       var badgeText = isVis ? 'Visited' : 'Not yet';
 
       return '<div class="ss-item' + (selectedKey === s.key ? ' on' : '') + '" data-key="' + s.key + '">'
-        + '<button class="ss-check-btn ' + currentStatus + '" data-toggle="' + s.key + '" title="Click to mark as ' + (isVis ? 'not visited' : 'visited') + '">' + checkIcon + '</button>'
+        + '<span class="ss-status-icon ' + currentStatus + '" title="' + badgeText + '" aria-label="' + badgeText + '">' + checkIcon + '</span>'
         + '<div class="ss-item-body">'
         +   '<div class="ss-item-top">'
         +     '<span class="ss-item-name">' + escapeHTML(s.name) + '</span>'
@@ -646,18 +622,9 @@ permalink: /sandwich-spots/
     }).join('');
 
     list.querySelectorAll('.ss-item').forEach(function(el){
-      el.addEventListener('click', function(e){
-        if(e.target.closest('.ss-check-btn')) return; // handled by check button
+      el.addEventListener('click', function(){
         var key = el.getAttribute('data-key');
         select(key);
-      });
-    });
-
-    list.querySelectorAll('.ss-check-btn').forEach(function(btn){
-      btn.addEventListener('click', function(e){
-        e.stopPropagation();
-        var key = btn.getAttribute('data-toggle');
-        toggleSpotVisited(key);
       });
     });
   }
@@ -688,9 +655,6 @@ permalink: /sandwich-spots/
 
     inner.innerHTML = '<div class="ss-detail-status-row">'
       + '<span class="ss-detail-status-badge ' + currentStatus + '">' + (isVis ? '✓ Visited' : '○ Not yet visited') + '</span>'
-      + '<button class="ss-detail-toggle-btn' + (isVis ? ' is-visited' : '') + '" id="ssDetailToggleBtn">'
-      +   (isVis ? 'Mark as Not Visited' : '✓ Mark as Visited')
-      + '</button>'
       + '</div>'
       + '<h3>' + escapeHTML(s.name) + '</h3>'
       + '<div class="ss-detail-nb">' + escapeHTML(s.nb) + ' · San Francisco</div>'
@@ -709,13 +673,6 @@ permalink: /sandwich-spots/
       + '<div class="ss-detail-links">' + links + '</div>';
 
     document.getElementById('ssDetail').classList.add('open');
-
-    var toggleBtn = document.getElementById('ssDetailToggleBtn');
-    if(toggleBtn){
-      toggleBtn.addEventListener('click', function(){
-        toggleSpotVisited(s.key);
-      });
-    }
   }
 
   function hideDetail(){
@@ -777,7 +734,7 @@ permalink: /sandwich-spots/
     markers[s.key] = m;
   });
 
-  function refreshMapMarkers(){
+  function refreshMapMarkers(opts){
     var visible = filtered();
     SPOTS.forEach(function(s){
       var m = markers[s.key];
@@ -792,6 +749,8 @@ permalink: /sandwich-spots/
         map.removeLayer(m);
       }
     });
+
+    if(opts && opts.fit === false) return; // status refresh: don't move the viewport
 
     if(visible.length > 0){
       var activeMarkers = visible.map(function(s){ return markers[s.key]; }).filter(Boolean);
@@ -816,20 +775,50 @@ permalink: /sandwich-spots/
     if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
   }
 
-  function toggleSpotVisited(key){
-    var s = SPOTS.find(function(x){ return x.key === key; });
-    if(!s) return;
-    var current = getSpotStatus(s);
-    var next = (current === 'visited') ? 'notyet' : 'visited';
-    saveVisitedOverride(key, next);
+  /* ── Load visited status from the gist ── */
+  var syncEl = document.getElementById('ssSync');
 
+  function setSyncNote(state, html){
+    syncEl.className = 'ss-sync ' + state;
+    syncEl.innerHTML = html;
+  }
+
+  function rerenderStatuses(){
     updateCounts();
     renderList();
-    refreshMapMarkers();
-    if(selectedKey === key){
-      showDetail(s);
+    refreshMapMarkers({fit:false});
+    if(selectedKey){
+      var s = SPOTS.find(function(x){ return x.key === selectedKey; });
+      if(s) showDetail(s);
     }
   }
+
+  function loadVisitedStatus(silent){
+    var VS = window.VisitedStatus;
+    if(!VS){
+      setSyncNote('err', 'Visited status unavailable — showing defaults');
+      return;
+    }
+    if(!silent) setSyncNote('loading', 'Loading visited status…');
+
+    VS.load('sandwiches', function(err, statuses){
+      if(err){
+        if(window.console && console.warn) console.warn('visited-status:', err.message || err);
+        setSyncNote('err', 'Couldn\'t load visited status — showing defaults · <a href="#" id="ssSyncRetry">retry</a>');
+        var retry = document.getElementById('ssSyncRetry');
+        if(retry) retry.addEventListener('click', function(e){ e.preventDefault(); loadVisitedStatus(); });
+        return;
+      }
+      gistStatus = statuses;
+      rerenderStatuses();
+      setSyncNote('ok', 'Visited status synced from gist · <a href="' + VS.GIST_URL + '" target="_blank" rel="noopener" title="Only the gist owner can edit">edit ↗</a>');
+    });
+  }
+
+  // Re-check when the tab regains focus (e.g. after editing the gist in another tab).
+  document.addEventListener('visibilitychange', function(){
+    if(!document.hidden) loadVisitedStatus(true);
+  });
 
   /* ── Filter events ── */
   document.querySelectorAll('.ss-chip[data-status]').forEach(function(chip){
@@ -872,20 +861,6 @@ permalink: /sandwich-spots/
     refreshMapMarkers();
   });
 
-  /* ── Reset button ── */
-  document.getElementById('ssResetBtn').addEventListener('click', function(){
-    if(confirm('Reset all visited markings back to default?')){
-      clearAllOverrides();
-      updateCounts();
-      renderList();
-      refreshMapMarkers();
-      if(selectedKey){
-        var s = SPOTS.find(function(x){ return x.key === selectedKey; });
-        if(s) showDetail(s);
-      }
-    }
-  });
-
   /* ── Detail close events ── */
   document.getElementById('ssDetailClose').addEventListener('click', function(){
     selectedKey = null; hideDetail(); renderList();
@@ -906,9 +881,10 @@ permalink: /sandwich-spots/
     renderList();
   }, 60000);
 
-  // Initial load
+  // Initial load: render with defaults right away, then swap in the gist's statuses.
   updateCounts();
   renderList();
   refreshMapMarkers();
+  loadVisitedStatus();
 })();
 </script>
