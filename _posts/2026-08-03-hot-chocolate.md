@@ -81,6 +81,12 @@ redirect_from: /2026/hot-chocolate
 .hc-map-legend span{display:flex;align-items:center;gap:4px}
 .hc-map-legend .hc-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 
+/* ── visited-status sync note (below the map) ── */
+.hc-sync{max-width:900px;margin:4px auto 0;padding:0 20px;font-size:11.5px;color:#999}
+.hc-sync a{color:#999;text-decoration:underline}
+.hc-sync a:hover{color:#6a1b9a}
+.hc-sync.err,.hc-sync.err a{color:#c62828}
+
 /* ── leaflet popup ── */
 .hc-map .leaflet-popup-content{font-family:inherit;font-size:13px;line-height:1.4;margin:8px 12px}
 .hc-map .leaflet-popup-content strong{display:block;font-size:14px;margin-bottom:2px}
@@ -115,9 +121,9 @@ redirect_from: /2026/hot-chocolate
     <h2>Hot Chocolate Spots</h2>
     <p class="hc-sub">Best hot chocolate in San Francisco · Eater SF roundup</p>
     <div class="hc-chips">
-      <button class="hc-chip on" data-filter="all">All<span class="hc-ct">11</span></button>
-      <button class="hc-chip" data-filter="visited">Visited<span class="hc-ct">3</span></button>
-      <button class="hc-chip" data-filter="notyet">Not yet<span class="hc-ct">8</span></button>
+      <button class="hc-chip on" data-filter="all">All<span class="hc-ct" id="hcCtAll">11</span></button>
+      <button class="hc-chip" data-filter="visited">Visited<span class="hc-ct" id="hcCtVisited">3</span></button>
+      <button class="hc-chip" data-filter="notyet">Not yet<span class="hc-ct" id="hcCtNotyet">8</span></button>
     </div>
   </div>
   <div class="hc-list" id="hcList"></div>
@@ -127,8 +133,8 @@ redirect_from: /2026/hot-chocolate
 <div class="hc-right">
   <div id="hcMap" class="hc-map"></div>
   <div class="hc-map-legend">
-    <span><span class="hc-dot" style="background:#4caf50"></span>Visited (3)</span>
-    <span><span class="hc-dot" style="background:#ff9800"></span>Not yet (8)</span>
+    <span><span class="hc-dot" style="background:#4caf50"></span>Visited (<span id="hcLegVisited">3</span>)</span>
+    <span><span class="hc-dot" style="background:#ff9800"></span>Not yet (<span id="hcLegNotyet">8</span>)</span>
   </div>
 
   <!-- DETAIL PANEL -->
@@ -145,11 +151,16 @@ redirect_from: /2026/hot-chocolate
 <p style="max-width:900px;margin:16px auto 0;padding:0 20px;font-size:13px;color:#888">
   Reference: <a href="https://sf.eater.com/maps/best-hot-chocolate-san-francisco" target="_blank" rel="noopener">Eater SF — Where To Find The Best Hot Chocolate In San Francisco</a>
 </p>
+<p class="hc-sync" id="hcSync" aria-live="polite">Loading visited status…</p>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/js/visited-status.js?v=20261013"></script>
 <script>
 (function(){
+  /* `status` on each spot is only the fallback shown while loading (or if the
+     file can't be fetched). The source of truth is sf-spots-visited-status.yml,
+     loaded by /js/visited-status.js, section `hot_chocolate`. */
   var SPOTS = [
     {key:'buenavista', name:'Buena Vista Cafe', nb:'Fisherman\'s Wharf', lat:37.8063, lng:-122.4206,
      status:'notyet', drink:'Irish whiskey hot chocolate',
@@ -217,11 +228,26 @@ redirect_from: /2026/hot-chocolate
       links:[{t:'Eater',u:'https://sf.eater.com/venue/908880/keikos-coffee-shop'}]}
   ];
 
+  SPOTS.forEach(function(s){ s.defaultStatus = s.status; });
+
   var filter = 'all';
   var selected = null;
 
   function filtered(){
     return SPOTS.filter(function(s){ return filter==='all' || s.status===filter; });
+  }
+
+  function updateCounts(){
+    var vis = 0, not = 0;
+    SPOTS.forEach(function(s){
+      if(s.status==='visited') vis++;
+      else if(s.status==='notyet') not++;
+    });
+    document.getElementById('hcCtAll').textContent = SPOTS.length;
+    document.getElementById('hcCtVisited').textContent = vis;
+    document.getElementById('hcCtNotyet').textContent = not;
+    document.getElementById('hcLegVisited').textContent = vis;
+    document.getElementById('hcLegNotyet').textContent = not;
   }
 
   function iconHTML(status){
@@ -326,6 +352,23 @@ redirect_from: /2026/hot-chocolate
     if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
   }
 
+  function refreshMarkers(fit){
+    /* re-show/hide markers (and refresh their colour) */
+    SPOTS.forEach(function(s){
+      if(!markers[s.key]) return;
+      markers[s.key].setIcon(statusIcon(s.status));
+      if(filter==='all' || s.status===filter) markers[s.key].addTo(map);
+      else map.removeLayer(markers[s.key]);
+    });
+    if(!fit) return;
+    /* fit map to visible markers */
+    var visible = SPOTS.filter(function(s){ return s.lat!==null && (filter==='all' || s.status===filter); });
+    if(visible.length){
+      var fg = L.featureGroup(visible.map(function(s){ return markers[s.key]; }));
+      map.fitBounds(fg.getBounds().pad(0.1));
+    }
+  }
+
   /* ── filter chips ── */
   document.querySelectorAll('.hc-chip').forEach(function(chip){
     chip.addEventListener('click', function(){
@@ -335,19 +378,56 @@ redirect_from: /2026/hot-chocolate
       selected = null;
       hideDetail();
       renderList();
-      /* re-show/hide markers */
-      SPOTS.forEach(function(s){
-        if(!markers[s.key]) return;
-        if(filter==='all' || s.status===filter) markers[s.key].addTo(map);
-        else map.removeLayer(markers[s.key]);
-      });
-      /* fit map to visible markers */
-      var visible = SPOTS.filter(function(s){ return s.lat!==null && (filter==='all' || s.status===filter); });
-      if(visible.length){
-        var fg = L.featureGroup(visible.map(function(s){ return markers[s.key]; }));
-        map.fitBounds(fg.getBounds().pad(0.1));
-      }
+      refreshMarkers(true);
     });
+  });
+
+  /* ── visited status from sf-spots-visited-status.yml ── */
+  var syncEl = document.getElementById('hcSync');
+
+  function setSyncNote(state, html){
+    syncEl.className = 'hc-sync ' + state;
+    syncEl.innerHTML = html;
+  }
+
+  function applyStatuses(statuses){
+    SPOTS.forEach(function(s){
+      var st = statuses[s.key];
+      s.status = (st==='visited' || st==='notyet' || st==='unknown') ? st : s.defaultStatus;
+    });
+    updateCounts();
+    renderList();
+    refreshMarkers(false);
+    if(selected){
+      var sel = SPOTS.find(function(x){ return x.key===selected; });
+      if(sel) showDetail(sel);
+    }
+  }
+
+  function loadVisitedStatus(silent){
+    var VS = window.VisitedStatus;
+    if(!VS){
+      setSyncNote('err', 'Visited status unavailable — showing defaults');
+      return;
+    }
+    if(!silent) setSyncNote('loading', 'Loading visited status…');
+
+    VS.load('hot_chocolate', function(err, statuses){
+      if(err){
+        if(window.console && console.warn) console.warn('visited-status:', err.message || err);
+        setSyncNote('err', 'Couldn\'t load visited status — showing defaults · <a href="#" id="hcSyncRetry">retry</a>');
+        var retry = document.getElementById('hcSyncRetry');
+        if(retry) retry.addEventListener('click', function(e){ e.preventDefault(); loadVisitedStatus(); });
+        return;
+      }
+      applyStatuses(statuses);
+      setSyncNote('ok', 'Visited status from ' + VS.SOURCE_NAME + ' · <a href="' + VS.EDIT_URL + '" target="_blank" rel="noopener" title="Edit ' + VS.SOURCE_NAME + ' (owner only)">edit ↗</a>');
+    });
+  }
+
+  // Re-check when the tab regains focus (e.g. after editing the YAML in another tab).
+  document.addEventListener('visibilitychange', function(){
+    if(!document.hidden) loadVisitedStatus(true);
   });
 
   /* ── detail close ── */
@@ -364,6 +444,9 @@ redirect_from: /2026/hot-chocolate
     setTimeout(function(){ map.invalidateSize(); }, 300);
   });
 
+  // Render with the fallback statuses right away, then swap in the YAML's.
+  updateCounts();
   renderList();
+  loadVisitedStatus();
 })();
 </script>

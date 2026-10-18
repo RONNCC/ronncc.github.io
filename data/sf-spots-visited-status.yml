@@ -1,0 +1,66 @@
+# ─────────────────────────────────────────────────────────────────────
+#  SF spots — visited status (single source of truth for sghose.me)
+#
+#  The map pages fetch this file on every load and colour their lists /
+#  markers from it, so this is the ONLY place to mark a spot visited.
+#  (The posts keep a baked-in default that is used only while loading or
+#  if this file cannot be fetched.)
+#
+#    https://sghose.me/sandwich-spots/   →  sandwiches:
+#    https://sghose.me/hot-chocolate/    →  hot_chocolate:
+#
+#  Format:   <spot key>: <status>
+#    visited   (also accepts: yes / true / done / x)
+#    notyet    (also accepts: no / false / todo / pending)
+#    unknown   (also accepts: ? / unconfirmed)     ← hot chocolate only
+#
+#  Keys must match the `key` of the spot in the post. Anything after a #
+#  is a comment, so feel free to add dates / notes, e.g.
+#      oceansubs: visited   # 2026-10-12, get the Italian
+#  Spots missing from this file fall back to the default in the post.
+#
+#  Where it lives: for now this file is served from the repo at
+#  /data/sf-spots-visited-status.yml (edits go live on the next deploy).
+#  To move it to a secret gist instead, create the gist with this same
+#  filename and point SOURCE_URL / EDIT_URL in js/visited-status.js at it.
+# ─────────────────────────────────────────────────────────────────────
+
+# ── Sandwich Spots in SF  (/sandwich-spots/)
+#    allowed values: visited | notyet
+sandwiches:
+  oceansubs:          notyet    # Ocean Subs — Excelsior
+  saigonsandwich:     visited   # Saigon Sandwich — Tenderloin
+  palmcity:           notyet    # Palm City — Sunset
+  deliboard:          notyet    # Deli Board — SoMa
+  outtasight:         visited   # Outta Sight Pizza — Tenderloin
+  louscafe:           notyet    # Lou's Cafe — Richmond
+  lucindasdeli:       notyet    # Lucinda's Deli & More — NoPa
+  saltys:             notyet    # Salty's — Civic Center
+  sandys:             visited   # Sandy's — Haight
+  latortagorda:       visited   # La Torta Gorda — Mission
+  newkirks:           notyet    # Newkirk's — Mission
+  oinkandoscar:       notyet    # Oink & Oscar — SoMa
+  boysdeli:           notyet    # The Boys' Deli — Russian Hill
+  cielitolindo:       notyet    # Cielito Lindo — Richmond
+  yellowsubmarine:    notyet    # The Yellow Submarine — Sunset
+  doloresdeluxe:      visited   # Dolores Deluxe — Mission
+  thehornet:          notyet    # The Hornet — Pacific Heights
+  guerraqualitymeats: notyet    # Guerra Quality Meats — Parkside
+  kp49:               visited   # KP49 — Union Square
+  arguellomarket:     notyet    # Arguello Market — Richmond
+  guerreromarket:     visited   # Guerrero Market & Deli — Mission
+
+# ── Hot Chocolate Spots in SF  (/hot-chocolate/)
+#    allowed values: visited | notyet | unknown
+hot_chocolate:
+  buenavista:       notyet    # Buena Vista Cafe — Fisherman's Wharf
+  ghirardelli:      notyet    # The Original Ghirardelli Ice Cream & Chocolate Shop — Fisherman's Wharf
+  xox:              notyet    # XOX Truffles — North Beach
+  fairmont:         notyet    # Gingerbread House at Fairmont SF — Nob Hill
+  dandelion:        visited   # Dandelion Chocolate (Valencia) — Mission
+  oaxaquena:        visited   # La Oaxaqueña Bakery & Restaurant — Mission
+  zazie:            notyet    # Zazie — Cole Valley
+  icecream:         notyet    # The Ice Cream Bar — Cole Valley
+  spro:             notyet    # SPRO Coffee Lab — Castro
+  christopherelbow: visited   # Christopher Elbow Chocolates — Hayes Valley
+  keikos:           notyet    # Keiko's Coffee Shop — Mission
