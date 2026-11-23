@@ -1,9 +1,14 @@
+---
+layout: standalone
+---
 <!doctype html>
+<html><head>
 <meta charset="utf-8">
 <title>Moved: OMSCS Course Catalog</title>
 <meta name="robots" content="noindex">
 <link rel="canonical" href="https://omscs.sghose.me/">
 <meta http-equiv="refresh" content="2;url=https://omscs.sghose.me/">
+</head><body>
 <script>
 // localStorage is per-origin: hand the saved watchlist to the new origin via the hash (it imports once, then strips it).
 var w = null;
@@ -13,3 +18,4 @@ if (w && w !== "[]") h = "#migrate=" + encodeURIComponent(w);
 location.replace("https://omscs.sghose.me" + location.pathname.replace(/^\/omscs-course-catalog/, "") + location.search + h);
 </script>
 <p>Moved to <a href="https://omscs.sghose.me/">omscs.sghose.me</a>.</p>
+</body></html>
